@@ -21,6 +21,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
     var bornPlayer : AVAudioPlayer?
     var lionsPlayer : AVAudioPlayer?
     var silencePlayer : AVAudioPlayer?
+    var losePlayer : AVAudioPlayer?
     var tonePlayer : AVAudioPlayer?
     
     var currentPlayer : AVAudioPlayer?
@@ -106,9 +107,22 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
             print("audioPlayer: \(error.localizedDescription)")
         }
         
-        if hurtPlayer != nil && lionsPlayer != nil && bornPlayer != nil && silencePlayer != nil && tonePlayer != nil {
+        
+        // If I Lose Myself by OneRepublic
+        let loseURL = URL.init(fileURLWithPath: Bundle.main.path(forResource: "If I Lose Myself", ofType: "mp3")!)
+        
+        do {
+            try losePlayer = AVAudioPlayer(contentsOf: loseURL)
+            losePlayer?.delegate = self as AVAudioPlayerDelegate
+        } catch let error as NSError {
             
-            audioPlayers = [hurtPlayer!, bornPlayer!, lionsPlayer!, silencePlayer!, tonePlayer!, tonePlayer!]
+            print ("audioPlayer error: \(error.localizedDescription)")
+        }
+        
+        
+        if hurtPlayer != nil && lionsPlayer != nil && bornPlayer != nil && silencePlayer != nil && losePlayer != nil && tonePlayer != nil {
+            
+            audioPlayers = [hurtPlayer!, bornPlayer!, lionsPlayer!, silencePlayer!, losePlayer!, tonePlayer!, tonePlayer!]
             
         }
         
@@ -120,12 +134,15 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         } catch let error as NSError {
             print("error: \(error)")
         }
+        
+    
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
 
     @IBAction func play(_ sender: Any) {
         
@@ -194,6 +211,20 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         
         if pickerView?.selectedRow(inComponent: 0) == 4 {
             
+            if let player = losePlayer {
+                player.play()
+                currentPlayer = player
+                
+                if repeatSwitch?.isOn == true {
+                    player.numberOfLoops = -1 //negative causes indefinite repeat
+                }
+                
+                startPan()
+                if timer != nil { timer?.fire() }
+            }
+        }
+        if pickerView?.selectedRow(inComponent: 0) == 5 {
+            
             if let player = tonePlayer {
                 player.play()
                 currentPlayer = player
@@ -207,7 +238,9 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
             }
         }
         
-        if pickerView?.selectedRow(inComponent: 0) == 5 { //non-panning 440Hz
+        
+        
+        if pickerView?.selectedRow(inComponent: 0) == 6 { //non-panning 440Hz
             
             if let player = tonePlayer {
                 player.play()
@@ -317,7 +350,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 6
+        return 7
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
@@ -331,8 +364,10 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         } else if row == 3 {
             return "The Sound of Silence"
         } else if row == 4 {
-            return "440 Hz Tone"
+            return "If I Lose Myself"
         } else if row == 5 {
+            return "440 Hz Tone"
+        } else if row == 6 {
             return "440 Hz Tone (no pan)"
         }
         
@@ -345,7 +380,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         
         // change player to new URL
         
-        for number in [0, 1, 2, 3, 4, 5] {
+        for number in [0, 1, 2, 3, 4, 5, 6] {
             
             if row == number && audioPlayers != nil {
                 audioPlayers![number].prepareToPlay()
