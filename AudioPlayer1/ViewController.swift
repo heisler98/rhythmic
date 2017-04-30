@@ -296,6 +296,10 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
             
         }
         
+        if textBox?.isEditing == true {
+            self.textBox?.resignFirstResponder()
+        }
+        
 
     }
     
