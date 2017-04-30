@@ -23,6 +23,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
     var silencePlayer : AVAudioPlayer?
     var losePlayer : AVAudioPlayer?
     var tonePlayer : AVAudioPlayer?
+    var lovePlayer : AVAudioPlayer?
     
     var currentPlayer : AVAudioPlayer?
     
@@ -119,10 +120,21 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
             print ("audioPlayer error: \(error.localizedDescription)")
         }
         
+        //Love/Drugs by Strange Familia
         
-        if hurtPlayer != nil && lionsPlayer != nil && bornPlayer != nil && silencePlayer != nil && losePlayer != nil && tonePlayer != nil {
+        let loveURL = URL.init(fileURLWithPath: Bundle.main.path(forResource: "LoveDrugs", ofType: "mp3")!)
+        
+        do {
+            try lovePlayer = AVAudioPlayer(contentsOf: loveURL)
+            losePlayer?.delegate = self as AVAudioPlayerDelegate
+        } catch let error as NSError {
             
-            audioPlayers = [hurtPlayer!, bornPlayer!, lionsPlayer!, silencePlayer!, losePlayer!, tonePlayer!, tonePlayer!]
+            print ("audioPlayer error: \(error.localizedDescription)")
+        }
+        
+        if hurtPlayer != nil && lionsPlayer != nil && bornPlayer != nil && silencePlayer != nil && losePlayer != nil && lovePlayer != nil && tonePlayer != nil {
+            
+            audioPlayers = [hurtPlayer!, bornPlayer!, lionsPlayer!, silencePlayer!, losePlayer!, lovePlayer!, tonePlayer!, tonePlayer!]
             
         }
         
@@ -223,7 +235,23 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
                 if timer != nil { timer?.fire() }
             }
         }
+        
         if pickerView?.selectedRow(inComponent: 0) == 5 {
+           
+            if let player = lovePlayer {
+                player.play()
+                currentPlayer = player
+                
+                if repeatSwitch?.isOn == true {
+                    player.numberOfLoops = -1 //negative causes indefinite repeat
+                }
+                
+                startPan()
+                if timer != nil { timer?.fire() }
+            }
+        }
+        
+        if pickerView?.selectedRow(inComponent: 0) == 6 { // panning 440hz
             
             if let player = tonePlayer {
                 player.play()
@@ -240,7 +268,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         
         
         
-        if pickerView?.selectedRow(inComponent: 0) == 6 { //non-panning 440Hz
+        if pickerView?.selectedRow(inComponent: 0) == 7 { //non-panning 440Hz
             
             if let player = tonePlayer {
                 player.play()
@@ -318,8 +346,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         // Born : 95bpm (subd.) -> 0.63 sec/osc OR 0.833 sec/osc
         // Lions : 96bpm (subd.) -> 0.625 sec/osc OR 0.833 sec/osc
         // Silence: 82bpm (subd.) -> 0.73 sec/osc
-        
-        let message = String.init(stringLiteral: "Let's Hurt Tonight: 65bpm 0.92 \n Born: 95bpm 0.63|0.83 \n Lions: 96bpm 0.625|0.83 \n The Sound of Silence: 82bpm 0.73")
+        // Love/Drugs: 128bpm -> 0.46875 sec/osc
+        let message = String.init(stringLiteral: "Let's Hurt Tonight: 65bpm 0.92 \n Born: 95bpm 0.63|0.83 \n Lions: 96bpm 0.625|0.83 \n The Sound of Silence: 82bpm 0.73 \n Love/Drugs: 128bpm 0.47")
         
         let alert = UIAlertController(title: "Oscillations", message: message, preferredStyle: UIAlertControllerStyle.alert)
         let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
@@ -350,7 +378,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 7
+        return 8
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
@@ -366,9 +394,11 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         } else if row == 4 {
             return "If I Lose Myself"
         } else if row == 5 {
-            return "440 Hz Tone"
+            return "Love/Drugs"
         } else if row == 6 {
-            return "440 Hz Tone (no pan)"
+            return "440 Hz Tone"
+        } else if row == 7 {
+            return "440 Hz Tone NP"
         }
         
         return ""
@@ -380,7 +410,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         
         // change player to new URL
         
-        for number in [0, 1, 2, 3, 4, 5, 6] {
+        for number in [0, 1, 2, 3, 4, 5, 6, 7] {
             
             if row == number && audioPlayers != nil {
                 audioPlayers![number].prepareToPlay()
