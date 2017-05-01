@@ -24,6 +24,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
     var losePlayer : AVAudioPlayer?
     var tonePlayer : AVAudioPlayer?
     var lovePlayer : AVAudioPlayer?
+    var heavyPlayer : AVAudioPlayer?
     
     var currentPlayer : AVAudioPlayer?
     
@@ -132,12 +133,26 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
             print ("audioPlayer error: \(error.localizedDescription)")
         }
         
-        if hurtPlayer != nil && lionsPlayer != nil && bornPlayer != nil && silencePlayer != nil && losePlayer != nil && lovePlayer != nil && tonePlayer != nil {
+        //Heavy by Fame on Fire
+        
+        let heavyURL = URL.init(fileURLWithPath: Bundle.main.path(forResource: "Heavy", ofType: "m4a")!)
+        
+        do {
+            try heavyPlayer = AVAudioPlayer(contentsOf: heavyURL)
+            heavyPlayer?.delegate = self as AVAudioPlayerDelegate
             
-            audioPlayers = [hurtPlayer!, bornPlayer!, lionsPlayer!, silencePlayer!, losePlayer!, lovePlayer!, tonePlayer!, tonePlayer!]
+        } catch let error as NSError {
+            print("audioError: \(error.localizedDescription)")
+        }
+        
+        
+        if hurtPlayer != nil && lionsPlayer != nil && bornPlayer != nil && silencePlayer != nil && losePlayer != nil && lovePlayer != nil && heavyPlayer != nil && tonePlayer != nil {
+            
+            audioPlayers = [hurtPlayer!, bornPlayer!, lionsPlayer!, silencePlayer!, losePlayer!, lovePlayer!, heavyPlayer!,tonePlayer!, tonePlayer!]
             
         }
         
+    
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
             try AVAudioSession.sharedInstance().setActive(true)
@@ -251,9 +266,9 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
             }
         }
         
-        if pickerView?.selectedRow(inComponent: 0) == 6 { // panning 440hz
+        if pickerView?.selectedRow(inComponent: 0) == 6 {
             
-            if let player = tonePlayer {
+            if let player = heavyPlayer {
                 player.play()
                 currentPlayer = player
                 
@@ -268,7 +283,22 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         
         
         
-        if pickerView?.selectedRow(inComponent: 0) == 7 { //non-panning 440Hz
+        if pickerView?.selectedRow(inComponent: 0) == 7 { //panning 440Hz
+            
+            if let player = tonePlayer {
+                player.play()
+                currentPlayer = player
+                
+                if repeatSwitch?.isOn == true {
+                    player.numberOfLoops = -1
+                }
+                
+                startPan()
+                if timer != nil { timer?.fire() }
+            }
+        }
+        
+        if pickerView?.selectedRow(inComponent: 0) == 8 { //non-panning 440Hz
             
             if let player = tonePlayer {
                 player.play()
@@ -382,7 +412,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 8
+        return 9
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
@@ -400,8 +430,10 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         } else if row == 5 {
             return "Love/Drugs"
         } else if row == 6 {
-            return "440 Hz Tone"
+            return "Heavy"
         } else if row == 7 {
+            return "440 Hz Tone"
+        } else if row == 8 {
             return "440 Hz Tone NP"
         }
         
@@ -414,7 +446,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         
         // change player to new URL
         
-        for number in [0, 1, 2, 3, 4, 5, 6, 7] {
+        for number in [0, 1, 2, 3, 4, 5, 6, 7, 8] {
             
             if row == number && audioPlayers != nil {
                 audioPlayers![number].prepareToPlay()

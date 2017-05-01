@@ -16,6 +16,7 @@
 		5A9518811EAA42160028B8E6 /* 440.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A9518801EAA42160028B8E6 /* 440.m4a */; };
 		5A9D6BD81E9EF29200918D8B /* Lions.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A9D6BD71E9EF29200918D8B /* Lions.mp3 */; };
 		5A9D6BDA1E9EF2A300918D8B /* Born.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A9D6BD91E9EF2A300918D8B /* Born.mp3 */; };
+		5A9EE0E81EB7AB7C00E2A633 /* Heavy.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A9EE0E71EB7AB7C00E2A633 /* Heavy.m4a */; };
 		5ABA30991DCBC97D006E5999 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABA30981DCBC97D006E5999 /* AppDelegate.swift */; };
 		5ABA309B1DCBC97D006E5999 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABA309A1DCBC97D006E5999 /* ViewController.swift */; };
 		5ABA309E1DCBC97D006E5999 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5ABA309C1DCBC97D006E5999 /* Main.storyboard */; };
@@ -35,6 +36,7 @@
 		5A9518801EAA42160028B8E6 /* 440.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 440.m4a; sourceTree = "<group>"; };
 		5A9D6BD71E9EF29200918D8B /* Lions.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Lions.mp3; sourceTree = "<group>"; };
 		5A9D6BD91E9EF2A300918D8B /* Born.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Born.mp3; sourceTree = "<group>"; };
+		5A9EE0E71EB7AB7C00E2A633 /* Heavy.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Heavy.m4a; sourceTree = "<group>"; };
 		5ABA30951DCBC97D006E5999 /* AudioPlayer1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AudioPlayer1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5ABA30981DCBC97D006E5999 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5ABA309A1DCBC97D006E5999 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -62,6 +64,7 @@
 		5ABA308C1DCBC97D006E5999 = {
 			isa = PBXGroup;
 			children = (
+				5A9EE0E71EB7AB7C00E2A633 /* Heavy.m4a */,
 				5A3D0CAB1EB5644D005FAA94 /* LoveDrugs.mp3 */,
 				5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */,
 				5A9518801EAA42160028B8E6 /* 440.m4a */,
@@ -172,6 +175,7 @@
 				5ABA30A31DCBC97D006E5999 /* LaunchScreen.storyboard in Resources */,
 				5A3D0CAC1EB5644D005FAA94 /* LoveDrugs.mp3 in Resources */,
 				5ABA30A01DCBC97D006E5999 /* Assets.xcassets in Resources */,
+				5A9EE0E81EB7AB7C00E2A633 /* Heavy.m4a in Resources */,
 				5ABA309E1DCBC97D006E5999 /* Main.storyboard in Resources */,
 				5A3049471EAE6A970000A144 /* 1493072025_stop.png in Resources */,
 				5A9D6BDA1E9EF2A300918D8B /* Born.mp3 in Resources */,
