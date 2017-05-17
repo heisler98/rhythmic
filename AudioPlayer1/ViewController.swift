@@ -17,14 +17,15 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
     
     var timer : Timer?
     
-    var hurtPlayer : AVAudioPlayer?
-    var bornPlayer : AVAudioPlayer?
-    var lionsPlayer : AVAudioPlayer?
+    var hurtPlayer  :   AVAudioPlayer?
+    var bornPlayer  :   AVAudioPlayer?
+    var lionsPlayer :   AVAudioPlayer?
     var silencePlayer : AVAudioPlayer?
-    var losePlayer : AVAudioPlayer?
-    var tonePlayer : AVAudioPlayer?
-    var lovePlayer : AVAudioPlayer?
-    var heavyPlayer : AVAudioPlayer?
+    var losePlayer :    AVAudioPlayer?
+    var tonePlayer :    AVAudioPlayer?
+    var lovePlayer :    AVAudioPlayer?
+    var heavyPlayer :   AVAudioPlayer?
+    var livedPlayer :   AVAudioPlayer?
     
     var currentPlayer : AVAudioPlayer?
     
@@ -144,11 +145,23 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         } catch let error as NSError {
             print("audioError: \(error.localizedDescription)")
         }
+       
+        // I Lived by OneRepublic
+        
+        let livedURL = URL.init(fileURLWithPath: Bundle.main.path(forResource: "I Lived", ofType: "mp3")!)
+        
+        do {
+            try livedPlayer = AVAudioPlayer(contentsOf: livedURL)
+            livedPlayer?.delegate = self as AVAudioPlayerDelegate
+        
+        } catch let error as NSError {
+            print("audioError: \(error.localizedDescription)")
+        }
         
         
-        if hurtPlayer != nil && lionsPlayer != nil && bornPlayer != nil && silencePlayer != nil && losePlayer != nil && lovePlayer != nil && heavyPlayer != nil && tonePlayer != nil {
+        if hurtPlayer != nil && lionsPlayer != nil && bornPlayer != nil && silencePlayer != nil && losePlayer != nil && lovePlayer != nil && heavyPlayer != nil && tonePlayer != nil && livedPlayer != nil {
             
-            audioPlayers = [hurtPlayer!, bornPlayer!, lionsPlayer!, silencePlayer!, losePlayer!, lovePlayer!, heavyPlayer!,tonePlayer!, tonePlayer!]
+            audioPlayers = [hurtPlayer!, bornPlayer!, lionsPlayer!, silencePlayer!, losePlayer!, lovePlayer!, heavyPlayer!, livedPlayer!, tonePlayer!, tonePlayer!]
             
         }
         
@@ -281,9 +294,22 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
             }
         }
         
+        if pickerView?.selectedRow(inComponent: 0) == 7 {
+            
+            if let player = livedPlayer {
+                player.play()
+                currentPlayer = player
+                
+                if repeatSwitch?.isOn == true {
+                    player.numberOfLoops = -1
+                }
+                
+                startPan()
+                if timer != nil { timer?.fire() }
+            }
+        }
         
-        
-        if pickerView?.selectedRow(inComponent: 0) == 7 { //panning 440Hz
+        if pickerView?.selectedRow(inComponent: 0) == 8 { //panning 440Hz
             
             if let player = tonePlayer {
                 player.play()
@@ -298,7 +324,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
             }
         }
         
-        if pickerView?.selectedRow(inComponent: 0) == 8 { //non-panning 440Hz
+        if pickerView?.selectedRow(inComponent: 0) == 9 { //non-panning 440Hz
             
             if let player = tonePlayer {
                 player.play()
@@ -381,7 +407,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         // Lions : 96bpm (subd.) -> 0.625 sec/osc OR 0.833 sec/osc
         // Silence: 82bpm (subd.) -> 0.73 sec/osc
         // Love/Drugs: 128bpm -> 0.46875 sec/osc
-        let message = String.init(stringLiteral: "Let's Hurt Tonight: 65bpm 0.92 \n Born: 95bpm 0.63|0.83 \n Lions: 96bpm 0.625|0.83 \n The Sound of Silence: 82bpm 0.73 \n Love/Drugs: 128bpm 0.47")
+        // I Lived: 120bpm -> 0.5 sec/osc
+        let message = String.init(stringLiteral: "Let's Hurt Tonight: 65bpm 0.92 \n Born: 95bpm 0.63|0.83 \n Lions: 96bpm 0.625|0.83 \n The Sound of Silence: 82bpm 0.73 \n Love/Drugs: 128bpm 0.47 \n I Lived: 120bpm 0.5")
         
         let alert = UIAlertController(title: "Oscillations", message: message, preferredStyle: UIAlertControllerStyle.alert)
         let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
@@ -412,7 +439,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 9
+        return 10
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
@@ -432,8 +459,10 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         } else if row == 6 {
             return "Heavy"
         } else if row == 7 {
-            return "440 Hz Tone"
+            return "I Lived"
         } else if row == 8 {
+            return "440 Hz Tone"
+        } else if row == 9 {
             return "440 Hz Tone NP"
         }
         
@@ -446,7 +475,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         
         // change player to new URL
         
-        for number in [0, 1, 2, 3, 4, 5, 6, 7, 8] {
+        for number in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] {
             
             if row == number && audioPlayers != nil {
                 audioPlayers![number].prepareToPlay()

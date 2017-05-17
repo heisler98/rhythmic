@@ -22,6 +22,7 @@
 		5ABA309E1DCBC97D006E5999 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5ABA309C1DCBC97D006E5999 /* Main.storyboard */; };
 		5ABA30A01DCBC97D006E5999 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5ABA309F1DCBC97D006E5999 /* Assets.xcassets */; };
 		5ABA30A31DCBC97D006E5999 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5ABA30A11DCBC97D006E5999 /* LaunchScreen.storyboard */; };
+		5AE0C7B41ECC0DEC00AF6926 /* I Lived.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AE0C7B31ECC0DEC00AF6926 /* I Lived.mp3 */; };
 		5AF19F8A1E95A0B1004E38C9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AF19F891E95A0B1004E38C9 /* AVFoundation.framework */; };
 		5AF19F8C1E95A0BA004E38C9 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AF19F8B1E95A0BA004E38C9 /* MediaPlayer.framework */; };
 /* End PBXBuildFile section */
@@ -44,6 +45,7 @@
 		5ABA309F1DCBC97D006E5999 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5ABA30A21DCBC97D006E5999 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5ABA30A41DCBC97D006E5999 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5AE0C7B31ECC0DEC00AF6926 /* I Lived.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "I Lived.mp3"; sourceTree = "<group>"; };
 		5AF19F891E95A0B1004E38C9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		5AF19F8B1E95A0BA004E38C9 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -64,6 +66,7 @@
 		5ABA308C1DCBC97D006E5999 = {
 			isa = PBXGroup;
 			children = (
+				5AE0C7B31ECC0DEC00AF6926 /* I Lived.mp3 */,
 				5A9EE0E71EB7AB7C00E2A633 /* Heavy.m4a */,
 				5A3D0CAB1EB5644D005FAA94 /* LoveDrugs.mp3 */,
 				5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */,
@@ -171,6 +174,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5AE0C7B41ECC0DEC00AF6926 /* I Lived.mp3 in Resources */,
 				5A3049451EAE6A8B0000A144 /* 1493072041_play.png in Resources */,
 				5ABA30A31DCBC97D006E5999 /* LaunchScreen.storyboard in Resources */,
 				5A3D0CAC1EB5644D005FAA94 /* LoveDrugs.mp3 in Resources */,
