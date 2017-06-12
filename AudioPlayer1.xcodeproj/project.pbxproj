@@ -11,12 +11,12 @@
 		5A3049451EAE6A8B0000A144 /* 1493072041_play.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A3049441EAE6A8B0000A144 /* 1493072041_play.png */; };
 		5A3049471EAE6A970000A144 /* 1493072025_stop.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A3049461EAE6A970000A144 /* 1493072025_stop.png */; };
 		5A3049491EAF18D10000A144 /* If I Lose Myself.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */; };
-		5A3D0CAC1EB5644D005FAA94 /* LoveDrugs.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3D0CAB1EB5644D005FAA94 /* LoveDrugs.mp3 */; };
-		5A846C341EA9A8F700BB494D /* The Sound of Silence.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A846C331EA9A8F700BB494D /* The Sound of Silence.m4a */; };
+		5A4653131EEF1BE0001DE37C /* Better.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A4653121EEF1BE0001DE37C /* Better.m4a */; };
+		5A4653151EEF1C2C001DE37C /* Human.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A4653141EEF1C2C001DE37C /* Human.m4a */; };
+		5A4653171EEF1C82001DE37C /* Lift Me Up.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A4653161EEF1C82001DE37C /* Lift Me Up.m4a */; };
+		5A4653191EEF1CAF001DE37C /* Heaven.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A4653181EEF1CAF001DE37C /* Heaven.m4a */; };
 		5A9518811EAA42160028B8E6 /* 440.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A9518801EAA42160028B8E6 /* 440.m4a */; };
-		5A9D6BD81E9EF29200918D8B /* Lions.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A9D6BD71E9EF29200918D8B /* Lions.mp3 */; };
 		5A9D6BDA1E9EF2A300918D8B /* Born.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A9D6BD91E9EF2A300918D8B /* Born.mp3 */; };
-		5A9EE0E81EB7AB7C00E2A633 /* Heavy.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A9EE0E71EB7AB7C00E2A633 /* Heavy.m4a */; };
 		5ABA30991DCBC97D006E5999 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABA30981DCBC97D006E5999 /* AppDelegate.swift */; };
 		5ABA309B1DCBC97D006E5999 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABA309A1DCBC97D006E5999 /* ViewController.swift */; };
 		5ABA309E1DCBC97D006E5999 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5ABA309C1DCBC97D006E5999 /* Main.storyboard */; };
@@ -32,12 +32,12 @@
 		5A3049441EAE6A8B0000A144 /* 1493072041_play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1493072041_play.png; sourceTree = "<group>"; };
 		5A3049461EAE6A970000A144 /* 1493072025_stop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1493072025_stop.png; sourceTree = "<group>"; };
 		5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "If I Lose Myself.mp3"; sourceTree = "<group>"; };
-		5A3D0CAB1EB5644D005FAA94 /* LoveDrugs.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = LoveDrugs.mp3; sourceTree = "<group>"; };
-		5A846C331EA9A8F700BB494D /* The Sound of Silence.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "The Sound of Silence.m4a"; sourceTree = "<group>"; };
+		5A4653121EEF1BE0001DE37C /* Better.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Better.m4a; sourceTree = "<group>"; };
+		5A4653141EEF1C2C001DE37C /* Human.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Human.m4a; sourceTree = "<group>"; };
+		5A4653161EEF1C82001DE37C /* Lift Me Up.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lift Me Up.m4a"; sourceTree = "<group>"; };
+		5A4653181EEF1CAF001DE37C /* Heaven.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Heaven.m4a; sourceTree = "<group>"; };
 		5A9518801EAA42160028B8E6 /* 440.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 440.m4a; sourceTree = "<group>"; };
-		5A9D6BD71E9EF29200918D8B /* Lions.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Lions.mp3; sourceTree = "<group>"; };
 		5A9D6BD91E9EF2A300918D8B /* Born.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Born.mp3; sourceTree = "<group>"; };
-		5A9EE0E71EB7AB7C00E2A633 /* Heavy.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Heavy.m4a; sourceTree = "<group>"; };
 		5ABA30951DCBC97D006E5999 /* AudioPlayer1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AudioPlayer1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5ABA30981DCBC97D006E5999 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5ABA309A1DCBC97D006E5999 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -66,14 +66,14 @@
 		5ABA308C1DCBC97D006E5999 = {
 			isa = PBXGroup;
 			children = (
+				5A4653181EEF1CAF001DE37C /* Heaven.m4a */,
+				5A4653161EEF1C82001DE37C /* Lift Me Up.m4a */,
+				5A4653141EEF1C2C001DE37C /* Human.m4a */,
+				5A4653121EEF1BE0001DE37C /* Better.m4a */,
 				5AE0C7B31ECC0DEC00AF6926 /* I Lived.mp3 */,
-				5A9EE0E71EB7AB7C00E2A633 /* Heavy.m4a */,
-				5A3D0CAB1EB5644D005FAA94 /* LoveDrugs.mp3 */,
 				5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */,
 				5A9518801EAA42160028B8E6 /* 440.m4a */,
-				5A846C331EA9A8F700BB494D /* The Sound of Silence.m4a */,
 				5A9D6BD91E9EF2A300918D8B /* Born.mp3 */,
-				5A9D6BD71E9EF29200918D8B /* Lions.mp3 */,
 				5A0EBF731E9AED430064C33F /* Let's Hurt Tonight.m4a */,
 				5ABA30971DCBC97D006E5999 /* AudioPlayer1 */,
 				5ABA30961DCBC97D006E5999 /* Products */,
@@ -175,18 +175,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				5AE0C7B41ECC0DEC00AF6926 /* I Lived.mp3 in Resources */,
+				5A4653191EEF1CAF001DE37C /* Heaven.m4a in Resources */,
 				5A3049451EAE6A8B0000A144 /* 1493072041_play.png in Resources */,
+				5A4653171EEF1C82001DE37C /* Lift Me Up.m4a in Resources */,
 				5ABA30A31DCBC97D006E5999 /* LaunchScreen.storyboard in Resources */,
-				5A3D0CAC1EB5644D005FAA94 /* LoveDrugs.mp3 in Resources */,
 				5ABA30A01DCBC97D006E5999 /* Assets.xcassets in Resources */,
-				5A9EE0E81EB7AB7C00E2A633 /* Heavy.m4a in Resources */,
+				5A4653151EEF1C2C001DE37C /* Human.m4a in Resources */,
 				5ABA309E1DCBC97D006E5999 /* Main.storyboard in Resources */,
 				5A3049471EAE6A970000A144 /* 1493072025_stop.png in Resources */,
+				5A4653131EEF1BE0001DE37C /* Better.m4a in Resources */,
 				5A9D6BDA1E9EF2A300918D8B /* Born.mp3 in Resources */,
 				5A3049491EAF18D10000A144 /* If I Lose Myself.mp3 in Resources */,
 				5A0EBF741E9AED430064C33F /* Let's Hurt Tonight.m4a in Resources */,
-				5A846C341EA9A8F700BB494D /* The Sound of Silence.m4a in Resources */,
-				5A9D6BD81E9EF29200918D8B /* Lions.mp3 in Resources */,
 				5A9518811EAA42160028B8E6 /* 440.m4a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -19,12 +19,12 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
     
     var hurtPlayer  :   AVAudioPlayer?
     var bornPlayer  :   AVAudioPlayer?
-    var lionsPlayer :   AVAudioPlayer?
-    var silencePlayer : AVAudioPlayer?
+    var betterPlayer :   AVAudioPlayer?
+    var humanPlayer : AVAudioPlayer?
     var losePlayer :    AVAudioPlayer?
     var tonePlayer :    AVAudioPlayer?
-    var lovePlayer :    AVAudioPlayer?
-    var heavyPlayer :   AVAudioPlayer?
+    var liftPlayer :    AVAudioPlayer?
+    var heavenPlayer :   AVAudioPlayer?
     var livedPlayer :   AVAudioPlayer?
     
     var currentPlayer : AVAudioPlayer?
@@ -72,25 +72,25 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         }
         
         
-        // Lions by Skillet
+        // Better by OneRepublic
         
-        let lionsURL = URL.init(fileURLWithPath: Bundle.main.path(forResource: "Lions", ofType: "mp3")!)
+        let betterURL = URL.init(fileURLWithPath: Bundle.main.path(forResource: "Better", ofType: "m4a")!)
         
         do {
-            try lionsPlayer = AVAudioPlayer(contentsOf: lionsURL)
-            lionsPlayer?.delegate = self as AVAudioPlayerDelegate
+            try betterPlayer = AVAudioPlayer(contentsOf: betterURL)
+            betterPlayer?.delegate = self as AVAudioPlayerDelegate
             
         } catch let error as NSError {
             print ("audioPlayer error \(error.localizedDescription)")
         }
         
-        // The Sound of Silence by Disturbed
+        // Human by OneRepublic
         
-        let silenceURL = URL.init(fileURLWithPath: Bundle.main.path(forResource: "The Sound of Silence", ofType: "m4a")!)
+        let humanURL = URL.init(fileURLWithPath: Bundle.main.path(forResource: "Human", ofType: "m4a")!)
         
         do {
-            try silencePlayer = AVAudioPlayer(contentsOf: silenceURL)
-            silencePlayer?.delegate = self as AVAudioPlayerDelegate
+            try humanPlayer = AVAudioPlayer(contentsOf: humanURL)
+            humanPlayer?.delegate = self as AVAudioPlayerDelegate
             
         } catch let error as NSError {
             print ("audioPlayer error \(error.localizedDescription)")
@@ -122,25 +122,25 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
             print ("audioPlayer error: \(error.localizedDescription)")
         }
         
-        //Love/Drugs by Strange Familia
+        // Lift Me Up by OneRepublic
         
-        let loveURL = URL.init(fileURLWithPath: Bundle.main.path(forResource: "LoveDrugs", ofType: "mp3")!)
+        let liftURL = URL.init(fileURLWithPath: Bundle.main.path(forResource: "Lift Me Up", ofType: "m4a")!)
         
         do {
-            try lovePlayer = AVAudioPlayer(contentsOf: loveURL)
+            try liftPlayer = AVAudioPlayer(contentsOf: liftURL)
             losePlayer?.delegate = self as AVAudioPlayerDelegate
         } catch let error as NSError {
             
             print ("audioPlayer error: \(error.localizedDescription)")
         }
         
-        //Heavy by Fame on Fire
+        // Heaven by OneRepublic
         
-        let heavyURL = URL.init(fileURLWithPath: Bundle.main.path(forResource: "Heavy", ofType: "m4a")!)
+        let heavenURL = URL.init(fileURLWithPath: Bundle.main.path(forResource: "Heaven", ofType: "m4a")!)
         
         do {
-            try heavyPlayer = AVAudioPlayer(contentsOf: heavyURL)
-            heavyPlayer?.delegate = self as AVAudioPlayerDelegate
+            try heavenPlayer = AVAudioPlayer(contentsOf: heavenURL)
+            heavenPlayer?.delegate = self as AVAudioPlayerDelegate
             
         } catch let error as NSError {
             print("audioError: \(error.localizedDescription)")
@@ -159,9 +159,9 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         }
         
         
-        if hurtPlayer != nil && lionsPlayer != nil && bornPlayer != nil && silencePlayer != nil && losePlayer != nil && lovePlayer != nil && heavyPlayer != nil && tonePlayer != nil && livedPlayer != nil {
+        if hurtPlayer != nil && betterPlayer != nil && bornPlayer != nil && humanPlayer != nil && losePlayer != nil && liftPlayer != nil && heavenPlayer != nil && tonePlayer != nil && livedPlayer != nil {
             
-            audioPlayers = [hurtPlayer!, bornPlayer!, lionsPlayer!, silencePlayer!, losePlayer!, lovePlayer!, heavyPlayer!, livedPlayer!, tonePlayer!, tonePlayer!]
+            audioPlayers = [hurtPlayer!, bornPlayer!, betterPlayer!, humanPlayer!, losePlayer!, liftPlayer!, heavenPlayer!, livedPlayer!, tonePlayer!, tonePlayer!]
             
         }
         
@@ -220,7 +220,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         
         if pickerView?.selectedRow(inComponent: 0) == 2 {
             
-            if let player = lionsPlayer {
+            if let player = betterPlayer {
                 player.play()
                 currentPlayer = player
                 
@@ -236,7 +236,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         
         if pickerView?.selectedRow(inComponent: 0) == 3 {
             
-            if let player = silencePlayer {
+            if let player = humanPlayer {
                 player.play()
                 currentPlayer = player
                 
@@ -266,7 +266,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         
         if pickerView?.selectedRow(inComponent: 0) == 5 {
            
-            if let player = lovePlayer {
+            if let player = liftPlayer {
                 player.play()
                 currentPlayer = player
                 
@@ -281,7 +281,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         
         if pickerView?.selectedRow(inComponent: 0) == 6 {
             
-            if let player = heavyPlayer {
+            if let player = heavenPlayer {
                 player.play()
                 currentPlayer = player
                 
@@ -408,7 +408,15 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         // Silence: 82bpm (subd.) -> 0.73 sec/osc
         // Love/Drugs: 128bpm -> 0.46875 sec/osc
         // I Lived: 120bpm -> 0.5 sec/osc
-        let message = String.init(stringLiteral: "Let's Hurt Tonight: 65bpm 0.92 \n Born: 95bpm 0.63|0.83 \n Lions: 96bpm 0.625|0.83 \n The Sound of Silence: 82bpm 0.73 \n Love/Drugs: 128bpm 0.47 \n I Lived: 120bpm 0.5")
+        
+        /*
+         Better .88
+         Human  .43
+         Lift   .52
+         Heaven .63
+        
+        */
+        let message = String.init(stringLiteral: "Let's Hurt Tonight: 65bpm 0.92 \n Born: 95bpm 0.63|0.83 \n Better: 0.88 \n Human: 0.43 \n Lift Me Up: 0.53 \n Heaven: 0.63 \n I Lived: 120bpm 0.5")
         
         let alert = UIAlertController(title: "Oscillations", message: message, preferredStyle: UIAlertControllerStyle.alert)
         let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
@@ -425,6 +433,12 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
             
             let newStr : NSString = textBox!.text! as NSString
             let interval = newStr.doubleValue
+            
+            if interval == 0 {
+                // do not pan, stereo is intentional
+                return
+                
+            }
             
             timer = nil
             
@@ -449,15 +463,15 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         } else if row == 1 {
             return "Born"
         } else if row == 2 {
-            return "Lions"
+            return "Better"
         } else if row == 3 {
-            return "The Sound of Silence"
+            return "Human"
         } else if row == 4 {
             return "If I Lose Myself"
         } else if row == 5 {
-            return "Love/Drugs"
+            return "Lift Me Up"
         } else if row == 6 {
-            return "Heavy"
+            return "Heaven"
         } else if row == 7 {
             return "I Lived"
         } else if row == 8 {
