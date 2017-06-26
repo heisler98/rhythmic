@@ -26,6 +26,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
     var liftPlayer :    AVAudioPlayer?
     var heavenPlayer :   AVAudioPlayer?
     var livedPlayer :   AVAudioPlayer?
+    var overPlayer : AVAudioPlayer?
     
     var currentPlayer : AVAudioPlayer?
     
@@ -158,10 +159,20 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
             print("audioError: \(error.localizedDescription)")
         }
         
+        // Start Over by Imagine Dragons
         
-        if hurtPlayer != nil && betterPlayer != nil && bornPlayer != nil && humanPlayer != nil && losePlayer != nil && liftPlayer != nil && heavenPlayer != nil && tonePlayer != nil && livedPlayer != nil {
+        let overURL = URL.init(fileURLWithPath: Bundle.main.path(forResource: "Start Over", ofType: "mp3")!)
+        
+        do {
+            try overPlayer = AVAudioPlayer(contentsOf: overURL)
+        } catch let error as NSError {
+            print("audioPlayer: \(error.localizedDescription)")
+        }
+        
+        
+        if hurtPlayer != nil && betterPlayer != nil && bornPlayer != nil && humanPlayer != nil && losePlayer != nil && liftPlayer != nil && heavenPlayer != nil && tonePlayer != nil && livedPlayer != nil && overPlayer != nil {
             
-            audioPlayers = [hurtPlayer!, bornPlayer!, betterPlayer!, humanPlayer!, losePlayer!, liftPlayer!, heavenPlayer!, livedPlayer!, tonePlayer!, tonePlayer!]
+            audioPlayers = [hurtPlayer!, bornPlayer!, betterPlayer!, humanPlayer!, losePlayer!, liftPlayer!, heavenPlayer!, livedPlayer!, overPlayer!, tonePlayer!, tonePlayer!]
             
         }
         
@@ -309,7 +320,22 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
             }
         }
         
-        if pickerView?.selectedRow(inComponent: 0) == 8 { //panning 440Hz
+        if pickerView?.selectedRow(inComponent: 0) == 8 {
+            if let player = overPlayer {
+                player.play()
+                currentPlayer = player
+                
+                if repeatSwitch?.isOn == true {
+                    player.numberOfLoops = -1
+                }
+                
+                startPan()
+                if timer != nil { timer?.fire() }
+            }
+        }
+        
+        if pickerView?.selectedRow(inComponent: 0) == 9 { //panning 440Hz
+
             
             if let player = tonePlayer {
                 player.play()
@@ -324,7 +350,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
             }
         }
         
-        if pickerView?.selectedRow(inComponent: 0) == 9 { //non-panning 440Hz
+        if pickerView?.selectedRow(inComponent: 0) == 10 { //non-panning 440Hz
             
             if let player = tonePlayer {
                 player.play()
@@ -334,10 +360,11 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
                     player.numberOfLoops = -1
                 }
                 
-                // startPan()
+                //startPan()
                 // if timer != nil { timer?.fire() }
             }
-        }
+    }
+        
     }
 
     @IBAction func stop(_ sender: Any) {
@@ -408,15 +435,16 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         // Silence: 82bpm (subd.) -> 0.73 sec/osc
         // Love/Drugs: 128bpm -> 0.46875 sec/osc
         // I Lived: 120bpm -> 0.5 sec/osc
-        
+        // Start Over : 98bpm -> 0.61 sec/osc
         /*
          Better .88
          Human  .43
          Lift   .52
          Heaven .63
+         Start  .61
         
         */
-        let message = String.init(stringLiteral: "Let's Hurt Tonight: 65bpm 0.92 \n Born: 95bpm 0.63|0.83 \n Better: 0.88 \n Human: 0.43 \n Lift Me Up: 0.53 \n Heaven: 0.63 \n I Lived: 120bpm 0.5")
+        let message = String.init(stringLiteral: "Let's Hurt Tonight: 65bpm 0.92 \n Born: 95bpm 0.63|0.83 \n Better: 0.88 \n Human: 0.43 \n Lift Me Up: 0.53 \n Heaven: 0.63 \n I Lived: 0.50 \n Start Over: 0.61")
         
         let alert = UIAlertController(title: "Oscillations", message: message, preferredStyle: UIAlertControllerStyle.alert)
         let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
@@ -453,7 +481,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 10
+        return 11
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
@@ -475,9 +503,12 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         } else if row == 7 {
             return "I Lived"
         } else if row == 8 {
-            return "440 Hz Tone"
+            return "Start Over"
         } else if row == 9 {
+            return "440 Hz Tone"
+        } else if row == 10 {
             return "440 Hz Tone NP"
+
         }
         
         return ""
@@ -489,7 +520,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         
         // change player to new URL
         
-        for number in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] {
+        for number in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] {
             
             if row == number && audioPlayers != nil {
                 audioPlayers![number].prepareToPlay()

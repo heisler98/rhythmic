@@ -25,6 +25,7 @@
 		5AE0C7B41ECC0DEC00AF6926 /* I Lived.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AE0C7B31ECC0DEC00AF6926 /* I Lived.mp3 */; };
 		5AF19F8A1E95A0B1004E38C9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AF19F891E95A0B1004E38C9 /* AVFoundation.framework */; };
 		5AF19F8C1E95A0BA004E38C9 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AF19F8B1E95A0BA004E38C9 /* MediaPlayer.framework */; };
+		5AFFE8161F0117E400C713FF /* Start Over.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AFFE8151F0117E400C713FF /* Start Over.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		5AE0C7B31ECC0DEC00AF6926 /* I Lived.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "I Lived.mp3"; sourceTree = "<group>"; };
 		5AF19F891E95A0B1004E38C9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		5AF19F8B1E95A0BA004E38C9 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		5AFFE8151F0117E400C713FF /* Start Over.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Start Over.mp3"; path = "AudioPlayer1/Start Over.mp3"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 				5A9518801EAA42160028B8E6 /* 440.m4a */,
 				5A9D6BD91E9EF2A300918D8B /* Born.mp3 */,
 				5A0EBF731E9AED430064C33F /* Let's Hurt Tonight.m4a */,
+				5AFFE8151F0117E400C713FF /* Start Over.mp3 */,
 				5ABA30971DCBC97D006E5999 /* AudioPlayer1 */,
 				5ABA30961DCBC97D006E5999 /* Products */,
 				5AF19F881E95A0B1004E38C9 /* Frameworks */,
@@ -177,6 +180,7 @@
 				5AE0C7B41ECC0DEC00AF6926 /* I Lived.mp3 in Resources */,
 				5A4653191EEF1CAF001DE37C /* Heaven.m4a in Resources */,
 				5A3049451EAE6A8B0000A144 /* 1493072041_play.png in Resources */,
+				5AFFE8161F0117E400C713FF /* Start Over.mp3 in Resources */,
 				5A4653171EEF1C82001DE37C /* Lift Me Up.m4a in Resources */,
 				5ABA30A31DCBC97D006E5999 /* LaunchScreen.storyboard in Resources */,
 				5ABA30A01DCBC97D006E5999 /* Assets.xcassets in Resources */,
