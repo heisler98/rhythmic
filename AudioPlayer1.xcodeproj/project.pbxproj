@@ -17,6 +17,7 @@
 		5A4653191EEF1CAF001DE37C /* Heaven.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A4653181EEF1CAF001DE37C /* Heaven.m4a */; };
 		5A9518811EAA42160028B8E6 /* 440.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A9518801EAA42160028B8E6 /* 440.m4a */; };
 		5A9D6BDA1E9EF2A300918D8B /* Born.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A9D6BD91E9EF2A300918D8B /* Born.mp3 */; };
+		5AAF83F61F0D8D21001E9313 /* Marchin On.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5AAF83F51F0D8D21001E9313 /* Marchin On.m4a */; };
 		5ABA30991DCBC97D006E5999 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABA30981DCBC97D006E5999 /* AppDelegate.swift */; };
 		5ABA309B1DCBC97D006E5999 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABA309A1DCBC97D006E5999 /* ViewController.swift */; };
 		5ABA309E1DCBC97D006E5999 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5ABA309C1DCBC97D006E5999 /* Main.storyboard */; };
@@ -39,6 +40,7 @@
 		5A4653181EEF1CAF001DE37C /* Heaven.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Heaven.m4a; sourceTree = "<group>"; };
 		5A9518801EAA42160028B8E6 /* 440.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 440.m4a; sourceTree = "<group>"; };
 		5A9D6BD91E9EF2A300918D8B /* Born.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Born.mp3; sourceTree = "<group>"; };
+		5AAF83F51F0D8D21001E9313 /* Marchin On.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Marchin On.m4a"; sourceTree = "<group>"; };
 		5ABA30951DCBC97D006E5999 /* AudioPlayer1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AudioPlayer1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5ABA30981DCBC97D006E5999 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5ABA309A1DCBC97D006E5999 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 		5ABA308C1DCBC97D006E5999 = {
 			isa = PBXGroup;
 			children = (
+				5AAF83F51F0D8D21001E9313 /* Marchin On.m4a */,
 				5A4653181EEF1CAF001DE37C /* Heaven.m4a */,
 				5A4653161EEF1C82001DE37C /* Lift Me Up.m4a */,
 				5A4653141EEF1C2C001DE37C /* Human.m4a */,
@@ -190,6 +193,7 @@
 				5A4653131EEF1BE0001DE37C /* Better.m4a in Resources */,
 				5A9D6BDA1E9EF2A300918D8B /* Born.mp3 in Resources */,
 				5A3049491EAF18D10000A144 /* If I Lose Myself.mp3 in Resources */,
+				5AAF83F61F0D8D21001E9313 /* Marchin On.m4a in Resources */,
 				5A0EBF741E9AED430064C33F /* Let's Hurt Tonight.m4a in Resources */,
 				5A9518811EAA42160028B8E6 /* 440.m4a in Resources */,
 			);
@@ -251,6 +255,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -302,7 +307,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -329,12 +335,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = TN69P7NFS6;
 				INFOPLIST_FILE = AudioPlayer1/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.eisler.AudioPlayer1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
@@ -348,12 +356,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = TN69P7NFS6;
 				INFOPLIST_FILE = AudioPlayer1/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.eisler.AudioPlayer1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
