@@ -14,7 +14,8 @@ private enum PanDirection {
     case Right
 }
 
-typealias MusicFileDictionary = DictionaryLiteral<String, URL>  //<title, URL path>
+typealias MusicFileDictionary = DictionaryLiteral<Array<String>, Array<URL>>  //<title, URL path>
+
 
 class PanAudioPlayer: AVAudioPlayer {
 
@@ -22,23 +23,6 @@ class PanAudioPlayer: AVAudioPlayer {
     private var direction : PanDirection = .Left
     private var period : Double
     
-    
-    
-    func timerFireMethod(timer: Timer) {
-
-        if direction == PanDirection.Left {
-            
-            self.pan = 1.0
-            direction = .Right
-            
-        } else {
-            
-            self.pan = -1.0
-            direction = .Left
-        }
-        
-        
-    }
     
     override func play() -> Bool {
         
@@ -50,6 +34,8 @@ class PanAudioPlayer: AVAudioPlayer {
             
             self.timer = Timer.scheduledTimer(timeInterval: period, target: self, selector: #selector(timerFireMethod(timer:)), userInfo: nil, repeats: true)
         }
+        
+        print("Period: \(self.period)")
         
         return super.play()
         
@@ -164,18 +150,23 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         players = [:]
         keys = []
         repeatOn = repeating
+        var urls : Array<URL>?
+        
+        for element in withDictionary {         // if dictionary passed correctly, will iterate once
+            keys = element.key
+            urls = element.value
+        }
         
         
-        for element in withDictionary {
+        for url in urls! {
             
             do {
                 
-                let player = try PanAudioPlayer(contentsOf: element.value, period: panTimes[count])
+                let player = try PanAudioPlayer(contentsOf: url, period: panTimes[count])
                 player.delegate = self as AVAudioPlayerDelegate
-                
-                
-                self.players?.updateValue(player, forKey: element.key)
-                self.keys?.append(element.key)
+            
+                self.players?.updateValue(player, forKey: keys![count])
+    
                 count += 1
             
             } catch let error as NSError {

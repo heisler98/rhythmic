@@ -5,20 +5,111 @@
 //  Created by Hunter Eisler on 11/3/16.
 //  Copyright © 2016 Hunter Eisler. All rights reserved.
 //
-// so i learn'd what I did was hodgepodge
+
 
 import UIKit
 import AVFoundation
 
-class ViewController: UIViewController {
+struct Track {
+    var fileName : String
+    var fileExtension : String
+    
+    var bundlePath : String? {
+        if let path = Bundle.main.path(forResource: fileName, ofType: fileExtension) {
+            return path
+        }
+        return nil
+    }
+    
+    var bundleURL : URL? {
+        if let url = Bundle.main.url(forResource: fileName, withExtension: fileExtension) {
+            return url
+        }
+        return nil
+    }
+    
+    
+}
+
+struct TrackManager {
+   
+    var tracks : Array<Track>?
+    
+    func musicFileDictionary() -> MusicFileDictionary {
+        
+        if (tracks != nil) {
+            
+            var titles : Array<String> = []
+            var urls : Array<URL> = []
+            
+            
+            for aTrack in tracks! {
+                
+                if let aURL = aTrack.bundleURL {
+                
+                    urls.append(aURL)
+                    titles.append(aTrack.fileName)
+                
+                } else {
+                    print("Skipped building track due to missing file; check name and extension")
+                }
+                
+            }
+            
+            return [titles : urls]
+        }
+        
+        return [:] // [Array<String> : Array<URL>]
+    }
+    
+    
+    
+   
+}
+
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     
     private var defaultManager : AudioManager?
+    private var allTracks : TrackManager?
+    private var selectedTracks : TrackManager?
+    private var periods : Array<Double>?
+    private var selectedRows : Array<Int> = []
+    @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-    
+        let titles = ["Let's Hurt Tonight", "Born", "Better", "Human", "If I Lose Myself", "Lift Me Up", "Heaven", "I Lived", "Start Over", "Marchin On"]
+        
+        let m4a = "m4a"
+        let mp3 = "mp3"
+        
+        let extensions = [m4a, mp3, m4a, m4a, mp3, m4a, m4a, mp3, mp3, m4a]
+        
+        var tracks : Array<Track> = []
+        periods = []
+        
+        for number in 0...(titles.count-1) {
+            
+            let aTrack = Track(fileName: titles[number], fileExtension: extensions[number])
+            
+            tracks.append(aTrack)
+        
+            
+        }
+        
+        
+        
+        allTracks = TrackManager(tracks: tracks)
+        selectedTracks = TrackManager(tracks: [])
+        /*
+        do {
+            defaultManager = try AudioManager(withDictionary: allTracks!.musicFileDictionary(), repeating: true, panTimes: periods)
+        } catch let error as NSError {
+            print("AudioManager initialization error: \(error)")
+        }
+         */
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
             try AVAudioSession.sharedInstance().setActive(true)
@@ -33,13 +124,14 @@ class ViewController: UIViewController {
         }
         
         
+        
     
     }
     
     override func viewDidAppear(_ animated: Bool) {
         
         super.viewDidAppear(animated)
-        self.playAllFiles()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -47,61 +139,6 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    func playAllFiles() {
-        
-        let hurtURL = Bundle.main.url(forResource: "Let's Hurt Tonight", withExtension: "m4a")
-        let bornURL = Bundle.main.url(forResource: "Born", withExtension: "mp3")
-        let betterURL = Bundle.main.url(forResource: "Better", withExtension: "m4a")
-        let humanURL = Bundle.main.url(forResource: "Human", withExtension: "m4a")
-        let loseURL = Bundle.main.url(forResource: "If I Lose Myself", withExtension: "mp3")
-        let liftURL = Bundle.main.url(forResource: "Lift Me Up", withExtension: "m4a")
-        let heavenURL = Bundle.main.url(forResource: "Heaven", withExtension: "m4a")
-        let livedURL = Bundle.main.url(forResource: "I Lived", withExtension: "mp3")
-        let startURL = Bundle.main.url(forResource: "Start Over", withExtension: "mp3")
-        let marchinURL = Bundle.main.url(forResource: "Marchin On", withExtension: "m4a")
-        
-        let hurtStr = hurtURL?.pathComponents.last?.components(separatedBy: ".")[0]
-        let bornStr = bornURL?.pathComponents.last?.components(separatedBy: ".")[0]
-        let betterStr = betterURL?.pathComponents.last?.components(separatedBy: ".")[0]
-        let humanStr = humanURL?.pathComponents.last?.components(separatedBy: ".")[0]
-        let loseStr = loseURL?.pathComponents.last?.components(separatedBy: ".")[0]
-        let liftStr = liftURL?.pathComponents.last?.components(separatedBy: ".")[0]
-        let heavenStr = heavenURL?.pathComponents.last?.components(separatedBy: ".")[0]
-        let livedStr = livedURL?.pathComponents.last?.components(separatedBy: ".")[0]
-        let startStr = startURL?.pathComponents.last?.components(separatedBy: ".")[0]
-        let marchinStr = marchinURL?.pathComponents.last?.components(separatedBy: ".")[0]
-        
-        let dictionary : MusicFileDictionary = [hurtStr! : hurtURL!,
-                                                bornStr! : bornURL!,
-                                                betterStr! : betterURL!,
-                                                humanStr! : humanURL!,
-                                                loseStr! : loseURL!,
-                                                liftStr! : liftURL!,
-                                                heavenStr! : heavenURL!,
-                                                livedStr! : livedURL!,
-                                                startStr! : startURL!,
-                                                marchinStr! : marchinURL!]
-        
-        var periods : Array<Double> = []
-        for number in 0...9 {
-            periods.append(self.period(forIndex: number))
-        }
-        
-        do {
-            defaultManager = try AudioManager(withDictionary: dictionary, repeating: true, panTimes: periods)
-        } catch _ as NSError {
-            //refer to `AudioManager(withDictionary:repeating:panTimes:)` for error
-        }
-        
-        if (defaultManager != nil) {
-            _ = defaultManager!.beginPlayback()
-        }
-        
-
-        
-        
-    }
     
     override func remoteControlReceived(with event: UIEvent?) {
         
@@ -191,7 +228,84 @@ class ViewController: UIViewController {
         }
         
     }
-
     
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return 10
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        
+        cell.textLabel?.text = allTracks?.tracks?[indexPath.row].fileName
+        
+        
+        return cell
+    }
+    
+    /*
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        selectedRows.append(indexPath.row)
+        self.periods?.append(self.period(forIndex: indexPath.row))
+        
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        
+        if let anIndex = selectedRows.index(of: indexPath.row) {
+            selectedRows.remove(at: anIndex)
+
+        }
+        
+        if let anotherIndex = periods?.index(of: self.period(forIndex: indexPath.row)) {
+            periods?.remove(at: anotherIndex)
+        }
+        
+        
+    }
+ 
+ */
+    @IBAction func activateButton(_ sender: Any) {
+        
+        let button = sender as! UIButton
+        
+        if let selectedRows = self.tableView.indexPathsForSelectedRows {
+            
+            for indexPath in selectedRows {
+                
+                if let trackToAdd = allTracks?.tracks?[indexPath.row] {
+                    self.selectedTracks?.tracks?.append(trackToAdd)
+                    self.periods?.append(self.period(forIndex: indexPath.row))
+                }
+            }
+        }
+        
+        if (button.isSelected == false) {
+        
+        do {
+            defaultManager = try AudioManager(withDictionary: (selectedTracks?.musicFileDictionary())!, repeating: true, panTimes: periods!)
+            
+            _ = defaultManager?.beginPlayback()
+        } catch let error as NSError {
+            print("\(error)")
+        }
+        
+        
+        button.isSelected = true
+        
+        } else {
+            
+            if (defaultManager != nil) {
+                defaultManager?.stop(andReset: true)
+            }
+            
+            button.isSelected = false
+        }
+        
+    }
+
 }
 
