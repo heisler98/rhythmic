@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,92 +20,8 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O1i-tf-zt8">
-                                <rect key="frame" x="0.0" y="351" width="183" height="148"/>
-                                <color key="tintColor" red="0.36405041813850403" green="0.86877119541168213" blue="0.82559388875961304" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" image="1493072041_play.png">
-                                    <color key="titleColor" red="0.36405041813850403" green="0.86877119541168213" blue="0.82559388875961304" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="play:" destination="BYZ-38-t0r" eventType="touchUpInside" id="abd-bf-YKf"/>
-                                </connections>
-                            </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" placeholder="sec/osc" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bzY-0F-lqW">
-                                <rect key="frame" x="56" y="544" width="64" height="21"/>
-                                <attributedString key="attributedText"/>
-                                <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation" enablesReturnKeyAutomatically="YES"/>
-                                <connections>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="rr1-vD-SgF"/>
-                                </connections>
-                            </textField>
-                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VQr-lP-4o2">
-                                <rect key="frame" x="16" y="20" width="343" height="323"/>
-                                <color key="tintColor" red="0.36405041813850403" green="0.86877119541168213" blue="0.82559388875961304" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" priority="750" constant="323" id="1vX-8S-rPW"/>
-                                </constraints>
-                                <connections>
-                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="7Ka-LP-6ak"/>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="LH7-Os-IkE"/>
-                                </connections>
-                            </pickerView>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zcc-au-46Z">
-                                <rect key="frame" x="191" y="351" width="184" height="148"/>
-                                <gestureRecognizers/>
-                                <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" image="1493072025_stop.png"/>
-                                <connections>
-                                    <action selector="stop:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Awh-CN-gpJ"/>
-                                    <outletCollection property="gestureRecognizers" destination="rYj-xc-6P0" appends="YES" id="9UW-1M-dIG"/>
-                                </connections>
-                            </button>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="M4Q-eE-d4K">
-                                <rect key="frame" x="294" y="535" width="51" height="31"/>
-                                <color key="onTintColor" red="0.3640504181" green="0.86877119540000003" blue="0.82559388879999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </switch>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Repeat" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NWK-nw-K5V">
-                                <rect key="frame" x="227" y="540" width="54" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MA9-Ri-45h">
-                                <rect key="frame" x="127.5" y="539" width="22" height="22"/>
-                                <connections>
-                                    <action selector="info:" destination="BYZ-38-t0r" eventType="touchUpInside" id="CMV-Ic-Z4J"/>
-                                </connections>
-                            </button>
-                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="Zcc-au-46Z" firstAttribute="width" secondItem="O1i-tf-zt8" secondAttribute="width" constant="1" id="1OZ-Jh-WRY"/>
-                            <constraint firstItem="Zcc-au-46Z" firstAttribute="centerY" secondItem="O1i-tf-zt8" secondAttribute="centerY" id="1df-kZ-Hf0"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="O1i-tf-zt8" secondAttribute="bottom" constant="168" id="36k-3u-jbB"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Zcc-au-46Z" secondAttribute="trailing" constant="-16" id="3BL-JF-noO"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="NWK-nw-K5V" secondAttribute="bottom" constant="106" id="3e7-Km-GDL"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="MA9-Ri-45h" secondAttribute="bottom" constant="106" id="60f-ul-yHe"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="bzY-0F-lqW" secondAttribute="bottom" constant="102" id="ALf-q3-y0t"/>
-                            <constraint firstItem="Zcc-au-46Z" firstAttribute="leading" secondItem="O1i-tf-zt8" secondAttribute="trailing" constant="8" id="CAF-iL-zbT"/>
-                            <constraint firstItem="MA9-Ri-45h" firstAttribute="leading" secondItem="bzY-0F-lqW" secondAttribute="trailing" constant="7.5" id="D6w-mu-fGf"/>
-                            <constraint firstItem="M4Q-eE-d4K" firstAttribute="leading" secondItem="NWK-nw-K5V" secondAttribute="trailing" constant="13" id="DAt-w8-czu"/>
-                            <constraint firstItem="VQr-lP-4o2" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="DIb-LY-WpL"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Zcc-au-46Z" secondAttribute="bottom" constant="168" id="DO6-05-exV"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="M4Q-eE-d4K" secondAttribute="trailing" constant="16" id="JaO-5G-mzA"/>
-                            <constraint firstItem="O1i-tf-zt8" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-16" id="ahD-14-Ccf"/>
-                            <constraint firstItem="Zcc-au-46Z" firstAttribute="height" secondItem="O1i-tf-zt8" secondAttribute="height" id="ct9-PB-t65"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="M4Q-eE-d4K" secondAttribute="bottom" constant="101" id="eBY-xD-eZC"/>
-                            <constraint firstItem="bzY-0F-lqW" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="40" id="hDd-24-b4i"/>
-                            <constraint firstItem="VQr-lP-4o2" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" priority="750" id="hwk-BE-bZM"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="VQr-lP-4o2" secondAttribute="trailing" id="n5H-JH-JtF"/>
-                            <constraint firstItem="Zcc-au-46Z" firstAttribute="top" secondItem="VQr-lP-4o2" secondAttribute="bottom" constant="8" id="tnn-on-qd3"/>
-                        </constraints>
                     </view>
-                    <connections>
-                        <outlet property="pickerView" destination="VQr-lP-4o2" id="wR6-rc-hbu"/>
-                        <outlet property="repeatSwitch" destination="M4Q-eE-d4K" id="zXf-Mr-be0"/>
-                        <outlet property="textBox" destination="bzY-0F-lqW" id="QHH-fB-qpb"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="rYj-xc-6P0">
@@ -118,8 +33,4 @@
             <point key="canvasLocation" x="32.799999999999997" y="37.331334332833585"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="1493072025_stop.png" width="128" height="128"/>
-        <image name="1493072041_play.png" width="128" height="128"/>
-    </resources>
 </document>

@@ -5,190 +5,18 @@
 //  Created by Hunter Eisler on 11/3/16.
 //  Copyright © 2016 Hunter Eisler. All rights reserved.
 //
+// so i learn'd what I did was hodgepodge
 
 import UIKit
 import AVFoundation
 
-class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource, AVAudioPlayerDelegate {
+class ViewController: UIViewController {
     
-    @IBOutlet weak var textBox : UITextField?
-    @IBOutlet weak var pickerView : UIPickerView?
-    @IBOutlet weak var repeatSwitch : UISwitch?
     
-    var timer : Timer?
-    
-    var hurtPlayer  :   AVAudioPlayer?
-    var bornPlayer  :   AVAudioPlayer?
-    var betterPlayer :   AVAudioPlayer?
-    var humanPlayer : AVAudioPlayer?
-    var losePlayer :    AVAudioPlayer?
-    var tonePlayer :    AVAudioPlayer?
-    var liftPlayer :    AVAudioPlayer?
-    var heavenPlayer :   AVAudioPlayer?
-    var livedPlayer :   AVAudioPlayer?
-    var overPlayer : AVAudioPlayer?
-    var marchingPlayer : AVAudioPlayer?
-    
-    var currentPlayer : AVAudioPlayer?
-    
-    var audioPlayers : Array<AVAudioPlayer>?
-    
-    enum PanDirection {
-        case Left
-        case Right
-    }
-    
-    var direction : PanDirection = PanDirection.Left
+    private var defaultManager : AudioManager?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        // Let's Hurt Tonight by OneRepublic
-        
-        let url = URL.init(fileURLWithPath: Bundle.main.path(forResource: "Let's Hurt Tonight", ofType: "m4a")!)
-        
-        do {
-            try hurtPlayer = AVAudioPlayer(contentsOf: url)
-            hurtPlayer?.delegate = self as AVAudioPlayerDelegate
-            
-            //hurtPlayer?.prepareToPlay()
-            
-        } catch let error as NSError {
-            
-            print("audioPlayer error \(error.localizedDescription)")
-            
-        }
-        
-        // Born by OneRepublic
-    
-        let bornURL = URL.init(fileURLWithPath: Bundle.main.path(forResource: "Born", ofType: "mp3")!)
-        
-        do {
-            try bornPlayer = AVAudioPlayer(contentsOf: bornURL)
-            bornPlayer?.delegate = self as AVAudioPlayerDelegate
-            
-        } catch let error as NSError {
-            
-            print("audioPlayer error \(error.localizedDescription)")
-        }
-        
-        
-        // Better by OneRepublic
-        
-        let betterURL = URL.init(fileURLWithPath: Bundle.main.path(forResource: "Better", ofType: "m4a")!)
-        
-        do {
-            try betterPlayer = AVAudioPlayer(contentsOf: betterURL)
-            betterPlayer?.delegate = self as AVAudioPlayerDelegate
-            
-        } catch let error as NSError {
-            print ("audioPlayer error \(error.localizedDescription)")
-        }
-        
-        // Human by OneRepublic
-        
-        let humanURL = URL.init(fileURLWithPath: Bundle.main.path(forResource: "Human", ofType: "m4a")!)
-        
-        do {
-            try humanPlayer = AVAudioPlayer(contentsOf: humanURL)
-            humanPlayer?.delegate = self as AVAudioPlayerDelegate
-            
-        } catch let error as NSError {
-            print ("audioPlayer error \(error.localizedDescription)")
-            
-        }
-        
-        // 440Hz Tone
-        
-        let toneURL = URL.init(fileURLWithPath: Bundle.main.path(forResource: "440", ofType: "m4a")!)
-        
-        do {
-            try tonePlayer = AVAudioPlayer(contentsOf: toneURL)
-            tonePlayer?.delegate = self as AVAudioPlayerDelegate
-        
-        } catch let error as NSError {
-            
-            print("audioPlayer: \(error.localizedDescription)")
-        }
-        
-        
-        // If I Lose Myself by OneRepublic
-        let loseURL = URL.init(fileURLWithPath: Bundle.main.path(forResource: "If I Lose Myself", ofType: "mp3")!)
-        
-        do {
-            try losePlayer = AVAudioPlayer(contentsOf: loseURL)
-            losePlayer?.delegate = self as AVAudioPlayerDelegate
-        } catch let error as NSError {
-            
-            print ("audioPlayer error: \(error.localizedDescription)")
-        }
-        
-        // Lift Me Up by OneRepublic
-        
-        let liftURL = URL.init(fileURLWithPath: Bundle.main.path(forResource: "Lift Me Up", ofType: "m4a")!)
-        
-        do {
-            try liftPlayer = AVAudioPlayer(contentsOf: liftURL)
-            losePlayer?.delegate = self as AVAudioPlayerDelegate
-        } catch let error as NSError {
-            
-            print ("audioPlayer error: \(error.localizedDescription)")
-        }
-        
-        // Heaven by OneRepublic
-        
-        let heavenURL = URL.init(fileURLWithPath: Bundle.main.path(forResource: "Heaven", ofType: "m4a")!)
-        
-        do {
-            try heavenPlayer = AVAudioPlayer(contentsOf: heavenURL)
-            heavenPlayer?.delegate = self as AVAudioPlayerDelegate
-            
-        } catch let error as NSError {
-            print("audioError: \(error.localizedDescription)")
-        }
-       
-        // I Lived by OneRepublic
-        
-        let livedURL = URL.init(fileURLWithPath: Bundle.main.path(forResource: "I Lived", ofType: "mp3")!)
-        
-        do {
-            try livedPlayer = AVAudioPlayer(contentsOf: livedURL)
-            livedPlayer?.delegate = self as AVAudioPlayerDelegate
-        
-        } catch let error as NSError {
-            print("audioError: \(error.localizedDescription)")
-        }
-        
-        // Start Over by Imagine Dragons
-        
-        let overURL = URL.init(fileURLWithPath: Bundle.main.path(forResource: "Start Over", ofType: "mp3")!)
-        
-        do {
-            try overPlayer = AVAudioPlayer(contentsOf: overURL)
-        } catch let error as NSError {
-            print("audioPlayer: \(error.localizedDescription)")
-        }
-        
-        // Marchin On by OneRepublic
-        
-        let marchingURL = URL.init(fileURLWithPath: Bundle.main.path(forResource: "Marchin On", ofType: "m4a")!)
-        
-        do {
-            try marchingPlayer = AVAudioPlayer(contentsOf: marchingURL)
-            
-        } catch let error as NSError {
-            print("audioPlayer: \(error.localizedDescription)")
-        }
-        
-        
-        if hurtPlayer != nil && betterPlayer != nil && bornPlayer != nil && humanPlayer != nil && losePlayer != nil && liftPlayer != nil && heavenPlayer != nil && tonePlayer != nil && livedPlayer != nil && overPlayer != nil && marchingPlayer != nil {
-            
-            audioPlayers = [hurtPlayer!, bornPlayer!, betterPlayer!, humanPlayer!, losePlayer!, liftPlayer!, heavenPlayer!, livedPlayer!, overPlayer!, marchingPlayer!, tonePlayer!, tonePlayer!]
-            
-        }
-        
-        
         
     
         do {
@@ -204,7 +32,14 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
             print("error: \(error)")
         }
         
+        
     
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        super.viewDidAppear(animated)
+        self.playAllFiles()
     }
 
     override func didReceiveMemoryWarning() {
@@ -213,249 +48,58 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
     }
     
 
-    @IBAction func play(_ sender: Any) {
+    func playAllFiles() {
         
+        let hurtURL = Bundle.main.url(forResource: "Let's Hurt Tonight", withExtension: "m4a")
+        let bornURL = Bundle.main.url(forResource: "Born", withExtension: "mp3")
+        let betterURL = Bundle.main.url(forResource: "Better", withExtension: "m4a")
+        let humanURL = Bundle.main.url(forResource: "Human", withExtension: "m4a")
+        let loseURL = Bundle.main.url(forResource: "If I Lose Myself", withExtension: "mp3")
+        let liftURL = Bundle.main.url(forResource: "Lift Me Up", withExtension: "m4a")
+        let heavenURL = Bundle.main.url(forResource: "Heaven", withExtension: "m4a")
+        let livedURL = Bundle.main.url(forResource: "I Lived", withExtension: "mp3")
+        let startURL = Bundle.main.url(forResource: "Start Over", withExtension: "mp3")
+        let marchinURL = Bundle.main.url(forResource: "Marchin On", withExtension: "m4a")
         
-        if pickerView?.selectedRow(inComponent: 0) == 0 {
-            
-            if let player = hurtPlayer {
-                player.play()
-                currentPlayer = player
-                
-                if repeatSwitch?.isOn == true {
-                    player.numberOfLoops = -1 //negative causes indefinite repeat
-                }
-            }
-            
-            startPan()
-            if timer != nil { timer?.fire() }
+        let hurtStr = hurtURL?.pathComponents.last?.components(separatedBy: ".")[0]
+        let bornStr = bornURL?.pathComponents.last?.components(separatedBy: ".")[0]
+        let betterStr = betterURL?.pathComponents.last?.components(separatedBy: ".")[0]
+        let humanStr = humanURL?.pathComponents.last?.components(separatedBy: ".")[0]
+        let loseStr = loseURL?.pathComponents.last?.components(separatedBy: ".")[0]
+        let liftStr = liftURL?.pathComponents.last?.components(separatedBy: ".")[0]
+        let heavenStr = heavenURL?.pathComponents.last?.components(separatedBy: ".")[0]
+        let livedStr = livedURL?.pathComponents.last?.components(separatedBy: ".")[0]
+        let startStr = startURL?.pathComponents.last?.components(separatedBy: ".")[0]
+        let marchinStr = marchinURL?.pathComponents.last?.components(separatedBy: ".")[0]
+        
+        let dictionary : MusicFileDictionary = [hurtStr! : hurtURL!,
+                                                bornStr! : bornURL!,
+                                                betterStr! : betterURL!,
+                                                humanStr! : humanURL!,
+                                                loseStr! : loseURL!,
+                                                liftStr! : liftURL!,
+                                                heavenStr! : heavenURL!,
+                                                livedStr! : livedURL!,
+                                                startStr! : startURL!,
+                                                marchinStr! : marchinURL!]
+        
+        var periods : Array<Double> = []
+        for number in 0...9 {
+            periods.append(self.period(forIndex: number))
         }
         
-        if pickerView?.selectedRow(inComponent: 0) == 1 {
-            
-            if let player = bornPlayer {
-                player.play()
-                currentPlayer = player
-                
-                if repeatSwitch?.isOn == true {
-                    player.numberOfLoops = -1 //negative causes indefinite repeat
-                }
-            }
-            
-            startPan()
-            if timer != nil { timer?.fire() }
-            
+        do {
+            defaultManager = try AudioManager(withDictionary: dictionary, repeating: true, panTimes: periods)
+        } catch _ as NSError {
+            //refer to `AudioManager(withDictionary:repeating:panTimes:)` for error
         }
         
-        if pickerView?.selectedRow(inComponent: 0) == 2 {
-            
-            if let player = betterPlayer {
-                player.play()
-                currentPlayer = player
-                
-                if repeatSwitch?.isOn == true {
-                    player.numberOfLoops = -1 //negative causes indefinite repeat
-                }
-            }
-            
-            startPan()
-            if timer != nil { timer?.fire() }
-        }
-        
-        
-        if pickerView?.selectedRow(inComponent: 0) == 3 {
-            
-            if let player = humanPlayer {
-                player.play()
-                currentPlayer = player
-                
-                if repeatSwitch?.isOn == true {
-                    player.numberOfLoops = -1 //negative causes indefinite repeat
-                }
-            }
-            
-            startPan()
-            if timer != nil { timer?.fire() }
-        }
-        
-        if pickerView?.selectedRow(inComponent: 0) == 4 {
-            
-            if let player = losePlayer {
-                player.play()
-                currentPlayer = player
-                
-                if repeatSwitch?.isOn == true {
-                    player.numberOfLoops = -1 //negative causes indefinite repeat
-                }
-                
-                startPan()
-                if timer != nil { timer?.fire() }
-            }
-        }
-        
-        if pickerView?.selectedRow(inComponent: 0) == 5 {
-           
-            if let player = liftPlayer {
-                player.play()
-                currentPlayer = player
-                
-                if repeatSwitch?.isOn == true {
-                    player.numberOfLoops = -1 //negative causes indefinite repeat
-                }
-                
-                startPan()
-                if timer != nil { timer?.fire() }
-            }
-        }
-        
-        if pickerView?.selectedRow(inComponent: 0) == 6 {
-            
-            if let player = heavenPlayer {
-                player.play()
-                currentPlayer = player
-                
-                if repeatSwitch?.isOn == true {
-                    player.numberOfLoops = -1 //negative causes indefinite repeat
-                }
-                
-                startPan()
-                if timer != nil { timer?.fire() }
-            }
-        }
-        
-        if pickerView?.selectedRow(inComponent: 0) == 7 {
-            
-            if let player = livedPlayer {
-                player.play()
-                currentPlayer = player
-                
-                if repeatSwitch?.isOn == true {
-                    player.numberOfLoops = -1
-                }
-                
-                startPan()
-                if timer != nil { timer?.fire() }
-            }
-        }
-        
-        if pickerView?.selectedRow(inComponent: 0) == 8 {
-            if let player = overPlayer {
-                player.play()
-                currentPlayer = player
-                
-                if repeatSwitch?.isOn == true {
-                    player.numberOfLoops = -1
-                }
-                
-                startPan()
-                if timer != nil { timer?.fire() }
-            }
-        }
-        
-        if pickerView?.selectedRow(inComponent: 0) == 9 {
-
-            
-            if let player = marchingPlayer {
-                player.play()
-                currentPlayer = player
-                
-                if repeatSwitch?.isOn == true {
-                    player.numberOfLoops = -1
-                }
-                
-                startPan()
-                if timer != nil { timer?.fire() }
-            }
-        }
-        
-        if pickerView?.selectedRow(inComponent: 0) == 10 { //panning 440Hz
-            
-            if let player = tonePlayer {
-                player.play()
-                currentPlayer = player
-                
-                if repeatSwitch?.isOn == true {
-                    player.numberOfLoops = -1
-                }
-                
-                startPan()
-                if timer != nil { timer?.fire() }
-            }
-        }
-        
-        if pickerView?.selectedRow(inComponent: 0) == 11 { //non-panning 440Hz
-            
-            if let player = tonePlayer {
-                player.play()
-                currentPlayer = player
-                
-                if repeatSwitch?.isOn == true {
-                    player.numberOfLoops = -1
-                }
-                
-                //startPan()
-                //if timer != nil { timer?.fire() }
-            }
-        }
-        
-    }
-
-    @IBAction func stop(_ sender: Any) {
-        
-        
-        if let player = currentPlayer {
-            player.stop()
-        }
-        
-        if timer != nil {
-            timer?.invalidate()
-            
-        }
-        
-        if textBox?.isEditing == true {
-            self.textBox?.resignFirstResponder()
+        if (defaultManager != nil) {
+            _ = defaultManager!.beginPlayback()
         }
         
 
-    }
-    
-    
-    @IBAction func rewind(_ sender: UILongPressGestureRecognizer) {
         
-        if sender.state == .began {
-            
-            if let player = currentPlayer {
-                player.stop()
-                player.currentTime = 0
-                
-            }
-            
-            if timer != nil {
-                timer?.invalidate()
-            }
-            
-        }
-        
-    }
-    
-    
-    func timerFireMethod(timer : Timer) {
-        
-        if direction == PanDirection.Left {
-            
-            if currentPlayer != nil {
-                currentPlayer!.pan = 1.0
-            }
-            
-            direction = .Right
-            
-        } else {
-            
-            if currentPlayer != nil {
-                currentPlayer!.pan = -1.0
-            }
-            direction = .Left
-        }
         
     }
     
@@ -465,7 +109,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
             
             switch event!.subtype {
             case UIEventSubtype.remoteControlTogglePlayPause:
-                if currentPlayer?.isPlaying == true { currentPlayer?.stop() } else { currentPlayer?.play() }
+                
                 break
             default:
                 break
@@ -476,10 +120,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
     
     func audioSessionInterrupted() {
         
-        if currentPlayer?.isPlaying == true {
-            currentPlayer!.stop()
-        } 
-    }
+   }
     
     @IBAction func info(_ sender: Any) {
         
@@ -510,156 +151,47 @@ class ViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegat
         
     }
     
-    func period(forIndex: Int) -> String {
+    func period(forIndex: Int) -> Double {
         
         switch forIndex {
             
         case 0:
-            return "0.92" //Let's Hurt Tonight
+            return 0.92 //Let's Hurt Tonight
             
         case 1:
-            return "0.63" //Born
+            return 0.63 //Born
             
         case 2:
-            return "0.88" //Better
+            return 0.88 //Better
             
         case 3:
-            return "0.43" //Human
+            return 0.43 //Human
             
         case 4:
-            return "0.42" //If I Lose Myself
+            return 0.42 //If I Lose Myself
             
         case 5:
-            return "0.53" //Lift Me Up
+            return 0.53 //Lift Me Up
         
         case 6:
-            return "0.63" //Heaven
+            return 0.63 //Heaven
             
         case 7:
-            return "0.50" //I Lived
+            return 0.50 //I Lived
             
         case 8:
-            return "0.61" //Start Over
+            return 0.61 //Start Over
             
         case 9:
-            return "0.49" //Marchin On
+            return 0.49 //Marchin On
             
         default:
-            return ""
+            return 0.0
             
         }
         
     }
-    
-    func startPan() {
-        
-        if textBox?.text != nil {
-            
-            let newStr : NSString = textBox!.text! as NSString
-            let interval = newStr.doubleValue
-            
-            if interval == 0 {
-                // do not pan, stereo is intentional
-                return
-                
-            }
-            
-            timer = nil
-            
-            timer = Timer.scheduledTimer(timeInterval: interval, target: self, selector: #selector(timerFireMethod(timer:)), userInfo: nil, repeats: true)
-        }
-        
-    }
-    
 
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
     
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 12
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        
-        if row == 0 {
-            return "Let's Hurt Tonight"
-        } else if row == 1 {
-            return "Born"
-        } else if row == 2 {
-            return "Better"
-        } else if row == 3 {
-            return "Human"
-        } else if row == 4 {
-            return "If I Lose Myself"
-        } else if row == 5 {
-            return "Lift Me Up"
-        } else if row == 6 {
-            return "Heaven"
-        } else if row == 7 {
-            return "I Lived"
-        } else if row == 8 {
-            return "Start Over"
-        } else if row == 9 {
-            return "Marchin On"
-        } else if row == 10 {
-            return "440 Hz Tone"
-        } else if row == 11 {
-            return "440 Hz Tone NP"
-        }
-        
-        return ""
-        
-        
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        
-        // change player to new URL
-        
-        for number in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] {
-            
-            if row == number && audioPlayers != nil {
-                audioPlayers![number].prepareToPlay()
-            }
-        }
-        
-        if (self.textBox?.isFirstResponder)! { self.textBox?.resignFirstResponder() }
-        
-        
-    }
-    
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
-        textField.resignFirstResponder()
-        
-        return true
-    }
-    
-//    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully
-//        flag: Bool) {
-//        
-//        if timer != nil {
-//            timer?.invalidate()
-//            
-//        }
-//        
-//        if repeatSwitch?.isOn == false { // move to next player
-//        
-//        let index = (pickerView?.selectedRow(inComponent: 0))! + 1
-//       
-//        if index < ((pickerView?.numberOfRows(inComponent: 0))!)-2 {
-//            pickerView?.selectRow(index, inComponent: 0, animated: true)
-//            self.textBox?.text = period(forIndex: index)
-//            play(self)
-//        } else {
-//            pickerView?.selectRow(0, inComponent: 0, animated: true)
-//            self.textBox?.text = period(forIndex: index)
-//            play(self)
-//        }
-//        }
-//    }
-
 }
 

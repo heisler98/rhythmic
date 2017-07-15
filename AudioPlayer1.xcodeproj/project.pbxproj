@@ -23,6 +23,7 @@
 		5ABA309E1DCBC97D006E5999 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5ABA309C1DCBC97D006E5999 /* Main.storyboard */; };
 		5ABA30A01DCBC97D006E5999 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5ABA309F1DCBC97D006E5999 /* Assets.xcassets */; };
 		5ABA30A31DCBC97D006E5999 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5ABA30A11DCBC97D006E5999 /* LaunchScreen.storyboard */; };
+		5ABEAF621F19851E008E5BB5 /* PanAudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABEAF611F19851E008E5BB5 /* PanAudioPlayer.swift */; };
 		5AE0C7B41ECC0DEC00AF6926 /* I Lived.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AE0C7B31ECC0DEC00AF6926 /* I Lived.mp3 */; };
 		5AF19F8A1E95A0B1004E38C9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AF19F891E95A0B1004E38C9 /* AVFoundation.framework */; };
 		5AF19F8C1E95A0BA004E38C9 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AF19F8B1E95A0BA004E38C9 /* MediaPlayer.framework */; };
@@ -48,6 +49,7 @@
 		5ABA309F1DCBC97D006E5999 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5ABA30A21DCBC97D006E5999 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5ABA30A41DCBC97D006E5999 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5ABEAF611F19851E008E5BB5 /* PanAudioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PanAudioPlayer.swift; sourceTree = "<group>"; };
 		5AE0C7B31ECC0DEC00AF6926 /* I Lived.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "I Lived.mp3"; sourceTree = "<group>"; };
 		5AF19F891E95A0B1004E38C9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		5AF19F8B1E95A0BA004E38C9 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -100,6 +102,7 @@
 			children = (
 				5ABA30981DCBC97D006E5999 /* AppDelegate.swift */,
 				5ABA309A1DCBC97D006E5999 /* ViewController.swift */,
+				5ABEAF611F19851E008E5BB5 /* PanAudioPlayer.swift */,
 				5ABA309C1DCBC97D006E5999 /* Main.storyboard */,
 				5A3049461EAE6A970000A144 /* 1493072025_stop.png */,
 				5A3049441EAE6A8B0000A144 /* 1493072041_play.png */,
@@ -206,6 +209,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5ABEAF621F19851E008E5BB5 /* PanAudioPlayer.swift in Sources */,
 				5ABA309B1DCBC97D006E5999 /* ViewController.swift in Sources */,
 				5ABA30991DCBC97D006E5999 /* AppDelegate.swift in Sources */,
 			);
@@ -338,7 +342,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = TN69P7NFS6;
 				INFOPLIST_FILE = AudioPlayer1/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.eisler.AudioPlayer1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -359,7 +363,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = TN69P7NFS6;
 				INFOPLIST_FILE = AudioPlayer1/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.eisler.AudioPlayer1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
