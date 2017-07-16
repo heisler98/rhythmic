@@ -32,7 +32,7 @@ struct Track {
 }
 
 struct TrackManager {
-   
+    
     var tracks : Array<Track>?
     
     func musicFileDictionary() -> MusicFileDictionary {
@@ -46,10 +46,10 @@ struct TrackManager {
             for aTrack in tracks! {
                 
                 if let aURL = aTrack.bundleURL {
-                
+                    
                     urls.append(aURL)
                     titles.append(aTrack.fileName)
-                
+                    
                 } else {
                     print("Skipped building track due to missing file; check name and extension")
                 }
@@ -64,7 +64,7 @@ struct TrackManager {
     
     
     
-   
+    
 }
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -74,18 +74,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     private var allTracks : TrackManager?
     private var selectedTracks : TrackManager?
     private var periods : Array<Double>?
-    private var selectedRows : Array<Int> = []
+    private let headerView : UITableViewHeaderFooterView!
+    private var selectedRows : Array<IndexPath> = []
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var button: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let titles = ["Let's Hurt Tonight", "Born", "Better", "Human", "If I Lose Myself", "Lift Me Up", "Heaven", "I Lived", "Start Over", "Marchin On"]
+        let titles = ["Let's Hurt Tonight", "Born", "Better", "Human", "If I Lose Myself", "Lift Me Up", "Heaven", "I Lived", "Start Over", "Marchin On", "Counting Stars", "Hand of God"]
         
         let m4a = "m4a"
         let mp3 = "mp3"
         
-        let extensions = [m4a, mp3, m4a, m4a, mp3, m4a, m4a, mp3, mp3, m4a]
+        let extensions = [m4a, mp3, m4a, m4a, mp3, m4a, m4a, mp3, mp3, m4a, m4a, m4a]
         
         var tracks : Array<Track> = []
         periods = []
@@ -95,7 +97,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             let aTrack = Track(fileName: titles[number], fileExtension: extensions[number])
             
             tracks.append(aTrack)
-        
+            
             
         }
         
@@ -104,11 +106,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         allTracks = TrackManager(tracks: tracks)
         selectedTracks = TrackManager(tracks: [])
         /*
-        do {
-            defaultManager = try AudioManager(withDictionary: allTracks!.musicFileDictionary(), repeating: true, panTimes: periods)
-        } catch let error as NSError {
-            print("AudioManager initialization error: \(error)")
-        }
+         do {
+         defaultManager = try AudioManager(withDictionary: allTracks!.musicFileDictionary(), repeating: true, panTimes: periods)
+         } catch let error as NSError {
+         print("AudioManager initialization error: \(error)")
+         }
          */
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
@@ -117,7 +119,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             NotificationCenter.default.addObserver(self, selector: #selector(ViewController.audioSessionInterrupted), name: NSNotification.Name.AVAudioSessionInterruption, object: self)
             
-
+            
             
         } catch let error as NSError {
             print("error: \(error)")
@@ -125,7 +127,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         
         
+        
+        
+        
+    }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        headerView.textLabel?.text = "Rhythmic"
+        headerView.textLabel?.textAlignment = .center
+        tableView.tableHeaderView = headerView
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -133,7 +145,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidAppear(animated)
         
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -157,36 +169,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func audioSessionInterrupted() {
         
-   }
-    
-    @IBAction func info(_ sender: Any) {
-        
-        // create UIAlertView to show std. osc. period for each song
-        // Let's Hurt Tonight: 65bpm (subd.) -> 0.92 sec/osc
-        // Born : 95bpm (subd.) -> 0.63 sec/osc OR 0.833 sec/osc
-        // Lions : 96bpm (subd.) -> 0.625 sec/osc OR 0.833 sec/osc
-        // Silence: 82bpm (subd.) -> 0.73 sec/osc
-        // Love/Drugs: 128bpm -> 0.46875 sec/osc
-        // I Lived: 120bpm -> 0.5 sec/osc
-        // Start Over : 98bpm -> 0.61 sec/osc
-        /*
-         Better .88
-         Human  .43
-         Lift   .52
-         Heaven .63
-         Start  .61
-        
-        */
-        let message = String.init(stringLiteral: "Let's Hurt Tonight: 65bpm 0.92 \n Born: 95bpm 0.63|0.83 \n Better: 0.88 \n Human: 0.43 \n Lift Me Up: 0.53 \n Heaven: 0.63 \n I Lived: 0.50 \n Start Over: 0.61 \n Marchin On: 0.49")
-        
-        let alert = UIAlertController(title: "Oscillations", message: message, preferredStyle: UIAlertControllerStyle.alert)
-        let action = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil)
-        
-        alert.addAction(action)
-        
-        self.present(alert, animated: true, completion: nil)
-        
+        if (defaultManager != nil) {
+            defaultManager!.stop(andReset: false)
+        }
     }
+    
     
     func period(forIndex: Int) -> Double {
         
@@ -209,7 +196,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
         case 5:
             return 0.53 //Lift Me Up
-        
+            
         case 6:
             return 0.63 //Heaven
             
@@ -222,6 +209,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         case 9:
             return 0.49 //Marchin On
             
+        case 10:
+            return 0.555 //Counting Stars
+            
+        case 11:
+            return 0.78 //Hand of God
+            
         default:
             return 0.0
             
@@ -231,7 +224,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 10
+        if (allTracks != nil) {
+            return allTracks!.tracks!.count
+        }
+        
+        return 11
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -240,72 +237,112 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         cell.textLabel?.text = allTracks?.tracks?[indexPath.row].fileName
         
+        if (selectedRows.contains(indexPath) == true) {
+            cell.accessoryType = .checkmark
+        }
+        else {
+            cell.accessoryType = .none
+        }
         
         return cell
     }
     
-    /*
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        selectedRows.append(indexPath.row)
-        self.periods?.append(self.period(forIndex: indexPath.row))
-        
-    }
     
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+     
+     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if let anIndex = selectedRows.index(of: indexPath.row) {
-            selectedRows.remove(at: anIndex)
-
+        if (selectedRows.contains(indexPath)) { //selection doesn't hold on reloadRows:at:with:
+            if let index = selectedRows.index(of: indexPath) {
+                selectedRows.remove(at: index)
+                tableView.reloadRows(at: [indexPath], with: .none)
+                return
+            }
         }
         
-        if let anotherIndex = periods?.index(of: self.period(forIndex: indexPath.row)) {
-            periods?.remove(at: anotherIndex)
+        selectedRows.append(indexPath)
+        tableView.reloadRows(at: [indexPath], with: .none)
+     }
+     
+     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        
+        if let index = selectedRows.index(of: indexPath) {
+            selectedRows.remove(at: index)
+            tableView.reloadRows(at: [indexPath], with: .none)
+            return
         }
         
-        
-    }
+        selectedRows.append(indexPath)
+        tableView.reloadRows(at: [indexPath], with: .none)
+     
+     }
+     
  
- */
     @IBAction func activateButton(_ sender: Any) {
         
         let button = sender as! UIButton
         
-        if let selectedRows = self.tableView.indexPathsForSelectedRows {
-            
-            for indexPath in selectedRows {
+        
+            if (button.isSelected == false) {
                 
-                if let trackToAdd = allTracks?.tracks?[indexPath.row] {
-                    self.selectedTracks?.tracks?.append(trackToAdd)
-                    self.periods?.append(self.period(forIndex: indexPath.row))
+                    for indexPath in self.selectedRows {
+                        
+                        if let trackToAdd = allTracks?.tracks?[indexPath.row] {
+                            self.selectedTracks?.tracks?.append(trackToAdd)
+                            self.periods?.append(self.period(forIndex: indexPath.row))
+                        }
+                    }
+                
+                
+                    do {
+                        defaultManager = nil
+                        defaultManager = try AudioManager(withDictionary: (selectedTracks?.musicFileDictionary())!, repeating: true, panTimes: periods!)
+                        
+                        _ = defaultManager?.beginPlayback()
+                    } catch let error as NSError {
+                        print("\(error)")
+                    }
+                    
+                
+                button.isSelected = true
+                
+                } else { // if button.isSelected == true
+                
+                if (defaultManager != nil) {
+                    defaultManager?.stop(andReset: true)
+                    selectedTracks?.tracks = []
+                    self.periods = []
                 }
-            }
-        }
-        
-        if (button.isSelected == false) {
-        
-        do {
-            defaultManager = try AudioManager(withDictionary: (selectedTracks?.musicFileDictionary())!, repeating: true, panTimes: periods!)
-            
-            _ = defaultManager?.beginPlayback()
-        } catch let error as NSError {
-            print("\(error)")
-        }
-        
-        
-        button.isSelected = true
-        
-        } else {
-            
-            if (defaultManager != nil) {
-                defaultManager?.stop(andReset: true)
+                
+                
+                
+                button.isSelected = false
             }
             
-            button.isSelected = false
         }
+
+    
+    @IBAction func handleGesture() {
         
+        if (defaultManager != nil) {
+            
+            if (defaultManager!.isPlaying == true) {
+                defaultManager!.pause()
+                button.titleLabel?.text = "Hold to resume"
+            } else {
+                button.titleLabel?.text = "Stop"
+                _  = defaultManager!.resumePlayback()
+            }
+        }
     }
 
+    
+    required init?(coder aDecoder: NSCoder) {
+        
+        headerView = UITableViewHeaderFooterView()
+    
+        super.init(coder: aDecoder)
+        
+        
+    }
 }
 

@@ -21,19 +21,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8AM-2G-FsI">
-                                <rect key="frame" x="0.0" y="20" width="375" height="318"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8AM-2G-FsI">
+                                <rect key="frame" x="0.0" y="48" width="375" height="318"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="318" id="cjj-wZ-Zyj"/>
+                                </constraints>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="ciO-Sm-OeL" style="IBUITableViewCellStyleDefault" id="ovb-EJ-UgC">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="cell" textLabel="ciO-Sm-OeL" style="IBUITableViewCellStyleDefault" id="ovb-EJ-UgC">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ovb-EJ-UgC" id="sVI-Nj-GsC">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ciO-Sm-OeL">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ciO-Sm-OeL">
                                                     <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -49,21 +51,35 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="NQo-M5-S3D"/>
                                 </connections>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j9y-r3-D4A">
-                                <rect key="frame" x="126" y="485" width="123" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Play Selected"/>
-                                <state key="selected" title="Playing Selected"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j9y-r3-D4A">
+                                <rect key="frame" x="127" y="486" width="120" height="30"/>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="120" id="Ceh-Wt-eXQ"/>
+                                    <constraint firstAttribute="height" constant="30" id="OA0-bC-WI7"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <state key="normal" title="Play"/>
+                                <state key="selected" title="Stop"/>
                                 <connections>
                                     <action selector="activateButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="k5O-2r-byy"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="8AM-2G-FsI" secondAttribute="trailing" id="8xD-Ol-4af"/>
+                            <constraint firstItem="8AM-2G-FsI" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="W8q-Tq-7Pp"/>
+                            <constraint firstItem="8AM-2G-FsI" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="ez6-Lg-XV4"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="j9y-r3-D4A" secondAttribute="bottom" constant="151" id="f5y-VN-Shk"/>
+                            <constraint firstItem="8AM-2G-FsI" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="28" id="ogT-DZ-TKw"/>
+                            <constraint firstItem="j9y-r3-D4A" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="zd5-Ir-Dzv"/>
+                        </constraints>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="375" height="667"/>
                     <connections>
+                        <outlet property="button" destination="j9y-r3-D4A" id="imv-Ct-YyK"/>
                         <outlet property="tableView" destination="8AM-2G-FsI" id="ydS-Xa-RFg"/>
                     </connections>
                 </viewController>

@@ -26,15 +26,7 @@ class PanAudioPlayer: AVAudioPlayer {
     
     override func play() -> Bool {
         
-        if (timer != nil) {
-            
-            timer.fire()
-            
-        } else {
-            
-            self.timer = Timer.scheduledTimer(timeInterval: period, target: self, selector: #selector(timerFireMethod(timer:)), userInfo: nil, repeats: true)
-        }
-        
+        timer.fire()
         print("Period: \(self.period)")
         
         return super.play()
@@ -104,6 +96,15 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         }
     }
     
+    var isPlaying : Bool {
+        
+        get {
+            if (nowPlaying != nil) {
+                return nowPlaying!.isPlaying
+            };  return false
+        }
+    }
+    
     private func play(atIndex: Int) -> Bool {
         
         nowPlaying = nil
@@ -120,6 +121,19 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         
         return self.play(atIndex: 0)
         
+    }
+    
+    func resumePlayback() -> Bool {
+        
+        if (nowPlaying != nil && nowPlaying?.isPlaying == false) {
+            return nowPlaying!.play()
+        }
+        
+        if (nowPlaying == nil) {
+            return self.play(atIndex: currentIndex)
+        }
+        
+        return false
     }
     
     func pause() {
@@ -171,7 +185,7 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
             
             } catch let error as NSError {
          
-                print("Cannot create instance of PanAudioPlayer; check URL value: \(error.code)")
+                print("Cannot create instance of PanAudioPlayer; check URL path: \(error.code)")
                 throw error
             }
             
