@@ -82,12 +82,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let titles = ["Let's Hurt Tonight", "Born", "Better", "Human", "If I Lose Myself", "Lift Me Up", "Heaven", "I Lived", "Start Over", "Marchin On", "Counting Stars", "Hand of God"]
+        let titles = ["Let's Hurt Tonight", "Born", "Better", "Human", "If I Lose Myself", "Lift Me Up", "Heaven", "I Lived", "Start Over", "Marchin On", "Counting Stars", "Hand of God", "What You Wanted", "Au Revoir", "Truth to Power", "Miracles", "Praying"]
         
         let m4a = "m4a"
         let mp3 = "mp3"
         
-        let extensions = [m4a, mp3, m4a, m4a, mp3, m4a, m4a, mp3, mp3, m4a, m4a, m4a]
+        let extensions = [m4a, mp3, m4a, m4a, mp3, m4a, m4a, mp3, mp3, m4a, m4a, m4a, m4a, m4a, m4a, m4a, m4a]
         
         var tracks : Array<Track> = []
         periods = []
@@ -105,31 +105,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         allTracks = TrackManager(tracks: tracks)
         selectedTracks = TrackManager(tracks: [])
-        /*
-         do {
-         defaultManager = try AudioManager(withDictionary: allTracks!.musicFileDictionary(), repeating: true, panTimes: periods)
-         } catch let error as NSError {
-         print("AudioManager initialization error: \(error)")
-         }
-         */
+        
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
             try AVAudioSession.sharedInstance().setActive(true)
             UIApplication.shared.beginReceivingRemoteControlEvents()
             
-            NotificationCenter.default.addObserver(self, selector: #selector(ViewController.audioSessionInterrupted), name: NSNotification.Name.AVAudioSessionInterruption, object: self)
+            NotificationCenter.default.addObserver(self, selector: #selector(ViewController.audioSessionInterrupted), name: NSNotification.Name.AVAudioSessionInterruption, object: nil)
             
             
             
         } catch let error as NSError {
             print("error: \(error)")
         }
-        
-        
-        
-        
-        
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -215,8 +203,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         case 11:
             return 0.78 //Hand of God
             
+        case 12:
+            return 0.50 //What You Wanted
+            
+        case 13:
+            return 0.51 //Au Revoir
+            
+        case 14:
+            return 0.83 //Truth to Power
+            
+        case 15:
+            return 0.62 //Miracles (Someone Special)
+            
+        case 16:
+            return 0.81 //Praying<3
+            
         default:
-            return 0.0
+            return 0.5
             
         }
         
@@ -228,7 +231,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             return allTracks!.tracks!.count
         }
         
-        return 11
+        return 17
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -248,78 +251,78 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     
-     
-     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if (selectedRows.contains(indexPath)) { //selection doesn't hold on reloadRows:at:with:
             if let index = selectedRows.index(of: indexPath) {
                 selectedRows.remove(at: index)
-                tableView.reloadRows(at: [indexPath], with: .none)
+                tableView.reloadRows(at: [indexPath], with: .automatic)
                 return
             }
         }
         
         selectedRows.append(indexPath)
-        tableView.reloadRows(at: [indexPath], with: .none)
-     }
-     
-     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        tableView.reloadRows(at: [indexPath], with: .automatic)
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         
         if let index = selectedRows.index(of: indexPath) {
             selectedRows.remove(at: index)
-            tableView.reloadRows(at: [indexPath], with: .none)
+            tableView.reloadRows(at: [indexPath], with: .automatic)
             return
         }
         
         selectedRows.append(indexPath)
-        tableView.reloadRows(at: [indexPath], with: .none)
-     
-     }
-     
- 
+        tableView.reloadRows(at: [indexPath], with: .automatic)
+        
+    }
+    
+    
     @IBAction func activateButton(_ sender: Any) {
         
         let button = sender as! UIButton
         
         
-            if (button.isSelected == false) {
+        if (button.isSelected == false) {
+            
+            button.isSelected = true
+            
+            for indexPath in self.selectedRows {
                 
-                    for indexPath in self.selectedRows {
-                        
-                        if let trackToAdd = allTracks?.tracks?[indexPath.row] {
-                            self.selectedTracks?.tracks?.append(trackToAdd)
-                            self.periods?.append(self.period(forIndex: indexPath.row))
-                        }
-                    }
-                
-                
-                    do {
-                        defaultManager = nil
-                        defaultManager = try AudioManager(withDictionary: (selectedTracks?.musicFileDictionary())!, repeating: true, panTimes: periods!)
-                        
-                        _ = defaultManager?.beginPlayback()
-                    } catch let error as NSError {
-                        print("\(error)")
-                    }
-                    
-                
-                button.isSelected = true
-                
-                } else { // if button.isSelected == true
-                
-                if (defaultManager != nil) {
-                    defaultManager?.stop(andReset: true)
-                    selectedTracks?.tracks = []
-                    self.periods = []
+                if let trackToAdd = allTracks?.tracks?[indexPath.row] {
+                    self.selectedTracks?.tracks?.append(trackToAdd)
+                    self.periods?.append(self.period(forIndex: indexPath.row))
                 }
-                
-                
-                
-                button.isSelected = false
             }
             
+            
+            do {
+                defaultManager = nil
+                defaultManager = try AudioManager(withDictionary: (selectedTracks?.musicFileDictionary())!, repeating: true, panTimes: periods!)
+                
+                _ = defaultManager?.beginPlayback()
+            } catch let error as NSError {
+                print("\(error)")
+            }
+            
+            
+        } else { // if button.isSelected == true
+            button.isSelected = false
+            if (defaultManager != nil) {
+                defaultManager?.stop(andReset: true)
+                selectedTracks?.tracks = []
+                self.periods = []
+            }
+            
+            
+            
+            
         }
-
+        
+    }
+    
     
     @IBAction func handleGesture() {
         
@@ -334,12 +337,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         }
     }
-
+    
     
     required init?(coder aDecoder: NSCoder) {
         
         headerView = UITableViewHeaderFooterView()
-    
+        
         super.init(coder: aDecoder)
         
         

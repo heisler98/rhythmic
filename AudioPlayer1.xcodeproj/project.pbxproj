@@ -26,6 +26,11 @@
 		5ABEAF621F19851E008E5BB5 /* PanAudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABEAF611F19851E008E5BB5 /* PanAudioPlayer.swift */; };
 		5ABEAF641F1BE4EF008E5BB5 /* Counting Stars.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5ABEAF631F1BE4EF008E5BB5 /* Counting Stars.m4a */; };
 		5ABEAF661F1BE991008E5BB5 /* Hand of God.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5ABEAF651F1BE991008E5BB5 /* Hand of God.m4a */; };
+		5ABEAF681F1C28C1008E5BB5 /* What You Wanted.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5ABEAF671F1C28C1008E5BB5 /* What You Wanted.m4a */; };
+		5ABEAF6A1F1C2CAD008E5BB5 /* Au Revoir.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5ABEAF691F1C2CAD008E5BB5 /* Au Revoir.m4a */; };
+		5ABEAF6C1F1C2DCF008E5BB5 /* Truth to Power.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5ABEAF6B1F1C2DCF008E5BB5 /* Truth to Power.m4a */; };
+		5ABEAF6E1F1C3016008E5BB5 /* Miracles.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5ABEAF6D1F1C3016008E5BB5 /* Miracles.m4a */; };
+		5ABEAF701F1C370D008E5BB5 /* Praying.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5ABEAF6F1F1C370D008E5BB5 /* Praying.m4a */; };
 		5AE0C7B41ECC0DEC00AF6926 /* I Lived.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AE0C7B31ECC0DEC00AF6926 /* I Lived.mp3 */; };
 		5AF19F8A1E95A0B1004E38C9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AF19F891E95A0B1004E38C9 /* AVFoundation.framework */; };
 		5AF19F8C1E95A0BA004E38C9 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AF19F8B1E95A0BA004E38C9 /* MediaPlayer.framework */; };
@@ -54,6 +59,11 @@
 		5ABEAF611F19851E008E5BB5 /* PanAudioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PanAudioPlayer.swift; sourceTree = "<group>"; };
 		5ABEAF631F1BE4EF008E5BB5 /* Counting Stars.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Counting Stars.m4a"; sourceTree = "<group>"; };
 		5ABEAF651F1BE991008E5BB5 /* Hand of God.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Hand of God.m4a"; sourceTree = "<group>"; };
+		5ABEAF671F1C28C1008E5BB5 /* What You Wanted.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "What You Wanted.m4a"; sourceTree = "<group>"; };
+		5ABEAF691F1C2CAD008E5BB5 /* Au Revoir.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Au Revoir.m4a"; sourceTree = "<group>"; };
+		5ABEAF6B1F1C2DCF008E5BB5 /* Truth to Power.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Truth to Power.m4a"; sourceTree = "<group>"; };
+		5ABEAF6D1F1C3016008E5BB5 /* Miracles.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Miracles.m4a; sourceTree = "<group>"; };
+		5ABEAF6F1F1C370D008E5BB5 /* Praying.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Praying.m4a; sourceTree = "<group>"; };
 		5AE0C7B31ECC0DEC00AF6926 /* I Lived.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "I Lived.mp3"; sourceTree = "<group>"; };
 		5AF19F891E95A0B1004E38C9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		5AF19F8B1E95A0BA004E38C9 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -76,6 +86,11 @@
 		5ABA308C1DCBC97D006E5999 = {
 			isa = PBXGroup;
 			children = (
+				5ABEAF6F1F1C370D008E5BB5 /* Praying.m4a */,
+				5ABEAF6D1F1C3016008E5BB5 /* Miracles.m4a */,
+				5ABEAF6B1F1C2DCF008E5BB5 /* Truth to Power.m4a */,
+				5ABEAF691F1C2CAD008E5BB5 /* Au Revoir.m4a */,
+				5ABEAF671F1C28C1008E5BB5 /* What You Wanted.m4a */,
 				5ABEAF651F1BE991008E5BB5 /* Hand of God.m4a */,
 				5ABEAF631F1BE4EF008E5BB5 /* Counting Stars.m4a */,
 				5AAF83F51F0D8D21001E9313 /* Marchin On.m4a */,
@@ -194,15 +209,20 @@
 				5ABEAF641F1BE4EF008E5BB5 /* Counting Stars.m4a in Resources */,
 				5A3049451EAE6A8B0000A144 /* 1493072041_play.png in Resources */,
 				5AFFE8161F0117E400C713FF /* Start Over.mp3 in Resources */,
+				5ABEAF6C1F1C2DCF008E5BB5 /* Truth to Power.m4a in Resources */,
 				5A4653171EEF1C82001DE37C /* Lift Me Up.m4a in Resources */,
 				5ABA30A31DCBC97D006E5999 /* LaunchScreen.storyboard in Resources */,
 				5ABA30A01DCBC97D006E5999 /* Assets.xcassets in Resources */,
 				5A4653151EEF1C2C001DE37C /* Human.m4a in Resources */,
 				5ABA309E1DCBC97D006E5999 /* Main.storyboard in Resources */,
+				5ABEAF6A1F1C2CAD008E5BB5 /* Au Revoir.m4a in Resources */,
 				5A3049471EAE6A970000A144 /* 1493072025_stop.png in Resources */,
+				5ABEAF701F1C370D008E5BB5 /* Praying.m4a in Resources */,
 				5A4653131EEF1BE0001DE37C /* Better.m4a in Resources */,
+				5ABEAF6E1F1C3016008E5BB5 /* Miracles.m4a in Resources */,
 				5A9D6BDA1E9EF2A300918D8B /* Born.mp3 in Resources */,
 				5ABEAF661F1BE991008E5BB5 /* Hand of God.m4a in Resources */,
+				5ABEAF681F1C28C1008E5BB5 /* What You Wanted.m4a in Resources */,
 				5A3049491EAF18D10000A144 /* If I Lose Myself.mp3 in Resources */,
 				5AAF83F61F0D8D21001E9313 /* Marchin On.m4a in Resources */,
 				5A0EBF741E9AED430064C33F /* Let's Hurt Tonight.m4a in Resources */,

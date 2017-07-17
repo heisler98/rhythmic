@@ -28,7 +28,7 @@
                                     <constraint firstAttribute="height" constant="318" id="cjj-wZ-Zyj"/>
                                 </constraints>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="cell" textLabel="ciO-Sm-OeL" style="IBUITableViewCellStyleDefault" id="ovb-EJ-UgC">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="cell" textLabel="ciO-Sm-OeL" style="IBUITableViewCellStyleDefault" id="ovb-EJ-UgC">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ovb-EJ-UgC" id="sVI-Nj-GsC">
