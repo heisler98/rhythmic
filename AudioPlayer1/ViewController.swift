@@ -74,7 +74,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     private var allTracks : TrackManager?
     private var selectedTracks : TrackManager?
     private var periods : Array<Double>?
-    private let headerView : UITableViewHeaderFooterView!
     private var selectedRows : Array<IndexPath> = []
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var button: UIButton!
@@ -82,12 +81,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let titles = ["Let's Hurt Tonight", "Born", "Better", "Human", "If I Lose Myself", "Lift Me Up", "Heaven", "I Lived", "Start Over", "Marchin On", "Counting Stars", "Hand of God", "What You Wanted", "Au Revoir", "Truth to Power", "Miracles", "Praying"]
+        let titles = ["Let's Hurt Tonight", "Born", "Better", "Human", "If I Lose Myself", "Lift Me Up", "Heaven", "I Lived", "Start Over", "Marchin On", "Counting Stars", "Hand of God", "What You Wanted", "Au Revoir", "Truth to Power", "Miracles", "Praying", "Praying by Kesha", "Preacher"]
         
         let m4a = "m4a"
         let mp3 = "mp3"
         
-        let extensions = [m4a, mp3, m4a, m4a, mp3, m4a, m4a, mp3, mp3, m4a, m4a, m4a, m4a, m4a, m4a, m4a, m4a]
+        let extensions = [m4a, mp3, m4a, m4a, mp3, m4a, m4a, mp3, mp3, m4a, m4a, m4a, m4a, m4a, m4a, m4a, m4a, m4a, m4a]
         
         var tracks : Array<Track> = []
         periods = []
@@ -120,20 +119,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        headerView.textLabel?.text = "Rhythmic"
-        headerView.textLabel?.textAlignment = .center
-        tableView.tableHeaderView = headerView
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        
-        super.viewDidAppear(animated)
-        
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -146,7 +131,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             switch event!.subtype {
             case UIEventSubtype.remoteControlTogglePlayPause:
-                
+                if (defaultManager != nil) {
+                    switch defaultManager!.isPlaying {
+                    case true:
+                        defaultManager!.pause()
+                        break;
+                    case false:
+                       _ = defaultManager!.resumePlayback()
+                    }
+                }
                 break
             default:
                 break
@@ -216,7 +209,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             return 0.62 //Miracles (Someone Special)
             
         case 16:
-            return 0.81 //Praying<3
+            return 0.81 //Praying
+        case 17:
+            return 0.81 //Praying
+            
+        case 18:
+            return 0.857 //Preacher
             
         default:
             return 0.5
@@ -295,6 +293,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     self.selectedTracks?.tracks?.append(trackToAdd)
                     self.periods?.append(self.period(forIndex: indexPath.row))
                 }
+                
+                if (selectedRows.count == 17) {
+                    selectedRows.sort()
+                    
+                }
             }
             
             
@@ -341,7 +344,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     required init?(coder aDecoder: NSCoder) {
         
-        headerView = UITableViewHeaderFooterView()
+        
         
         super.init(coder: aDecoder)
         

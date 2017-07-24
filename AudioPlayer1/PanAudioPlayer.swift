@@ -83,7 +83,7 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
     private var players : Dictionary<String, PanAudioPlayer>?     //'Literal' implies ordered
                                                                   // <title, Player instance>
     
-    
+
     private var nowPlaying : PanAudioPlayer?
     private var currentIndex : Int = 0
     var repeatOn : Bool?
@@ -202,13 +202,13 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         
         if ((players?.count)! > currentIndex + 1) {    // players to continue to play
             
-            assert(self.play(atIndex: nextIndex), "Playing next song successfully")
+            _ = self.play(atIndex: nextIndex)
             return
         }
             
         if (repeatOn == true) {
             let nextIndex = 0
-            assert(self.play(atIndex: nextIndex), "Restarting playlist")
+            _ = self.play(atIndex: nextIndex)
         }
         
         
