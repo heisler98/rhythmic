@@ -6,6 +6,10 @@
 //  Copyright © 2016 Hunter Eisler. All rights reserved.
 //
 
+// **Potentials**
+// 3 sections in table view: Music; Tones; Instrumental
+// support multiple rhythms
+// Implement document handling thru iTunes/'Open In...' (can add audio w/o programmatic)
 
 import UIKit
 import AVFoundation
@@ -67,7 +71,7 @@ struct TrackManager {
     
 }
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AudioManagerDelegate {
     
     
     private var defaultManager : AudioManager?
@@ -304,6 +308,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             do {
                 defaultManager = nil
                 defaultManager = try AudioManager(withDictionary: (selectedTracks?.musicFileDictionary())!, repeating: true, panTimes: periods!)
+                defaultManager?.delegate = self as AudioManagerDelegate
                 
                 _ = defaultManager?.beginPlayback()
             } catch let error as NSError {
@@ -341,6 +346,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
+    func audioManagerDidCompletePlaylist() {
+        
+        button.isSelected = false
+        self.activateButton(self.button)
+    }
     
     required init?(coder aDecoder: NSCoder) {
         

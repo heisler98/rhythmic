@@ -87,6 +87,7 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
     private var nowPlaying : PanAudioPlayer?
     private var currentIndex : Int = 0
     var repeatOn : Bool?
+    var delegate : AudioManagerDelegate?
     
     var playerCount : Int {
         
@@ -207,13 +208,10 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         }
             
         if (repeatOn == true) {
-            let nextIndex = 0
-            _ = self.play(atIndex: nextIndex)
+            if (self.delegate != nil) {
+                self.delegate!.audioManagerDidCompletePlaylist()
+            }
         }
-        
-        
-        
-        
     }
     
     
@@ -221,4 +219,8 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
     
     
     
+}
+
+protocol AudioManagerDelegate {
+    func audioManagerDidCompletePlaylist()
 }
