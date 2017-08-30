@@ -15,6 +15,7 @@
 		5A4653151EEF1C2C001DE37C /* Human.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A4653141EEF1C2C001DE37C /* Human.m4a */; };
 		5A4653171EEF1C82001DE37C /* Lift Me Up.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A4653161EEF1C82001DE37C /* Lift Me Up.m4a */; };
 		5A4653191EEF1CAF001DE37C /* Heaven.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A4653181EEF1CAF001DE37C /* Heaven.m4a */; };
+		5A5181841F567947007FA781 /* Song for Sienna.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A5181831F567947007FA781 /* Song for Sienna.mp3 */; };
 		5A9518811EAA42160028B8E6 /* 440.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A9518801EAA42160028B8E6 /* 440.m4a */; };
 		5A9D6BDA1E9EF2A300918D8B /* Born.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A9D6BD91E9EF2A300918D8B /* Born.mp3 */; };
 		5AAF83F61F0D8D21001E9313 /* Marchin On.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5AAF83F51F0D8D21001E9313 /* Marchin On.m4a */; };
@@ -48,6 +49,7 @@
 		5A4653141EEF1C2C001DE37C /* Human.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Human.m4a; sourceTree = "<group>"; };
 		5A4653161EEF1C82001DE37C /* Lift Me Up.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lift Me Up.m4a"; sourceTree = "<group>"; };
 		5A4653181EEF1CAF001DE37C /* Heaven.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Heaven.m4a; sourceTree = "<group>"; };
+		5A5181831F567947007FA781 /* Song for Sienna.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Song for Sienna.mp3"; sourceTree = "<group>"; };
 		5A9518801EAA42160028B8E6 /* 440.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 440.m4a; sourceTree = "<group>"; };
 		5A9D6BD91E9EF2A300918D8B /* Born.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Born.mp3; sourceTree = "<group>"; };
 		5AAF83F51F0D8D21001E9313 /* Marchin On.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Marchin On.m4a"; sourceTree = "<group>"; };
@@ -90,26 +92,7 @@
 		5ABA308C1DCBC97D006E5999 = {
 			isa = PBXGroup;
 			children = (
-				5ABEAF731F2428A8008E5BB5 /* Preacher.m4a */,
-				5ABEAF711F2424C8008E5BB5 /* Praying by Kesha.m4a */,
-				5ABEAF6F1F1C370D008E5BB5 /* Praying.m4a */,
-				5ABEAF6D1F1C3016008E5BB5 /* Miracles.m4a */,
-				5ABEAF6B1F1C2DCF008E5BB5 /* Truth to Power.m4a */,
-				5ABEAF691F1C2CAD008E5BB5 /* Au Revoir.m4a */,
-				5ABEAF671F1C28C1008E5BB5 /* What You Wanted.m4a */,
-				5ABEAF651F1BE991008E5BB5 /* Hand of God.m4a */,
-				5ABEAF631F1BE4EF008E5BB5 /* Counting Stars.m4a */,
-				5AAF83F51F0D8D21001E9313 /* Marchin On.m4a */,
-				5A4653181EEF1CAF001DE37C /* Heaven.m4a */,
-				5A4653161EEF1C82001DE37C /* Lift Me Up.m4a */,
-				5A4653141EEF1C2C001DE37C /* Human.m4a */,
-				5A4653121EEF1BE0001DE37C /* Better.m4a */,
-				5AE0C7B31ECC0DEC00AF6926 /* I Lived.mp3 */,
-				5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */,
-				5A9518801EAA42160028B8E6 /* 440.m4a */,
-				5A9D6BD91E9EF2A300918D8B /* Born.mp3 */,
-				5A0EBF731E9AED430064C33F /* Let's Hurt Tonight.m4a */,
-				5AFFE8151F0117E400C713FF /* Start Over.mp3 */,
+				5ABEAF751F36E4AA008E5BB5 /* Audio Assets */,
 				5ABA30971DCBC97D006E5999 /* AudioPlayer1 */,
 				5ABA30961DCBC97D006E5999 /* Products */,
 				5AF19F881E95A0B1004E38C9 /* Frameworks */,
@@ -138,6 +121,34 @@
 				5ABA30A41DCBC97D006E5999 /* Info.plist */,
 			);
 			path = AudioPlayer1;
+			sourceTree = "<group>";
+		};
+		5ABEAF751F36E4AA008E5BB5 /* Audio Assets */ = {
+			isa = PBXGroup;
+			children = (
+				5A5181831F567947007FA781 /* Song for Sienna.mp3 */,
+				5ABEAF731F2428A8008E5BB5 /* Preacher.m4a */,
+				5ABEAF711F2424C8008E5BB5 /* Praying by Kesha.m4a */,
+				5ABEAF6F1F1C370D008E5BB5 /* Praying.m4a */,
+				5ABEAF6D1F1C3016008E5BB5 /* Miracles.m4a */,
+				5ABEAF6B1F1C2DCF008E5BB5 /* Truth to Power.m4a */,
+				5ABEAF691F1C2CAD008E5BB5 /* Au Revoir.m4a */,
+				5ABEAF671F1C28C1008E5BB5 /* What You Wanted.m4a */,
+				5ABEAF651F1BE991008E5BB5 /* Hand of God.m4a */,
+				5ABEAF631F1BE4EF008E5BB5 /* Counting Stars.m4a */,
+				5AAF83F51F0D8D21001E9313 /* Marchin On.m4a */,
+				5A4653181EEF1CAF001DE37C /* Heaven.m4a */,
+				5A4653161EEF1C82001DE37C /* Lift Me Up.m4a */,
+				5A4653141EEF1C2C001DE37C /* Human.m4a */,
+				5A4653121EEF1BE0001DE37C /* Better.m4a */,
+				5AE0C7B31ECC0DEC00AF6926 /* I Lived.mp3 */,
+				5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */,
+				5A9518801EAA42160028B8E6 /* 440.m4a */,
+				5A9D6BD91E9EF2A300918D8B /* Born.mp3 */,
+				5A0EBF731E9AED430064C33F /* Let's Hurt Tonight.m4a */,
+				5AFFE8151F0117E400C713FF /* Start Over.mp3 */,
+			);
+			name = "Audio Assets";
 			sourceTree = "<group>";
 		};
 		5AF19F881E95A0B1004E38C9 /* Frameworks */ = {
@@ -233,6 +244,7 @@
 				5ABEAF681F1C28C1008E5BB5 /* What You Wanted.m4a in Resources */,
 				5A3049491EAF18D10000A144 /* If I Lose Myself.mp3 in Resources */,
 				5AAF83F61F0D8D21001E9313 /* Marchin On.m4a in Resources */,
+				5A5181841F567947007FA781 /* Song for Sienna.mp3 in Resources */,
 				5A0EBF741E9AED430064C33F /* Let's Hurt Tonight.m4a in Resources */,
 				5A9518811EAA42160028B8E6 /* 440.m4a in Resources */,
 			);

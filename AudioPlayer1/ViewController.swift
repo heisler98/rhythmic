@@ -7,9 +7,10 @@
 //
 
 // **Potentials**
-// 3 sections in table view: Music; Tones; Instrumental
-// support multiple rhythms
-// Implement document handling thru iTunes/'Open In...' (can add audio w/o programmatic)
+// !:3 sections in table view: Music; Tones; Instrumental
+// !:annotate code so I don't have to comb through this shit like I always do to find what I want
+// !:support multiple rhythms
+// ?:Implement document handling thru iTunes/'Open In...' (can add audio w/o programmatic)
 
 import UIKit
 import AVFoundation
@@ -71,6 +72,12 @@ struct TrackManager {
     
 }
 
+public class TableViewInputCell: UITableViewCell {
+    
+    @IBOutlet weak var textField: UITextField!
+    
+}
+
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AudioManagerDelegate {
     
     
@@ -85,12 +92,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let titles = ["Let's Hurt Tonight", "Born", "Better", "Human", "If I Lose Myself", "Lift Me Up", "Heaven", "I Lived", "Start Over", "Marchin On", "Counting Stars", "Hand of God", "What You Wanted", "Au Revoir", "Truth to Power", "Miracles", "Praying", "Praying by Kesha", "Preacher"]
+        let titles = ["Let's Hurt Tonight", "Born", "Better", "Human", "If I Lose Myself", "Lift Me Up", "Heaven", "I Lived", "Start Over", "Marchin On", "Counting Stars", "Hand of God", "What You Wanted", "Au Revoir", "Truth to Power", "Miracles", "Praying", "Praying by Kesha", "Preacher", "Song for Sienna"]
         
         let m4a = "m4a"
         let mp3 = "mp3"
         
-        let extensions = [m4a, mp3, m4a, m4a, mp3, m4a, m4a, mp3, mp3, m4a, m4a, m4a, m4a, m4a, m4a, m4a, m4a, m4a, m4a]
+        let extensions = [m4a, mp3, m4a, m4a, mp3, m4a, m4a, mp3, mp3, m4a, m4a, m4a, m4a, m4a, m4a, m4a, m4a, m4a, m4a, mp3]
         
         var tracks : Array<Track> = []
         periods = []
@@ -141,7 +148,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                         defaultManager!.pause()
                         break;
                     case false:
-                       _ = defaultManager!.resumePlayback()
+                        _ = defaultManager!.resumePlayback()
                     }
                 }
                 break
@@ -220,6 +227,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         case 18:
             return 0.857 //Preacher
             
+        case 19:
+            return 0.9756 //Song for Sienna
         default:
             return 0.5
             
@@ -229,27 +238,65 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if (allTracks != nil) {
-            return allTracks!.tracks!.count
+        if (section == 0) { //Music
+            
+            if (allTracks != nil) {
+                return allTracks!.tracks!.count
+            }
+            
+            return 17
         }
         
-        return 17
+        if (section == 1) { //Tones
+            return 0
+        }
+        
+        if (section == 2) { //Instrumental
+            return 0
+        }
+        
+        return 0
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 3
+        // Music; Tones; Instrumental
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        
-        cell.textLabel?.text = allTracks?.tracks?[indexPath.row].fileName
-        
-        if (selectedRows.contains(indexPath) == true) {
-            cell.accessoryType = .checkmark
+        if (indexPath.section == 0 || indexPath.section == 2) { //Music & Instrumental
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+            
+            cell.textLabel?.text = allTracks?.tracks?[indexPath.row].fileName
+            
+            if (selectedRows.contains(indexPath) == true) {
+                cell.accessoryType = .checkmark
+            }
+            else {
+                cell.accessoryType = .none
+            }
+            
+            return cell
         }
-        else {
-            cell.accessoryType = .none
+        
+        if (indexPath.section == 1) {   //Tones; requires manual input
+            let cell = tableView.dequeueReusableCell(withIdentifier: "inputCell", for: indexPath)
+            
+            cell.textLabel?.text = allTracks?.tracks?[indexPath.row].fileName
+            // may also need to set up & store textField period in Track structure or some such thing
+            
+            if (selectedRows.contains(indexPath) == true) {
+                cell.accessoryType = .checkmark
+            } else {
+                cell.accessoryType = .none
+            }
+            
+            return cell
         }
         
-        return cell
+        return UITableViewCell()
     }
     
     
