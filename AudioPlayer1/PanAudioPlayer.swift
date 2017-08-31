@@ -4,7 +4,8 @@
 //
 //  Created by Hunter Eisler on 7/14/17.
 //  Copyright © 2017 Hunter Eisler. All rights reserved.
-//
+//  Unauthorized copying of this file via any medium is strictly prohibited.
+//  *Proprietary and confidential*
 
 import UIKit
 import AVFoundation

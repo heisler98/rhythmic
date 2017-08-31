@@ -3,8 +3,9 @@
 //  AudioPlayer1
 //
 //  Created by Hunter Eisler on 11/3/16.
-//  Copyright © 2016 Hunter Eisler. All rights reserved.
-//
+//  Copyright © 2016-2017 Hunter Eisler. All rights reserved.
+//  Unauthorized copying of this file via any medium is strictly prohibited.
+//  *Proprietary and confidential*
 
 // **Potentials**
 // !:3 sections in table view: Music; Tones; Instrumental
