@@ -93,12 +93,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let titles = ["Let's Hurt Tonight", "Born", "Better", "Human", "If I Lose Myself", "Lift Me Up", "Heaven", "I Lived", "Start Over", "Marchin On", "Counting Stars", "Hand of God", "What You Wanted", "Au Revoir", "Truth to Power", "Miracles", "Praying", "Praying by Kesha", "Preacher", "Song for Sienna"]
+        let titles = ["Let's Hurt Tonight", "Born", "Better", "Human", "If I Lose Myself", "Lift Me Up", "Heaven", "I Lived", "Start Over", "Marchin On", "Counting Stars", "Hand of God", "What You Wanted", "Au Revoir", "Truth to Power", "Miracles", "Praying", "Praying by Kesha", "Preacher", "Song for Sienna", "Viva La Vida", "5 Secrets", "Learn to Let Go", "Looking too closely", "Looking too closely", "Collateral Beauty", "Life in Color", "Battle of the Heroes", "Beyond Main Theme", "Counting Star Instrumental", "Enterprising Young Men", "Feel Again Instrumental", "Jedi Steps and Finale", "Main Star Wars", "Star Trek Main Theme", "The Force Suite", "The Force Theme"]
         
         let m4a = "m4a"
         let mp3 = "mp3"
         
-        let extensions = [m4a, mp3, m4a, m4a, mp3, m4a, m4a, mp3, mp3, m4a, m4a, m4a, m4a, m4a, m4a, m4a, m4a, m4a, m4a, mp3]
+        let extensions = [m4a, mp3, m4a, m4a, mp3, m4a, m4a, mp3, mp3, m4a, m4a, m4a, m4a, m4a, m4a, m4a, m4a, m4a, m4a, mp3, mp3, m4a, m4a, m4a, m4a, mp3, m4a, mp3, mp3, mp3, mp3, mp3, mp3, mp3, mp3, mp3, mp3, mp3]
         
         var tracks : Array<Track> = []
         periods = []
@@ -118,9 +118,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         selectedTracks = TrackManager(tracks: [])
         
         do {
+            UIApplication.shared.beginReceivingRemoteControlEvents()
+
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
             try AVAudioSession.sharedInstance().setActive(true)
-            UIApplication.shared.beginReceivingRemoteControlEvents()
             
             NotificationCenter.default.addObserver(self, selector: #selector(ViewController.audioSessionInterrupted), name: NSNotification.Name.AVAudioSessionInterruption, object: nil)
             
@@ -230,6 +231,55 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
         case 19:
             return 0.9756 //Song for Sienna
+        
+        case 20:
+            return 0.87 //Viva La Vida
+            
+        case 21:
+            return 1.15 //5 Secrets
+        
+        case 22:
+            return 0.714 //Learn to Let Go
+            
+        case 23:
+            return 0.3428 //Looking too closely
+            
+        case 24:
+            return 0.6856 //Looking too closely
+            
+        case 25:
+            return 0.461 //Collateral Beauty
+            
+        case 26:
+            return 0.472 //Life in Color
+            
+        case 27:
+            return 0.66 //Battle of the Heroes
+            
+        case 28:
+            return 0.395 //Beyond Main Theme
+            
+        case 29:
+            return 0.555 //Counting Stars - Instrumental
+            
+        case 30:
+            return 0.405 //Enterprising Young Men
+            
+        case 31:
+            return 0.429 //Feel Again - Instrumental
+            
+        case 32:
+            return 0.594 //Jedi Steps and Finale
+            
+        case 33:
+            return 0.698 //Star Wars (TFA) Main Theme
+            
+        case 34:
+            return 0.822 //The Force Suite
+            
+        case 35:
+            return 0.681 //The Force Theme
+            
         default:
             return 0.5
             

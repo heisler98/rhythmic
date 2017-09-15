@@ -11,11 +11,27 @@
 		5A3049451EAE6A8B0000A144 /* 1493072041_play.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A3049441EAE6A8B0000A144 /* 1493072041_play.png */; };
 		5A3049471EAE6A970000A144 /* 1493072025_stop.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A3049461EAE6A970000A144 /* 1493072025_stop.png */; };
 		5A3049491EAF18D10000A144 /* If I Lose Myself.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */; };
+		5A3CD1B01F6A57920015683B /* Battle of the Heroes.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3CD1A61F6A57920015683B /* Battle of the Heroes.mp3 */; };
+		5A3CD1B11F6A57920015683B /* Beyond Main Theme.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3CD1A71F6A57920015683B /* Beyond Main Theme.mp3 */; };
+		5A3CD1B21F6A57920015683B /* Counting Stars Instrumental.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3CD1A81F6A57920015683B /* Counting Stars Instrumental.mp3 */; };
+		5A3CD1B31F6A57920015683B /* Enterprising Young Men.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3CD1A91F6A57920015683B /* Enterprising Young Men.mp3 */; };
+		5A3CD1B41F6A57920015683B /* Feel Again Instrumental.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3CD1AA1F6A57920015683B /* Feel Again Instrumental.mp3 */; };
+		5A3CD1B51F6A57920015683B /* Jedi Steps and Finale.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3CD1AB1F6A57920015683B /* Jedi Steps and Finale.mp3 */; };
+		5A3CD1B61F6A57920015683B /* Main Star Wars.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3CD1AC1F6A57920015683B /* Main Star Wars.mp3 */; };
+		5A3CD1B71F6A57920015683B /* Star Trek Main Theme.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3CD1AD1F6A57920015683B /* Star Trek Main Theme.mp3 */; };
+		5A3CD1B81F6A57920015683B /* The Force Suite.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3CD1AE1F6A57920015683B /* The Force Suite.mp3 */; };
+		5A3CD1B91F6A57920015683B /* The Force Theme.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3CD1AF1F6A57920015683B /* The Force Theme.mp3 */; };
 		5A4653131EEF1BE0001DE37C /* Better.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A4653121EEF1BE0001DE37C /* Better.m4a */; };
 		5A4653151EEF1C2C001DE37C /* Human.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A4653141EEF1C2C001DE37C /* Human.m4a */; };
 		5A4653171EEF1C82001DE37C /* Lift Me Up.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A4653161EEF1C82001DE37C /* Lift Me Up.m4a */; };
 		5A4653191EEF1CAF001DE37C /* Heaven.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A4653181EEF1CAF001DE37C /* Heaven.m4a */; };
 		5A5181841F567947007FA781 /* Song for Sienna.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A5181831F567947007FA781 /* Song for Sienna.mp3 */; };
+		5A6236FF1F5C019B0027326D /* Viva La Vida.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A6236FE1F5C019B0027326D /* Viva La Vida.mp3 */; };
+		5A6237011F5C05650027326D /* 5 Secrets.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A6237001F5C05650027326D /* 5 Secrets.m4a */; };
+		5A6237031F5C22910027326D /* Learn to Let Go.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A6237021F5C22910027326D /* Learn to Let Go.m4a */; };
+		5A6237051F5F42FA0027326D /* Looking too closely.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A6237041F5F42FA0027326D /* Looking too closely.m4a */; };
+		5A6237071F5F44FF0027326D /* Collateral Beauty.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A6237061F5F44FF0027326D /* Collateral Beauty.mp3 */; };
+		5A6237091F62012F0027326D /* Life in Color.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A6237081F62012F0027326D /* Life in Color.m4a */; };
 		5A9518811EAA42160028B8E6 /* 440.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A9518801EAA42160028B8E6 /* 440.m4a */; };
 		5A9D6BDA1E9EF2A300918D8B /* Born.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A9D6BD91E9EF2A300918D8B /* Born.mp3 */; };
 		5AAF83F61F0D8D21001E9313 /* Marchin On.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5AAF83F51F0D8D21001E9313 /* Marchin On.m4a */; };
@@ -45,11 +61,27 @@
 		5A3049441EAE6A8B0000A144 /* 1493072041_play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1493072041_play.png; sourceTree = "<group>"; };
 		5A3049461EAE6A970000A144 /* 1493072025_stop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1493072025_stop.png; sourceTree = "<group>"; };
 		5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "If I Lose Myself.mp3"; sourceTree = "<group>"; };
+		5A3CD1A61F6A57920015683B /* Battle of the Heroes.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Battle of the Heroes.mp3"; sourceTree = "<group>"; };
+		5A3CD1A71F6A57920015683B /* Beyond Main Theme.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Beyond Main Theme.mp3"; sourceTree = "<group>"; };
+		5A3CD1A81F6A57920015683B /* Counting Stars Instrumental.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Counting Stars Instrumental.mp3"; sourceTree = "<group>"; };
+		5A3CD1A91F6A57920015683B /* Enterprising Young Men.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Enterprising Young Men.mp3"; sourceTree = "<group>"; };
+		5A3CD1AA1F6A57920015683B /* Feel Again Instrumental.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Feel Again Instrumental.mp3"; sourceTree = "<group>"; };
+		5A3CD1AB1F6A57920015683B /* Jedi Steps and Finale.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Jedi Steps and Finale.mp3"; sourceTree = "<group>"; };
+		5A3CD1AC1F6A57920015683B /* Main Star Wars.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Main Star Wars.mp3"; sourceTree = "<group>"; };
+		5A3CD1AD1F6A57920015683B /* Star Trek Main Theme.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Star Trek Main Theme.mp3"; sourceTree = "<group>"; };
+		5A3CD1AE1F6A57920015683B /* The Force Suite.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "The Force Suite.mp3"; sourceTree = "<group>"; };
+		5A3CD1AF1F6A57920015683B /* The Force Theme.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "The Force Theme.mp3"; sourceTree = "<group>"; };
 		5A4653121EEF1BE0001DE37C /* Better.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Better.m4a; sourceTree = "<group>"; };
 		5A4653141EEF1C2C001DE37C /* Human.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Human.m4a; sourceTree = "<group>"; };
 		5A4653161EEF1C82001DE37C /* Lift Me Up.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lift Me Up.m4a"; sourceTree = "<group>"; };
 		5A4653181EEF1CAF001DE37C /* Heaven.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Heaven.m4a; sourceTree = "<group>"; };
 		5A5181831F567947007FA781 /* Song for Sienna.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Song for Sienna.mp3"; sourceTree = "<group>"; };
+		5A6236FE1F5C019B0027326D /* Viva La Vida.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Viva La Vida.mp3"; sourceTree = "<group>"; };
+		5A6237001F5C05650027326D /* 5 Secrets.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "5 Secrets.m4a"; sourceTree = "<group>"; };
+		5A6237021F5C22910027326D /* Learn to Let Go.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Learn to Let Go.m4a"; sourceTree = "<group>"; };
+		5A6237041F5F42FA0027326D /* Looking too closely.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Looking too closely.m4a"; sourceTree = "<group>"; };
+		5A6237061F5F44FF0027326D /* Collateral Beauty.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Collateral Beauty.mp3"; sourceTree = "<group>"; };
+		5A6237081F62012F0027326D /* Life in Color.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Life in Color.m4a"; sourceTree = "<group>"; };
 		5A9518801EAA42160028B8E6 /* 440.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 440.m4a; sourceTree = "<group>"; };
 		5A9D6BD91E9EF2A300918D8B /* Born.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Born.mp3; sourceTree = "<group>"; };
 		5AAF83F51F0D8D21001E9313 /* Marchin On.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Marchin On.m4a"; sourceTree = "<group>"; };
@@ -126,6 +158,22 @@
 		5ABEAF751F36E4AA008E5BB5 /* Audio Assets */ = {
 			isa = PBXGroup;
 			children = (
+				5A3CD1A61F6A57920015683B /* Battle of the Heroes.mp3 */,
+				5A3CD1A71F6A57920015683B /* Beyond Main Theme.mp3 */,
+				5A3CD1A81F6A57920015683B /* Counting Stars Instrumental.mp3 */,
+				5A3CD1A91F6A57920015683B /* Enterprising Young Men.mp3 */,
+				5A3CD1AA1F6A57920015683B /* Feel Again Instrumental.mp3 */,
+				5A3CD1AB1F6A57920015683B /* Jedi Steps and Finale.mp3 */,
+				5A3CD1AC1F6A57920015683B /* Main Star Wars.mp3 */,
+				5A3CD1AD1F6A57920015683B /* Star Trek Main Theme.mp3 */,
+				5A3CD1AE1F6A57920015683B /* The Force Suite.mp3 */,
+				5A3CD1AF1F6A57920015683B /* The Force Theme.mp3 */,
+				5A6237081F62012F0027326D /* Life in Color.m4a */,
+				5A6237061F5F44FF0027326D /* Collateral Beauty.mp3 */,
+				5A6237041F5F42FA0027326D /* Looking too closely.m4a */,
+				5A6237021F5C22910027326D /* Learn to Let Go.m4a */,
+				5A6237001F5C05650027326D /* 5 Secrets.m4a */,
+				5A6236FE1F5C019B0027326D /* Viva La Vida.mp3 */,
 				5A5181831F567947007FA781 /* Song for Sienna.mp3 */,
 				5ABEAF731F2428A8008E5BB5 /* Preacher.m4a */,
 				5ABEAF711F2424C8008E5BB5 /* Praying by Kesha.m4a */,
@@ -221,15 +269,22 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A3CD1B91F6A57920015683B /* The Force Theme.mp3 in Resources */,
+				5A3CD1B31F6A57920015683B /* Enterprising Young Men.mp3 in Resources */,
+				5A3CD1B11F6A57920015683B /* Beyond Main Theme.mp3 in Resources */,
 				5AE0C7B41ECC0DEC00AF6926 /* I Lived.mp3 in Resources */,
 				5A4653191EEF1CAF001DE37C /* Heaven.m4a in Resources */,
+				5A6236FF1F5C019B0027326D /* Viva La Vida.mp3 in Resources */,
 				5ABEAF641F1BE4EF008E5BB5 /* Counting Stars.m4a in Resources */,
 				5A3049451EAE6A8B0000A144 /* 1493072041_play.png in Resources */,
 				5AFFE8161F0117E400C713FF /* Start Over.mp3 in Resources */,
 				5ABEAF6C1F1C2DCF008E5BB5 /* Truth to Power.m4a in Resources */,
+				5A6237071F5F44FF0027326D /* Collateral Beauty.mp3 in Resources */,
+				5A6237011F5C05650027326D /* 5 Secrets.m4a in Resources */,
 				5A4653171EEF1C82001DE37C /* Lift Me Up.m4a in Resources */,
 				5ABA30A31DCBC97D006E5999 /* LaunchScreen.storyboard in Resources */,
 				5ABA30A01DCBC97D006E5999 /* Assets.xcassets in Resources */,
+				5A6237051F5F42FA0027326D /* Looking too closely.m4a in Resources */,
 				5A4653151EEF1C2C001DE37C /* Human.m4a in Resources */,
 				5ABA309E1DCBC97D006E5999 /* Main.storyboard in Resources */,
 				5ABEAF741F2428A8008E5BB5 /* Preacher.m4a in Resources */,
@@ -240,12 +295,21 @@
 				5A4653131EEF1BE0001DE37C /* Better.m4a in Resources */,
 				5ABEAF6E1F1C3016008E5BB5 /* Miracles.m4a in Resources */,
 				5A9D6BDA1E9EF2A300918D8B /* Born.mp3 in Resources */,
+				5A6237091F62012F0027326D /* Life in Color.m4a in Resources */,
+				5A3CD1B21F6A57920015683B /* Counting Stars Instrumental.mp3 in Resources */,
 				5ABEAF661F1BE991008E5BB5 /* Hand of God.m4a in Resources */,
 				5ABEAF681F1C28C1008E5BB5 /* What You Wanted.m4a in Resources */,
 				5A3049491EAF18D10000A144 /* If I Lose Myself.mp3 in Resources */,
+				5A3CD1B71F6A57920015683B /* Star Trek Main Theme.mp3 in Resources */,
+				5A3CD1B61F6A57920015683B /* Main Star Wars.mp3 in Resources */,
+				5A6237031F5C22910027326D /* Learn to Let Go.m4a in Resources */,
 				5AAF83F61F0D8D21001E9313 /* Marchin On.m4a in Resources */,
+				5A3CD1B41F6A57920015683B /* Feel Again Instrumental.mp3 in Resources */,
 				5A5181841F567947007FA781 /* Song for Sienna.mp3 in Resources */,
+				5A3CD1B51F6A57920015683B /* Jedi Steps and Finale.mp3 in Resources */,
+				5A3CD1B01F6A57920015683B /* Battle of the Heroes.mp3 in Resources */,
 				5A0EBF741E9AED430064C33F /* Let's Hurt Tonight.m4a in Resources */,
+				5A3CD1B81F6A57920015683B /* The Force Suite.mp3 in Resources */,
 				5A9518811EAA42160028B8E6 /* 440.m4a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
