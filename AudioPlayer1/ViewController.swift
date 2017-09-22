@@ -275,9 +275,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             return 0.698 //Star Wars (TFA) Main Theme
             
         case 34:
-            return 0.822 //The Force Suite
+            return 0.405 //Star Trek Main Theme
             
         case 35:
+            return 0.822 //The Force Suite
+            
+        case 36:
             return 0.681 //The Force Theme
             
         default:
@@ -295,7 +298,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 return allTracks!.tracks!.count
             }
             
-            return 17
+            return 37
         }
         
         if (section == 1) { //Tones

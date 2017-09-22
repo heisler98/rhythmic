@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A0B3FED1F74CEF100A60D9F /* Tracks.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5A0B3FEC1F74CEF100A60D9F /* Tracks.plist */; };
 		5A0EBF741E9AED430064C33F /* Let's Hurt Tonight.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A0EBF731E9AED430064C33F /* Let's Hurt Tonight.m4a */; };
 		5A3049451EAE6A8B0000A144 /* 1493072041_play.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A3049441EAE6A8B0000A144 /* 1493072041_play.png */; };
 		5A3049471EAE6A970000A144 /* 1493072025_stop.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A3049461EAE6A970000A144 /* 1493072025_stop.png */; };
@@ -57,6 +58,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5A0B3FEC1F74CEF100A60D9F /* Tracks.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Tracks.plist; sourceTree = "<group>"; };
 		5A0EBF731E9AED430064C33F /* Let's Hurt Tonight.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Let's Hurt Tonight.m4a"; sourceTree = "<group>"; };
 		5A3049441EAE6A8B0000A144 /* 1493072041_play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1493072041_play.png; sourceTree = "<group>"; };
 		5A3049461EAE6A970000A144 /* 1493072025_stop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1493072025_stop.png; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 				5ABA30981DCBC97D006E5999 /* AppDelegate.swift */,
 				5ABA309A1DCBC97D006E5999 /* ViewController.swift */,
 				5ABEAF611F19851E008E5BB5 /* PanAudioPlayer.swift */,
+				5A0B3FEC1F74CEF100A60D9F /* Tracks.plist */,
 				5ABA309C1DCBC97D006E5999 /* Main.storyboard */,
 				5A3049461EAE6A970000A144 /* 1493072025_stop.png */,
 				5A3049441EAE6A8B0000A144 /* 1493072041_play.png */,
@@ -301,6 +304,7 @@
 				5ABEAF681F1C28C1008E5BB5 /* What You Wanted.m4a in Resources */,
 				5A3049491EAF18D10000A144 /* If I Lose Myself.mp3 in Resources */,
 				5A3CD1B71F6A57920015683B /* Star Trek Main Theme.mp3 in Resources */,
+				5A0B3FED1F74CEF100A60D9F /* Tracks.plist in Resources */,
 				5A3CD1B61F6A57920015683B /* Main Star Wars.mp3 in Resources */,
 				5A6237031F5C22910027326D /* Learn to Let Go.m4a in Resources */,
 				5AAF83F61F0D8D21001E9313 /* Marchin On.m4a in Resources */,
