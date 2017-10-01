@@ -8,9 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		5A0B3FED1F74CEF100A60D9F /* Tracks.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5A0B3FEC1F74CEF100A60D9F /* Tracks.plist */; };
-		5A0EBF741E9AED430064C33F /* Let's Hurt Tonight.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A0EBF731E9AED430064C33F /* Let's Hurt Tonight.m4a */; };
-		5A3049451EAE6A8B0000A144 /* 1493072041_play.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A3049441EAE6A8B0000A144 /* 1493072041_play.png */; };
-		5A3049471EAE6A970000A144 /* 1493072025_stop.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A3049461EAE6A970000A144 /* 1493072025_stop.png */; };
 		5A3049491EAF18D10000A144 /* If I Lose Myself.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */; };
 		5A3CD1B01F6A57920015683B /* Battle of the Heroes.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3CD1A61F6A57920015683B /* Battle of the Heroes.mp3 */; };
 		5A3CD1B11F6A57920015683B /* Beyond Main Theme.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3CD1A71F6A57920015683B /* Beyond Main Theme.mp3 */; };
@@ -22,35 +19,39 @@
 		5A3CD1B71F6A57920015683B /* Star Trek Main Theme.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3CD1AD1F6A57920015683B /* Star Trek Main Theme.mp3 */; };
 		5A3CD1B81F6A57920015683B /* The Force Suite.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3CD1AE1F6A57920015683B /* The Force Suite.mp3 */; };
 		5A3CD1B91F6A57920015683B /* The Force Theme.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3CD1AF1F6A57920015683B /* The Force Theme.mp3 */; };
-		5A4653131EEF1BE0001DE37C /* Better.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A4653121EEF1BE0001DE37C /* Better.m4a */; };
-		5A4653151EEF1C2C001DE37C /* Human.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A4653141EEF1C2C001DE37C /* Human.m4a */; };
-		5A4653171EEF1C82001DE37C /* Lift Me Up.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A4653161EEF1C82001DE37C /* Lift Me Up.m4a */; };
-		5A4653191EEF1CAF001DE37C /* Heaven.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A4653181EEF1CAF001DE37C /* Heaven.m4a */; };
 		5A5181841F567947007FA781 /* Song for Sienna.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A5181831F567947007FA781 /* Song for Sienna.mp3 */; };
+		5A55982B1F7B5A9900AF9E9F /* What You Wanted.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A5598171F7B5A9100AF9E9F /* What You Wanted.mp3 */; };
+		5A55982C1F7B5A9900AF9E9F /* Miracles.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A5598181F7B5A9200AF9E9F /* Miracles.mp3 */; };
+		5A55982D1F7B5A9900AF9E9F /* Truth to Power.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A5598191F7B5A9200AF9E9F /* Truth to Power.mp3 */; };
+		5A55982E1F7B5A9900AF9E9F /* Life in Color.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A55981A1F7B5A9300AF9E9F /* Life in Color.mp3 */; };
+		5A55982F1F7B5A9900AF9E9F /* Better.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A55981B1F7B5A9300AF9E9F /* Better.mp3 */; };
+		5A5598301F7B5A9900AF9E9F /* Lift Me Up.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A55981C1F7B5A9300AF9E9F /* Lift Me Up.mp3 */; };
+		5A5598311F7B5A9900AF9E9F /* Counting Stars.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A55981D1F7B5A9400AF9E9F /* Counting Stars.mp3 */; };
+		5A5598321F7B5A9900AF9E9F /* Hand of God.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A55981E1F7B5A9400AF9E9F /* Hand of God.mp3 */; };
+		5A5598331F7B5A9900AF9E9F /* Marchin On.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A55981F1F7B5A9500AF9E9F /* Marchin On.mp3 */; };
+		5A5598341F7B5A9900AF9E9F /* Praying by Kesha.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A5598201F7B5A9500AF9E9F /* Praying by Kesha.mp3 */; };
+		5A5598351F7B5A9900AF9E9F /* Heaven.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A5598211F7B5A9500AF9E9F /* Heaven.mp3 */; };
+		5A5598361F7B5A9900AF9E9F /* Learn to Let Go.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A5598221F7B5A9600AF9E9F /* Learn to Let Go.mp3 */; };
+		5A5598371F7B5A9900AF9E9F /* 440.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A5598231F7B5A9600AF9E9F /* 440.mp3 */; };
+		5A5598381F7B5A9900AF9E9F /* 5 Secrets.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A5598241F7B5A9600AF9E9F /* 5 Secrets.mp3 */; };
+		5A5598391F7B5A9900AF9E9F /* Preacher.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A5598251F7B5A9700AF9E9F /* Preacher.mp3 */; };
+		5A55983A1F7B5A9900AF9E9F /* Human.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A5598261F7B5A9700AF9E9F /* Human.mp3 */; };
+		5A55983B1F7B5A9900AF9E9F /* Looking Too Closely.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A5598271F7B5A9800AF9E9F /* Looking Too Closely.mp3 */; };
+		5A55983C1F7B5A9900AF9E9F /* Let's Hurt Tonight.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A5598281F7B5A9800AF9E9F /* Let's Hurt Tonight.mp3 */; };
+		5A55983D1F7B5A9900AF9E9F /* Praying.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A5598291F7B5A9800AF9E9F /* Praying.mp3 */; };
+		5A55983E1F7B5A9900AF9E9F /* Au Revoir.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A55982A1F7B5A9900AF9E9F /* Au Revoir.mp3 */; };
+		5A5598401F7B5E6C00AF9E9F /* Courtyard Apocalypse.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A55983F1F7B5E6C00AF9E9F /* Courtyard Apocalypse.mp3 */; };
+		5A5598421F7C1E7300AF9E9F /* On Top of the World.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A5598411F7C1E7300AF9E9F /* On Top of the World.mp3 */; };
+		5A5598641F7ED9FC00AF9E9F /* Nothing Left to Say.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A5598631F7ED9FC00AF9E9F /* Nothing Left to Say.mp3 */; };
 		5A6236FF1F5C019B0027326D /* Viva La Vida.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A6236FE1F5C019B0027326D /* Viva La Vida.mp3 */; };
-		5A6237011F5C05650027326D /* 5 Secrets.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A6237001F5C05650027326D /* 5 Secrets.m4a */; };
-		5A6237031F5C22910027326D /* Learn to Let Go.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A6237021F5C22910027326D /* Learn to Let Go.m4a */; };
-		5A6237051F5F42FA0027326D /* Looking too closely.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A6237041F5F42FA0027326D /* Looking too closely.m4a */; };
 		5A6237071F5F44FF0027326D /* Collateral Beauty.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A6237061F5F44FF0027326D /* Collateral Beauty.mp3 */; };
-		5A6237091F62012F0027326D /* Life in Color.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A6237081F62012F0027326D /* Life in Color.m4a */; };
-		5A9518811EAA42160028B8E6 /* 440.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5A9518801EAA42160028B8E6 /* 440.m4a */; };
 		5A9D6BDA1E9EF2A300918D8B /* Born.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A9D6BD91E9EF2A300918D8B /* Born.mp3 */; };
-		5AAF83F61F0D8D21001E9313 /* Marchin On.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5AAF83F51F0D8D21001E9313 /* Marchin On.m4a */; };
 		5ABA30991DCBC97D006E5999 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABA30981DCBC97D006E5999 /* AppDelegate.swift */; };
 		5ABA309B1DCBC97D006E5999 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABA309A1DCBC97D006E5999 /* ViewController.swift */; };
 		5ABA309E1DCBC97D006E5999 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5ABA309C1DCBC97D006E5999 /* Main.storyboard */; };
 		5ABA30A01DCBC97D006E5999 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5ABA309F1DCBC97D006E5999 /* Assets.xcassets */; };
 		5ABA30A31DCBC97D006E5999 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5ABA30A11DCBC97D006E5999 /* LaunchScreen.storyboard */; };
 		5ABEAF621F19851E008E5BB5 /* PanAudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABEAF611F19851E008E5BB5 /* PanAudioPlayer.swift */; };
-		5ABEAF641F1BE4EF008E5BB5 /* Counting Stars.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5ABEAF631F1BE4EF008E5BB5 /* Counting Stars.m4a */; };
-		5ABEAF661F1BE991008E5BB5 /* Hand of God.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5ABEAF651F1BE991008E5BB5 /* Hand of God.m4a */; };
-		5ABEAF681F1C28C1008E5BB5 /* What You Wanted.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5ABEAF671F1C28C1008E5BB5 /* What You Wanted.m4a */; };
-		5ABEAF6A1F1C2CAD008E5BB5 /* Au Revoir.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5ABEAF691F1C2CAD008E5BB5 /* Au Revoir.m4a */; };
-		5ABEAF6C1F1C2DCF008E5BB5 /* Truth to Power.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5ABEAF6B1F1C2DCF008E5BB5 /* Truth to Power.m4a */; };
-		5ABEAF6E1F1C3016008E5BB5 /* Miracles.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5ABEAF6D1F1C3016008E5BB5 /* Miracles.m4a */; };
-		5ABEAF701F1C370D008E5BB5 /* Praying.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5ABEAF6F1F1C370D008E5BB5 /* Praying.m4a */; };
-		5ABEAF721F2424C8008E5BB5 /* Praying by Kesha.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5ABEAF711F2424C8008E5BB5 /* Praying by Kesha.m4a */; };
-		5ABEAF741F2428A8008E5BB5 /* Preacher.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5ABEAF731F2428A8008E5BB5 /* Preacher.m4a */; };
 		5AE0C7B41ECC0DEC00AF6926 /* I Lived.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AE0C7B31ECC0DEC00AF6926 /* I Lived.mp3 */; };
 		5AF19F8A1E95A0B1004E38C9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AF19F891E95A0B1004E38C9 /* AVFoundation.framework */; };
 		5AF19F8C1E95A0BA004E38C9 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AF19F8B1E95A0BA004E38C9 /* MediaPlayer.framework */; };
@@ -59,9 +60,6 @@
 
 /* Begin PBXFileReference section */
 		5A0B3FEC1F74CEF100A60D9F /* Tracks.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Tracks.plist; sourceTree = "<group>"; };
-		5A0EBF731E9AED430064C33F /* Let's Hurt Tonight.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Let's Hurt Tonight.m4a"; sourceTree = "<group>"; };
-		5A3049441EAE6A8B0000A144 /* 1493072041_play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1493072041_play.png; sourceTree = "<group>"; };
-		5A3049461EAE6A970000A144 /* 1493072025_stop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1493072025_stop.png; sourceTree = "<group>"; };
 		5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "If I Lose Myself.mp3"; sourceTree = "<group>"; };
 		5A3CD1A61F6A57920015683B /* Battle of the Heroes.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Battle of the Heroes.mp3"; sourceTree = "<group>"; };
 		5A3CD1A71F6A57920015683B /* Beyond Main Theme.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Beyond Main Theme.mp3"; sourceTree = "<group>"; };
@@ -73,20 +71,33 @@
 		5A3CD1AD1F6A57920015683B /* Star Trek Main Theme.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Star Trek Main Theme.mp3"; sourceTree = "<group>"; };
 		5A3CD1AE1F6A57920015683B /* The Force Suite.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "The Force Suite.mp3"; sourceTree = "<group>"; };
 		5A3CD1AF1F6A57920015683B /* The Force Theme.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "The Force Theme.mp3"; sourceTree = "<group>"; };
-		5A4653121EEF1BE0001DE37C /* Better.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Better.m4a; sourceTree = "<group>"; };
-		5A4653141EEF1C2C001DE37C /* Human.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Human.m4a; sourceTree = "<group>"; };
-		5A4653161EEF1C82001DE37C /* Lift Me Up.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lift Me Up.m4a"; sourceTree = "<group>"; };
-		5A4653181EEF1CAF001DE37C /* Heaven.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Heaven.m4a; sourceTree = "<group>"; };
 		5A5181831F567947007FA781 /* Song for Sienna.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Song for Sienna.mp3"; sourceTree = "<group>"; };
+		5A5598171F7B5A9100AF9E9F /* What You Wanted.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "What You Wanted.mp3"; sourceTree = "<group>"; };
+		5A5598181F7B5A9200AF9E9F /* Miracles.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Miracles.mp3; sourceTree = "<group>"; };
+		5A5598191F7B5A9200AF9E9F /* Truth to Power.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Truth to Power.mp3"; sourceTree = "<group>"; };
+		5A55981A1F7B5A9300AF9E9F /* Life in Color.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Life in Color.mp3"; sourceTree = "<group>"; };
+		5A55981B1F7B5A9300AF9E9F /* Better.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Better.mp3; sourceTree = "<group>"; };
+		5A55981C1F7B5A9300AF9E9F /* Lift Me Up.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Lift Me Up.mp3"; sourceTree = "<group>"; };
+		5A55981D1F7B5A9400AF9E9F /* Counting Stars.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Counting Stars.mp3"; sourceTree = "<group>"; };
+		5A55981E1F7B5A9400AF9E9F /* Hand of God.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Hand of God.mp3"; sourceTree = "<group>"; };
+		5A55981F1F7B5A9500AF9E9F /* Marchin On.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Marchin On.mp3"; sourceTree = "<group>"; };
+		5A5598201F7B5A9500AF9E9F /* Praying by Kesha.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Praying by Kesha.mp3"; sourceTree = "<group>"; };
+		5A5598211F7B5A9500AF9E9F /* Heaven.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Heaven.mp3; sourceTree = "<group>"; };
+		5A5598221F7B5A9600AF9E9F /* Learn to Let Go.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Learn to Let Go.mp3"; sourceTree = "<group>"; };
+		5A5598231F7B5A9600AF9E9F /* 440.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 440.mp3; sourceTree = "<group>"; };
+		5A5598241F7B5A9600AF9E9F /* 5 Secrets.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "5 Secrets.mp3"; sourceTree = "<group>"; };
+		5A5598251F7B5A9700AF9E9F /* Preacher.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Preacher.mp3; sourceTree = "<group>"; };
+		5A5598261F7B5A9700AF9E9F /* Human.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Human.mp3; sourceTree = "<group>"; };
+		5A5598271F7B5A9800AF9E9F /* Looking Too Closely.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Looking Too Closely.mp3"; sourceTree = "<group>"; };
+		5A5598281F7B5A9800AF9E9F /* Let's Hurt Tonight.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Let's Hurt Tonight.mp3"; sourceTree = "<group>"; };
+		5A5598291F7B5A9800AF9E9F /* Praying.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Praying.mp3; sourceTree = "<group>"; };
+		5A55982A1F7B5A9900AF9E9F /* Au Revoir.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Au Revoir.mp3"; sourceTree = "<group>"; };
+		5A55983F1F7B5E6C00AF9E9F /* Courtyard Apocalypse.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Courtyard Apocalypse.mp3"; sourceTree = "<group>"; };
+		5A5598411F7C1E7300AF9E9F /* On Top of the World.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "On Top of the World.mp3"; sourceTree = "<group>"; };
+		5A5598631F7ED9FC00AF9E9F /* Nothing Left to Say.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Nothing Left to Say.mp3"; sourceTree = "<group>"; };
 		5A6236FE1F5C019B0027326D /* Viva La Vida.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Viva La Vida.mp3"; sourceTree = "<group>"; };
-		5A6237001F5C05650027326D /* 5 Secrets.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "5 Secrets.m4a"; sourceTree = "<group>"; };
-		5A6237021F5C22910027326D /* Learn to Let Go.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Learn to Let Go.m4a"; sourceTree = "<group>"; };
-		5A6237041F5F42FA0027326D /* Looking too closely.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Looking too closely.m4a"; sourceTree = "<group>"; };
 		5A6237061F5F44FF0027326D /* Collateral Beauty.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Collateral Beauty.mp3"; sourceTree = "<group>"; };
-		5A6237081F62012F0027326D /* Life in Color.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Life in Color.m4a"; sourceTree = "<group>"; };
-		5A9518801EAA42160028B8E6 /* 440.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 440.m4a; sourceTree = "<group>"; };
 		5A9D6BD91E9EF2A300918D8B /* Born.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Born.mp3; sourceTree = "<group>"; };
-		5AAF83F51F0D8D21001E9313 /* Marchin On.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Marchin On.m4a"; sourceTree = "<group>"; };
 		5ABA30951DCBC97D006E5999 /* AudioPlayer1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AudioPlayer1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5ABA30981DCBC97D006E5999 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5ABA309A1DCBC97D006E5999 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -95,15 +106,6 @@
 		5ABA30A21DCBC97D006E5999 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5ABA30A41DCBC97D006E5999 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5ABEAF611F19851E008E5BB5 /* PanAudioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PanAudioPlayer.swift; sourceTree = "<group>"; };
-		5ABEAF631F1BE4EF008E5BB5 /* Counting Stars.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Counting Stars.m4a"; sourceTree = "<group>"; };
-		5ABEAF651F1BE991008E5BB5 /* Hand of God.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Hand of God.m4a"; sourceTree = "<group>"; };
-		5ABEAF671F1C28C1008E5BB5 /* What You Wanted.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "What You Wanted.m4a"; sourceTree = "<group>"; };
-		5ABEAF691F1C2CAD008E5BB5 /* Au Revoir.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Au Revoir.m4a"; sourceTree = "<group>"; };
-		5ABEAF6B1F1C2DCF008E5BB5 /* Truth to Power.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Truth to Power.m4a"; sourceTree = "<group>"; };
-		5ABEAF6D1F1C3016008E5BB5 /* Miracles.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Miracles.m4a; sourceTree = "<group>"; };
-		5ABEAF6F1F1C370D008E5BB5 /* Praying.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Praying.m4a; sourceTree = "<group>"; };
-		5ABEAF711F2424C8008E5BB5 /* Praying by Kesha.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Praying by Kesha.m4a"; sourceTree = "<group>"; };
-		5ABEAF731F2428A8008E5BB5 /* Preacher.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Preacher.m4a; sourceTree = "<group>"; };
 		5AE0C7B31ECC0DEC00AF6926 /* I Lived.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "I Lived.mp3"; sourceTree = "<group>"; };
 		5AF19F891E95A0B1004E38C9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		5AF19F8B1E95A0BA004E38C9 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -149,8 +151,6 @@
 				5ABEAF611F19851E008E5BB5 /* PanAudioPlayer.swift */,
 				5A0B3FEC1F74CEF100A60D9F /* Tracks.plist */,
 				5ABA309C1DCBC97D006E5999 /* Main.storyboard */,
-				5A3049461EAE6A970000A144 /* 1493072025_stop.png */,
-				5A3049441EAE6A8B0000A144 /* 1493072041_play.png */,
 				5ABA309F1DCBC97D006E5999 /* Assets.xcassets */,
 				5ABA30A11DCBC97D006E5999 /* LaunchScreen.storyboard */,
 				5ABA30A41DCBC97D006E5999 /* Info.plist */,
@@ -161,6 +161,29 @@
 		5ABEAF751F36E4AA008E5BB5 /* Audio Assets */ = {
 			isa = PBXGroup;
 			children = (
+				5A5598631F7ED9FC00AF9E9F /* Nothing Left to Say.mp3 */,
+				5A5598411F7C1E7300AF9E9F /* On Top of the World.mp3 */,
+				5A55983F1F7B5E6C00AF9E9F /* Courtyard Apocalypse.mp3 */,
+				5A5598241F7B5A9600AF9E9F /* 5 Secrets.mp3 */,
+				5A5598231F7B5A9600AF9E9F /* 440.mp3 */,
+				5A55982A1F7B5A9900AF9E9F /* Au Revoir.mp3 */,
+				5A55981B1F7B5A9300AF9E9F /* Better.mp3 */,
+				5A55981D1F7B5A9400AF9E9F /* Counting Stars.mp3 */,
+				5A55981E1F7B5A9400AF9E9F /* Hand of God.mp3 */,
+				5A5598211F7B5A9500AF9E9F /* Heaven.mp3 */,
+				5A5598261F7B5A9700AF9E9F /* Human.mp3 */,
+				5A5598221F7B5A9600AF9E9F /* Learn to Let Go.mp3 */,
+				5A5598281F7B5A9800AF9E9F /* Let's Hurt Tonight.mp3 */,
+				5A55981A1F7B5A9300AF9E9F /* Life in Color.mp3 */,
+				5A55981C1F7B5A9300AF9E9F /* Lift Me Up.mp3 */,
+				5A5598271F7B5A9800AF9E9F /* Looking Too Closely.mp3 */,
+				5A55981F1F7B5A9500AF9E9F /* Marchin On.mp3 */,
+				5A5598181F7B5A9200AF9E9F /* Miracles.mp3 */,
+				5A5598201F7B5A9500AF9E9F /* Praying by Kesha.mp3 */,
+				5A5598291F7B5A9800AF9E9F /* Praying.mp3 */,
+				5A5598251F7B5A9700AF9E9F /* Preacher.mp3 */,
+				5A5598191F7B5A9200AF9E9F /* Truth to Power.mp3 */,
+				5A5598171F7B5A9100AF9E9F /* What You Wanted.mp3 */,
 				5A3CD1A61F6A57920015683B /* Battle of the Heroes.mp3 */,
 				5A3CD1A71F6A57920015683B /* Beyond Main Theme.mp3 */,
 				5A3CD1A81F6A57920015683B /* Counting Stars Instrumental.mp3 */,
@@ -171,32 +194,12 @@
 				5A3CD1AD1F6A57920015683B /* Star Trek Main Theme.mp3 */,
 				5A3CD1AE1F6A57920015683B /* The Force Suite.mp3 */,
 				5A3CD1AF1F6A57920015683B /* The Force Theme.mp3 */,
-				5A6237081F62012F0027326D /* Life in Color.m4a */,
 				5A6237061F5F44FF0027326D /* Collateral Beauty.mp3 */,
-				5A6237041F5F42FA0027326D /* Looking too closely.m4a */,
-				5A6237021F5C22910027326D /* Learn to Let Go.m4a */,
-				5A6237001F5C05650027326D /* 5 Secrets.m4a */,
 				5A6236FE1F5C019B0027326D /* Viva La Vida.mp3 */,
 				5A5181831F567947007FA781 /* Song for Sienna.mp3 */,
-				5ABEAF731F2428A8008E5BB5 /* Preacher.m4a */,
-				5ABEAF711F2424C8008E5BB5 /* Praying by Kesha.m4a */,
-				5ABEAF6F1F1C370D008E5BB5 /* Praying.m4a */,
-				5ABEAF6D1F1C3016008E5BB5 /* Miracles.m4a */,
-				5ABEAF6B1F1C2DCF008E5BB5 /* Truth to Power.m4a */,
-				5ABEAF691F1C2CAD008E5BB5 /* Au Revoir.m4a */,
-				5ABEAF671F1C28C1008E5BB5 /* What You Wanted.m4a */,
-				5ABEAF651F1BE991008E5BB5 /* Hand of God.m4a */,
-				5ABEAF631F1BE4EF008E5BB5 /* Counting Stars.m4a */,
-				5AAF83F51F0D8D21001E9313 /* Marchin On.m4a */,
-				5A4653181EEF1CAF001DE37C /* Heaven.m4a */,
-				5A4653161EEF1C82001DE37C /* Lift Me Up.m4a */,
-				5A4653141EEF1C2C001DE37C /* Human.m4a */,
-				5A4653121EEF1BE0001DE37C /* Better.m4a */,
 				5AE0C7B31ECC0DEC00AF6926 /* I Lived.mp3 */,
 				5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */,
-				5A9518801EAA42160028B8E6 /* 440.m4a */,
 				5A9D6BD91E9EF2A300918D8B /* Born.mp3 */,
-				5A0EBF731E9AED430064C33F /* Let's Hurt Tonight.m4a */,
 				5AFFE8151F0117E400C713FF /* Start Over.mp3 */,
 			);
 			name = "Audio Assets";
@@ -238,13 +241,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0810;
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "Hunter Eisler";
 				TargetAttributes = {
 					5ABA30941DCBC97D006E5999 = {
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = TN69P7NFS6;
-						LastSwiftMigration = 0830;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -272,49 +275,50 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A55983A1F7B5A9900AF9E9F /* Human.mp3 in Resources */,
+				5A55983E1F7B5A9900AF9E9F /* Au Revoir.mp3 in Resources */,
 				5A3CD1B91F6A57920015683B /* The Force Theme.mp3 in Resources */,
+				5A5598371F7B5A9900AF9E9F /* 440.mp3 in Resources */,
+				5A55983D1F7B5A9900AF9E9F /* Praying.mp3 in Resources */,
 				5A3CD1B31F6A57920015683B /* Enterprising Young Men.mp3 in Resources */,
 				5A3CD1B11F6A57920015683B /* Beyond Main Theme.mp3 in Resources */,
 				5AE0C7B41ECC0DEC00AF6926 /* I Lived.mp3 in Resources */,
-				5A4653191EEF1CAF001DE37C /* Heaven.m4a in Resources */,
 				5A6236FF1F5C019B0027326D /* Viva La Vida.mp3 in Resources */,
-				5ABEAF641F1BE4EF008E5BB5 /* Counting Stars.m4a in Resources */,
-				5A3049451EAE6A8B0000A144 /* 1493072041_play.png in Resources */,
 				5AFFE8161F0117E400C713FF /* Start Over.mp3 in Resources */,
-				5ABEAF6C1F1C2DCF008E5BB5 /* Truth to Power.m4a in Resources */,
+				5A5598341F7B5A9900AF9E9F /* Praying by Kesha.mp3 in Resources */,
 				5A6237071F5F44FF0027326D /* Collateral Beauty.mp3 in Resources */,
-				5A6237011F5C05650027326D /* 5 Secrets.m4a in Resources */,
-				5A4653171EEF1C82001DE37C /* Lift Me Up.m4a in Resources */,
+				5A55982E1F7B5A9900AF9E9F /* Life in Color.mp3 in Resources */,
+				5A55982C1F7B5A9900AF9E9F /* Miracles.mp3 in Resources */,
 				5ABA30A31DCBC97D006E5999 /* LaunchScreen.storyboard in Resources */,
+				5A55983B1F7B5A9900AF9E9F /* Looking Too Closely.mp3 in Resources */,
 				5ABA30A01DCBC97D006E5999 /* Assets.xcassets in Resources */,
-				5A6237051F5F42FA0027326D /* Looking too closely.m4a in Resources */,
-				5A4653151EEF1C2C001DE37C /* Human.m4a in Resources */,
+				5A5598321F7B5A9900AF9E9F /* Hand of God.mp3 in Resources */,
+				5A5598361F7B5A9900AF9E9F /* Learn to Let Go.mp3 in Resources */,
 				5ABA309E1DCBC97D006E5999 /* Main.storyboard in Resources */,
-				5ABEAF741F2428A8008E5BB5 /* Preacher.m4a in Resources */,
-				5ABEAF721F2424C8008E5BB5 /* Praying by Kesha.m4a in Resources */,
-				5ABEAF6A1F1C2CAD008E5BB5 /* Au Revoir.m4a in Resources */,
-				5A3049471EAE6A970000A144 /* 1493072025_stop.png in Resources */,
-				5ABEAF701F1C370D008E5BB5 /* Praying.m4a in Resources */,
-				5A4653131EEF1BE0001DE37C /* Better.m4a in Resources */,
-				5ABEAF6E1F1C3016008E5BB5 /* Miracles.m4a in Resources */,
+				5A5598331F7B5A9900AF9E9F /* Marchin On.mp3 in Resources */,
 				5A9D6BDA1E9EF2A300918D8B /* Born.mp3 in Resources */,
-				5A6237091F62012F0027326D /* Life in Color.m4a in Resources */,
+				5A5598401F7B5E6C00AF9E9F /* Courtyard Apocalypse.mp3 in Resources */,
+				5A55983C1F7B5A9900AF9E9F /* Let's Hurt Tonight.mp3 in Resources */,
+				5A55982B1F7B5A9900AF9E9F /* What You Wanted.mp3 in Resources */,
 				5A3CD1B21F6A57920015683B /* Counting Stars Instrumental.mp3 in Resources */,
-				5ABEAF661F1BE991008E5BB5 /* Hand of God.m4a in Resources */,
-				5ABEAF681F1C28C1008E5BB5 /* What You Wanted.m4a in Resources */,
+				5A5598381F7B5A9900AF9E9F /* 5 Secrets.mp3 in Resources */,
+				5A5598641F7ED9FC00AF9E9F /* Nothing Left to Say.mp3 in Resources */,
 				5A3049491EAF18D10000A144 /* If I Lose Myself.mp3 in Resources */,
+				5A55982D1F7B5A9900AF9E9F /* Truth to Power.mp3 in Resources */,
 				5A3CD1B71F6A57920015683B /* Star Trek Main Theme.mp3 in Resources */,
+				5A5598421F7C1E7300AF9E9F /* On Top of the World.mp3 in Resources */,
+				5A55982F1F7B5A9900AF9E9F /* Better.mp3 in Resources */,
 				5A0B3FED1F74CEF100A60D9F /* Tracks.plist in Resources */,
+				5A5598311F7B5A9900AF9E9F /* Counting Stars.mp3 in Resources */,
 				5A3CD1B61F6A57920015683B /* Main Star Wars.mp3 in Resources */,
-				5A6237031F5C22910027326D /* Learn to Let Go.m4a in Resources */,
-				5AAF83F61F0D8D21001E9313 /* Marchin On.m4a in Resources */,
+				5A5598301F7B5A9900AF9E9F /* Lift Me Up.mp3 in Resources */,
 				5A3CD1B41F6A57920015683B /* Feel Again Instrumental.mp3 in Resources */,
 				5A5181841F567947007FA781 /* Song for Sienna.mp3 in Resources */,
 				5A3CD1B51F6A57920015683B /* Jedi Steps and Finale.mp3 in Resources */,
+				5A5598391F7B5A9900AF9E9F /* Preacher.mp3 in Resources */,
 				5A3CD1B01F6A57920015683B /* Battle of the Heroes.mp3 in Resources */,
-				5A0EBF741E9AED430064C33F /* Let's Hurt Tonight.m4a in Resources */,
 				5A3CD1B81F6A57920015683B /* The Force Suite.mp3 in Resources */,
-				5A9518811EAA42160028B8E6 /* 440.m4a in Resources */,
+				5A5598351F7B5A9900AF9E9F /* Heaven.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,7 +366,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -370,7 +376,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
@@ -414,7 +424,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -422,7 +434,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
@@ -458,7 +474,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = TN69P7NFS6;
 				INFOPLIST_FILE = AudioPlayer1/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.eisler.AudioPlayer1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -467,7 +483,8 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -479,7 +496,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = TN69P7NFS6;
 				INFOPLIST_FILE = AudioPlayer1/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.eisler.AudioPlayer1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -487,7 +504,8 @@
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

@@ -12,10 +12,9 @@ import AVFoundation
 
 private enum PanDirection {
     case Left
+    case Center
     case Right
 }
-
-typealias MusicFileDictionary = DictionaryLiteral<Array<String>, Array<URL>>  //<title, URL path>
 
 
 class PanAudioPlayer: AVAudioPlayer {
@@ -39,23 +38,12 @@ class PanAudioPlayer: AVAudioPlayer {
         super.stop()
     }
     
-    func invalidatePan() {
+    func invalidateRhythm() {
         
         timer.invalidate()
     }
     
-    init(contentsOf url: URL, period: Double) throws {
-        
-        self.period = period
-        
-        do {
-            try super.init(contentsOf: url, fileTypeHint: url.pathExtension)
-            
-        
-        } catch let error as NSError {
-            throw error
-        }
-        
+    func setupRhythm() {
         
         self.timer = Timer.scheduledTimer(withTimeInterval: period, repeats: true, block: { (timer : Timer) -> Void in
             
@@ -72,29 +60,41 @@ class PanAudioPlayer: AVAudioPlayer {
             
             
         })
-
+    }
+    
+    
+    init(contentsOf url: URL, period: Double) throws {
+        
+        self.period = period
+        
+        do {
+            try super.init(contentsOf: url, fileTypeHint: url.pathExtension)
+            
+        
+        } catch let error as NSError {
+            throw error
+        }
     }
 }
 
 class AudioManager : NSObject, AVAudioPlayerDelegate {
     
     
+    private var tracks : TrackArray //array of dictionaries containing <String, String>
+    private var playIndices : Array<Int>? //array of selected (indexPath.row)
     
-    private var keys : Array<String>?
-    private var players : Dictionary<String, PanAudioPlayer>?     //'Literal' implies ordered
-                                                                  // <title, Player instance>
     
-
     private var nowPlaying : PanAudioPlayer?
-    private var currentIndex : Int = 0
-    var repeatOn : Bool?
-    var delegate : AudioManagerDelegate?
+    private var playerArray: Array<PanAudioPlayer>
     
-    var playerCount : Int {
+    private var queueReady: Bool?
+            var delegate : AudioManagerDelegate?
+    
+    
+    var trackCount : Int { /// return count for tracks
         
         get {
-            if (keys != nil) { return keys!.count }
-            return 0
+            return tracks.count
         }
     }
     
@@ -106,122 +106,171 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
             };  return false
         }
     }
-    
-    private func play(atIndex: Int) -> Bool {
+
+    func playback(queued: Array<Int>) -> Bool {
         
-        nowPlaying = nil
-        let key = keys![atIndex]
-        nowPlaying = players?[key]
+        var retVal : Bool
         
-        currentIndex = atIndex
-        
-        return (nowPlaying?.play())!
-        
-    }
-    
-    func beginPlayback() -> Bool {
-        
-        return self.play(atIndex: 0)
-        
-    }
-    
-    func resumePlayback() -> Bool {
-        
-        if (nowPlaying != nil && nowPlaying?.isPlaying == false) {
-            return nowPlaying!.play()
+        if let indices = self.playIndices {
+            if (indices != queued) {
+                self.clearQueue()
+                self.playIndices = queued
+            }
         }
         
-        if (nowPlaying == nil) {
-            return self.play(atIndex: currentIndex)
+        guard let _ = playIndices else { return false }
+        
+        let firstIndex = playIndices![0] as Int
+        let firstTrack : Dictionary<String, String> = tracks[firstIndex]
+        
+        let period = Double(firstTrack["period"]!)
+        
+        let url = Bundle.main.url(forResource: firstTrack["title"]!, withExtension: "mp3")
+        
+        do {
+            let aPlayer = try PanAudioPlayer(contentsOf: url!, period: period!)
+            aPlayer.delegate = self as AVAudioPlayerDelegate
+            aPlayer.setupRhythm()
+            nowPlaying = aPlayer
+            
+            retVal = nowPlaying!.play()
+            
+            if (nowPlaying != nil) {
+                playIndices?.remove(at: 0)
+                playerArray.append(nowPlaying!)
+            }
+            
+        } catch {
+            
+            print(error)
+            return false
+        }
+        
+        
+        if (queueReady != true) {
+            
+            if (queued.count > 0) {
+                self.queueReady = true
+            }
+            
+            
+        }
+        
+        let background = DispatchQueue.global()
+        
+        background.async {
+            self.queueReady = self.instantiatePlayers()
+        }
+        
+        return retVal
+        
+    }
+    
+    
+    func stopPlayback() {
+        
+        if (nowPlaying?.isPlaying == true) {
+            nowPlaying?.stop()
+        } 
+    
+    }
+    
+    
+    private func clearQueue() {
+        
+        self.playIndices = []
+        self.playerArray = []
+        nowPlaying = nil
+        queueReady = nil
+        
+    }
+    
+    func title(forIndex: Int) -> String {
+        
+        let trackDict = tracks[forIndex]
+        return trackDict["title"]!
+        
+    }
+    
+    func isQueued() -> Bool {
+        
+        if let retVal = self.queueReady {
+            return retVal
         }
         
         return false
     }
     
-    func pause() {
+    private func instantiatePlayers() -> Bool { ///call async
         
-        if (nowPlaying?.isPlaying == true) {
-            nowPlaying?.pause()
-        }
-    }
-    
-    func stop(andReset: Bool) {
+        var success : Bool = true
+        guard let _ = self.playIndices else { return false }
         
-        if (nowPlaying?.isPlaying == true) {
-            nowPlaying?.stop()
-        }
-        
-        if (andReset == true) {
-            currentIndex = 0
-        }
-    }
-    
-    init(withDictionary: MusicFileDictionary, repeating : Bool, panTimes : Array<Double>) throws {
-    //should throw exception if a player fucks up 
-        
-        super.init()
-        var count = 0       // usage: panTimes[count]
-        
-        // should use background processing...?
-        players = [:]
-        keys = []
-        repeatOn = repeating
-        var urls : Array<URL>?
-        
-        for element in withDictionary {         // if dictionary passed correctly, will iterate once
-            keys = element.key
-            urls = element.value
-        }
-        
-        
-        for url in urls! {
+        for index in self.playIndices! {
+            
+            let trackDict = self.tracks[index]
+            let fileName = trackDict["title"]!
+            let period = Double(trackDict["period"]!)
+            
+            guard let url = Bundle.main.url(forResource: fileName, withExtension: "mp3") else { success = false; return success }
             
             do {
+                let aPlayer = try PanAudioPlayer(contentsOf: url, period: period!)
+                aPlayer.delegate = self as AVAudioPlayerDelegate
+                self.playerArray.append(aPlayer)
                 
-                let player = try PanAudioPlayer(contentsOf: url, period: panTimes[count])
-                player.delegate = self as AVAudioPlayerDelegate
-            
-                self.players?.updateValue(player, forKey: keys![count])
-    
-                count += 1
-            
-            } catch let error as NSError {
-         
-                print("Cannot create instance of PanAudioPlayer; check URL path: \(error.code)")
-                throw error
+            } catch {
+                print(error)
+                success = false; return success
             }
-            
         }
+        return success
     }
+    
+    init(withArray: TrackArray) {
+ 
+        playIndices = Array()
+        playerArray = Array()
+        tracks = withArray
+        
+        super.init()
+        
+    }
+
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
      
-        let nextIndex = currentIndex + 1
-        nowPlaying = nil
-        
-        let panPlayer : PanAudioPlayer = player as! PanAudioPlayer
-        panPlayer.invalidatePan() //stops the timer
-        
-        if ((players?.count)! > currentIndex + 1) {    // players to continue to play
+            guard let audioPlayer = player as? PanAudioPlayer else { return }
             
-            _ = self.play(atIndex: nextIndex)
-            return
-        }
+            audioPlayer.invalidateRhythm()
             
-        if (repeatOn == true) {
-            if (self.delegate != nil) {
-                self.delegate!.audioManagerDidCompletePlaylist()
+            guard let currentIndex = self.playerArray.index(of: audioPlayer) else {
+                self.delegate?.audioManagerPlaybackInterrupted()
+                return
             }
-        }
+            
+            if (currentIndex == (playerArray.count-1)) {
+                
+                    if (self.delegate != nil) {
+                        self.delegate!.audioManagerDidCompletePlaylist()
+                    }
+                return
+            }
+            
+            if (queueReady == true) {
+            
+                let nextPlayer = self.playerArray[currentIndex+1]
+                nextPlayer.setupRhythm()
+                _ = nextPlayer.play()
+                nowPlaying = nextPlayer
+                
+                
+            }
+        
     }
-    
-    
-    
-    
-    
-    
 }
 
 protocol AudioManagerDelegate {
     func audioManagerDidCompletePlaylist()
+    func audioManagerPlaybackInterrupted()
 }
