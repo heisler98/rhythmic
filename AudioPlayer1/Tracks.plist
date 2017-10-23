@@ -116,7 +116,7 @@
 	</dict>
 	<dict>
 		<key>title</key>
-		<string>Truth To Power</string>
+		<string>Truth to Power</string>
 		<key>period</key>
 		<string>0.83</string>
 		<key>category</key>
@@ -311,6 +311,46 @@
 		<string>Nothing Left to Say</string>
 		<key>period</key>
 		<string>0.472</string>
+		<key>category</key>
+		<string>song</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>440 Triangle</string>
+		<key>period</key>
+		<string>0.5</string>
+		<key>category</key>
+		<string>frequency</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>Tell Me</string>
+		<key>period</key>
+		<string>0.536</string>
+		<key>category</key>
+		<string>song</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>Glorious</string>
+		<key>period</key>
+		<string>0.428</string>
+		<key>category</key>
+		<string>song</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>Home Now</string>
+		<key>period</key>
+		<string>0.690</string>
+		<key>category</key>
+		<string>song</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>I Could Not Plan This</string>
+		<key>period</key>
+		<string>0.55</string>
 		<key>category</key>
 		<string>song</string>
 	</dict>

@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -74,9 +73,9 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="xRQ-8B-Aw6"/>
-                                    <barButtonItem title="Shuffle" id="GFu-1f-lti">
+                                    <barButtonItem title="Crosspan" id="PpY-CQ-opE">
                                         <connections>
-                                            <action selector="handleRepeatShuffle:" destination="yga-hq-uB9" id="BXu-jI-624"/>
+                                            <action selector="handleRepeatShuffle:" destination="yga-hq-uB9" id="Z4H-W9-TD4"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
@@ -97,8 +96,8 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="panTypeBarButtonItem" destination="PpY-CQ-opE" id="ClT-cV-YKw"/>
                         <outlet property="repeatBarButtonItem" destination="bC6-ak-JWO" id="YFP-Rd-ipc"/>
-                        <outlet property="shuffleBarButtonItem" destination="GFu-1f-lti" id="eK7-kH-boH"/>
                         <outlet property="tableView" destination="v4b-yd-TSc" id="LY1-dp-m8A"/>
                         <outlet property="toolbar" destination="dDu-h7-mgw" id="eBv-1C-ifE"/>
                     </connections>

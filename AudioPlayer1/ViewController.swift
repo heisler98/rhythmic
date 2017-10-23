@@ -15,6 +15,7 @@
 
 import UIKit
 import AVFoundation
+import MediaPlayer
 
 typealias TrackArray = Array<Dictionary<String, String>>
 
@@ -22,11 +23,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     private var audioManager : AudioManager?
     private var selectedCells : Array<Int> = []
+    private var rhythmType : Rhythmic = .Crosspan
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var toolbar: UIToolbar!
     @IBOutlet weak var repeatBarButtonItem: UIBarButtonItem!
-    @IBOutlet weak var shuffleBarButtonItem: UIBarButtonItem!
+    @IBOutlet weak var panTypeBarButtonItem: UIBarButtonItem!
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -34,9 +36,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        repeatBarButtonItem.tintColor = UIColor.blue
-        shuffleBarButtonItem.tintColor = UIColor.blue
         
         var trackArr : TrackArray?
         if let plistURL = Bundle.main.url(forResource: "Tracks", withExtension: "plist") { //PLIST url
@@ -62,6 +61,28 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
             try AVAudioSession.sharedInstance().setActive(true)
             
+            let commandCenter = MPRemoteCommandCenter.shared()
+            commandCenter.playCommand.addTarget(handler: { (event) -> MPRemoteCommandHandlerStatus in
+                
+                if let manager = self.audioManager {
+                    manager.togglePauseResume()
+                }
+                
+                return .success
+                
+            })
+            
+            commandCenter.pauseCommand.addTarget(handler: { (event) -> MPRemoteCommandHandlerStatus in
+                
+                if let manager = self.audioManager {
+                    manager.togglePauseResume()
+                }
+                
+                return .success
+            })
+            
+            
+            
         } catch let error as NSError {
             print("error: \(error)")
         }
@@ -76,8 +97,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        repeatBarButtonItem.tintColor = UIColor.blue
-        shuffleBarButtonItem.tintColor = UIColor.blue
     }
     
     
@@ -105,9 +124,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         } else {
             cell.accessoryType = .none
         }
-        
-        
-    
+
         return cell
         
     }
@@ -134,6 +151,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             if (manager.isPlaying == false) {
                 
+                manager.rhythm = rhythmType
                 _ = manager.playback(queued: selectedCells)
                 
             } else {
@@ -145,37 +163,25 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBAction func handleRepeatShuffle(_ sender: UIBarButtonItem) {
         
         if (sender == repeatBarButtonItem) {
-            if (repeatBarButtonItem.tintColor == UIColor.blue) {
-                repeatBarButtonItem.tintColor = UIColor.red
+            
+        }
+        
+        if (sender == panTypeBarButtonItem) {
+            if (panTypeBarButtonItem.title == "Crosspan") {
+                panTypeBarButtonItem.title = "Bilateral"
+                rhythmType = .Bilateral
             } else {
-                repeatBarButtonItem.tintColor = UIColor.blue
+                panTypeBarButtonItem.title = "Crosspan"
+                rhythmType = .Crosspan //======<<<< change, invalid
             }
         }
         
-        if (sender == shuffleBarButtonItem) {
-            if (shuffleBarButtonItem.tintColor == UIColor.blue) {
-                shuffleBarButtonItem.tintColor = UIColor.red
-            } else {
-                shuffleBarButtonItem.tintColor = UIColor.blue
-            }
-        }
     }
     
     func audioManagerDidCompletePlaylist() {
         
-        
-        if (repeatBarButtonItem.tintColor == UIColor.blue) {
-            if let manager = audioManager {
-                _ = manager.playback(queued: selectedCells)
-            }
-            
-        else if (repeatBarButtonItem.tintColor == UIColor.red) {
-                
-                if let manager = audioManager {
-                    manager.stopPlayback()
-                }
-            }
-        }
+        selectedCells = []
+        self.tableView.reloadData()
     }
     
     func audioManagerPlaybackInterrupted() {

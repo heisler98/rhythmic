@@ -16,15 +16,23 @@ private enum PanDirection {
     case Right
 }
 
+enum Rhythmic {
+    case Bilateral
+    case Crosspan
+    case Synthesis
+}
+
 
 class PanAudioPlayer: AVAudioPlayer {
 
     private var timer : Timer = Timer()
     private var direction : PanDirection = .Left
+    private var lastDirection = PanDirection.Center
     private var period : Double
     
     
     override func play() -> Bool {
+    
         
         timer.fire()
         print("Period: \(self.period)")
@@ -43,23 +51,101 @@ class PanAudioPlayer: AVAudioPlayer {
         timer.invalidate()
     }
     
-    func setupRhythm() {
+    func setupRhythm(_ opt: Rhythmic) {
         
-        self.timer = Timer.scheduledTimer(withTimeInterval: period, repeats: true, block: { (timer : Timer) -> Void in
+        if (opt == .Bilateral) {
+        
+            self.timer = Timer.scheduledTimer(withTimeInterval: period, repeats: true, block: { (timer : Timer) -> Void in
             
-            if self.direction == PanDirection.Left {
+                if self.direction == PanDirection.Left {
                 
-                self.pan = 1.0
-                self.direction = .Right
+                    self.pan = 1.0
+                    self.direction = .Right
                 
-            } else {
+                } else {
                 
-                self.pan = -1.0
-                self.direction = .Left
-            }
+                    self.pan = -1.0
+                    self.direction = .Left
+                }
             
             
-        })
+            })
+            
+        }
+        
+        else if (opt == .Crosspan) {
+            
+            self.timer = Timer.scheduledTimer(withTimeInterval: period, repeats: true, block: { (timer : Timer) -> Void in
+                
+                switch self.direction {
+                    
+                case PanDirection.Left:
+                    // go to center
+                    self.pan = 0
+                    self.lastDirection = .Left
+                    self.direction = .Center
+                    break
+                    
+                case PanDirection.Center:
+                    //go to left | right
+                    if (self.lastDirection == .Left) {
+                        //go to right
+                        self.pan = 1.0
+                        self.direction = .Right
+                        break
+                    }
+                    //go to left
+                    self.pan = -1
+                    self.direction = .Left
+                    break
+                    
+                case PanDirection.Right:
+                    //go to center
+                    self.pan = 0
+                    self.lastDirection = .Right
+                    self.direction = .Center
+                    break
+
+                    
+                }
+                    
+                    
+                
+                
+            })
+        } else if (opt == .Synthesis) {
+            
+            self.timer = Timer.scheduledTimer(withTimeInterval: period, repeats: true, block: { (timer) -> Void in
+                
+                switch self.direction {
+                    
+                case PanDirection.Left:
+                    var i : Float = -1.0
+                    while (i != 1) {
+                        i += 0.1
+                        self.pan = i
+                    }
+                    self.direction = .Right
+                    break
+                    
+                case PanDirection.Right:
+                    var i : Float = 1.0
+                    while (i != -1) {
+                        i -= 0.1
+                        self.pan = i
+                    }
+                    self.direction = .Left
+                    break
+                    
+                default:
+                    print("PanAudioPlayer: invalid PanDirection for synthesis")
+                    break
+                    
+                }
+                
+            })
+        }
+
     }
     
     
@@ -74,6 +160,7 @@ class PanAudioPlayer: AVAudioPlayer {
         } catch let error as NSError {
             throw error
         }
+        
     }
 }
 
@@ -88,6 +175,7 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
     private var playerArray: Array<PanAudioPlayer>
     
     private var queueReady: Bool?
+    var rhythm: Rhythmic = .Bilateral
             var delegate : AudioManagerDelegate?
     
     
@@ -130,7 +218,7 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         do {
             let aPlayer = try PanAudioPlayer(contentsOf: url!, period: period!)
             aPlayer.delegate = self as AVAudioPlayerDelegate
-            aPlayer.setupRhythm()
+            aPlayer.setupRhythm(rhythm)
             nowPlaying = aPlayer
             
             retVal = nowPlaying!.play()
@@ -173,6 +261,22 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
             nowPlaying?.stop()
         } 
     
+    }
+    
+    func togglePauseResume() {
+        
+        if (self.isPlaying == true) {
+            if let player = nowPlaying {
+                player.pause()
+            }
+            return
+        }
+        
+        if (self.isPlaying == false) {
+            if let player = nowPlaying {
+                _ = player.play()
+            }
+        }
     }
     
     
@@ -260,7 +364,7 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
             if (queueReady == true) {
             
                 let nextPlayer = self.playerArray[currentIndex+1]
-                nextPlayer.setupRhythm()
+                nextPlayer.setupRhythm(rhythm)
                 _ = nextPlayer.play()
                 nowPlaying = nextPlayer
                 
