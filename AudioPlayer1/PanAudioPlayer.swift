@@ -14,6 +14,8 @@ private enum PanDirection {
     case Left
     case Center
     case Right
+    case MidLeft
+    case MidRight
 }
 
 enum Rhythmic {
@@ -27,7 +29,7 @@ class PanAudioPlayer: AVAudioPlayer {
 
     private var timer : Timer = Timer()
     private var direction : PanDirection = .Left
-    private var lastDirection = PanDirection.Center
+    private var lastDirection = PanDirection.Left
     private var period : Double
     
     
@@ -74,7 +76,8 @@ class PanAudioPlayer: AVAudioPlayer {
         }
         
         else if (opt == .Crosspan) {
-            
+  
+/*
             self.timer = Timer.scheduledTimer(withTimeInterval: period, repeats: true, block: { (timer : Timer) -> Void in
                 
                 switch self.direction {
@@ -106,11 +109,80 @@ class PanAudioPlayer: AVAudioPlayer {
                     self.direction = .Center
                     break
 
-                    
+                default:
+                    print("error")
+                    break
                 }
                     
                     
                 
+                
+            })
+ 
+ */
+            
+            self.timer = Timer.scheduledTimer(withTimeInterval: (period/2), repeats: true, block: { (timer) -> Void in
+                
+                switch self.direction {
+                    
+                case PanDirection.Left:
+                    if (self.lastDirection == .MidLeft) {
+                        self.pan = -1.0
+                        self.lastDirection = .Left
+                        self.direction = .Left //to repeat 'Left'
+                    }
+                    
+                    if (self.lastDirection == .Left) {
+                        //go to MidLeft
+                        self.pan = -0.33
+                        self.lastDirection = .Left
+                        self.direction = .MidLeft
+                    }
+                    break
+                    
+                case PanDirection.MidLeft:
+                    if (self.lastDirection == .Left) {
+                        self.pan = 0.33
+                        self.lastDirection = .MidLeft
+                        self.direction = .MidRight
+                    }
+                    if (self.lastDirection == .MidRight) {
+                        self.pan = -1.0
+                        self.lastDirection = .MidLeft
+                        self.direction = .Left
+                    }
+                    break
+                    
+                case PanDirection.MidRight:
+                    if (self.lastDirection == .Right) {
+                        self.pan = -0.33
+                        self.lastDirection = .MidRight
+                        self.direction = .MidLeft
+                    }
+                    if (self.lastDirection == .MidLeft) {
+                        self.pan = 1.0
+                        self.lastDirection = .MidRight
+                        self.direction = .Right
+                    }
+                    break
+                    
+                case PanDirection.Right:
+                    if (self.lastDirection == .MidRight) {
+                        self.pan = 1.0
+                        self.lastDirection = .Right
+                        self.direction = .Right //to repeat 'Right'
+                    }
+                    if (self.lastDirection == .Right) {
+                        self.pan = 0.33
+                        self.lastDirection = .Right
+                        self.direction = .MidRight
+                    }
+                    break
+                    
+                default:
+                    print("error")
+                    break
+                }
                 
             })
         } else if (opt == .Synthesis) {

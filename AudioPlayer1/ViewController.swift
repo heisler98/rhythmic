@@ -172,7 +172,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 rhythmType = .Bilateral
             } else {
                 panTypeBarButtonItem.title = "Crosspan"
-                rhythmType = .Crosspan //======<<<< change, invalid
+                rhythmType = .Crosspan
             }
         }
         

@@ -354,5 +354,13 @@
 		<key>category</key>
 		<string>song</string>
 	</dict>
+	<dict>
+		<key>title</key>
+		<string>Isochronic</string>
+		<key>period</key>
+		<string>0.5</string>
+		<key>category</key>
+		<string>frequency</string>
+	</dict>
 </array>
 </plist>
