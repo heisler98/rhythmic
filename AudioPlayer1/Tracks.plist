@@ -362,5 +362,29 @@
 		<key>category</key>
 		<string>frequency</string>
 	</dict>
+	<dict>
+		<key>title</key>
+		<string>Luck</string>
+		<key>period</key>
+		<string>0.416</string>
+		<key>category</key>
+		<string>song</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>Day to Feel Alive</string>
+		<key>period</key>
+		<string>0.492</string>
+		<key>category</key>
+		<string>song</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>Hold Back The River</string>
+		<key>period</key>
+		<string>0.444</string>
+		<key>category</key>
+		<string>song</string>
+	</dict>
 </array>
 </plist>

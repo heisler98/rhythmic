@@ -163,16 +163,32 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBAction func handleRepeatShuffle(_ sender: UIBarButtonItem) {
         
         if (sender == repeatBarButtonItem) {
-            
+            if (repeatBarButtonItem.title == "Repeat") {
+                
+            }
         }
         
         if (sender == panTypeBarButtonItem) {
-            if (panTypeBarButtonItem.title == "Crosspan") {
+            
+            switch panTypeBarButtonItem.title! {
+                
+            case "Crosspan":
                 panTypeBarButtonItem.title = "Bilateral"
                 rhythmType = .Bilateral
-            } else {
+                break
+                
+            case "Bilateral":
+                panTypeBarButtonItem.title = "Synthesis"
+                rhythmType = .Synthesis
+                break
+                
+            case "Synthesis":
                 panTypeBarButtonItem.title = "Crosspan"
                 rhythmType = .Crosspan
+                break
+                
+            default:
+                break
             }
         }
         

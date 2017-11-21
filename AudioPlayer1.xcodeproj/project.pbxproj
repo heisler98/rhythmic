@@ -45,6 +45,9 @@
 		5A5598401F7B5E6C00AF9E9F /* Courtyard Apocalypse.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A55983F1F7B5E6C00AF9E9F /* Courtyard Apocalypse.mp3 */; };
 		5A5598421F7C1E7300AF9E9F /* On Top of the World.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A5598411F7C1E7300AF9E9F /* On Top of the World.mp3 */; };
 		5A5598641F7ED9FC00AF9E9F /* Nothing Left to Say.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A5598631F7ED9FC00AF9E9F /* Nothing Left to Say.mp3 */; };
+		5A57DB1E1FBF891200DC46B6 /* Luck.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A57DB1D1FBF891200DC46B6 /* Luck.mp3 */; };
+		5A57DB201FBF893500DC46B6 /* Day to Feel Alive.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A57DB1F1FBF893500DC46B6 /* Day to Feel Alive.mp3 */; };
+		5A57DB221FC0DF4200DC46B6 /* Hold Back The River.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A57DB211FC0DF4100DC46B6 /* Hold Back The River.mp3 */; };
 		5A6236FF1F5C019B0027326D /* Viva La Vida.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A6236FE1F5C019B0027326D /* Viva La Vida.mp3 */; };
 		5A6237071F5F44FF0027326D /* Collateral Beauty.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A6237061F5F44FF0027326D /* Collateral Beauty.mp3 */; };
 		5A8E45261F88416700B33FB7 /* 440 Triangle.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A8E45251F88416700B33FB7 /* 440 Triangle.mp3 */; };
@@ -102,6 +105,9 @@
 		5A55983F1F7B5E6C00AF9E9F /* Courtyard Apocalypse.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Courtyard Apocalypse.mp3"; sourceTree = "<group>"; };
 		5A5598411F7C1E7300AF9E9F /* On Top of the World.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "On Top of the World.mp3"; sourceTree = "<group>"; };
 		5A5598631F7ED9FC00AF9E9F /* Nothing Left to Say.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Nothing Left to Say.mp3"; sourceTree = "<group>"; };
+		5A57DB1D1FBF891200DC46B6 /* Luck.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Luck.mp3; path = "../../../../Music/Converted by MediaHuman/Luck.mp3"; sourceTree = "<group>"; };
+		5A57DB1F1FBF893500DC46B6 /* Day to Feel Alive.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Day to Feel Alive.mp3"; path = "../../../../Music/Converted by MediaHuman/Day to Feel Alive.mp3"; sourceTree = "<group>"; };
+		5A57DB211FC0DF4100DC46B6 /* Hold Back The River.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Hold Back The River.mp3"; path = "../../../../Music/Converted by MediaHuman/Hold Back The River.mp3"; sourceTree = "<group>"; };
 		5A6236FE1F5C019B0027326D /* Viva La Vida.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Viva La Vida.mp3"; sourceTree = "<group>"; };
 		5A6237061F5F44FF0027326D /* Collateral Beauty.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Collateral Beauty.mp3"; sourceTree = "<group>"; };
 		5A8E45251F88416700B33FB7 /* 440 Triangle.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "440 Triangle.mp3"; sourceTree = "<group>"; };
@@ -171,6 +177,9 @@
 		5ABEAF751F36E4AA008E5BB5 /* Audio Assets */ = {
 			isa = PBXGroup;
 			children = (
+				5A57DB211FC0DF4100DC46B6 /* Hold Back The River.mp3 */,
+				5A57DB1F1FBF893500DC46B6 /* Day to Feel Alive.mp3 */,
+				5A57DB1D1FBF891200DC46B6 /* Luck.mp3 */,
 				5A50D84E1FA2452F00D12D55 /* Isochronic.mp3 */,
 				5A4748FE1F9BFEE4000D58AD /* I Could Not Plan This.mp3 */,
 				5A4748FC1F9BF89A000D58AD /* Home Now.mp3 */,
@@ -320,6 +329,7 @@
 				5A3CD1B21F6A57920015683B /* Counting Stars Instrumental.mp3 in Resources */,
 				5A4748FF1F9BFEE4000D58AD /* I Could Not Plan This.mp3 in Resources */,
 				5A5598381F7B5A9900AF9E9F /* 5 Secrets.mp3 in Resources */,
+				5A57DB221FC0DF4200DC46B6 /* Hold Back The River.mp3 in Resources */,
 				5A5598641F7ED9FC00AF9E9F /* Nothing Left to Say.mp3 in Resources */,
 				5A3049491EAF18D10000A144 /* If I Lose Myself.mp3 in Resources */,
 				5A55982D1F7B5A9900AF9E9F /* Truth to Power.mp3 in Resources */,
@@ -332,11 +342,13 @@
 				5AFA297F1F993BFA005B4D79 /* Glorious.mp3 in Resources */,
 				5A3CD1B61F6A57920015683B /* Main Star Wars.mp3 in Resources */,
 				5A5598301F7B5A9900AF9E9F /* Lift Me Up.mp3 in Resources */,
+				5A57DB201FBF893500DC46B6 /* Day to Feel Alive.mp3 in Resources */,
 				5A3CD1B41F6A57920015683B /* Feel Again Instrumental.mp3 in Resources */,
 				5A5181841F567947007FA781 /* Song for Sienna.mp3 in Resources */,
 				5A3CD1B51F6A57920015683B /* Jedi Steps and Finale.mp3 in Resources */,
 				5A5598391F7B5A9900AF9E9F /* Preacher.mp3 in Resources */,
 				5A3CD1B01F6A57920015683B /* Battle of the Heroes.mp3 in Resources */,
+				5A57DB1E1FBF891200DC46B6 /* Luck.mp3 in Resources */,
 				5A3CD1B81F6A57920015683B /* The Force Suite.mp3 in Resources */,
 				5A5598351F7B5A9900AF9E9F /* Heaven.mp3 in Resources */,
 			);
