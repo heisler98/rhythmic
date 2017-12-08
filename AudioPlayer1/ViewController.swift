@@ -12,6 +12,7 @@
 // !:annotate code so I don't have to comb through this shit like I always do to find what I want
 // !:support multiple rhythms
 // ?:Implement document handling thru iTunes/'Open In...' (can add audio w/o programmatic)
+// Implement 'sessions'
 
 import UIKit
 import AVFoundation
@@ -53,6 +54,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
      
         if (trackArr != nil) {
             audioManager = AudioManager(withArray: trackArr!)
+            audioManager?.delegate = self as AudioManagerDelegate
         }
         
         do {
@@ -164,8 +166,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         if (sender == repeatBarButtonItem) {
             if (repeatBarButtonItem.title == "Repeat") {
-                
+                repeatBarButtonItem.title = "One-time"
+            } else if (repeatBarButtonItem.title == "One-time") {
+                repeatBarButtonItem.title = "Repeat"
             }
+            
+            
         }
         
         if (sender == panTypeBarButtonItem) {
@@ -194,10 +200,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
-    func audioManagerDidCompletePlaylist() {
+    func audioManagerDidCompletePlaylist() { //<<implement repeat
         
-        selectedCells = []
-        self.tableView.reloadData()
+        if (repeatBarButtonItem.title == "One-time") {
+            selectedCells = []
+            self.tableView.reloadData()
+        } else if (repeatBarButtonItem.title == "Repeat") {
+            
+            if let manager = audioManager {
+                _ = manager.playback(queued: selectedCells)
+            }
+            
+        }
     }
     
     func audioManagerPlaybackInterrupted() {

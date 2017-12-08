@@ -21,6 +21,8 @@
 		5A3CD1B91F6A57920015683B /* The Force Theme.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3CD1AF1F6A57920015683B /* The Force Theme.mp3 */; };
 		5A4748FD1F9BF89B000D58AD /* Home Now.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A4748FC1F9BF89A000D58AD /* Home Now.mp3 */; };
 		5A4748FF1F9BFEE4000D58AD /* I Could Not Plan This.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A4748FE1F9BFEE4000D58AD /* I Could Not Plan This.mp3 */; };
+		5A4D50B31FD219350040820C /* Dream.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A4D50B21FD219350040820C /* Dream.mp3 */; };
+		5A4D50BA1FD710EE0040820C /* Polaroid.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A4D50B91FD710EE0040820C /* Polaroid.mp3 */; };
 		5A50D84F1FA2453000D12D55 /* Isochronic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A50D84E1FA2452F00D12D55 /* Isochronic.mp3 */; };
 		5A5181841F567947007FA781 /* Song for Sienna.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A5181831F567947007FA781 /* Song for Sienna.mp3 */; };
 		5A55982B1F7B5A9900AF9E9F /* What You Wanted.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A5598171F7B5A9100AF9E9F /* What You Wanted.mp3 */; };
@@ -58,6 +60,9 @@
 		5ABA309E1DCBC97D006E5999 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5ABA309C1DCBC97D006E5999 /* Main.storyboard */; };
 		5ABA30A01DCBC97D006E5999 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5ABA309F1DCBC97D006E5999 /* Assets.xcassets */; };
 		5ABA30A31DCBC97D006E5999 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5ABA30A11DCBC97D006E5999 /* LaunchScreen.storyboard */; };
+		5ABE00F71FC970A10099405C /* 18 Musicians IV.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5ABE00F61FC970A10099405C /* 18 Musicians IV.mp3 */; };
+		5ABE00FA1FCB70A30099405C /* 18 Musicians II.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5ABE00F81FCB70A20099405C /* 18 Musicians II.mp3 */; };
+		5ABE00FB1FCB70A30099405C /* 18 Musicians III.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5ABE00F91FCB70A30099405C /* 18 Musicians III.mp3 */; };
 		5ABEAF621F19851E008E5BB5 /* PanAudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABEAF611F19851E008E5BB5 /* PanAudioPlayer.swift */; };
 		5AE0C7B41ECC0DEC00AF6926 /* I Lived.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AE0C7B31ECC0DEC00AF6926 /* I Lived.mp3 */; };
 		5AF19F8A1E95A0B1004E38C9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AF19F891E95A0B1004E38C9 /* AVFoundation.framework */; };
@@ -81,6 +86,9 @@
 		5A3CD1AF1F6A57920015683B /* The Force Theme.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "The Force Theme.mp3"; sourceTree = "<group>"; };
 		5A4748FC1F9BF89A000D58AD /* Home Now.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Home Now.mp3"; sourceTree = "<group>"; };
 		5A4748FE1F9BFEE4000D58AD /* I Could Not Plan This.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "I Could Not Plan This.mp3"; sourceTree = "<group>"; };
+		5A4D50B21FD219350040820C /* Dream.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Dream.mp3; sourceTree = "<group>"; };
+		5A4D50B81FD221A10040820C /* The Fall.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "The Fall.mp3"; sourceTree = "<group>"; };
+		5A4D50B91FD710EE0040820C /* Polaroid.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Polaroid.mp3; sourceTree = "<group>"; };
 		5A50D84E1FA2452F00D12D55 /* Isochronic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Isochronic.mp3; sourceTree = "<group>"; };
 		5A5181831F567947007FA781 /* Song for Sienna.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Song for Sienna.mp3"; sourceTree = "<group>"; };
 		5A5598171F7B5A9100AF9E9F /* What You Wanted.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "What You Wanted.mp3"; sourceTree = "<group>"; };
@@ -120,6 +128,9 @@
 		5ABA309F1DCBC97D006E5999 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5ABA30A21DCBC97D006E5999 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5ABA30A41DCBC97D006E5999 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5ABE00F61FC970A10099405C /* 18 Musicians IV.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "18 Musicians IV.mp3"; path = "../../../../Music/Converted by MediaHuman/18 Musicians IV.mp3"; sourceTree = "<group>"; };
+		5ABE00F81FCB70A20099405C /* 18 Musicians II.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "18 Musicians II.mp3"; path = "../../../../Music/Converted by MediaHuman/18 Musicians II.mp3"; sourceTree = "<group>"; };
+		5ABE00F91FCB70A30099405C /* 18 Musicians III.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "18 Musicians III.mp3"; path = "../../../../Music/Converted by MediaHuman/18 Musicians III.mp3"; sourceTree = "<group>"; };
 		5ABEAF611F19851E008E5BB5 /* PanAudioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PanAudioPlayer.swift; sourceTree = "<group>"; };
 		5AE0C7B31ECC0DEC00AF6926 /* I Lived.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "I Lived.mp3"; sourceTree = "<group>"; };
 		5AF19F891E95A0B1004E38C9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -177,6 +188,12 @@
 		5ABEAF751F36E4AA008E5BB5 /* Audio Assets */ = {
 			isa = PBXGroup;
 			children = (
+				5A4D50B91FD710EE0040820C /* Polaroid.mp3 */,
+				5A4D50B81FD221A10040820C /* The Fall.mp3 */,
+				5A4D50B21FD219350040820C /* Dream.mp3 */,
+				5ABE00F81FCB70A20099405C /* 18 Musicians II.mp3 */,
+				5ABE00F91FCB70A30099405C /* 18 Musicians III.mp3 */,
+				5ABE00F61FC970A10099405C /* 18 Musicians IV.mp3 */,
 				5A57DB211FC0DF4100DC46B6 /* Hold Back The River.mp3 */,
 				5A57DB1F1FBF893500DC46B6 /* Day to Feel Alive.mp3 */,
 				5A57DB1D1FBF891200DC46B6 /* Luck.mp3 */,
@@ -307,8 +324,10 @@
 				5A4748FD1F9BF89B000D58AD /* Home Now.mp3 in Resources */,
 				5A3CD1B11F6A57920015683B /* Beyond Main Theme.mp3 in Resources */,
 				5AE0C7B41ECC0DEC00AF6926 /* I Lived.mp3 in Resources */,
+				5ABE00FB1FCB70A30099405C /* 18 Musicians III.mp3 in Resources */,
 				5A6236FF1F5C019B0027326D /* Viva La Vida.mp3 in Resources */,
 				5AFFE8161F0117E400C713FF /* Start Over.mp3 in Resources */,
+				5ABE00FA1FCB70A30099405C /* 18 Musicians II.mp3 in Resources */,
 				5A5598341F7B5A9900AF9E9F /* Praying by Kesha.mp3 in Resources */,
 				5A6237071F5F44FF0027326D /* Collateral Beauty.mp3 in Resources */,
 				5A55982E1F7B5A9900AF9E9F /* Life in Color.mp3 in Resources */,
@@ -318,9 +337,11 @@
 				5A55983B1F7B5A9900AF9E9F /* Looking Too Closely.mp3 in Resources */,
 				5ABA30A01DCBC97D006E5999 /* Assets.xcassets in Resources */,
 				5A5598321F7B5A9900AF9E9F /* Hand of God.mp3 in Resources */,
+				5A4D50BA1FD710EE0040820C /* Polaroid.mp3 in Resources */,
 				5A5598361F7B5A9900AF9E9F /* Learn to Let Go.mp3 in Resources */,
 				5ABA309E1DCBC97D006E5999 /* Main.storyboard in Resources */,
 				5A5598331F7B5A9900AF9E9F /* Marchin On.mp3 in Resources */,
+				5A4D50B31FD219350040820C /* Dream.mp3 in Resources */,
 				5A9D6BDA1E9EF2A300918D8B /* Born.mp3 in Resources */,
 				5A8E45281F901DB900B33FB7 /* Tell Me.mp3 in Resources */,
 				5A5598401F7B5E6C00AF9E9F /* Courtyard Apocalypse.mp3 in Resources */,
@@ -341,6 +362,7 @@
 				5A5598311F7B5A9900AF9E9F /* Counting Stars.mp3 in Resources */,
 				5AFA297F1F993BFA005B4D79 /* Glorious.mp3 in Resources */,
 				5A3CD1B61F6A57920015683B /* Main Star Wars.mp3 in Resources */,
+				5ABE00F71FC970A10099405C /* 18 Musicians IV.mp3 in Resources */,
 				5A5598301F7B5A9900AF9E9F /* Lift Me Up.mp3 in Resources */,
 				5A57DB201FBF893500DC46B6 /* Day to Feel Alive.mp3 in Resources */,
 				5A3CD1B41F6A57920015683B /* Feel Again Instrumental.mp3 in Resources */,

@@ -174,7 +174,7 @@
 		<key>title</key>
 		<string>5 Secrets</string>
 		<key>period</key>
-		<string>1.15</string>
+		<string>0.8</string>
 		<key>category</key>
 		<string>instrumental</string>
 	</dict>
@@ -383,6 +383,54 @@
 		<string>Hold Back The River</string>
 		<key>period</key>
 		<string>0.444</string>
+		<key>category</key>
+		<string>song</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>18 Musicians II</string>
+		<key>period</key>
+		<string>0.57</string>
+		<key>category</key>
+		<string>instrumental</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>18 Musicians III</string>
+		<key>period</key>
+		<string>0.556</string>
+		<key>category</key>
+		<string>instrumental</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>18 Musicians IV</string>
+		<key>period</key>
+		<string>0.57</string>
+		<key>category</key>
+		<string>instrumental</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>Dream</string>
+		<key>period</key>
+		<string>0.833</string>
+		<key>category</key>
+		<string>song</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>The Fall</string>
+		<key>period</key>
+		<string>0.5</string>
+		<key>category</key>
+		<string>song</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>Polaroid</string>
+		<key>period</key>
+		<string>0.387</string>
 		<key>category</key>
 		<string>song</string>
 	</dict>
