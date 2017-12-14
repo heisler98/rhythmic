@@ -434,5 +434,21 @@
 		<key>category</key>
 		<string>song</string>
 	</dict>
+	<dict>
+		<key>title</key>
+		<string>It&apos;s Time</string>
+		<key>period</key>
+		<string>0.571</string>
+		<key>category</key>
+		<string>song</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>Good Old Days (feat. Kesha)</string>
+		<key>period</key>
+		<string>0.490</string>
+		<key>category</key>
+		<string>song</string>
+	</dict>
 </array>
 </plist>

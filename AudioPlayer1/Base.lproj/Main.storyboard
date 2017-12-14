@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Sessions-->
         <scene sceneID="xzS-in-gyo">
             <objects>
                 <viewController id="yga-hq-uB9" customClass="ViewController" customModule="AudioPlayer1" customModuleProvider="target" sceneMemberID="viewController">
@@ -22,9 +22,8 @@
                         <subviews>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lUp-55-a4f">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                                <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <textAttributes key="titleTextAttributes">
-                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </textAttributes>
                                 <items>
                                     <navigationItem title="Rhythmic" id="wFX-39-5n8"/>
@@ -59,7 +58,6 @@
                             </tableView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dDu-h7-mgw">
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
-                                <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <items>
                                     <barButtonItem title="Repeat" id="bC6-ak-JWO">
                                         <connections>
@@ -95,6 +93,7 @@
                             <constraint firstAttribute="trailing" secondItem="lUp-55-a4f" secondAttribute="trailing" id="zsk-rf-wwe"/>
                         </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Sessions" id="uAj-3g-QZ7"/>
                     <connections>
                         <outlet property="panTypeBarButtonItem" destination="PpY-CQ-opE" id="ClT-cV-YKw"/>
                         <outlet property="repeatBarButtonItem" destination="bC6-ak-JWO" id="YFP-Rd-ipc"/>
@@ -104,7 +103,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ynD-UW-8LV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-372" y="-25.637181409295355"/>
+            <point key="canvasLocation" x="-32.799999999999997" y="-25.637181409295355"/>
         </scene>
     </scenes>
 </document>

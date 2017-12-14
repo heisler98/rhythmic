@@ -519,6 +519,17 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         
     }
 
+    func repeatQueue() {
+    
+        if (isQueued() == true) {
+            nowPlaying = self.playerArray[0]
+            stopPlayback()
+            nowPlaying?.setupRhythm(rhythm)
+            _ = nowPlaying?.play()
+            
+        }
+        
+    }
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
      

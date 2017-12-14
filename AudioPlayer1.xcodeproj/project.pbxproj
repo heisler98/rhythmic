@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A017D3D1FDA395F0030103B /* It's Time.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A017D3C1FDA395F0030103B /* It's Time.mp3 */; };
+		5A017D3F1FDA531F0030103B /* Good Old Days (feat. Kesha).mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A017D3E1FDA531F0030103B /* Good Old Days (feat. Kesha).mp3 */; };
 		5A0B3FED1F74CEF100A60D9F /* Tracks.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5A0B3FEC1F74CEF100A60D9F /* Tracks.plist */; };
 		5A3049491EAF18D10000A144 /* If I Lose Myself.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */; };
 		5A3CD1B01F6A57920015683B /* Battle of the Heroes.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3CD1A61F6A57920015683B /* Battle of the Heroes.mp3 */; };
@@ -64,6 +66,7 @@
 		5ABE00FA1FCB70A30099405C /* 18 Musicians II.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5ABE00F81FCB70A20099405C /* 18 Musicians II.mp3 */; };
 		5ABE00FB1FCB70A30099405C /* 18 Musicians III.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5ABE00F91FCB70A30099405C /* 18 Musicians III.mp3 */; };
 		5ABEAF621F19851E008E5BB5 /* PanAudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABEAF611F19851E008E5BB5 /* PanAudioPlayer.swift */; };
+		5AC062651FE2FF7000B6F797 /* The Fall.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A4D50B81FD221A10040820C /* The Fall.mp3 */; };
 		5AE0C7B41ECC0DEC00AF6926 /* I Lived.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AE0C7B31ECC0DEC00AF6926 /* I Lived.mp3 */; };
 		5AF19F8A1E95A0B1004E38C9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AF19F891E95A0B1004E38C9 /* AVFoundation.framework */; };
 		5AF19F8C1E95A0BA004E38C9 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AF19F8B1E95A0BA004E38C9 /* MediaPlayer.framework */; };
@@ -72,6 +75,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5A017D3C1FDA395F0030103B /* It's Time.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "It's Time.mp3"; sourceTree = "<group>"; };
+		5A017D3E1FDA531F0030103B /* Good Old Days (feat. Kesha).mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Good Old Days (feat. Kesha).mp3"; sourceTree = "<group>"; };
 		5A0B3FEC1F74CEF100A60D9F /* Tracks.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Tracks.plist; sourceTree = "<group>"; };
 		5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "If I Lose Myself.mp3"; sourceTree = "<group>"; };
 		5A3CD1A61F6A57920015683B /* Battle of the Heroes.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Battle of the Heroes.mp3"; sourceTree = "<group>"; };
@@ -188,6 +193,8 @@
 		5ABEAF751F36E4AA008E5BB5 /* Audio Assets */ = {
 			isa = PBXGroup;
 			children = (
+				5A017D3E1FDA531F0030103B /* Good Old Days (feat. Kesha).mp3 */,
+				5A017D3C1FDA395F0030103B /* It's Time.mp3 */,
 				5A4D50B91FD710EE0040820C /* Polaroid.mp3 */,
 				5A4D50B81FD221A10040820C /* The Fall.mp3 */,
 				5A4D50B21FD219350040820C /* Dream.mp3 */,
@@ -351,9 +358,11 @@
 				5A4748FF1F9BFEE4000D58AD /* I Could Not Plan This.mp3 in Resources */,
 				5A5598381F7B5A9900AF9E9F /* 5 Secrets.mp3 in Resources */,
 				5A57DB221FC0DF4200DC46B6 /* Hold Back The River.mp3 in Resources */,
+				5A017D3D1FDA395F0030103B /* It's Time.mp3 in Resources */,
 				5A5598641F7ED9FC00AF9E9F /* Nothing Left to Say.mp3 in Resources */,
 				5A3049491EAF18D10000A144 /* If I Lose Myself.mp3 in Resources */,
 				5A55982D1F7B5A9900AF9E9F /* Truth to Power.mp3 in Resources */,
+				5A017D3F1FDA531F0030103B /* Good Old Days (feat. Kesha).mp3 in Resources */,
 				5A3CD1B71F6A57920015683B /* Star Trek Main Theme.mp3 in Resources */,
 				5A5598421F7C1E7300AF9E9F /* On Top of the World.mp3 in Resources */,
 				5A55982F1F7B5A9900AF9E9F /* Better.mp3 in Resources */,
@@ -372,6 +381,7 @@
 				5A3CD1B01F6A57920015683B /* Battle of the Heroes.mp3 in Resources */,
 				5A57DB1E1FBF891200DC46B6 /* Luck.mp3 in Resources */,
 				5A3CD1B81F6A57920015683B /* The Force Suite.mp3 in Resources */,
+				5AC062651FE2FF7000B6F797 /* The Fall.mp3 in Resources */,
 				5A5598351F7B5A9900AF9E9F /* Heaven.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

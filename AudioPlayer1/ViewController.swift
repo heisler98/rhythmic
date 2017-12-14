@@ -206,11 +206,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             selectedCells = []
             self.tableView.reloadData()
         } else if (repeatBarButtonItem.title == "Repeat") {
-            
-            if let manager = audioManager {
-                _ = manager.playback(queued: selectedCells)
-            }
-            
+            audioManager?.repeatQueue()
         }
     }
     
