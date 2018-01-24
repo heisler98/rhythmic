@@ -151,6 +151,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         if let manager = audioManager {
             
+            if (selectedCells.isEmpty == true) {
+                if (manager.isPlaying == true) {
+                    manager.stopPlayback()
+                }
+                return
+            }
+            
             if (manager.isPlaying == false) {
                 
                 manager.rhythm = rhythmType

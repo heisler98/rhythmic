@@ -78,7 +78,7 @@ class PanAudioPlayer: AVAudioPlayer {
         
         else if (opt == .Crosspan) { //delta
   
-/*
+
             self.timer = Timer.scheduledTimer(withTimeInterval: period, repeats: true, block: { (timer : Timer) -> Void in
                 
                 switch self.direction {
@@ -109,76 +109,6 @@ class PanAudioPlayer: AVAudioPlayer {
                     self.lastDirection = .Right
                     self.direction = .Center
                     break
-
-                default:
-                    print("error")
-                    break
-                }
-                    
-                    
-                
-                
-            })
- 
- */
-      /*
-            self.timer = Timer.scheduledTimer(withTimeInterval: (period/2), repeats: true, block: { (timer) -> Void in
-                
-                switch self.direction {
-                    
-                case PanDirection.Left:
-                    if (self.lastDirection == .MidLeft) {
-                        self.pan = -1.0
-                        self.lastDirection = .Left
-                        self.direction = .Left //to repeat 'Left'
-                    }
-                    
-                    if (self.lastDirection == .Left) {
-                        //go to MidLeft
-                        self.pan = -0.33
-                        self.lastDirection = .Left
-                        self.direction = .MidLeft
-                    }
-                    break
-                    
-                case PanDirection.MidLeft:
-                    if (self.lastDirection == .Left) {
-                        self.pan = 0.33
-                        self.lastDirection = .MidLeft
-                        self.direction = .MidRight
-                    }
-                    if (self.lastDirection == .MidRight) {
-                        self.pan = -1.0
-                        self.lastDirection = .MidLeft
-                        self.direction = .Left
-                    }
-                    break
-                    
-                case PanDirection.MidRight:
-                    if (self.lastDirection == .Right) {
-                        self.pan = -0.33
-                        self.lastDirection = .MidRight
-                        self.direction = .MidLeft
-                    }
-                    if (self.lastDirection == .MidLeft) {
-                        self.pan = 1.0
-                        self.lastDirection = .MidRight
-                        self.direction = .Right
-                    }
-                    break
-                    
-                case PanDirection.Right:
-                    if (self.lastDirection == .MidRight) {
-                        self.pan = 1.0
-                        self.lastDirection = .Right
-                        self.direction = .Right //to repeat 'Right'
-                    }
-                    if (self.lastDirection == .Right) {
-                        self.pan = 0.33
-                        self.lastDirection = .Right
-                        self.direction = .MidRight
-                    }
-                    break
                     
                 default:
                     print("error")
@@ -186,140 +116,13 @@ class PanAudioPlayer: AVAudioPlayer {
                 }
                 
             })
-            
-            */
-            
-            self.timer = Timer.scheduledTimer(withTimeInterval: period, repeats: true, block: { (timer) -> Void in
-                
-                switch self.direction {
-                    
-                case .Left:
-                    
-                    if (self.lastDirection == .Center) {
-                        self.pan = 1
-                        self.lastDirection = .Left
-                        self.direction = .Right
-                        self.counter = 1
-                        break
-                    }
-                    
-                    if (self.lastDirection == .Right) {
-                        
-            
-                            self.pan = 1
-                            self.lastDirection = .Left
-                            self.direction = .Right
-                            self.counter += 1
-                            break
-                        
-                    }
-                    
-                    if (self.lastDirection == .Left) {
-                        self.pan = 1
-                        self.direction = .Right
-                        break
-                    }
-                    break
-                    
-                case .Right:
-                    
-                    if (self.counter < 2) {
-                        self.pan = -1
-                        self.lastDirection = .Right
-                        self.direction = .Left
-                        self.counter += 1
-                        break
-                    }
-                    
-                    if (self.counter >= 2) { //switch to .Center
-                        self.pan = 0
-                        self.lastDirection = .Right
-                        self.direction = .Center
-                        self.counter = 0
-                        break
-                    }
-                    
-                    break
-                    
-                case .Center:
-                    
-                    switch self.counter {
-                        
-                    case 0:
-                        self.pan = 0
-                        self.lastDirection = .Center
-                        self.counter = 1
-                        
-                        break
-                        
-                    case 1:
-                        self.pan = 0
-                        self.lastDirection = .Center
-                        self.counter = 2
-                        break
-                        
-                    case 2:
-                        self.pan = 0
-                        self.lastDirection = .Center
-                        self.counter = 3
-                        break
-                        
-                    default:
-                        self.pan = -1
-                        self.direction = .Left
-                        self.counter = 0
-                        
-                        break
-                    }
-                    
-                    break
-                    
-                default:
-                    break
-                    
-                }
-                
-            })
-            
             
         } else if (opt == .Synthesis) { //sigma
             
-            self.timer = Timer.scheduledTimer(withTimeInterval: period, repeats: true, block: { (timer : Timer) -> Void in
+            //pan = 0
+            self.timer = Timer.scheduledTimer(withTimeInterval: self.period, repeats: true, block: {(timer : Timer) -> Void in
                 
-                switch self.direction {
-                    
-                case PanDirection.Left:
-                    // go to center
-                    self.pan = 0
-                    self.lastDirection = .Left
-                    self.direction = .Center
-                    break
-                    
-                case PanDirection.Center:
-                    //go to left | right
-                    if (self.lastDirection == .Left) {
-                        //go to right
-                        self.pan = 1.0
-                        self.direction = .Right
-                        break
-                    }
-                    //go to left
-                    self.pan = -1
-                    self.direction = .Left
-                    break
-                    
-                case PanDirection.Right:
-                    //go to center
-                    self.pan = 0
-                    self.lastDirection = .Right
-                    self.direction = .Center
-                    break
-                    
-                default:
-                    print("error")
-                    break
-                }
-                
+                // do nothing
             })
             
         }

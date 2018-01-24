@@ -10,6 +10,8 @@
 		5A017D3D1FDA395F0030103B /* It's Time.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A017D3C1FDA395F0030103B /* It's Time.mp3 */; };
 		5A017D3F1FDA531F0030103B /* Good Old Days (feat. Kesha).mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A017D3E1FDA531F0030103B /* Good Old Days (feat. Kesha).mp3 */; };
 		5A0B3FED1F74CEF100A60D9F /* Tracks.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5A0B3FEC1F74CEF100A60D9F /* Tracks.plist */; };
+		5A15980F200BFE4A00CD4E36 /* Knocking at the Door.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A15980E200BFE4A00CD4E36 /* Knocking at the Door.mp3 */; };
+		5A159811200E9BAE00CD4E36 /* Whatever It Takes.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A159810200E9BAE00CD4E36 /* Whatever It Takes.mp3 */; };
 		5A3049491EAF18D10000A144 /* If I Lose Myself.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */; };
 		5A3CD1B01F6A57920015683B /* Battle of the Heroes.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3CD1A61F6A57920015683B /* Battle of the Heroes.mp3 */; };
 		5A3CD1B11F6A57920015683B /* Beyond Main Theme.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3CD1A71F6A57920015683B /* Beyond Main Theme.mp3 */; };
@@ -67,6 +69,7 @@
 		5ABE00FB1FCB70A30099405C /* 18 Musicians III.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5ABE00F91FCB70A30099405C /* 18 Musicians III.mp3 */; };
 		5ABEAF621F19851E008E5BB5 /* PanAudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABEAF611F19851E008E5BB5 /* PanAudioPlayer.swift */; };
 		5AC062651FE2FF7000B6F797 /* The Fall.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A4D50B81FD221A10040820C /* The Fall.mp3 */; };
+		5AC062671FE9E8AF00B6F797 /* Love Runs Out.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AC062661FE9E8AF00B6F797 /* Love Runs Out.mp3 */; };
 		5AE0C7B41ECC0DEC00AF6926 /* I Lived.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AE0C7B31ECC0DEC00AF6926 /* I Lived.mp3 */; };
 		5AF19F8A1E95A0B1004E38C9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AF19F891E95A0B1004E38C9 /* AVFoundation.framework */; };
 		5AF19F8C1E95A0BA004E38C9 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AF19F8B1E95A0BA004E38C9 /* MediaPlayer.framework */; };
@@ -78,6 +81,8 @@
 		5A017D3C1FDA395F0030103B /* It's Time.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "It's Time.mp3"; sourceTree = "<group>"; };
 		5A017D3E1FDA531F0030103B /* Good Old Days (feat. Kesha).mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Good Old Days (feat. Kesha).mp3"; sourceTree = "<group>"; };
 		5A0B3FEC1F74CEF100A60D9F /* Tracks.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Tracks.plist; sourceTree = "<group>"; };
+		5A15980E200BFE4A00CD4E36 /* Knocking at the Door.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Knocking at the Door.mp3"; sourceTree = "<group>"; };
+		5A159810200E9BAE00CD4E36 /* Whatever It Takes.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Whatever It Takes.mp3"; sourceTree = "<group>"; };
 		5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "If I Lose Myself.mp3"; sourceTree = "<group>"; };
 		5A3CD1A61F6A57920015683B /* Battle of the Heroes.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Battle of the Heroes.mp3"; sourceTree = "<group>"; };
 		5A3CD1A71F6A57920015683B /* Beyond Main Theme.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Beyond Main Theme.mp3"; sourceTree = "<group>"; };
@@ -137,6 +142,7 @@
 		5ABE00F81FCB70A20099405C /* 18 Musicians II.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "18 Musicians II.mp3"; path = "../../../../Music/Converted by MediaHuman/18 Musicians II.mp3"; sourceTree = "<group>"; };
 		5ABE00F91FCB70A30099405C /* 18 Musicians III.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "18 Musicians III.mp3"; path = "../../../../Music/Converted by MediaHuman/18 Musicians III.mp3"; sourceTree = "<group>"; };
 		5ABEAF611F19851E008E5BB5 /* PanAudioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PanAudioPlayer.swift; sourceTree = "<group>"; };
+		5AC062661FE9E8AF00B6F797 /* Love Runs Out.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Love Runs Out.mp3"; sourceTree = "<group>"; };
 		5AE0C7B31ECC0DEC00AF6926 /* I Lived.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "I Lived.mp3"; sourceTree = "<group>"; };
 		5AF19F891E95A0B1004E38C9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		5AF19F8B1E95A0BA004E38C9 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -193,6 +199,9 @@
 		5ABEAF751F36E4AA008E5BB5 /* Audio Assets */ = {
 			isa = PBXGroup;
 			children = (
+				5A159810200E9BAE00CD4E36 /* Whatever It Takes.mp3 */,
+				5A15980E200BFE4A00CD4E36 /* Knocking at the Door.mp3 */,
+				5AC062661FE9E8AF00B6F797 /* Love Runs Out.mp3 */,
 				5A017D3E1FDA531F0030103B /* Good Old Days (feat. Kesha).mp3 */,
 				5A017D3C1FDA395F0030103B /* It's Time.mp3 */,
 				5A4D50B91FD710EE0040820C /* Polaroid.mp3 */,
@@ -323,6 +332,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A15980F200BFE4A00CD4E36 /* Knocking at the Door.mp3 in Resources */,
 				5A55983A1F7B5A9900AF9E9F /* Human.mp3 in Resources */,
 				5A55983E1F7B5A9900AF9E9F /* Au Revoir.mp3 in Resources */,
 				5A3CD1B91F6A57920015683B /* The Force Theme.mp3 in Resources */,
@@ -345,6 +355,7 @@
 				5ABA30A01DCBC97D006E5999 /* Assets.xcassets in Resources */,
 				5A5598321F7B5A9900AF9E9F /* Hand of God.mp3 in Resources */,
 				5A4D50BA1FD710EE0040820C /* Polaroid.mp3 in Resources */,
+				5A159811200E9BAE00CD4E36 /* Whatever It Takes.mp3 in Resources */,
 				5A5598361F7B5A9900AF9E9F /* Learn to Let Go.mp3 in Resources */,
 				5ABA309E1DCBC97D006E5999 /* Main.storyboard in Resources */,
 				5A5598331F7B5A9900AF9E9F /* Marchin On.mp3 in Resources */,
@@ -366,6 +377,7 @@
 				5A3CD1B71F6A57920015683B /* Star Trek Main Theme.mp3 in Resources */,
 				5A5598421F7C1E7300AF9E9F /* On Top of the World.mp3 in Resources */,
 				5A55982F1F7B5A9900AF9E9F /* Better.mp3 in Resources */,
+				5AC062671FE9E8AF00B6F797 /* Love Runs Out.mp3 in Resources */,
 				5A8E45261F88416700B33FB7 /* 440 Triangle.mp3 in Resources */,
 				5A0B3FED1F74CEF100A60D9F /* Tracks.plist in Resources */,
 				5A5598311F7B5A9900AF9E9F /* Counting Stars.mp3 in Resources */,

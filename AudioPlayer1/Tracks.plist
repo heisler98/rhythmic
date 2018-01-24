@@ -150,7 +150,7 @@
 		<key>title</key>
 		<string>Preacher</string>
 		<key>period</key>
-		<string>0.86</string>
+		<string>0.857</string>
 		<key>category</key>
 		<string>song</string>
 	</dict>
@@ -447,6 +447,30 @@
 		<string>Good Old Days (feat. Kesha)</string>
 		<key>period</key>
 		<string>0.490</string>
+		<key>category</key>
+		<string>song</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>Love Runs Out</string>
+		<key>period</key>
+		<string>0.5</string>
+		<key>category</key>
+		<string>song</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>Knocking at the Door</string>
+		<key>period</key>
+		<string>0.7595</string>
+		<key>category</key>
+		<string>song</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>Whatever It Takes</string>
+		<key>period</key>
+		<string>0.4444</string>
 		<key>category</key>
 		<string>song</string>
 	</dict>
