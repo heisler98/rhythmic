@@ -151,7 +151,7 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
     private var tracks : TrackArray //array of dictionaries containing <String, String>
     private var playIndices : Array<Int>? //array of selected (indexPath.row)
     
-    
+    private var masterVolume : Float = 1.0
     private var nowPlaying : PanAudioPlayer?
     private var playerArray: Array<PanAudioPlayer>
     
@@ -200,6 +200,7 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
             let aPlayer = try PanAudioPlayer(contentsOf: url!, period: period!)
             aPlayer.delegate = self as AVAudioPlayerDelegate
             aPlayer.setupRhythm(rhythm)
+            aPlayer.volume = masterVolume
             nowPlaying = aPlayer
             
             retVal = nowPlaying!.play()
@@ -328,10 +329,22 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
             nowPlaying = self.playerArray[0]
             stopPlayback()
             nowPlaying?.setupRhythm(rhythm)
+            nowPlaying?.volume = masterVolume
             _ = nowPlaying?.play()
             
         }
         
+    }
+    
+    func updateVolume(_ level: Float) {
+        
+        masterVolume = level
+        
+        if (self.isPlaying == true) {
+            if let player = self.nowPlaying {
+                player.volume = masterVolume
+            }
+        }
     }
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
@@ -357,6 +370,7 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
             
                 let nextPlayer = self.playerArray[currentIndex+1]
                 nextPlayer.setupRhythm(rhythm)
+                nextPlayer.volume = masterVolume
                 _ = nextPlayer.play()
                 nowPlaying = nextPlayer
                 

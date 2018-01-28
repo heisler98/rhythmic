@@ -207,6 +207,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
+    @IBAction func volumeChanged(_ sender: UISlider) {
+        
+        let newLevel = sender.value
+        if let manager = self.audioManager {
+            manager.updateVolume(newLevel)
+        }
+    }
+    
+    
+    
     func audioManagerDidCompletePlaylist() { //<<implement repeat
         
         if (repeatBarButtonItem.title == "One-time") {
