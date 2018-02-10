@@ -14,6 +14,8 @@
 // ?:Implement document handling thru iTunes/'Open In...' (can add audio w/o programmatic)
 // Implement 'sessions'
 
+// we'll need to go faster...
+
 import UIKit
 import AVFoundation
 import MediaPlayer
@@ -66,24 +68,27 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             let commandCenter = MPRemoteCommandCenter.shared()
             commandCenter.playCommand.addTarget(handler: { (event) -> MPRemoteCommandHandlerStatus in
                 
-                if let manager = self.audioManager {
-                    manager.togglePauseResume()
-                }
-                
+                guard let manager = self.audioManager else { return .commandFailed }
+                manager.togglePauseResume()
                 return .success
                 
             })
             
             commandCenter.pauseCommand.addTarget(handler: { (event) -> MPRemoteCommandHandlerStatus in
                 
-                if let manager = self.audioManager {
-                    manager.togglePauseResume()
-                }
-                
+                guard let manager = self.audioManager else { return .commandFailed }
+                manager.togglePauseResume()
                 return .success
             })
             
-            
+            commandCenter.nextTrackCommand.addTarget(handler: {(event) -> MPRemoteCommandHandlerStatus in
+                
+                guard let manager = self.audioManager else { return .commandFailed }
+                
+                manager.stopPlayback() //counterintuitive, but should call audioPlayerDidFinishPlaying: & call up next track
+                return .success
+                
+            })
             
         } catch let error as NSError {
             print("error: \(error)")
@@ -196,6 +201,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 break
                 
             case "Synthesis":
+                panTypeBarButtonItem.title = "Stitch"
+                rhythmType = .Stitch
+                break
+                
+            case "Stitch":
                 panTypeBarButtonItem.title = "Crosspan"
                 rhythmType = .Crosspan
                 break
@@ -205,6 +215,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         }
         
+    }
+    
+    @IBAction func clearSelections(_ sender: Any) {
+        
+        selectedCells.removeAll(keepingCapacity: true)
+        self.tableView.reloadData()
     }
     
     @IBAction func volumeChanged(_ sender: UISlider) {

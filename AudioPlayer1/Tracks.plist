@@ -474,5 +474,53 @@
 		<key>category</key>
 		<string>song</string>
 	</dict>
+	<dict>
+		<key>title</key>
+		<string>Working Man</string>
+		<key>period</key>
+		<string>0.593</string>
+		<key>category</key>
+		<string>song</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>Fallen</string>
+		<key>period</key>
+		<string>0.25</string>
+		<key>category</key>
+		<string>song</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>My Fault</string>
+		<key>period</key>
+		<string>0.555</string>
+		<key>category</key>
+		<string>song</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>Round and Round</string>
+		<key>period</key>
+		<string>0.4225</string>
+		<key>category</key>
+		<string>song</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>America</string>
+		<key>period</key>
+		<string>0.2643</string>
+		<key>category</key>
+		<string>song</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>Feel Again</string>
+		<key>period</key>
+		<string>0.429</string>
+		<key>category</key>
+		<string>song</string>
+	</dict>
 </array>
 </plist>

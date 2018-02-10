@@ -22,6 +22,7 @@ enum Rhythmic {
     case Bilateral
     case Crosspan
     case Synthesis
+    case Stitch //volume
 }
 
 
@@ -125,6 +126,20 @@ class PanAudioPlayer: AVAudioPlayer {
                 // do nothing
             })
             
+        } else if (opt == .Stitch) {
+            
+            self.timer = Timer.scheduledTimer(withTimeInterval: self.period, repeats: true, block: { (timer : Timer) -> Void in
+                
+                //left = on; right = off
+                if (self.direction == .Left) {
+                    self.volume = 1.0
+                    self.direction = .Right
+                } else if (self.direction == .Right) {
+                    self.volume = 0.0
+                    self.direction = .Left
+                }
+            
+            })
         }
 
     }
@@ -239,8 +254,10 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
     
     func stopPlayback() {
         
-        if (nowPlaying?.isPlaying == true) {
-            nowPlaying?.stop()
+        guard let player = nowPlaying else { return }
+        
+        if (player.isPlaying == true) {
+            player.stop()
         } 
     
     }

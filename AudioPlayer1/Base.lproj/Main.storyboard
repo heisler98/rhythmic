@@ -27,6 +27,11 @@
                                 </textAttributes>
                                 <items>
                                     <navigationItem title="Rhythmic" id="wFX-39-5n8">
+                                        <barButtonItem key="leftBarButtonItem" title="Clear" id="IcP-rn-02z">
+                                            <connections>
+                                                <action selector="clearSelections:" destination="yga-hq-uB9" id="6F6-SG-QHG"/>
+                                            </connections>
+                                        </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" systemItem="play" id="QdZ-v5-ZkR">
                                             <connections>
                                                 <action selector="handlePlayButton:" destination="yga-hq-uB9" id="wV6-Lq-422"/>

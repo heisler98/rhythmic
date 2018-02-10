@@ -10,6 +10,12 @@
 		5A017D3D1FDA395F0030103B /* It's Time.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A017D3C1FDA395F0030103B /* It's Time.mp3 */; };
 		5A017D3F1FDA531F0030103B /* Good Old Days (feat. Kesha).mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A017D3E1FDA531F0030103B /* Good Old Days (feat. Kesha).mp3 */; };
 		5A0B3FED1F74CEF100A60D9F /* Tracks.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5A0B3FEC1F74CEF100A60D9F /* Tracks.plist */; };
+		5A0D0F2B202393E60086F50E /* Working Man.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A0D0F2A202393E60086F50E /* Working Man.mp3 */; };
+		5A0D0F2D2027A2BF0086F50E /* Fallen.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A0D0F2C2027A2BF0086F50E /* Fallen.mp3 */; };
+		5A0D0F2F202808600086F50E /* My Fault.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A0D0F2E202808600086F50E /* My Fault.mp3 */; };
+		5A0D0F322028086B0086F50E /* Round and Round.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A0D0F302028086A0086F50E /* Round and Round.mp3 */; };
+		5A0D0F332028086B0086F50E /* America.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A0D0F312028086B0086F50E /* America.mp3 */; };
+		5A0D0F35202EB7AA0086F50E /* Feel Again.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A0D0F34202EB7AA0086F50E /* Feel Again.mp3 */; };
 		5A15980F200BFE4A00CD4E36 /* Knocking at the Door.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A15980E200BFE4A00CD4E36 /* Knocking at the Door.mp3 */; };
 		5A159811200E9BAE00CD4E36 /* Whatever It Takes.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A159810200E9BAE00CD4E36 /* Whatever It Takes.mp3 */; };
 		5A3049491EAF18D10000A144 /* If I Lose Myself.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */; };
@@ -81,6 +87,12 @@
 		5A017D3C1FDA395F0030103B /* It's Time.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "It's Time.mp3"; sourceTree = "<group>"; };
 		5A017D3E1FDA531F0030103B /* Good Old Days (feat. Kesha).mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Good Old Days (feat. Kesha).mp3"; sourceTree = "<group>"; };
 		5A0B3FEC1F74CEF100A60D9F /* Tracks.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Tracks.plist; sourceTree = "<group>"; };
+		5A0D0F2A202393E60086F50E /* Working Man.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Working Man.mp3"; sourceTree = "<group>"; };
+		5A0D0F2C2027A2BF0086F50E /* Fallen.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Fallen.mp3; sourceTree = "<group>"; };
+		5A0D0F2E202808600086F50E /* My Fault.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "My Fault.mp3"; sourceTree = "<group>"; };
+		5A0D0F302028086A0086F50E /* Round and Round.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Round and Round.mp3"; sourceTree = "<group>"; };
+		5A0D0F312028086B0086F50E /* America.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = America.mp3; sourceTree = "<group>"; };
+		5A0D0F34202EB7AA0086F50E /* Feel Again.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Feel Again.mp3"; sourceTree = "<group>"; };
 		5A15980E200BFE4A00CD4E36 /* Knocking at the Door.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Knocking at the Door.mp3"; sourceTree = "<group>"; };
 		5A159810200E9BAE00CD4E36 /* Whatever It Takes.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Whatever It Takes.mp3"; sourceTree = "<group>"; };
 		5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "If I Lose Myself.mp3"; sourceTree = "<group>"; };
@@ -199,6 +211,12 @@
 		5ABEAF751F36E4AA008E5BB5 /* Audio Assets */ = {
 			isa = PBXGroup;
 			children = (
+				5A0D0F34202EB7AA0086F50E /* Feel Again.mp3 */,
+				5A0D0F312028086B0086F50E /* America.mp3 */,
+				5A0D0F302028086A0086F50E /* Round and Round.mp3 */,
+				5A0D0F2E202808600086F50E /* My Fault.mp3 */,
+				5A0D0F2C2027A2BF0086F50E /* Fallen.mp3 */,
+				5A0D0F2A202393E60086F50E /* Working Man.mp3 */,
 				5A159810200E9BAE00CD4E36 /* Whatever It Takes.mp3 */,
 				5A15980E200BFE4A00CD4E36 /* Knocking at the Door.mp3 */,
 				5AC062661FE9E8AF00B6F797 /* Love Runs Out.mp3 */,
@@ -368,18 +386,22 @@
 				5A3CD1B21F6A57920015683B /* Counting Stars Instrumental.mp3 in Resources */,
 				5A4748FF1F9BFEE4000D58AD /* I Could Not Plan This.mp3 in Resources */,
 				5A5598381F7B5A9900AF9E9F /* 5 Secrets.mp3 in Resources */,
+				5A0D0F322028086B0086F50E /* Round and Round.mp3 in Resources */,
 				5A57DB221FC0DF4200DC46B6 /* Hold Back The River.mp3 in Resources */,
 				5A017D3D1FDA395F0030103B /* It's Time.mp3 in Resources */,
 				5A5598641F7ED9FC00AF9E9F /* Nothing Left to Say.mp3 in Resources */,
 				5A3049491EAF18D10000A144 /* If I Lose Myself.mp3 in Resources */,
 				5A55982D1F7B5A9900AF9E9F /* Truth to Power.mp3 in Resources */,
 				5A017D3F1FDA531F0030103B /* Good Old Days (feat. Kesha).mp3 in Resources */,
+				5A0D0F2B202393E60086F50E /* Working Man.mp3 in Resources */,
 				5A3CD1B71F6A57920015683B /* Star Trek Main Theme.mp3 in Resources */,
 				5A5598421F7C1E7300AF9E9F /* On Top of the World.mp3 in Resources */,
 				5A55982F1F7B5A9900AF9E9F /* Better.mp3 in Resources */,
 				5AC062671FE9E8AF00B6F797 /* Love Runs Out.mp3 in Resources */,
 				5A8E45261F88416700B33FB7 /* 440 Triangle.mp3 in Resources */,
+				5A0D0F2F202808600086F50E /* My Fault.mp3 in Resources */,
 				5A0B3FED1F74CEF100A60D9F /* Tracks.plist in Resources */,
+				5A0D0F332028086B0086F50E /* America.mp3 in Resources */,
 				5A5598311F7B5A9900AF9E9F /* Counting Stars.mp3 in Resources */,
 				5AFA297F1F993BFA005B4D79 /* Glorious.mp3 in Resources */,
 				5A3CD1B61F6A57920015683B /* Main Star Wars.mp3 in Resources */,
@@ -387,6 +409,7 @@
 				5A5598301F7B5A9900AF9E9F /* Lift Me Up.mp3 in Resources */,
 				5A57DB201FBF893500DC46B6 /* Day to Feel Alive.mp3 in Resources */,
 				5A3CD1B41F6A57920015683B /* Feel Again Instrumental.mp3 in Resources */,
+				5A0D0F2D2027A2BF0086F50E /* Fallen.mp3 in Resources */,
 				5A5181841F567947007FA781 /* Song for Sienna.mp3 in Resources */,
 				5A3CD1B51F6A57920015683B /* Jedi Steps and Finale.mp3 in Resources */,
 				5A5598391F7B5A9900AF9E9F /* Preacher.mp3 in Resources */,
@@ -395,6 +418,7 @@
 				5A3CD1B81F6A57920015683B /* The Force Suite.mp3 in Resources */,
 				5AC062651FE2FF7000B6F797 /* The Fall.mp3 in Resources */,
 				5A5598351F7B5A9900AF9E9F /* Heaven.mp3 in Resources */,
+				5A0D0F35202EB7AA0086F50E /* Feel Again.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
