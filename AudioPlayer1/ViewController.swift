@@ -13,7 +13,7 @@
 // !:support multiple rhythms
 // ?:Implement document handling thru iTunes/'Open In...' (can add audio w/o programmatic)
 // Implement 'sessions'
-
+// Ability to change period of timer
 // we'll need to go faster...
 
 import UIKit
@@ -28,11 +28,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     private var selectedCells : Array<Int> = []
     private var rhythmType : Rhythmic = .Crosspan
     
+    @IBOutlet weak var navBar: UINavigationBar!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var toolbar: UIToolbar!
     @IBOutlet weak var repeatBarButtonItem: UIBarButtonItem!
     @IBOutlet weak var panTypeBarButtonItem: UIBarButtonItem!
-    
+    @IBOutlet weak var panRateBarButtonItem: UIBarButtonItem!
+    @IBOutlet weak var pauseBarButtonItem: UIBarButtonItem!
+    @IBOutlet weak var playBarButtonItem: UIBarButtonItem!
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -102,8 +105,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
         super.viewWillAppear(animated)
         
+        guard let manager = self.audioManager else { return }
+        
+        if (manager.isPlaying == true) {
+            navBar.topItem?.setRightBarButton(pauseBarButtonItem, animated: false)
+        } else {
+            navBar.topItem?.setRightBarButton(playBarButtonItem, animated: false)
+        }
     }
     
     
@@ -159,6 +170,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             if (selectedCells.isEmpty == true) {
                 if (manager.isPlaying == true) {
                     manager.stopPlayback()
+                    navBar.topItem?.setRightBarButton(playBarButtonItem, animated: true)
+
                 }
                 return
             }
@@ -167,13 +180,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 
                 manager.rhythm = rhythmType
                 _ = manager.playback(queued: selectedCells)
+                navBar.topItem?.setRightBarButton(pauseBarButtonItem, animated: true)
                 
             } else {
                 manager.stopPlayback()
+                navBar.topItem?.setRightBarButton(playBarButtonItem, animated: true)
             }
         }
     }
-
+    
     @IBAction func handleRepeatShuffle(_ sender: UIBarButtonItem) {
         
         if (sender == repeatBarButtonItem) {
@@ -217,6 +232,35 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
+    @IBAction func handlePanRateChange(_ sender: UIBarButtonItem) {
+        
+        guard let title = panRateBarButtonItem.title else { return }
+        
+        if let manager = self.audioManager {
+        
+        switch title {
+            
+        case "1x":
+            panRateBarButtonItem.title = "2x"
+            manager.rate = PanRate.Double
+            break
+            
+        case "2x":
+            panRateBarButtonItem.title = "0.5x"
+            manager.rate = PanRate.Half
+            break
+            
+        case "0.5x":
+            panRateBarButtonItem.title = "1x"
+            manager.rate = PanRate.Normal
+            break
+            
+        default:
+            break
+        }
+    }
+    }
+    
     @IBAction func clearSelections(_ sender: Any) {
         
         selectedCells.removeAll(keepingCapacity: true)
@@ -230,8 +274,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             manager.updateVolume(newLevel)
         }
     }
-    
-    
     
     func audioManagerDidCompletePlaylist() { //<<implement repeat
         

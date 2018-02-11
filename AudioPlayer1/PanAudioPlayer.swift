@@ -25,6 +25,11 @@ enum Rhythmic {
     case Stitch //volume
 }
 
+enum PanRate {
+    case Half
+    case Normal
+    case Double
+}
 
 class PanAudioPlayer: AVAudioPlayer {
 
@@ -172,6 +177,7 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
     
     private var queueReady: Bool?
     var rhythm: Rhythmic = .Bilateral
+    var rate : PanRate = .Normal
             var delegate : AudioManagerDelegate?
     
     
@@ -207,7 +213,21 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         let firstIndex = playIndices![0] as Int
         let firstTrack : Dictionary<String, String> = tracks[firstIndex]
         
-        let period = Double(firstTrack["period"]!)
+        var period = Double(firstTrack["period"]!)
+        
+        switch rate {
+        
+        case .Double:
+            period! /= 2
+            break
+            
+        case .Half:
+            period! *= 2
+            break
+            
+        default:
+            break
+        }
         
         let url = Bundle.main.url(forResource: firstTrack["title"]!, withExtension: "mp3")
         
@@ -313,7 +333,21 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
             
             let trackDict = self.tracks[index]
             let fileName = trackDict["title"]!
-            let period = Double(trackDict["period"]!)
+            var period = Double(trackDict["period"]!)
+            
+            switch rate {
+                
+            case .Double:
+                period! /= 2
+                break
+                
+            case .Half:
+                period! *= 2
+                break
+                
+            default:
+                break
+            }
             
             guard let url = Bundle.main.url(forResource: fileName, withExtension: "mp3") else { success = false; return success }
             
@@ -394,6 +428,18 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
                 
             }
         
+    }
+}
+
+class PanAudioDocument : UIDocument {
+    
+    override func load(fromContents contents: Any, ofType typeName: String?) throws {
+        
+        
+    }
+    
+    override init(fileURL url: URL) {
+        super.init(fileURL: url)
     }
 }
 
