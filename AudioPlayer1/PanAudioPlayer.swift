@@ -9,6 +9,7 @@
 
 import UIKit
 import AVFoundation
+import os.log
 
 private enum PanDirection {
     case Left
@@ -29,7 +30,10 @@ enum PanRate {
     case Half
     case Normal
     case Double
+    case Quad
 }
+
+let documentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
 
 class PanAudioPlayer: AVAudioPlayer {
 
@@ -157,7 +161,6 @@ class PanAudioPlayer: AVAudioPlayer {
         do {
             try super.init(contentsOf: url, fileTypeHint: url.pathExtension)
             
-        
         } catch let error as NSError {
             throw error
         }
@@ -165,21 +168,28 @@ class PanAudioPlayer: AVAudioPlayer {
     }
 }
 
-class AudioManager : NSObject, AVAudioPlayerDelegate {
+class AudioManager : NSObject, AVAudioPlayerDelegate, NSCoding {
     
+    // MARK: - Private property controls
+    static let documentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
+    static let archiveURL = documentsDirectory.appendingPathComponent("tracks")
     
     private var tracks : TrackArray //array of dictionaries containing <String, String>
     private var playIndices : Array<Int>? //array of selected (indexPath.row)
     
+    
     private var masterVolume : Float = 1.0
     private var nowPlaying : PanAudioPlayer?
-    private var playerArray: Array<PanAudioPlayer>
+    private var playerArray : Array<PanAudioPlayer>
     
     private var queueReady: Bool?
-    var rhythm: Rhythmic = .Bilateral
-    var rate : PanRate = .Normal
-            var delegate : AudioManagerDelegate?
     
+    // MARK: - Settable controls
+    var rhythm : Rhythmic = .Bilateral
+    var rate : PanRate = .Normal
+    var delegate : AudioManagerDelegate?
+    
+    // MARK: - Answering controller
     
     var trackCount : Int { /// return count for tracks
         
@@ -196,7 +206,25 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
             };  return false
         }
     }
+    
+    func title(forIndex: Int) -> String {
+        
+        let trackDict = tracks[forIndex]
+        return trackDict["title"]!
+        
+    }
+    
+    func isQueued() -> Bool {
+        
+        if let retVal = self.queueReady {
+            return retVal
+        }
+        
+        return false
+    }
 
+    // MARK: - Playback controls
+    
     func playback(queued: Array<Int>) -> Bool {
         
         var retVal : Bool
@@ -217,22 +245,27 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         
         switch rate {
         
-        case .Double:
-            period! /= 2
-            break
+            case .Double:
+                period! /= 2
+                break
             
-        case .Half:
-            period! *= 2
-            break
+            case .Half:
+                period! *= 2
+                break
             
-        default:
-            break
+            case .Quad:
+                period! /= 4
+                break
+            
+            default:
+                break
         }
         
-        let url = Bundle.main.url(forResource: firstTrack["title"]!, withExtension: "mp3")
+        let lastComponent = firstTrack["title"]! + "." + firstTrack["extension"]!
+        let url = AudioManager.documentsDirectory.appendingPathComponent(lastComponent)
         
         do {
-            let aPlayer = try PanAudioPlayer(contentsOf: url!, period: period!)
+            let aPlayer = try PanAudioPlayer(contentsOf: url, period: period!)
             aPlayer.delegate = self as AVAudioPlayerDelegate
             aPlayer.setupRhythm(rhythm)
             aPlayer.volume = masterVolume
@@ -298,6 +331,18 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         }
     }
     
+    func updateVolume(_ level: Float) {
+        
+        masterVolume = level
+        
+        if (self.isPlaying == true) {
+            if let player = self.nowPlaying {
+                player.volume = masterVolume
+            }
+        }
+    }
+    
+    // MARK: - Queue controls
     
     private func clearQueue() {
         
@@ -308,20 +353,25 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         
     }
     
-    func title(forIndex: Int) -> String {
+    func repeatQueue() {
         
-        let trackDict = tracks[forIndex]
-        return trackDict["title"]!
+        if (isQueued() == true) {
+            nowPlaying = self.playerArray[0]
+            stopPlayback()
+            nowPlaying?.setupRhythm(rhythm)
+            nowPlaying?.volume = masterVolume
+            _ = nowPlaying?.play()
+            
+        }
         
     }
     
-    func isQueued() -> Bool {
+    // MARK: - Track controls
+    
+    func add(newTrack : TrackArray) {
         
-        if let retVal = self.queueReady {
-            return retVal
-        }
+        tracks.append(newTrack.first!)
         
-        return false
     }
     
     private func instantiatePlayers() -> Bool { ///call async
@@ -332,7 +382,6 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         for index in self.playIndices! {
             
             let trackDict = self.tracks[index]
-            let fileName = trackDict["title"]!
             var period = Double(trackDict["period"]!)
             
             switch rate {
@@ -345,12 +394,17 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
                 period! *= 2
                 break
                 
+            case .Quad:
+                period! /= 4
+                break
+                
             default:
                 break
             }
             
-            guard let url = Bundle.main.url(forResource: fileName, withExtension: "mp3") else { success = false; return success }
-            
+            let lastComponent = trackDict["title"]! + "." + trackDict["extension"]!
+            let url = AudioManager.documentsDirectory.appendingPathComponent(lastComponent)
+        
             do {
                 let aPlayer = try PanAudioPlayer(contentsOf: url, period: period!)
                 aPlayer.delegate = self as AVAudioPlayerDelegate
@@ -364,39 +418,7 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         return success
     }
     
-    init(withArray: TrackArray) {
- 
-        playIndices = Array()
-        playerArray = Array()
-        tracks = withArray
-        
-        super.init()
-        
-    }
-
-    func repeatQueue() {
-    
-        if (isQueued() == true) {
-            nowPlaying = self.playerArray[0]
-            stopPlayback()
-            nowPlaying?.setupRhythm(rhythm)
-            nowPlaying?.volume = masterVolume
-            _ = nowPlaying?.play()
-            
-        }
-        
-    }
-    
-    func updateVolume(_ level: Float) {
-        
-        masterVolume = level
-        
-        if (self.isPlaying == true) {
-            if let player = self.nowPlaying {
-                player.volume = masterVolume
-            }
-        }
-    }
+    // MARK: - PanAudioPlayer delegate controls
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
      
@@ -429,21 +451,47 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
             }
         
     }
-}
+    
+    // MARK: - Initializers
+    
+    init(withArray: TrackArray) {
+        
+        playIndices = Array()
+        playerArray = Array()
+        tracks = withArray
+        
+        super.init()
+        
+    }
+    
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(self.tracks, forKey: "kStoreTrackArray")
+    }
+    
+    required convenience init?(coder aDecoder: NSCoder) {
+        
+        guard let trackArr = aDecoder.decodeObject(forKey: "kStoreTrackArray") as? TrackArray else {
+            print("Cannot decode kStoreTrackArray")
+            return nil
+        }
+        
+        self.init(withArray: trackArr)
+    }
 
-class PanAudioDocument : UIDocument {
-    
-    override func load(fromContents contents: Any, ofType typeName: String?) throws {
-        
-        
-    }
-    
-    override init(fileURL url: URL) {
-        super.init(fileURL: url)
-    }
 }
 
 protocol AudioManagerDelegate {
     func audioManagerDidCompletePlaylist()
     func audioManagerPlaybackInterrupted()
+}
+
+//wouldn't it be nice if the TrackArray held the URLs (as string)
+// title, period, category, url xxx extension
+// user inserts title & can auto-periodize or custom period
+
+// we will need a sessions manager
+
+class SessionManager : AudioManager {
+    
 }

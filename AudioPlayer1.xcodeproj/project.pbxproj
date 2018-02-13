@@ -16,6 +16,7 @@
 		5A0D0F322028086B0086F50E /* Round and Round.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A0D0F302028086A0086F50E /* Round and Round.mp3 */; };
 		5A0D0F332028086B0086F50E /* America.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A0D0F312028086B0086F50E /* America.mp3 */; };
 		5A0D0F35202EB7AA0086F50E /* Feel Again.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A0D0F34202EB7AA0086F50E /* Feel Again.mp3 */; };
+		5A0D0F372030D3E80086F50E /* SessionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0D0F362030D3E80086F50E /* SessionsTableViewController.swift */; };
 		5A15980F200BFE4A00CD4E36 /* Knocking at the Door.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A15980E200BFE4A00CD4E36 /* Knocking at the Door.mp3 */; };
 		5A159811200E9BAE00CD4E36 /* Whatever It Takes.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A159810200E9BAE00CD4E36 /* Whatever It Takes.mp3 */; };
 		5A3049491EAF18D10000A144 /* If I Lose Myself.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */; };
@@ -65,6 +66,7 @@
 		5A8E45261F88416700B33FB7 /* 440 Triangle.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A8E45251F88416700B33FB7 /* 440 Triangle.mp3 */; };
 		5A8E45281F901DB900B33FB7 /* Tell Me.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A8E45271F901DB800B33FB7 /* Tell Me.mp3 */; };
 		5A9D6BDA1E9EF2A300918D8B /* Born.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A9D6BD91E9EF2A300918D8B /* Born.mp3 */; };
+		5A9F2EAE203152C700655FC8 /* Leaf House.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A9F2EAD203152C700655FC8 /* Leaf House.mp3 */; };
 		5ABA30991DCBC97D006E5999 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABA30981DCBC97D006E5999 /* AppDelegate.swift */; };
 		5ABA309B1DCBC97D006E5999 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABA309A1DCBC97D006E5999 /* ViewController.swift */; };
 		5ABA309E1DCBC97D006E5999 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5ABA309C1DCBC97D006E5999 /* Main.storyboard */; };
@@ -93,6 +95,7 @@
 		5A0D0F302028086A0086F50E /* Round and Round.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Round and Round.mp3"; sourceTree = "<group>"; };
 		5A0D0F312028086B0086F50E /* America.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = America.mp3; sourceTree = "<group>"; };
 		5A0D0F34202EB7AA0086F50E /* Feel Again.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Feel Again.mp3"; sourceTree = "<group>"; };
+		5A0D0F362030D3E80086F50E /* SessionsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsTableViewController.swift; sourceTree = "<group>"; };
 		5A15980E200BFE4A00CD4E36 /* Knocking at the Door.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Knocking at the Door.mp3"; sourceTree = "<group>"; };
 		5A159810200E9BAE00CD4E36 /* Whatever It Takes.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Whatever It Takes.mp3"; sourceTree = "<group>"; };
 		5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "If I Lose Myself.mp3"; sourceTree = "<group>"; };
@@ -143,6 +146,7 @@
 		5A8E45251F88416700B33FB7 /* 440 Triangle.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "440 Triangle.mp3"; sourceTree = "<group>"; };
 		5A8E45271F901DB800B33FB7 /* Tell Me.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Tell Me.mp3"; sourceTree = "<group>"; };
 		5A9D6BD91E9EF2A300918D8B /* Born.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Born.mp3; sourceTree = "<group>"; };
+		5A9F2EAD203152C700655FC8 /* Leaf House.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Leaf House.mp3"; sourceTree = "<group>"; };
 		5ABA30951DCBC97D006E5999 /* AudioPlayer1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AudioPlayer1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5ABA30981DCBC97D006E5999 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5ABA309A1DCBC97D006E5999 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -199,6 +203,7 @@
 				5ABA30981DCBC97D006E5999 /* AppDelegate.swift */,
 				5ABA309A1DCBC97D006E5999 /* ViewController.swift */,
 				5ABEAF611F19851E008E5BB5 /* PanAudioPlayer.swift */,
+				5A0D0F362030D3E80086F50E /* SessionsTableViewController.swift */,
 				5A0B3FEC1F74CEF100A60D9F /* Tracks.plist */,
 				5ABA309C1DCBC97D006E5999 /* Main.storyboard */,
 				5ABA309F1DCBC97D006E5999 /* Assets.xcassets */,
@@ -211,6 +216,7 @@
 		5ABEAF751F36E4AA008E5BB5 /* Audio Assets */ = {
 			isa = PBXGroup;
 			children = (
+				5A9F2EAD203152C700655FC8 /* Leaf House.mp3 */,
 				5A0D0F34202EB7AA0086F50E /* Feel Again.mp3 */,
 				5A0D0F312028086B0086F50E /* America.mp3 */,
 				5A0D0F302028086A0086F50E /* Round and Round.mp3 */,
@@ -366,6 +372,7 @@
 				5A5598341F7B5A9900AF9E9F /* Praying by Kesha.mp3 in Resources */,
 				5A6237071F5F44FF0027326D /* Collateral Beauty.mp3 in Resources */,
 				5A55982E1F7B5A9900AF9E9F /* Life in Color.mp3 in Resources */,
+				5A9F2EAE203152C700655FC8 /* Leaf House.mp3 in Resources */,
 				5A55982C1F7B5A9900AF9E9F /* Miracles.mp3 in Resources */,
 				5A50D84F1FA2453000D12D55 /* Isochronic.mp3 in Resources */,
 				5ABA30A31DCBC97D006E5999 /* LaunchScreen.storyboard in Resources */,
@@ -431,6 +438,7 @@
 			files = (
 				5ABEAF621F19851E008E5BB5 /* PanAudioPlayer.swift in Sources */,
 				5ABA309B1DCBC97D006E5999 /* ViewController.swift in Sources */,
+				5A0D0F372030D3E80086F50E /* SessionsTableViewController.swift in Sources */,
 				5ABA30991DCBC97D006E5999 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

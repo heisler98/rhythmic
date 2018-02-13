@@ -3,7 +3,7 @@
 //  AudioPlayer1
 //
 //  Created by Hunter Eisler on 11/3/16.
-//  Copyright © 2016-2017 Hunter Eisler. All rights reserved.
+//  Copyright © 2016-2018 Hunter Eisler. All rights reserved.
 //  Unauthorized copying of this file via any medium is strictly prohibited.
 //  *Proprietary and confidential*
 
@@ -22,8 +22,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         
-        // Implement opening the music files
-        return true
+        // Implement copying the music files
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let documentsDirectory = paths[0].appendingPathComponent(url.lastPathComponent)
+        
+        do {
+            
+            try FileManager.default.copyItem(at: url, to: documentsDirectory)
+        } catch {
+            print("\(error)")
+        }
+        
+        // need the audio file added to the list and its BPM analyzed
+        // manager gets alerted of added track
+        // manager should analyze BPM (if that's the route)
+        // VC's TableView is updated on reentry
+        
+        guard let rvc = window?.rootViewController as? UITabBarController else { print("Cannot load UTBC"); return false }
+        guard let vc = rvc.viewControllers![0] as? ViewController else { print("Cannot load VC"); return false }
+        
+        return vc.newTrack(at: documentsDirectory.appendingPathComponent(url.pathComponents.last!))
+        
     }
     
     func applicationWillResignActive(_ application: UIApplication) {

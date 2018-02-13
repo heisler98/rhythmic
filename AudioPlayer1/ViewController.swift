@@ -19,15 +19,18 @@
 import UIKit
 import AVFoundation
 import MediaPlayer
+import os.log
 
 typealias TrackArray = Array<Dictionary<String, String>>
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AudioManagerDelegate {
     
+    //MARK: - Private property controls
     private var audioManager : AudioManager?
     private var selectedCells : Array<Int> = []
     private var rhythmType : Rhythmic = .Crosspan
     
+    // MARK: - IBOutlets
     @IBOutlet weak var navBar: UINavigationBar!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var toolbar: UIToolbar!
@@ -40,27 +43,70 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return true
     }
     
+    // MARK: - View controls
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        var trackArr : TrackArray?
-        if let plistURL = Bundle.main.url(forResource: "Tracks", withExtension: "plist") { //PLIST url
+        // load encoded audioManager instantiation
+        // change as necessary inside with newTrackat:
+        // be sure to either save or delegate out save upon finish
+        
+        
+        if (loadAudioManager() == nil) {
             
-            if let plistData = NSData(contentsOf: plistURL) { //PLIST data
-                let data = plistData as Data
+            //create new manager from preset mp3s in bundle
+            
+            var trackArr : TrackArray?
+            if let assetsDir = Bundle.main.urls(forResourcesWithExtension: "mp3", subdirectory: nil) {
                 
-                do { //PLIST serialization to Array<Dictionary<String,String>> (TrackArray)
-                    trackArr = try PropertyListSerialization.propertyList(from: data, options:.mutableContainers, format:nil) as? TrackArray
-                } catch {
-                    print(error)
+                
+                if let plistURL = Bundle.main.url(forResource: "Tracks", withExtension: "plist") { //PLIST url
+                    
+                    if let plistData = NSData(contentsOf: plistURL) { //PLIST data
+                        let data = plistData as Data
+                        
+                        do { //PLIST serialization to Array<Dictionary<String,String>> (TrackArray)
+                            trackArr = try PropertyListSerialization.propertyList(from: data, options:.mutableContainers, format:nil) as? TrackArray
+                        } catch {
+                            print(error)
+                            
+                        }
+                    }
+                } //trackArr contains name, period, category...add path
+                
+                let background = DispatchQueue.global()
+                
+                background.sync {
+                    
+                    for asset in assetsDir {
+                        
+                        let destUrl = AudioManager.documentsDirectory.appendingPathComponent(asset.lastPathComponent)
+                        
+                        do {
+                            try FileManager.default.copyItem(at: asset, to: destUrl)
+                        } catch let error as NSError {
+                            print("\(error)")
+                        }
+                    }
+                    
+                }
+                
+                if let arr = trackArr {
+                    audioManager = AudioManager(withArray: arr)
+                    audioManager?.delegate = self as AudioManagerDelegate
+                    if let manager = audioManager { _ = saveAudioManager(manager: manager) }
+                    
                 }
             }
+            
         }
-     
-        if (trackArr != nil) {
-            audioManager = AudioManager(withArray: trackArr!)
-            audioManager?.delegate = self as AudioManagerDelegate
-        }
+        
+        audioManager = loadAudioManager()
+        audioManager?.delegate = self as AudioManagerDelegate
+        if let manager = audioManager { _ = saveAudioManager(manager: manager) }
+        
+        
         
         do {
             UIApplication.shared.beginReceivingRemoteControlEvents()
@@ -117,7 +163,46 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
+    // MARK: - Audio Manager controls
     
+    private func loadAudioManager() -> AudioManager? {
+        
+        return NSKeyedUnarchiver.unarchiveObject(withFile: AudioManager.archiveURL.path) as? AudioManager
+        
+    }
+    
+    private func saveAudioManager(manager: AudioManager) -> Bool {
+        
+        return NSKeyedArchiver.archiveRootObject(manager, toFile: AudioManager.archiveURL.path)
+    }
+    
+    func newTrack(at url: URL) -> Bool {
+        
+        //construct a TrackArray w/1 entry : Dict<String, String>
+        //getting name+period:
+        //option 1 - uialertview (+ bpmanalyzer)
+        //option 2 - modal view controller + bpmanalyzer
+        var trackArr = TrackArray()
+        let lastComponent = url.pathComponents.last!
+        let firstDot = lastComponent.index(of: ".") ?? lastComponent.endIndex
+        let fileName = lastComponent[..<firstDot]
+        
+        let period = "0.5"
+        let category = "song"
+        
+        trackArr.append(["title" : String(fileName), "period" : period, "category" : category, "extension" : url.pathExtension])
+        
+        //send to manager
+        if let manager = self.audioManager {
+            manager.add(newTrack: trackArr)
+            self.tableView.reloadData()
+            return self.saveAudioManager(manager: manager)
+        }
+        
+        return true
+    }
+    
+    // MARK: - Table View controls
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if let manager = audioManager {
@@ -162,7 +247,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.reloadRows(at: [indexPath], with: .automatic)
     }
    
-    
+    // MARK: - UI Controls
     @IBAction func handlePlayButton(_ sender: Any) {
         
         if let manager = audioManager {
@@ -246,6 +331,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             break
             
         case "2x":
+            panRateBarButtonItem.title = "4x"
+            manager.rate = PanRate.Quad
+            break
+            
+        case "4x":
             panRateBarButtonItem.title = "0.5x"
             manager.rate = PanRate.Half
             break
@@ -274,7 +364,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             manager.updateVolume(newLevel)
         }
     }
-    
+    // MARK: - AudioManager delegate controls
     func audioManagerDidCompletePlaylist() { //<<implement repeat
         
         if (repeatBarButtonItem.title == "One-time") {
@@ -288,7 +378,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func audioManagerPlaybackInterrupted() {
         
     }
-    
+    // MARK: - Init
     required init?(coder aDecoder: NSCoder) {
     
         super.init(coder: aDecoder)
