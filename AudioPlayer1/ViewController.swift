@@ -187,17 +187,26 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let firstDot = lastComponent.index(of: ".") ?? lastComponent.endIndex
         let fileName = lastComponent[..<firstDot]
         
-        let period = "0.5"
-        let category = "song"
+        let alert = UIAlertController(title: "Period", message: "Enter the desired period for the piece.", preferredStyle: .alert)
+        alert.addTextField(configurationHandler: nil)
         
-        trackArr.append(["title" : String(fileName), "period" : period, "category" : category, "extension" : url.pathExtension])
+        let action = UIAlertAction(title: "Done", style: .default, handler: {(alertAction) -> Void in
+            
+            if let period = alert.textFields?.first?.text {
+            let category = "song"
+            
+            trackArr.append(["title" : String(fileName), "period" : period, "category" : category, "extension" : url.pathExtension])
+            
+            //send to manager
+            if let manager = self.audioManager {
+                manager.add(newTrack: trackArr)
+                self.tableView.reloadData()
+                _ = self.saveAudioManager(manager: manager)
+            }
+            }})
         
-        //send to manager
-        if let manager = self.audioManager {
-            manager.add(newTrack: trackArr)
-            self.tableView.reloadData()
-            return self.saveAudioManager(manager: manager)
-        }
+        alert.addAction(action)
+        self.present(alert, animated: true, completion: {() -> Void in })
         
         return true
     }

@@ -11,6 +11,8 @@ import UIKit
 import AVFoundation
 import os.log
 
+// MARK: - Enums
+
 private enum PanDirection {
     case Left
     case Center
@@ -35,15 +37,17 @@ enum PanRate {
 
 let documentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
 
+//MARK: - PanAudioPlayer
 class PanAudioPlayer: AVAudioPlayer {
 
+    // MARK: - Private property controls
     private var timer : Timer = Timer()
     private var direction : PanDirection = .Left
     private var lastDirection = PanDirection.Left
     private var counter = 0
     private var period : Double
     
-    
+    // MARK: - Playback controls
     override func play() -> Bool {
     
         
@@ -58,6 +62,8 @@ class PanAudioPlayer: AVAudioPlayer {
         timer.invalidate()
         super.stop()
     }
+    
+    // MARK: - Rhythm controls
     
     func invalidateRhythm() {
         
@@ -153,7 +159,7 @@ class PanAudioPlayer: AVAudioPlayer {
 
     }
     
-    
+    // MARK: - Inits
     init(contentsOf url: URL, period: Double) throws {
         
         self.period = period
@@ -167,7 +173,7 @@ class PanAudioPlayer: AVAudioPlayer {
         
     }
 }
-
+// MARK: - AudioManager
 class AudioManager : NSObject, AVAudioPlayerDelegate, NSCoding {
     
     // MARK: - Private property controls
@@ -480,7 +486,7 @@ class AudioManager : NSObject, AVAudioPlayerDelegate, NSCoding {
     }
 
 }
-
+// MARK: - AudioManagerDelegate
 protocol AudioManagerDelegate {
     func audioManagerDidCompletePlaylist()
     func audioManagerPlaybackInterrupted()
@@ -489,9 +495,3 @@ protocol AudioManagerDelegate {
 //wouldn't it be nice if the TrackArray held the URLs (as string)
 // title, period, category, url xxx extension
 // user inserts title & can auto-periodize or custom period
-
-// we will need a sessions manager
-
-class SessionManager : AudioManager {
-    
-}
