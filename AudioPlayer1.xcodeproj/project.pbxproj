@@ -16,7 +16,6 @@
 		5A0D0F322028086B0086F50E /* Round and Round.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A0D0F302028086A0086F50E /* Round and Round.mp3 */; };
 		5A0D0F332028086B0086F50E /* America.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A0D0F312028086B0086F50E /* America.mp3 */; };
 		5A0D0F35202EB7AA0086F50E /* Feel Again.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A0D0F34202EB7AA0086F50E /* Feel Again.mp3 */; };
-		5A0D0F372030D3E80086F50E /* SessionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0D0F362030D3E80086F50E /* SessionsTableViewController.swift */; };
 		5A15980F200BFE4A00CD4E36 /* Knocking at the Door.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A15980E200BFE4A00CD4E36 /* Knocking at the Door.mp3 */; };
 		5A159811200E9BAE00CD4E36 /* Whatever It Takes.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A159810200E9BAE00CD4E36 /* Whatever It Takes.mp3 */; };
 		5A3049491EAF18D10000A144 /* If I Lose Myself.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */; };
@@ -95,7 +94,6 @@
 		5A0D0F302028086A0086F50E /* Round and Round.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Round and Round.mp3"; sourceTree = "<group>"; };
 		5A0D0F312028086B0086F50E /* America.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = America.mp3; sourceTree = "<group>"; };
 		5A0D0F34202EB7AA0086F50E /* Feel Again.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Feel Again.mp3"; sourceTree = "<group>"; };
-		5A0D0F362030D3E80086F50E /* SessionsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsTableViewController.swift; sourceTree = "<group>"; };
 		5A15980E200BFE4A00CD4E36 /* Knocking at the Door.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Knocking at the Door.mp3"; sourceTree = "<group>"; };
 		5A159810200E9BAE00CD4E36 /* Whatever It Takes.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Whatever It Takes.mp3"; sourceTree = "<group>"; };
 		5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "If I Lose Myself.mp3"; sourceTree = "<group>"; };
@@ -203,7 +201,6 @@
 				5ABA30981DCBC97D006E5999 /* AppDelegate.swift */,
 				5ABA309A1DCBC97D006E5999 /* ViewController.swift */,
 				5ABEAF611F19851E008E5BB5 /* PanAudioPlayer.swift */,
-				5A0D0F362030D3E80086F50E /* SessionsTableViewController.swift */,
 				5A0B3FEC1F74CEF100A60D9F /* Tracks.plist */,
 				5ABA309C1DCBC97D006E5999 /* Main.storyboard */,
 				5ABA309F1DCBC97D006E5999 /* Assets.xcassets */,
@@ -438,7 +435,6 @@
 			files = (
 				5ABEAF621F19851E008E5BB5 /* PanAudioPlayer.swift in Sources */,
 				5ABA309B1DCBC97D006E5999 /* ViewController.swift in Sources */,
-				5A0D0F372030D3E80086F50E /* SessionsTableViewController.swift in Sources */,
 				5ABA30991DCBC97D006E5999 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -15,13 +15,14 @@
 // Implement 'sessions'
 // Ability to change period of timer
 // we'll need to go faster...
+// make JSOn & copy into documents upon first start to always ensure a file
 
 import UIKit
 import AVFoundation
 import MediaPlayer
 import os.log
 
-typealias TrackArray = Array<Dictionary<String, String>>
+typealias TrackArray = Array<Track>
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AudioManagerDelegate {
     
@@ -51,62 +52,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // load encoded audioManager instantiation
         // change as necessary inside with newTrackat:
         // be sure to either save or delegate out save upon finish
+        //create new manager from preset mp3s in bundle
         
-        
-        if (loadAudioManager() == nil) {
-            
-            //create new manager from preset mp3s in bundle
-            
-            var trackArr : TrackArray?
-            if let assetsDir = Bundle.main.urls(forResourcesWithExtension: "mp3", subdirectory: nil) {
-                
-                
-                if let plistURL = Bundle.main.url(forResource: "Tracks", withExtension: "plist") { //PLIST url
-                    
-                    if let plistData = NSData(contentsOf: plistURL) { //PLIST data
-                        let data = plistData as Data
-                        
-                        do { //PLIST serialization to Array<Dictionary<String,String>> (TrackArray)
-                            trackArr = try PropertyListSerialization.propertyList(from: data, options:.mutableContainers, format:nil) as? TrackArray
-                        } catch {
-                            print(error)
-                            
-                        }
-                    }
-                } //trackArr contains name, period, category...add path
-                
-                let background = DispatchQueue.global()
-                
-                background.sync {
-                    
-                    for asset in assetsDir {
-                        
-                        let destUrl = AudioManager.documentsDirectory.appendingPathComponent(asset.lastPathComponent)
-                        
-                        do {
-                            try FileManager.default.copyItem(at: asset, to: destUrl)
-                        } catch let error as NSError {
-                            print("\(error)")
-                        }
-                    }
-                    
-                }
-                
-                if let arr = trackArr {
-                    audioManager = AudioManager(withArray: arr)
-                    audioManager?.delegate = self as AudioManagerDelegate
-                    if let manager = audioManager { _ = saveAudioManager(manager: manager) }
-                    
+        audioManager = AudioManager()
+        do {
+            if let theTracks = AudioManager.loadTracks() {
+                do { try audioManager?.setTracks(theTracks) }
+                catch let error {
+                    print("\(error)")
                 }
             }
-            
         }
-        
-        audioManager = loadAudioManager()
-        audioManager?.delegate = self as AudioManagerDelegate
-        if let manager = audioManager { _ = saveAudioManager(manager: manager) }
-        
-        
         
         do {
             UIApplication.shared.beginReceivingRemoteControlEvents()
@@ -165,24 +121,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     // MARK: - Audio Manager controls
     
-    private func loadAudioManager() -> AudioManager? {
-        
-        return NSKeyedUnarchiver.unarchiveObject(withFile: AudioManager.archiveURL.path) as? AudioManager
-        
-    }
-    
-    private func saveAudioManager(manager: AudioManager) -> Bool {
-        
-        return NSKeyedArchiver.archiveRootObject(manager, toFile: AudioManager.archiveURL.path)
-    }
+   
     
     func newTrack(at url: URL) -> Bool {
         
-        //construct a TrackArray w/1 entry : Dict<String, String>
         //getting name+period:
         //option 1 - uialertview (+ bpmanalyzer)
         //option 2 - modal view controller + bpmanalyzer
-        var trackArr = TrackArray()
+        
         let lastComponent = url.pathComponents.last!
         let firstDot = lastComponent.index(of: ".") ?? lastComponent.endIndex
         let fileName = lastComponent[..<firstDot]
@@ -195,13 +141,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             if let period = alert.textFields?.first?.text {
             let category = "song"
             
-            trackArr.append(["title" : String(fileName), "period" : period, "category" : category, "extension" : url.pathExtension])
+                let newTrack = Track(title: String(fileName), period: Double(period)!, category: category, fileName: lastComponent, rhythm: nil, rate: nil)
             
-            //send to manager
             if let manager = self.audioManager {
-                manager.add(newTrack: trackArr)
+                manager.add(newTrack: newTrack)
                 self.tableView.reloadData()
-                _ = self.saveAudioManager(manager: manager)
+                
             }
             }})
         

@@ -16,7 +16,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        if (AudioManager.loadTracks() == nil) { //serialize PLIST, make [Tracks]
+            
+            let background = DispatchQueue.global(qos: .background)
+            
+            background.sync {
+                
+                if let plistURL = Bundle.main.url(forResource: "Tracks", withExtension: "plist") { //PLIST url
+                
+                    if let plistData = NSData(contentsOf: plistURL) { //PLIST data
+                        let data = plistData as Data
+                        var trackArr : Array<Dictionary<String, String>>?
+                        var presets : TrackArray = []
+                        do { //PLIST serialization to Array<Dictionary<String,String>> (TrackArray)
+                            trackArr = try PropertyListSerialization.propertyList(from: data, options:.mutableContainers,   format:nil) as? Array<Dictionary<String, String>>
+                        } catch {
+                            print(error)
+                        }
+                    
+                        guard let array = trackArr else { return }
+                        
+                        for dict in array {
+                            let file = dict["title"]! + "." + dict["extension"]!
+                            let aTrack = Track(title: dict["title"]!, period: Double(dict["period"]!)!, category: dict["category"]!, fileName: file, rhythm: nil, rate: nil)
+                            presets.append(aTrack)
+                            
+                            let urlInBundle = Bundle.main.url(forResource: dict["title"]!, withExtension: dict["extension"]!)
+                            do {
+                                try FileManager.default.copyItem(at: urlInBundle!, to: aTrack.getURL())
+                            } catch let error as NSError {
+                                print("\(error)")
+                            }
+                        }
+                        _ = AudioManager.saveTracks(presets)
+                    }
+                }
+            }
+        }
+        
         return true
     }
 
@@ -38,8 +76,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // manager should analyze BPM (if that's the route)
         // VC's TableView is updated on reentry
         
-        guard let rvc = window?.rootViewController as? UITabBarController else { print("Cannot load UTBC"); return false }
-        guard let vc = rvc.viewControllers![0] as? ViewController else { print("Cannot load VC"); return false }
+        guard let vc = window?.rootViewController as? ViewController else { print("Cannot load root view controller."); return false }
         
         return vc.newTrack(at: documentsDirectory.appendingPathComponent(url.pathComponents.last!))
         
