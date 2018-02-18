@@ -29,17 +29,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //MARK: - Private property controls
     private var audioManager : AudioManager?
     private var selectedCells : Array<Int> = []
-    private var rhythmType : Rhythmic = .Crosspan
     
     // MARK: - IBOutlets
     @IBOutlet weak var navBar: UINavigationBar!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var toolbar: UIToolbar!
-    @IBOutlet weak var repeatBarButtonItem: UIBarButtonItem!
-    @IBOutlet weak var panTypeBarButtonItem: UIBarButtonItem!
-    @IBOutlet weak var panRateBarButtonItem: UIBarButtonItem!
-    @IBOutlet weak var pauseBarButtonItem: UIBarButtonItem!
     @IBOutlet weak var playBarButtonItem: UIBarButtonItem!
+    
+    
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -55,14 +52,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         //create new manager from preset mp3s in bundle
         
         audioManager = AudioManager()
-        do {
-            if let theTracks = AudioManager.loadTracks() {
-                do { try audioManager?.setTracks(theTracks) }
-                catch let error {
-                    print("\(error)")
-                }
+        
+        
+        if let theTracks = AudioManager.loadTracks() {
+            do { try audioManager?.setTracks(theTracks) }
+            catch let error {
+                print("\(error)")
             }
         }
+        
+        if let theSessions = AudioManager.loadSessions() {
+            do { try audioManager?.setSessions(theSessions) }
+            catch let error {
+                print("\(error)")
+            }
+        }
+        
+        self.navBar.prefersLargeTitles = true
         
         do {
             UIApplication.shared.beginReceivingRemoteControlEvents()
@@ -90,7 +96,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 
                 guard let manager = self.audioManager else { return .commandFailed }
                 
-                manager.stopPlayback() //counterintuitive, but should call audioPlayerDidFinishPlaying: & call up next track
+                manager.skipCurrentTrack()
                 return .success
                 
             })
@@ -98,7 +104,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         } catch let error as NSError {
             print("error: \(error)")
         }
-        
+    
     }
     
     override func didReceiveMemoryWarning() {
@@ -107,21 +113,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
         super.viewWillAppear(animated)
-        
-        guard let manager = self.audioManager else { return }
-        
-        if (manager.isPlaying == true) {
-            navBar.topItem?.setRightBarButton(pauseBarButtonItem, animated: false)
-        } else {
-            navBar.topItem?.setRightBarButton(playBarButtonItem, animated: false)
-        }
     }
     
     // MARK: - Audio Manager controls
-    
-   
     
     func newTrack(at url: URL) -> Bool {
         
@@ -141,7 +136,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             if let period = alert.textFields?.first?.text {
             let category = "song"
             
-                let newTrack = Track(title: String(fileName), period: Double(period)!, category: category, fileName: lastComponent, rhythm: nil, rate: nil)
+                let newTrack = Track(title: String(fileName), period: Double(period)!, category: category, fileName: lastComponent, rhythm: .Bilateral, rate: .Normal)
             
             if let manager = self.audioManager {
                 manager.add(newTrack: newTrack)
@@ -157,24 +152,47 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     // MARK: - Table View controls
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        if let manager = audioManager {
-            return manager.trackCount
-        }
-        
-        return 0
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
     }
     
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        guard let manager = self.audioManager else { return 0 }
+        
+        if section == 0 {
+            return manager.sessionCount
+        }
+        return manager.trackCount
+    }
     
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "Sessions"
+        } else {
+            return "Tracks"
+        }
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     
+        if indexPath.section == 0 {
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "sessionCell", for: indexPath)
+            guard let manager = audioManager else { return cell }
+            
+            cell.textLabel?.text = manager.sessionInformation(forIndex: indexPath.row).0
+            cell.detailTextLabel?.text = String(manager.sessionInformation(forIndex: indexPath.row).1) + " tracks"
+            
+            return cell
+        }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
         guard let manager = audioManager else { return cell }
         
         cell.textLabel?.text = manager.title(forIndex: indexPath.row)
+        cell.detailTextLabel?.text = manager.rhythmRate(forIndex: indexPath.row)
         
         if (selectedCells.contains(indexPath.row)) {
             cell.accessoryType = .checkmark
@@ -186,9 +204,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
-    
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if (indexPath.section == 0) {
+            
+            self.audioManager?.playSession(atIndex: indexPath.row)
+            return
+        }
         
         if (selectedCells.contains(indexPath.row)) {
             if let rIndex = selectedCells.index(of: indexPath.row) {
@@ -201,6 +223,109 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.reloadRows(at: [indexPath], with: .automatic)
     }
    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        
+        if indexPath.section == 0 {
+            return .delete
+        }
+        
+        return .none
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if (editingStyle == .delete && indexPath.section == 0) {
+            self.tableView.beginUpdates()
+            self.audioManager?.deleteSession(atIndex: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            self.tableView.endUpdates()
+            
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        if indexPath.section == 1 {
+        
+            let bilateral = UIContextualAction(style: .normal, title: "Bilateral", handler: { action, view, completionHandler in
+                
+                self.audioManager?.setRhythm(Rhythmic.Bilateral, forIndex:indexPath.row)
+                completionHandler(true)
+                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+            })
+            bilateral.backgroundColor = UIColor.red
+            
+            let crosspan = UIContextualAction(style: .normal, title: "Crosspan", handler: { action, view, completionHandler in
+                
+                self.audioManager?.setRhythm(Rhythmic.Crosspan, forIndex:indexPath.row)
+                completionHandler(true)
+                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+            })
+            crosspan.backgroundColor = UIColor.green
+            
+            let synthesis = UIContextualAction(style: .normal, title: "Synthesis", handler: { action, view, completionHandler in
+                
+                self.audioManager?.setRhythm(Rhythmic.Synthesis, forIndex:indexPath.row)
+                completionHandler(true)
+                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+            })
+            crosspan.backgroundColor = UIColor.blue
+            
+            let config = UISwipeActionsConfiguration(actions: [bilateral, synthesis, crosspan])
+            config.performsFirstActionWithFullSwipe = false
+            return config
+    }
+        return nil
+    }
+    
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        if indexPath.section == 1 {
+        
+            let half = UIContextualAction(style: .normal, title: "0.5x", handler: { action, view, completionHandler in
+                
+                self.audioManager?.setRate(PanRate.Half, forIndex: indexPath.row)
+                completionHandler(true)
+                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+            })
+            half.backgroundColor = UIColor.red
+            
+            let normal = UIContextualAction(style: .normal, title: "1x", handler: { action, view, completionHandler in
+                
+                self.audioManager?.setRate(PanRate.Normal, forIndex: indexPath.row)
+                completionHandler(true)
+                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+            })
+            normal.backgroundColor = UIColor.green
+            
+            let double = UIContextualAction(style: .normal, title: "2x", handler: { action, view, completionHandler in
+                
+                self.audioManager?.setRate(PanRate.Double, forIndex: indexPath.row)
+                completionHandler(true)
+                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+            })
+            double.backgroundColor = UIColor.blue
+            
+            let quad = UIContextualAction(style: .normal, title: "4x", handler: { action, view, completionHandler in
+                
+                self.audioManager?.setRate(PanRate.Quad, forIndex: indexPath.row)
+                completionHandler(true)
+                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+            })
+            quad.backgroundColor = UIColor.purple
+            
+            let config = UISwipeActionsConfiguration(actions: [half, normal, double, quad])
+            config.performsFirstActionWithFullSwipe = false
+            return config
+    }
+        return nil
+    }
+    
     // MARK: - UI Controls
     @IBAction func handlePlayButton(_ sender: Any) {
         
@@ -209,100 +334,53 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             if (selectedCells.isEmpty == true) {
                 if (manager.isPlaying == true) {
                     manager.stopPlayback()
-                    navBar.topItem?.setRightBarButton(playBarButtonItem, animated: true)
-
+                
                 }
                 return
             }
             
             if (manager.isPlaying == false) {
                 
-                manager.rhythm = rhythmType
                 _ = manager.playback(queued: selectedCells)
-                navBar.topItem?.setRightBarButton(pauseBarButtonItem, animated: true)
                 
             } else {
                 manager.stopPlayback()
-                navBar.topItem?.setRightBarButton(playBarButtonItem, animated: true)
             }
         }
     }
     
-    @IBAction func handleRepeatShuffle(_ sender: UIBarButtonItem) {
+    @IBAction func newSession(_ sender: Any) {
         
-        if (sender == repeatBarButtonItem) {
-            if (repeatBarButtonItem.title == "Repeat") {
-                repeatBarButtonItem.title = "One-time"
-            } else if (repeatBarButtonItem.title == "One-time") {
-                repeatBarButtonItem.title = "Repeat"
-            }
+        if selectedCells.isEmpty == true {
             
+            let alert = UIAlertController(title: "Select Tracks", message: "To create a new session, select some tracks to add.", preferredStyle: .alert)
+            let action = UIAlertAction(title: "Got it", style: .default, handler: nil)
+            alert.addAction(action)
             
+            self.present(alert, animated: true, completion: nil)
+            return
         }
         
-        if (sender == panTypeBarButtonItem) {
+        let alert = UIAlertController(title: "New Session", message: "Provide a name for the new session.", preferredStyle: .alert)
+        alert.addTextField(configurationHandler: { (textField) -> Void in
             
-            switch panTypeBarButtonItem.title! {
-                
-            case "Crosspan":
-                panTypeBarButtonItem.title = "Bilateral"
-                rhythmType = .Bilateral
-                break
-                
-            case "Bilateral":
-                panTypeBarButtonItem.title = "Synthesis"
-                rhythmType = .Synthesis
-                break
-                
-            case "Synthesis":
-                panTypeBarButtonItem.title = "Stitch"
-                rhythmType = .Stitch
-                break
-                
-            case "Stitch":
-                panTypeBarButtonItem.title = "Crosspan"
-                rhythmType = .Crosspan
-                break
-                
-            default:
-                break
-            }
-        }
+            textField.placeholder = "Session 1"
+        })
         
-    }
-    
-    @IBAction func handlePanRateChange(_ sender: UIBarButtonItem) {
+        let doneAction = UIAlertAction(title: "Done", style: .default, handler: { (alertAction) -> Void in
+            
+            guard let name = alert.textFields?.first?.text else { return }
+            self.audioManager?.createSession(self.selectedCells, named: name)
+            self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+            
+        })
         
-        guard let title = panRateBarButtonItem.title else { return }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
-        if let manager = self.audioManager {
+        alert.addAction(cancelAction)
+        alert.addAction(doneAction)
         
-        switch title {
-            
-        case "1x":
-            panRateBarButtonItem.title = "2x"
-            manager.rate = PanRate.Double
-            break
-            
-        case "2x":
-            panRateBarButtonItem.title = "4x"
-            manager.rate = PanRate.Quad
-            break
-            
-        case "4x":
-            panRateBarButtonItem.title = "0.5x"
-            manager.rate = PanRate.Half
-            break
-            
-        case "0.5x":
-            panRateBarButtonItem.title = "1x"
-            manager.rate = PanRate.Normal
-            break
-            
-        default:
-            break
-        }
-    }
+        self.present(alert, animated: true, completion: { () -> Void in })
     }
     
     @IBAction func clearSelections(_ sender: Any) {
@@ -319,14 +397,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     // MARK: - AudioManager delegate controls
-    func audioManagerDidCompletePlaylist() { //<<implement repeat
-        
-        if (repeatBarButtonItem.title == "One-time") {
-            selectedCells = []
-            self.tableView.reloadData()
-        } else if (repeatBarButtonItem.title == "Repeat") {
-            audioManager?.repeatQueue()
-        }
+    func audioManagerDidCompletePlaylist() { 
+       audioManager?.repeatQueue()
     }
     
     func audioManagerPlaybackInterrupted() {
@@ -335,6 +407,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // MARK: - Init
     required init?(coder aDecoder: NSCoder) {
     
+        
         super.init(coder: aDecoder)
     }
 }

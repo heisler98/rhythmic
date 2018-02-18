@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         
                         for dict in array {
                             let file = dict["title"]! + "." + dict["extension"]!
-                            let aTrack = Track(title: dict["title"]!, period: Double(dict["period"]!)!, category: dict["category"]!, fileName: file, rhythm: nil, rate: nil)
+                            let aTrack = Track(title: dict["title"]!, period: Double(dict["period"]!)!, category: dict["category"]!, fileName: file, rhythm: .Bilateral, rate: .Normal)
                             presets.append(aTrack)
                             
                             let urlInBundle = Bundle.main.url(forResource: dict["title"]!, withExtension: dict["extension"]!)
@@ -51,6 +51,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         }
                         _ = AudioManager.saveTracks(presets)
                     }
+                }
+                
+                if AudioManager.loadSessions() == nil {
+                    guard let tracks = AudioManager.loadTracks() else { return }
+                    let name = "All Tracks"
+                    let aSession = Session(name: name, tracks: tracks)
+                    _ = AudioManager.saveSessions([aSession])
                 }
             }
         }
@@ -102,6 +109,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+         
     }
 
 

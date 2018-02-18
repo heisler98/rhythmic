@@ -77,6 +77,9 @@
 		5ABEAF621F19851E008E5BB5 /* PanAudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABEAF611F19851E008E5BB5 /* PanAudioPlayer.swift */; };
 		5AC062651FE2FF7000B6F797 /* The Fall.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A4D50B81FD221A10040820C /* The Fall.mp3 */; };
 		5AC062671FE9E8AF00B6F797 /* Love Runs Out.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AC062661FE9E8AF00B6F797 /* Love Runs Out.mp3 */; };
+		5AC5F1A0203A2320005EBFDA /* Keep Falling.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AC5F19E203A2320005EBFDA /* Keep Falling.mp3 */; };
+		5AC5F1A1203A2320005EBFDA /* Dog Days Are Over.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AC5F19F203A2320005EBFDA /* Dog Days Are Over.mp3 */; };
+		5AC5F1A3203A252B005EBFDA /* Something to be Proud Of.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AC5F1A2203A252B005EBFDA /* Something to be Proud Of.mp3 */; };
 		5AE0C7B41ECC0DEC00AF6926 /* I Lived.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AE0C7B31ECC0DEC00AF6926 /* I Lived.mp3 */; };
 		5AF19F8A1E95A0B1004E38C9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AF19F891E95A0B1004E38C9 /* AVFoundation.framework */; };
 		5AF19F8C1E95A0BA004E38C9 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AF19F8B1E95A0BA004E38C9 /* MediaPlayer.framework */; };
@@ -157,6 +160,9 @@
 		5ABE00F91FCB70A30099405C /* 18 Musicians III.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "18 Musicians III.mp3"; path = "../../../../Music/Converted by MediaHuman/18 Musicians III.mp3"; sourceTree = "<group>"; };
 		5ABEAF611F19851E008E5BB5 /* PanAudioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PanAudioPlayer.swift; sourceTree = "<group>"; };
 		5AC062661FE9E8AF00B6F797 /* Love Runs Out.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Love Runs Out.mp3"; sourceTree = "<group>"; };
+		5AC5F19E203A2320005EBFDA /* Keep Falling.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Keep Falling.mp3"; sourceTree = "<group>"; };
+		5AC5F19F203A2320005EBFDA /* Dog Days Are Over.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Dog Days Are Over.mp3"; sourceTree = "<group>"; };
+		5AC5F1A2203A252B005EBFDA /* Something to be Proud Of.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Something to be Proud Of.mp3"; sourceTree = "<group>"; };
 		5AE0C7B31ECC0DEC00AF6926 /* I Lived.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "I Lived.mp3"; sourceTree = "<group>"; };
 		5AF19F891E95A0B1004E38C9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		5AF19F8B1E95A0BA004E38C9 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -213,6 +219,9 @@
 		5ABEAF751F36E4AA008E5BB5 /* Audio Assets */ = {
 			isa = PBXGroup;
 			children = (
+				5AC5F1A2203A252B005EBFDA /* Something to be Proud Of.mp3 */,
+				5AC5F19F203A2320005EBFDA /* Dog Days Are Over.mp3 */,
+				5AC5F19E203A2320005EBFDA /* Keep Falling.mp3 */,
 				5A9F2EAD203152C700655FC8 /* Leaf House.mp3 */,
 				5A0D0F34202EB7AA0086F50E /* Feel Again.mp3 */,
 				5A0D0F312028086B0086F50E /* America.mp3 */,
@@ -369,6 +378,7 @@
 				5A5598341F7B5A9900AF9E9F /* Praying by Kesha.mp3 in Resources */,
 				5A6237071F5F44FF0027326D /* Collateral Beauty.mp3 in Resources */,
 				5A55982E1F7B5A9900AF9E9F /* Life in Color.mp3 in Resources */,
+				5AC5F1A3203A252B005EBFDA /* Something to be Proud Of.mp3 in Resources */,
 				5A9F2EAE203152C700655FC8 /* Leaf House.mp3 in Resources */,
 				5A55982C1F7B5A9900AF9E9F /* Miracles.mp3 in Resources */,
 				5A50D84F1FA2453000D12D55 /* Isochronic.mp3 in Resources */,
@@ -376,6 +386,7 @@
 				5A55983B1F7B5A9900AF9E9F /* Looking Too Closely.mp3 in Resources */,
 				5ABA30A01DCBC97D006E5999 /* Assets.xcassets in Resources */,
 				5A5598321F7B5A9900AF9E9F /* Hand of God.mp3 in Resources */,
+				5AC5F1A0203A2320005EBFDA /* Keep Falling.mp3 in Resources */,
 				5A4D50BA1FD710EE0040820C /* Polaroid.mp3 in Resources */,
 				5A159811200E9BAE00CD4E36 /* Whatever It Takes.mp3 in Resources */,
 				5A5598361F7B5A9900AF9E9F /* Learn to Let Go.mp3 in Resources */,
@@ -418,6 +429,7 @@
 				5A3CD1B51F6A57920015683B /* Jedi Steps and Finale.mp3 in Resources */,
 				5A5598391F7B5A9900AF9E9F /* Preacher.mp3 in Resources */,
 				5A3CD1B01F6A57920015683B /* Battle of the Heroes.mp3 in Resources */,
+				5AC5F1A1203A2320005EBFDA /* Dog Days Are Over.mp3 in Resources */,
 				5A57DB1E1FBF891200DC46B6 /* Luck.mp3 in Resources */,
 				5A3CD1B81F6A57920015683B /* The Force Suite.mp3 in Resources */,
 				5AC062651FE2FF7000B6F797 /* The Fall.mp3 in Resources */,
