@@ -301,7 +301,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 completionHandler(true)
                 self.tableView.reloadRows(at: [indexPath], with: .automatic)
             })
-            normal.backgroundColor = UIColor.green
+            normal.backgroundColor = UIColor.gray
             
             let double = UIContextualAction(style: .normal, title: "2x", handler: { action, view, completionHandler in
                 
