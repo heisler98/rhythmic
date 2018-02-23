@@ -52,7 +52,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         //create new manager from preset mp3s in bundle
         
         audioManager = AudioManager()
-        
+        audioManager?.delegate = self as AudioManagerDelegate
         
         if let theTracks = AudioManager.loadTracks() {
             do { try audioManager?.setTracks(theTracks) }
@@ -151,7 +151,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return true
     }
     
-    // MARK: - Table View controls
+    // MARK: - Table View data source controls
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
@@ -204,23 +204,34 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
+    // MARK: - Table View delegate controls
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if (indexPath.section == 0) {
             
+            if audioManager?.isPlayingSession == true {
+                self.audioManager?.stopPlayback()
+                tableView.deselectRow(at: indexPath, animated: true)
+                return
+            }
             self.audioManager?.playSession(atIndex: indexPath.row)
             return
         }
+        
+        let cell = tableView.cellForRow(at: indexPath)
         
         if (selectedCells.contains(indexPath.row)) {
             if let rIndex = selectedCells.index(of: indexPath.row) {
                 selectedCells.remove(at: rIndex)
             }
+            cell?.accessoryType = .none
         } else {
             selectedCells.append(indexPath.row)
+            cell?.accessoryType = .checkmark
         }
         
-        tableView.reloadRows(at: [indexPath], with: .automatic)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
    
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -256,7 +267,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 
                 self.audioManager?.setRhythm(Rhythmic.Bilateral, forIndex:indexPath.row)
                 completionHandler(true)
-                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+                //self.tableView.reloadRows(at: [indexPath], with: .none)
+                let cell = tableView.cellForRow(at: indexPath)
+                cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
+                if cell?.accessoryType != .checkmark {
+                    cell?.accessoryType = .checkmark
+                    self.selectedCells.append(indexPath.row)
+                }
             })
             bilateral.backgroundColor = UIColor.red
             
@@ -264,19 +281,42 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 
                 self.audioManager?.setRhythm(Rhythmic.Crosspan, forIndex:indexPath.row)
                 completionHandler(true)
-                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+                let cell = tableView.cellForRow(at: indexPath)
+                cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
+                if cell?.accessoryType != .checkmark {
+                    cell?.accessoryType = .checkmark
+                    self.selectedCells.append(indexPath.row)
+                }
             })
-            crosspan.backgroundColor = UIColor.green
+            crosspan.backgroundColor = UIColor.purple
             
             let synthesis = UIContextualAction(style: .normal, title: "Synthesis", handler: { action, view, completionHandler in
                 
                 self.audioManager?.setRhythm(Rhythmic.Synthesis, forIndex:indexPath.row)
                 completionHandler(true)
-                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+                let cell = tableView.cellForRow(at: indexPath)
+                cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
+                if cell?.accessoryType != .checkmark {
+                    cell?.accessoryType = .checkmark
+                    self.selectedCells.append(indexPath.row)
+                }
             })
-            crosspan.backgroundColor = UIColor.blue
+            synthesis.backgroundColor = UIColor.blue
             
-            let config = UISwipeActionsConfiguration(actions: [bilateral, synthesis, crosspan])
+            let stitch = UIContextualAction(style: .normal, title: "Stitch", handler: { action, view, completionHandler in
+                
+                self.audioManager?.setRhythm(Rhythmic.Stitch, forIndex:indexPath.row)
+                completionHandler(true)
+                let cell = tableView.cellForRow(at: indexPath)
+                cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
+                if cell?.accessoryType != .checkmark {
+                    cell?.accessoryType = .checkmark
+                    self.selectedCells.append(indexPath.row)
+                }
+            })
+            stitch.backgroundColor = UIColor.gray
+            
+            let config = UISwipeActionsConfiguration(actions: [bilateral, synthesis, crosspan, stitch])
             config.performsFirstActionWithFullSwipe = false
             return config
     }
@@ -291,7 +331,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 
                 self.audioManager?.setRate(PanRate.Half, forIndex: indexPath.row)
                 completionHandler(true)
-                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+                let cell = tableView.cellForRow(at: indexPath)
+                cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
+                if cell?.accessoryType != .checkmark {
+                    cell?.accessoryType = .checkmark
+                    self.selectedCells.append(indexPath.row)
+                }
             })
             half.backgroundColor = UIColor.red
             
@@ -299,7 +344,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 
                 self.audioManager?.setRate(PanRate.Normal, forIndex: indexPath.row)
                 completionHandler(true)
-                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+                let cell = tableView.cellForRow(at: indexPath)
+                cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
+                if cell?.accessoryType != .checkmark {
+                    cell?.accessoryType = .checkmark
+                    self.selectedCells.append(indexPath.row)
+                }
             })
             normal.backgroundColor = UIColor.gray
             
@@ -307,7 +357,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 
                 self.audioManager?.setRate(PanRate.Double, forIndex: indexPath.row)
                 completionHandler(true)
-                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+                let cell = tableView.cellForRow(at: indexPath)
+                cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
+                if cell?.accessoryType != .checkmark {
+                    cell?.accessoryType = .checkmark
+                    self.selectedCells.append(indexPath.row)
+                }
             })
             double.backgroundColor = UIColor.blue
             
@@ -315,7 +370,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 
                 self.audioManager?.setRate(PanRate.Quad, forIndex: indexPath.row)
                 completionHandler(true)
-                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+                let cell = tableView.cellForRow(at: indexPath)
+                cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
+                if cell?.accessoryType != .checkmark {
+                    cell?.accessoryType = .checkmark
+                    self.selectedCells.append(indexPath.row)
+                }
             })
             quad.backgroundColor = UIColor.purple
             
@@ -324,6 +384,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             return config
     }
         return nil
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
     }
     
     // MARK: - UI Controls

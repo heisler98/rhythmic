@@ -62,6 +62,7 @@
 		5A57DB221FC0DF4200DC46B6 /* Hold Back The River.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A57DB211FC0DF4100DC46B6 /* Hold Back The River.mp3 */; };
 		5A6236FF1F5C019B0027326D /* Viva La Vida.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A6236FE1F5C019B0027326D /* Viva La Vida.mp3 */; };
 		5A6237071F5F44FF0027326D /* Collateral Beauty.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A6237061F5F44FF0027326D /* Collateral Beauty.mp3 */; };
+		5A6E6531203CB4090062FD5B /* Sober Up.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A6E6530203CB4090062FD5B /* Sober Up.mp3 */; };
 		5A8E45261F88416700B33FB7 /* 440 Triangle.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A8E45251F88416700B33FB7 /* 440 Triangle.mp3 */; };
 		5A8E45281F901DB900B33FB7 /* Tell Me.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A8E45271F901DB800B33FB7 /* Tell Me.mp3 */; };
 		5A9D6BDA1E9EF2A300918D8B /* Born.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A9D6BD91E9EF2A300918D8B /* Born.mp3 */; };
@@ -80,6 +81,7 @@
 		5AC5F1A0203A2320005EBFDA /* Keep Falling.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AC5F19E203A2320005EBFDA /* Keep Falling.mp3 */; };
 		5AC5F1A1203A2320005EBFDA /* Dog Days Are Over.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AC5F19F203A2320005EBFDA /* Dog Days Are Over.mp3 */; };
 		5AC5F1A3203A252B005EBFDA /* Something to be Proud Of.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AC5F1A2203A252B005EBFDA /* Something to be Proud Of.mp3 */; };
+		5AC5F1A5203A2A15005EBFDA /* The System Only Dreams in Total Darkness.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AC5F1A4203A2A14005EBFDA /* The System Only Dreams in Total Darkness.mp3 */; };
 		5AE0C7B41ECC0DEC00AF6926 /* I Lived.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AE0C7B31ECC0DEC00AF6926 /* I Lived.mp3 */; };
 		5AF19F8A1E95A0B1004E38C9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AF19F891E95A0B1004E38C9 /* AVFoundation.framework */; };
 		5AF19F8C1E95A0BA004E38C9 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AF19F8B1E95A0BA004E38C9 /* MediaPlayer.framework */; };
@@ -144,6 +146,7 @@
 		5A57DB211FC0DF4100DC46B6 /* Hold Back The River.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "Hold Back The River.mp3"; path = "../../../../Music/Converted by MediaHuman/Hold Back The River.mp3"; sourceTree = "<group>"; };
 		5A6236FE1F5C019B0027326D /* Viva La Vida.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Viva La Vida.mp3"; sourceTree = "<group>"; };
 		5A6237061F5F44FF0027326D /* Collateral Beauty.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Collateral Beauty.mp3"; sourceTree = "<group>"; };
+		5A6E6530203CB4090062FD5B /* Sober Up.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Sober Up.mp3"; sourceTree = "<group>"; };
 		5A8E45251F88416700B33FB7 /* 440 Triangle.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "440 Triangle.mp3"; sourceTree = "<group>"; };
 		5A8E45271F901DB800B33FB7 /* Tell Me.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Tell Me.mp3"; sourceTree = "<group>"; };
 		5A9D6BD91E9EF2A300918D8B /* Born.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Born.mp3; sourceTree = "<group>"; };
@@ -163,6 +166,7 @@
 		5AC5F19E203A2320005EBFDA /* Keep Falling.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Keep Falling.mp3"; sourceTree = "<group>"; };
 		5AC5F19F203A2320005EBFDA /* Dog Days Are Over.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Dog Days Are Over.mp3"; sourceTree = "<group>"; };
 		5AC5F1A2203A252B005EBFDA /* Something to be Proud Of.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Something to be Proud Of.mp3"; sourceTree = "<group>"; };
+		5AC5F1A4203A2A14005EBFDA /* The System Only Dreams in Total Darkness.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "The System Only Dreams in Total Darkness.mp3"; sourceTree = "<group>"; };
 		5AE0C7B31ECC0DEC00AF6926 /* I Lived.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "I Lived.mp3"; sourceTree = "<group>"; };
 		5AF19F891E95A0B1004E38C9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		5AF19F8B1E95A0BA004E38C9 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -219,6 +223,8 @@
 		5ABEAF751F36E4AA008E5BB5 /* Audio Assets */ = {
 			isa = PBXGroup;
 			children = (
+				5A6E6530203CB4090062FD5B /* Sober Up.mp3 */,
+				5AC5F1A4203A2A14005EBFDA /* The System Only Dreams in Total Darkness.mp3 */,
 				5AC5F1A2203A252B005EBFDA /* Something to be Proud Of.mp3 */,
 				5AC5F19F203A2320005EBFDA /* Dog Days Are Over.mp3 */,
 				5AC5F19E203A2320005EBFDA /* Keep Falling.mp3 */,
@@ -376,6 +382,7 @@
 				5AFFE8161F0117E400C713FF /* Start Over.mp3 in Resources */,
 				5ABE00FA1FCB70A30099405C /* 18 Musicians II.mp3 in Resources */,
 				5A5598341F7B5A9900AF9E9F /* Praying by Kesha.mp3 in Resources */,
+				5A6E6531203CB4090062FD5B /* Sober Up.mp3 in Resources */,
 				5A6237071F5F44FF0027326D /* Collateral Beauty.mp3 in Resources */,
 				5A55982E1F7B5A9900AF9E9F /* Life in Color.mp3 in Resources */,
 				5AC5F1A3203A252B005EBFDA /* Something to be Proud Of.mp3 in Resources */,
@@ -394,6 +401,7 @@
 				5A5598331F7B5A9900AF9E9F /* Marchin On.mp3 in Resources */,
 				5A4D50B31FD219350040820C /* Dream.mp3 in Resources */,
 				5A9D6BDA1E9EF2A300918D8B /* Born.mp3 in Resources */,
+				5AC5F1A5203A2A15005EBFDA /* The System Only Dreams in Total Darkness.mp3 in Resources */,
 				5A8E45281F901DB900B33FB7 /* Tell Me.mp3 in Resources */,
 				5A5598401F7B5E6C00AF9E9F /* Courtyard Apocalypse.mp3 in Resources */,
 				5A55983C1F7B5A9900AF9E9F /* Let's Hurt Tonight.mp3 in Resources */,

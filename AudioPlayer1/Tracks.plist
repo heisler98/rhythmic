@@ -692,5 +692,25 @@
 		<key>extension</key>
 		<string>mp3</string>
 	</dict>
+	<dict>
+		<key>title</key>
+		<string>The System Only Dreams in Total Darkness</string>
+		<key>period</key>
+		<string>0.5454</string>
+		<key>category</key>
+		<string>song</string>
+		<key>extension</key>
+		<string>mp3</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>Sober Up</string>
+		<key>period</key>
+		<string>0.645</string>
+		<key>category</key>
+		<string>song</string>
+		<key>extension</key>
+		<string>mp3</string>
+	</dict>
 </array>
 </plist>
