@@ -9,6 +9,7 @@
 
 import UIKit
 import AVFoundation
+import AudioKit
 import os.log
 
 // MARK: - Enums

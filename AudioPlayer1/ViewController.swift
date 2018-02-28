@@ -21,6 +21,9 @@ import UIKit
 import AVFoundation
 import MediaPlayer
 import os.log
+import AudioKit
+
+
 
 typealias TrackArray = Array<Track>
 
@@ -29,6 +32,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //MARK: - Private property controls
     private var audioManager : AudioManager?
     private var selectedCells : Array<Int> = []
+    private var rhythmSession : Rhythm?
     
     // MARK: - IBOutlets
     @IBOutlet weak var navBar: UINavigationBar!
@@ -397,6 +401,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // MARK: - UI Controls
     @IBAction func handlePlayButton(_ sender: Any) {
         
+        if let _ = rhythmSession {
+            if rhythmSession!.isPlaying == true {
+                _ = rhythmSession!.stop()
+                return
+            }
+        }
+        
         if let manager = audioManager {
             
             if (selectedCells.isEmpty == true) {
@@ -464,6 +475,52 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             manager.updateVolume(newLevel)
         }
     }
+    // MARK: - REM Rhythm controls
+    @IBAction func initiateRhythm(_ sender : UIBarButtonItem) {
+        //check for selections
+        if selectedCells.isEmpty == true {
+            return
+        }
+        
+        //prompt for period
+        let alert = UIAlertController(title: "Enter period", message: "Please enter the REM period.", preferredStyle: .alert)
+        alert.addTextField(configurationHandler: {(textField) -> Void in
+            textField.keyboardType = UIKeyboardType.decimalPad
+            textField.keyboardAppearance = UIKeyboardAppearance.dark
+            textField.placeholder = "0.50"
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let doneAction = UIAlertAction(title: "Done", style: .default, handler: { (alertAction) -> Void in
+            if let secTxt = alert.textFields?.first?.text {
+                if let sec = Double(secTxt) {
+                    self.loadRhythm(withPeriod: sec)
+                }
+            }
+            
+        })
+        alert.addAction(cancelAction)
+        alert.addAction(doneAction)
+        
+        self.present(alert, animated: true, completion: nil)
+        
+        
+    }
+    
+    private func loadRhythm(withPeriod sec : Double) {
+        //load selected cells to [Track]
+        guard let allTracks = AudioManager.loadTracks() else { return }
+        var selectedTracks : [Track] = []
+        
+        for index in selectedCells {
+            let aTrack = allTracks[index]
+            selectedTracks.append(aTrack)
+        }
+        //Rhythm()
+        rhythmSession = Rhythm(selectedTracks: selectedTracks, period: sec)
+        _ = rhythmSession!.play()
+    }
+    
     // MARK: - AudioManager delegate controls
     func audioManagerDidCompletePlaylist() { 
        audioManager?.repeatQueue()
@@ -479,4 +536,148 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.init(coder: aDecoder)
     }
 }
-
+// MARK: - Rhythm
+class Rhythm : NSObject {
+    
+    // MARK: - Ivars
+    var tracks : [Track]
+    var period : Double
+    var readyToPlay : Bool = false
+    
+    var files : [AKAudioFile]?
+    var currentFileIndex : Int = 0
+    
+    var audioPlayer : AKAudioPlayer?
+    var timer : AKPeriodicFunction?
+    var panner : AKPanner?
+    var isLeft : Bool = true
+    
+    var isPlaying : Bool {
+        get {
+            guard let _ = audioPlayer else { return false }
+            return audioPlayer!.isPlaying
+        }
+    }
+    // MARK: - Setup controls
+    private func loadAudio() -> Bool {
+        
+        var mutableFiles : [AKAudioFile] = []
+        
+        for track in tracks {
+            let fileURL = documentsDirectory.appendingPathComponent(track.fileName)
+            do {
+                let aFile = try AKAudioFile(forReading: fileURL)
+                mutableFiles.append(aFile)
+            } catch let error {
+                print(error)
+            }
+        }
+        
+        if mutableFiles.isEmpty == false {
+            files = mutableFiles
+            
+            do {
+                audioPlayer = try AKAudioPlayer(file: files![0], looping: false, lazyBuffering: false, completionHandler: {
+                    
+                    if self.currentFileIndex == (self.files!.count - 1) {
+                        return
+                    }
+                    self.nextTrack()
+                })
+                panner = AKPanner(audioPlayer!)
+                timer = AKPeriodicFunction(every: period, handler: {
+                    switch self.isLeft {
+                    case true:
+                        self.panner?.pan = 1.0
+                        self.isLeft = false
+                        break
+                        
+                    case false:
+                        self.panner?.pan = -1.0
+                        self.isLeft = true
+                        break
+                    }
+                })
+                
+                AKSettings.playbackWhileMuted = true
+                AKSettings.disableAVAudioSessionCategoryManagement = false
+                try AKSettings.setSession(category: AKSettings.SessionCategory.playback)
+                
+            } catch let error {
+                print(error)
+            }
+            
+            return true
+        }
+        
+        return false
+    }
+    
+    func nextTrack() {
+        
+        self.currentFileIndex += 1
+        let nextFile = self.files![self.currentFileIndex]
+        
+        do {
+            try self.audioPlayer?.replace(file: nextFile)
+            _ = self.play()
+        } catch let error {
+            print(error)
+        }
+        
+    }
+    
+    // MARK: - Playback controls
+    
+    func play() -> Bool {
+        if readyToPlay != true {
+            return false
+        }
+        guard let _ = audioPlayer else { return false }
+        guard let _ = timer else { return false }
+        guard let _ = panner else { return false }
+        
+        AudioKit.output = panner!
+        do {
+            try AudioKit.start(withPeriodicFunctions: timer!)
+            audioPlayer!.play()
+            timer!.start()
+            return true
+        } catch let error {
+            print(error)
+            return false
+        }
+        
+        
+        
+    }
+    
+    func stop() -> Bool {
+        guard let _ = audioPlayer else { return false }
+        guard let _ = timer else { return false }
+        
+        do {
+            try AudioKit.stop()
+            audioPlayer!.stop()
+            timer!.stop()
+            return true
+        } catch let error {
+            print(error)
+            return false
+        }
+        
+        
+        
+    }
+    
+    // MARK: - Initializer
+    
+    init(selectedTracks: [Track], period sec : Double) {
+        tracks = selectedTracks
+        period = sec
+        
+        super.init()
+        
+        self.readyToPlay = self.loadAudio()
+    }
+}

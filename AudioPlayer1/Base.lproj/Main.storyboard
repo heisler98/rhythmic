@@ -27,6 +27,11 @@
                                 </textAttributes>
                                 <items>
                                     <navigationItem title="Rhythmic" id="wFX-39-5n8">
+                                        <barButtonItem key="leftBarButtonItem" title="REM" id="nVE-ow-zr2">
+                                            <connections>
+                                                <action selector="initiateRhythm:" destination="yga-hq-uB9" id="5hA-Ig-o4i"/>
+                                            </connections>
+                                        </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="4Bh-2f-w0o">
                                             <connections>
                                                 <action selector="newSession:" destination="yga-hq-uB9" id="eg1-vJ-k5H"/>
