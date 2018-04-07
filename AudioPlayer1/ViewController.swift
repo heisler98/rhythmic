@@ -8,14 +8,11 @@
 //  *Proprietary and confidential*
 
 // **Potentials**
-// !:3 sections in table view: Music; Tones; Instrumental
-// !:annotate code so I don't have to comb through this shit like I always do to find what I want
+// !: iTunes Music Library option attached
 // !:support multiple rhythms
-// ?:Implement document handling thru iTunes/'Open In...' (can add audio w/o programmatic)
 // Implement 'sessions'
-// Ability to change period of timer
-// we'll need to go faster...
-// make JSOn & copy into documents upon first start to always ensure a file
+// we'll need to go faster...slower...faster...slower...faster...
+// ?: Collection view REM/stitch "sessions"/groups/categories/ - organized by speed etc
 
 import UIKit
 import AVFoundation
@@ -23,16 +20,24 @@ import MediaPlayer
 import os.log
 import AudioKit
 
-
-
 typealias TrackArray = Array<Track>
+let pi = 3.14159265
+
+
+func absVal(_ param : Double) -> Double {
+    if param < 0 {
+        return -param
+    }
+    return param
+}
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AudioManagerDelegate {
     
-    //MARK: - Private property controls
+    // MARK: - Private property controls
     private var audioManager : AudioManager?
     private var selectedCells : Array<Int> = []
     private var rhythmSession : Rhythm?
+    private var stitchOn : Bool = false
     
     // MARK: - IBOutlets
     @IBOutlet weak var navBar: UINavigationBar!
@@ -401,12 +406,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // MARK: - UI Controls
     @IBAction func handlePlayButton(_ sender: Any) {
         
+        if stitchOn == true {
+            do {
+                try AudioKit.stop()
+                stitchOn = false
+            } catch {
+                print(error)
+            }
+            return
+        }
+        
         if let _ = rhythmSession {
             if rhythmSession!.isPlaying == true {
                 _ = rhythmSession!.stop()
                 return
             }
         }
+        
         
         if let manager = audioManager {
             
@@ -494,20 +510,29 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let doneAction = UIAlertAction(title: "Done", style: .default, handler: { (alertAction) -> Void in
             if let secTxt = alert.textFields?.first?.text {
                 if let sec = Double(secTxt) {
-                    self.loadRhythm(withPeriod: sec)
+                    self.loadRhythm(withPeriod: sec, continuousSweeping: false)
+                }
+            }
+            
+        })
+        let contAction = UIAlertAction(title: "Sweep", style: .default, handler: { (alertAction) -> Void in
+            if let secTxt = alert.textFields?.first?.text {
+                if let sec = Double(secTxt) {
+                    self.loadRhythm(withPeriod: sec, continuousSweeping: true)
                 }
             }
             
         })
         alert.addAction(cancelAction)
         alert.addAction(doneAction)
+        alert.addAction(contAction)
         
         self.present(alert, animated: true, completion: nil)
         
         
     }
     
-    private func loadRhythm(withPeriod sec : Double) {
+    private func loadRhythm(withPeriod sec : Double, continuousSweeping : Bool) {
         //load selected cells to [Track]
         guard let allTracks = AudioManager.loadTracks() else { return }
         var selectedTracks : [Track] = []
@@ -517,8 +542,183 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             selectedTracks.append(aTrack)
         }
         //Rhythm()
-        rhythmSession = Rhythm(selectedTracks: selectedTracks, period: sec)
+        rhythmSession = Rhythm(selectedTracks: selectedTracks, period: sec, sweeping: continuousSweeping)
         _ = rhythmSession!.play()
+    }
+    
+    //MARK: - Stitch controls
+    
+    @IBAction func stitch(_ sender : Any) {
+        
+        if stitchOn == true {
+            do {
+                try AudioKit.stop()
+                stitchOn = false
+            } catch {
+                print(error)
+            }
+            return
+        }
+        
+        let alert = UIAlertController(title: "Enter period", message: "Please enter the stitching period.", preferredStyle: .alert)
+        alert.addTextField(configurationHandler: {(textField) -> Void in
+            textField.keyboardType = UIKeyboardType.decimalPad
+            textField.keyboardAppearance = UIKeyboardAppearance.dark
+            textField.placeholder = "0.50"
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let doneAction = UIAlertAction(title: "Done", style: .default, handler: { (alertAction) -> Void in
+            if let secTxt = alert.textFields?.first?.text {
+                if let sec = Double(secTxt) {
+                    self.startStitching(at: sec)
+                }
+            }
+            
+        })
+        let gravityAction = UIAlertAction(title: "Gravity", style: .default) { (alertAction) in
+            if let secTxt = alert.textFields?.first?.text {
+                if let sec = Double(secTxt) {
+                    self.startGravity(at: sec)
+                }
+            }
+        }
+        
+        let crosspanAction = UIAlertAction(title: "Crosspan", style: .default) { (alertAction) in
+            if let secTxt = alert.textFields?.first?.text {
+                if let sec = Double(secTxt) {
+                    self.startCrosspanStitch(at: sec)
+                }
+            }
+        }
+        
+        alert.addAction(cancelAction)
+        alert.addAction(doneAction)
+        alert.addAction(gravityAction)
+        alert.addAction(crosspanAction)
+        
+        self.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    private func startStitching(at period : Double) {
+        
+        guard let allTracks = AudioManager.loadTracks() else { return }
+        let firstTrack : Track = allTracks[selectedCells[0]]
+        let secondTrack : Track = allTracks[selectedCells[1]]
+        
+        do {
+            let firstFile = try AKAudioFile(forReading: firstTrack.getURL())
+            let secondFile = try AKAudioFile(forReading: secondTrack.getURL())
+            let firstPlayer = try AKAudioPlayer(file: firstFile, looping: true, lazyBuffering: false, completionHandler: nil)
+            let secondPlayer = try AKAudioPlayer(file: secondFile, looping: true, lazyBuffering: false, completionHandler: nil)
+            
+            let mixer = AKMixer(firstPlayer, secondPlayer)
+            firstPlayer.pan = -1
+            secondPlayer.pan = 1
+            
+            let function = AKPeriodicFunction(every: period, handler: {
+                firstPlayer.pan = firstPlayer.pan * -1
+                secondPlayer.pan = secondPlayer.pan * -1
+            })
+            
+            AudioKit.output = mixer
+            try AudioKit.start(withPeriodicFunctions: function)
+            function.start()
+            firstPlayer.play()
+            secondPlayer.play()
+            
+            AKSettings.playbackWhileMuted = true
+            AKSettings.disableAVAudioSessionCategoryManagement = false
+            try AKSettings.setSession(category: AKSettings.SessionCategory.playback, with: .mixWithOthers)
+            
+            stitchOn = true
+        } catch {
+            print(error)
+        }
+    }
+    
+    private func startGravity(at period : Double) {
+        guard let allTracks = AudioManager.loadTracks() else { return }
+        let firstTrack : Track = allTracks[selectedCells[0]]
+        let secondTrack : Track = allTracks[selectedCells[1]]
+        
+        do {
+            let firstFile = try AKAudioFile(forReading: firstTrack.getURL())
+            let secondFile = try AKAudioFile(forReading: secondTrack.getURL())
+            let firstPlayer = try AKAudioPlayer(file: firstFile, looping: true, lazyBuffering: false, completionHandler: nil)
+            let secondPlayer = try AKAudioPlayer(file: secondFile, looping: true, lazyBuffering: false, completionHandler: nil)
+            
+            let mixer = AKMixer(firstPlayer, secondPlayer)
+            firstPlayer.pan = -1
+            secondPlayer.pan = 1
+            var wavelength : Double = pi/2
+            let function = AKPeriodicFunction(every: period, handler: {
+                //left is always negative
+                firstPlayer.pan = -absVal(sin(wavelength))
+                
+                //right is always positive
+                secondPlayer.pan = absVal(sin(wavelength))
+                
+                //wavelength interval
+                wavelength = wavelength + (pi/8)
+                
+            })
+            
+            AudioKit.output = mixer
+            try AudioKit.start(withPeriodicFunctions: function)
+            function.start()
+            firstPlayer.play()
+            secondPlayer.play()
+            
+            AKSettings.playbackWhileMuted = true
+            AKSettings.disableAVAudioSessionCategoryManagement = false
+            try AKSettings.setSession(category: AKSettings.SessionCategory.playback, with: .mixWithOthers)
+            
+            stitchOn = true
+        } catch {
+            print(error)
+        }
+    }
+    
+    private func startCrosspanStitch(at period: Double) {
+        guard let allTracks = AudioManager.loadTracks() else { return }
+        let firstTrack : Track = allTracks[selectedCells[0]]
+        let secondTrack : Track = allTracks[selectedCells[1]]
+        
+        do {
+            let firstFile = try AKAudioFile(forReading: firstTrack.getURL())
+            let secondFile = try AKAudioFile(forReading: secondTrack.getURL())
+            let firstPlayer = try AKAudioPlayer(file: firstFile, looping: true, lazyBuffering: false, completionHandler: nil)
+            let secondPlayer = try AKAudioPlayer(file: secondFile, looping: true, lazyBuffering: false, completionHandler: nil)
+            
+            let mixer = AKMixer(firstPlayer, secondPlayer)
+            firstPlayer.pan = -1
+            secondPlayer.pan = 1
+            
+            var wavelength : Double = 0
+            let function = AKPeriodicFunction(every: period, handler: {
+                //left and right pans will intersect
+                firstPlayer.pan = sin(wavelength)
+                secondPlayer.pan = sin(-wavelength)
+                
+                wavelength = wavelength + (pi/8)
+            })
+            
+            AudioKit.output = mixer
+            try AudioKit.start(withPeriodicFunctions: function)
+            function.start()
+            firstPlayer.play()
+            secondPlayer.play()
+            
+            AKSettings.playbackWhileMuted = true
+            AKSettings.disableAVAudioSessionCategoryManagement = false
+            try AKSettings.setSession(category: AKSettings.SessionCategory.playback, with: .mixWithOthers)
+            
+            stitchOn = true
+        } catch {
+            print(error)
+        }
     }
     
     // MARK: - AudioManager delegate controls
@@ -542,6 +742,7 @@ class Rhythm : NSObject {
     // MARK: - Ivars
     var tracks : [Track]
     var period : Double
+    var sweeping : Bool
     var readyToPlay : Bool = false
     
     var files : [AKAudioFile]?
@@ -585,6 +786,8 @@ class Rhythm : NSObject {
                     self.nextTrack()
                 })
                 panner = AKPanner(audioPlayer!)
+                
+                if !sweeping {
                 timer = AKPeriodicFunction(every: period, handler: {
                     switch self.isLeft {
                     case true:
@@ -598,10 +801,16 @@ class Rhythm : NSObject {
                         break
                     }
                 })
-                
+                } else {
+                    var time : Double = 0
+                    timer = AKPeriodicFunction(every: period, handler: {
+                        self.panner?.pan = sin(time)
+                        time += 0.05
+                        })
+                }
                 AKSettings.playbackWhileMuted = true
                 AKSettings.disableAVAudioSessionCategoryManagement = false
-                try AKSettings.setSession(category: AKSettings.SessionCategory.playback)
+                try AKSettings.setSession(category: AKSettings.SessionCategory.playback, with: .mixWithOthers)
                 
             } catch let error {
                 print(error)
@@ -666,18 +875,18 @@ class Rhythm : NSObject {
             return false
         }
         
-        
-        
     }
     
     // MARK: - Initializer
     
-    init(selectedTracks: [Track], period sec : Double) {
+    init(selectedTracks: [Track], period sec : Double, sweeping sweep : Bool) {
         tracks = selectedTracks
         period = sec
+        sweeping = sweep
         
         super.init()
         
         self.readyToPlay = self.loadAudio()
     }
 }
+

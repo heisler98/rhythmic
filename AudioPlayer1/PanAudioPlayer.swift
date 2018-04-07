@@ -71,6 +71,7 @@ class PanAudioPlayer: AVAudioPlayer {
     func invalidateRhythm() {
         
         timer.invalidate()
+        
     }
     
     func setupRhythm(_ opt: Rhythmic) {
@@ -348,6 +349,10 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
             aPlayer.setupRhythm(firstTrack.rhythm)
             aPlayer.volume = masterVolume
             nowPlaying = aPlayer
+            
+            if (playIndices!.count == 1) {
+                aPlayer.numberOfLoops = -1
+            }
             
             retVal = nowPlaying!.play()
             
@@ -747,9 +752,9 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
      
             guard let audioPlayer = player as? PanAudioPlayer else { return }
-            
+        
             audioPlayer.invalidateRhythm()
-            
+        
             guard let currentIndex = self.playerArray.index(of: audioPlayer) else {
                 self.delegate?.audioManagerPlaybackInterrupted()
                 return
@@ -757,7 +762,9 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
             
             if (currentIndex == (playerArray.count-1)) {
                 
+                
                     if (self.delegate != nil) {
+                        
                         self.delegate!.audioManagerDidCompletePlaylist()
                     }
                 return
