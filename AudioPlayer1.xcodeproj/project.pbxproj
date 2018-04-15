@@ -16,6 +16,7 @@
 		5A0D0F322028086B0086F50E /* Round and Round.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A0D0F302028086A0086F50E /* Round and Round.mp3 */; };
 		5A0D0F332028086B0086F50E /* America.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A0D0F312028086B0086F50E /* America.mp3 */; };
 		5A0D0F35202EB7AA0086F50E /* Feel Again.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A0D0F34202EB7AA0086F50E /* Feel Again.mp3 */; };
+		5A0E1BB52083E55700FD3954 /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A0E1BB42083E55700FD3954 /* AudioKit.framework */; };
 		5A15980F200BFE4A00CD4E36 /* Knocking at the Door.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A15980E200BFE4A00CD4E36 /* Knocking at the Door.mp3 */; };
 		5A159811200E9BAE00CD4E36 /* Whatever It Takes.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A159810200E9BAE00CD4E36 /* Whatever It Takes.mp3 */; };
 		5A3049491EAF18D10000A144 /* If I Lose Myself.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */; };
@@ -67,7 +68,6 @@
 		5A8E45281F901DB900B33FB7 /* Tell Me.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A8E45271F901DB800B33FB7 /* Tell Me.mp3 */; };
 		5A9D6BDA1E9EF2A300918D8B /* Born.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A9D6BD91E9EF2A300918D8B /* Born.mp3 */; };
 		5A9F2EAE203152C700655FC8 /* Leaf House.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A9F2EAD203152C700655FC8 /* Leaf House.mp3 */; };
-		5AA394162041F62C007C5FA3 /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AA394152041F62C007C5FA3 /* AudioKit.framework */; };
 		5ABA30991DCBC97D006E5999 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABA30981DCBC97D006E5999 /* AppDelegate.swift */; };
 		5ABA309B1DCBC97D006E5999 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABA309A1DCBC97D006E5999 /* ViewController.swift */; };
 		5ABA309E1DCBC97D006E5999 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5ABA309C1DCBC97D006E5999 /* Main.storyboard */; };
@@ -100,6 +100,7 @@
 		5A0D0F302028086A0086F50E /* Round and Round.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Round and Round.mp3"; sourceTree = "<group>"; };
 		5A0D0F312028086B0086F50E /* America.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = America.mp3; sourceTree = "<group>"; };
 		5A0D0F34202EB7AA0086F50E /* Feel Again.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Feel Again.mp3"; sourceTree = "<group>"; };
+		5A0E1BB42083E55700FD3954 /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioKit.framework; path = AudioPlayer1/AudioKit.framework; sourceTree = "<group>"; };
 		5A15980E200BFE4A00CD4E36 /* Knocking at the Door.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Knocking at the Door.mp3"; sourceTree = "<group>"; };
 		5A159810200E9BAE00CD4E36 /* Whatever It Takes.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Whatever It Takes.mp3"; sourceTree = "<group>"; };
 		5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "If I Lose Myself.mp3"; sourceTree = "<group>"; };
@@ -152,7 +153,6 @@
 		5A8E45271F901DB800B33FB7 /* Tell Me.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Tell Me.mp3"; sourceTree = "<group>"; };
 		5A9D6BD91E9EF2A300918D8B /* Born.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Born.mp3; sourceTree = "<group>"; };
 		5A9F2EAD203152C700655FC8 /* Leaf House.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Leaf House.mp3"; sourceTree = "<group>"; };
-		5AA394152041F62C007C5FA3 /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioKit.framework; path = AudioPlayer1/AudioKit.framework; sourceTree = "<group>"; };
 		5ABA30951DCBC97D006E5999 /* AudioPlayer1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AudioPlayer1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5ABA30981DCBC97D006E5999 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5ABA309A1DCBC97D006E5999 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -181,9 +181,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5AA394162041F62C007C5FA3 /* AudioKit.framework in Frameworks */,
 				5AF19F8C1E95A0BA004E38C9 /* MediaPlayer.framework in Frameworks */,
 				5AF19F8A1E95A0B1004E38C9 /* AVFoundation.framework in Frameworks */,
+				5A0E1BB52083E55700FD3954 /* AudioKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,7 +304,7 @@
 		5AF19F881E95A0B1004E38C9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5AA394152041F62C007C5FA3 /* AudioKit.framework */,
+				5A0E1BB42083E55700FD3954 /* AudioKit.framework */,
 				5AF19F8B1E95A0BA004E38C9 /* MediaPlayer.framework */,
 				5AF19F891E95A0B1004E38C9 /* AVFoundation.framework */,
 			);
@@ -338,7 +338,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0810;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Hunter Eisler";
 				TargetAttributes = {
 					5ABA30941DCBC97D006E5999 = {
@@ -498,6 +498,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -505,6 +506,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -556,6 +558,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -563,6 +566,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
