@@ -149,14 +149,7 @@ class PanAudioPlayer: AVAudioPlayer {
             
             self.timer = Timer.scheduledTimer(withTimeInterval: self.period, repeats: true, block: { (timer : Timer) -> Void in
                 
-                //left = on; right = off
-                if (self.direction == .Left) {
-                    self.volume = 1.0
-                    self.direction = .Right
-                } else if (self.direction == .Right) {
-                    self.volume = 0.0
-                    self.direction = .Left
-                }
+                
             
             })
         }

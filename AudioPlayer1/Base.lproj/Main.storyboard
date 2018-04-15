@@ -24,7 +24,10 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lUp-55-a4f">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                 <textAttributes key="titleTextAttributes">
-                                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="textColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                </textAttributes>
+                                <textAttributes key="largeTitleTextAttributes">
+                                    <color key="textColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                 </textAttributes>
                                 <items>
                                     <navigationItem title="Rhythmic" id="wFX-39-5n8">
@@ -110,25 +113,29 @@
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                                 <items>
                                     <barButtonItem title="Clear" id="IcP-rn-02z">
+                                        <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <action selector="clearSelections:" destination="yga-hq-uB9" id="6F6-SG-QHG"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="5Ex-iw-1Ox"/>
-                                    <barButtonItem systemItem="play" id="QdZ-v5-ZkR">
-                                        <connections>
-                                            <action selector="handlePlayButton:" destination="yga-hq-uB9" id="wV6-Lq-422"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="Epv-xP-u2t"/>
                                     <barButtonItem style="plain" id="vny-kL-DVU">
                                         <slider key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" id="h9U-rP-wbP">
-                                            <rect key="frame" x="241" y="5" width="118" height="34"/>
+                                            <rect key="frame" x="128.5" y="5" width="118" height="34"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <color key="minimumTrackTintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="maximumTrackTintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>
                                                 <action selector="volumeChanged:" destination="yga-hq-uB9" eventType="valueChanged" id="Z4e-bR-S7n"/>
                                             </connections>
                                         </slider>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="dIz-uw-cTg"/>
+                                    <barButtonItem systemItem="play" id="QdZ-v5-ZkR">
+                                        <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="handlePlayButton:" destination="yga-hq-uB9" id="wV6-Lq-422"/>
+                                        </connections>
                                     </barButtonItem>
                                 </items>
                             </toolbar>

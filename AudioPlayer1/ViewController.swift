@@ -31,6 +31,12 @@ func absVal(_ param : Double) -> Double {
     return param
 }
 
+func lemniscate(forTime t : Double, amplitude a : Double) -> (x : Double, y : Double) {
+    let x = (a*cos(t)) / (1+(sin(t)*sin(t)))
+    let y = (a*sin(t)*cos(t)) / (1+sin(t)*sin(t))
+    return (x, y)
+}
+
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AudioManagerDelegate {
     
     // MARK: - Private property controls
@@ -205,8 +211,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         if (selectedCells.contains(indexPath.row)) {
             cell.accessoryType = .checkmark
+            cell.textLabel?.textColor = UIColor(red: 1, green: 0.4, blue: 0.4, alpha: 1.0)
         } else {
             cell.accessoryType = .none
+            cell.textLabel?.textColor = UIColor.black
         }
 
         return cell
@@ -235,9 +243,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 selectedCells.remove(at: rIndex)
             }
             cell?.accessoryType = .none
+            cell?.textLabel?.textColor = UIColor.black
         } else {
             selectedCells.append(indexPath.row)
             cell?.accessoryType = .checkmark
+            cell?.textLabel?.textColor = UIColor(red: 1, green: 0.4, blue: 0.4, alpha: 1.0)
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
@@ -281,6 +291,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
                 if cell?.accessoryType != .checkmark {
                     cell?.accessoryType = .checkmark
+                    cell?.textLabel?.textColor = UIColor(red: 1.0, green: 0.4, blue: 0.4, alpha: 1.0)
                     self.selectedCells.append(indexPath.row)
                 }
             })
@@ -294,6 +305,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
                 if cell?.accessoryType != .checkmark {
                     cell?.accessoryType = .checkmark
+                    cell?.textLabel?.textColor = UIColor(red: 1.0, green: 0.4, blue: 0.4, alpha: 1.0)
                     self.selectedCells.append(indexPath.row)
                 }
             })
@@ -307,6 +319,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
                 if cell?.accessoryType != .checkmark {
                     cell?.accessoryType = .checkmark
+                    cell?.textLabel?.textColor = UIColor(red: 1.0, green: 0.4, blue: 0.4, alpha: 1.0)
                     self.selectedCells.append(indexPath.row)
                 }
             })
@@ -320,6 +333,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
                 if cell?.accessoryType != .checkmark {
                     cell?.accessoryType = .checkmark
+                    cell?.textLabel?.textColor = UIColor(red: 1.0, green: 0.4, blue: 0.4, alpha: 1.0)
                     self.selectedCells.append(indexPath.row)
                 }
             })
@@ -344,6 +358,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
                 if cell?.accessoryType != .checkmark {
                     cell?.accessoryType = .checkmark
+                    cell?.textLabel?.textColor = UIColor(red: 1.0, green: 0.4, blue: 0.4, alpha: 1.0)
                     self.selectedCells.append(indexPath.row)
                 }
             })
@@ -357,6 +372,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
                 if cell?.accessoryType != .checkmark {
                     cell?.accessoryType = .checkmark
+                    cell?.textLabel?.textColor = UIColor(red: 1.0, green: 0.4, blue: 0.4, alpha: 1.0)
                     self.selectedCells.append(indexPath.row)
                 }
             })
@@ -370,6 +386,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
                 if cell?.accessoryType != .checkmark {
                     cell?.accessoryType = .checkmark
+                    cell?.textLabel?.textColor = UIColor(red: 1.0, green: 0.4, blue: 0.4, alpha: 1.0)
                     self.selectedCells.append(indexPath.row)
                 }
             })
@@ -383,6 +400,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
                 if cell?.accessoryType != .checkmark {
                     cell?.accessoryType = .checkmark
+                    cell?.textLabel?.textColor = UIColor(red: 1.0, green: 0.4, blue: 0.4, alpha: 1.0)
                     self.selectedCells.append(indexPath.row)
                 }
             })
@@ -515,7 +533,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
             
         })
-        let contAction = UIAlertAction(title: "Sweep", style: .default, handler: { (alertAction) -> Void in
+        let contAction = UIAlertAction(title: "Infinite", style: .default, handler: { (alertAction) -> Void in
             if let secTxt = alert.textFields?.first?.text {
                 if let sec = Double(secTxt) {
                     self.loadRhythm(withPeriod: sec, continuousSweeping: true)
@@ -751,6 +769,7 @@ class Rhythm : NSObject {
     var audioPlayer : AKAudioPlayer?
     var timer : AKPeriodicFunction?
     var panner : AKPanner?
+    var dimPanner : AK3DPanner?
     var isLeft : Bool = true
     
     var isPlaying : Bool {
@@ -785,9 +804,10 @@ class Rhythm : NSObject {
                     }
                     self.nextTrack()
                 })
-                panner = AKPanner(audioPlayer!)
+                
                 
                 if !sweeping {
+                    panner = AKPanner(audioPlayer!)
                 timer = AKPeriodicFunction(every: period, handler: {
                     switch self.isLeft {
                     case true:
@@ -802,11 +822,14 @@ class Rhythm : NSObject {
                     }
                 })
                 } else {
+                    dimPanner = AK3DPanner.init(audioPlayer!, x: 0, y: 0, z: 0)
                     var time : Double = 0
                     timer = AKPeriodicFunction(every: period, handler: {
-                        self.panner?.pan = sin(time)
-                        time += 0.05
-                        })
+                        let coordinates = lemniscate(forTime: time, amplitude: 2)
+                        self.dimPanner?.x = coordinates.x
+                        self.dimPanner?.y = coordinates.y
+                        time += (pi/8)
+                    })
                 }
                 AKSettings.playbackWhileMuted = true
                 AKSettings.disableAVAudioSessionCategoryManagement = false
@@ -844,9 +867,16 @@ class Rhythm : NSObject {
         }
         guard let _ = audioPlayer else { return false }
         guard let _ = timer else { return false }
-        guard let _ = panner else { return false }
         
-        AudioKit.output = panner!
+        if !sweeping {
+            guard let _ = panner else { return false }
+            AudioKit.output = panner!
+        } else {
+            guard let _ = dimPanner else { return false }
+            AudioKit.output = dimPanner!
+        }
+        
+        
         do {
             try AudioKit.start(withPeriodicFunctions: timer!)
             audioPlayer!.play()
