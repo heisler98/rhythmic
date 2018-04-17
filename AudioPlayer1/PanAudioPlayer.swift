@@ -147,9 +147,11 @@ class PanAudioPlayer: AVAudioPlayer {
             
         } else if (opt == .Stitch) {
             
+            var wavelength : Double = 0
             self.timer = Timer.scheduledTimer(withTimeInterval: self.period, repeats: true, block: { (timer : Timer) -> Void in
                 
-                
+                self.pan = Float(sin(wavelength))
+                wavelength += (pi/8)
             
             })
         }
@@ -256,8 +258,8 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
             rhythm = "Synthesis"
             break
             
-        default:
-            rhythm = ""
+        case .Stitch:
+            rhythm = "Swave"
             break
             
         }
@@ -530,6 +532,17 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         
         tracks.append(newTrack)
         _ = AudioManager.saveTracks(self.tracks)
+    }
+    
+    func deleteTrack(atIndex index : Int) -> Bool {
+        
+        if tracks.indices.contains(index) {
+            tracks.remove(at: index)
+            return AudioManager.saveTracks(self.tracks)
+        } else {
+            print("Deletion index out of track range")
+            return false
+        }
     }
     
     static func saveTracks(_ tracks : [Track]) -> Bool {

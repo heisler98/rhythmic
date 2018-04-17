@@ -37,6 +37,14 @@ func lemniscate(forTime t : Double, amplitude a : Double) -> (x : Double, y : Do
     return (x, y)
 }
 
+func council(forTime t: Double, radius r : Double) -> (x : Double, y : Double, z : Double) {
+    let x = r*cos(t)
+    let y = r*sin(t)
+    let z = sin(2*r*t)
+    
+    return (x, y, z)
+}
+
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AudioManagerDelegate {
     
     // MARK: - Private property controls
@@ -119,6 +127,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         } catch let error as NSError {
             print("error: \(error)")
         }
+        
+        
     
     }
     
@@ -143,24 +153,35 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let firstDot = lastComponent.index(of: ".") ?? lastComponent.endIndex
         let fileName = lastComponent[..<firstDot]
         
-        let alert = UIAlertController(title: "Period", message: "Enter the desired period for the piece.", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Period", message: "Enter the desired period or BPM for the piece '\(fileName)'.", preferredStyle: .alert)
         alert.addTextField(configurationHandler: nil)
         
         let action = UIAlertAction(title: "Done", style: .default, handler: {(alertAction) -> Void in
             
             if let period = alert.textFields?.first?.text {
             let category = "song"
+                
+                var doublePeriod : Double
+                
+                if Double(period)! < 10 {
+                    doublePeriod = Double(period)!
+                } else {
+                    doublePeriod = 1/((Double(period)!)/60)
+                
+                }
+            let newTrack = Track(title: String(fileName), period: doublePeriod, category: category, fileName: lastComponent, rhythm: .Bilateral, rate: .Normal)
             
-                let newTrack = Track(title: String(fileName), period: Double(period)!, category: category, fileName: lastComponent, rhythm: .Bilateral, rate: .Normal)
-            
-            if let manager = self.audioManager {
+                if let manager = self.audioManager {
                 manager.add(newTrack: newTrack)
                 self.tableView.reloadData()
                 
             }
             }})
+        //copyAction for track|file disparity – will not add new track to AM
+        let copyAction = UIAlertAction(title: "Copy Only", style: .destructive, handler: nil)
         
         alert.addAction(action)
+        alert.addAction(copyAction)
         self.present(alert, animated: true, completion: {() -> Void in })
         
         return true
@@ -325,7 +346,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             })
             synthesis.backgroundColor = UIColor.blue
             
-            let stitch = UIContextualAction(style: .normal, title: "Stitch", handler: { action, view, completionHandler in
+            let stitch = UIContextualAction(style: .normal, title: "Swave", handler: { action, view, completionHandler in
                 
                 self.audioManager?.setRhythm(Rhythmic.Stitch, forIndex:indexPath.row)
                 completionHandler(true)
@@ -753,6 +774,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         super.init(coder: aDecoder)
     }
+
+    
 }
 // MARK: - Rhythm
 class Rhythm : NSObject {
@@ -825,10 +848,13 @@ class Rhythm : NSObject {
                     dimPanner = AK3DPanner.init(audioPlayer!, x: 0, y: 0, z: 0)
                     var time : Double = 0
                     timer = AKPeriodicFunction(every: period, handler: {
-                        let coordinates = lemniscate(forTime: time, amplitude: 2)
+                        //let coordinates = lemniscate(forTime: time, amplitude: 14)
+                        let coordinates = council(forTime: time, radius: 5)
                         self.dimPanner?.x = coordinates.x
                         self.dimPanner?.y = coordinates.y
-                        time += (pi/8)
+                        self.dimPanner?.z = coordinates.z
+                        
+                        time += (pi/16)
                     })
                 }
                 AKSettings.playbackWhileMuted = true
