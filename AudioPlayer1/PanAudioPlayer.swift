@@ -14,14 +14,6 @@ import os.log
 
 // MARK: - Enums
 
-private enum PanDirection {
-    case Left
-    case Center
-    case Right
-    case MidLeft
-    case MidRight
-}
-
 enum Rhythmic : Int, Codable {
     case Bilateral
     case Crosspan
@@ -41,13 +33,9 @@ let documentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDo
 //MARK: - PanAudioPlayer
 class PanAudioPlayer: AVAudioPlayer {
 
-    // MARK: - Private property controls
+    // MARK: - Property controls
     private var timer : Timer = Timer()
-    private var direction : PanDirection = .Left
-    private var lastDirection = PanDirection.Left
-    private var counter = 0
     private var period : Double
-    
     var trackIndex : Int?
     
     // MARK: - Playback controls
@@ -77,81 +65,41 @@ class PanAudioPlayer: AVAudioPlayer {
     func setupRhythm(_ opt: Rhythmic) {
         
         if (opt == .Bilateral) { //phi
-        
+            self.pan = -1
             self.timer = Timer.scheduledTimer(withTimeInterval: period, repeats: true, block: { (timer : Timer) -> Void in
             
-                if self.direction == PanDirection.Left {
-                
-                    self.pan = 1.0
-                    self.direction = .Right
-                
-                } else {
-                
-                    self.pan = -1.0
-                    self.direction = .Left
-                }
-            
-            
+                self.pan *= -1
             })
             
         }
         
         else if (opt == .Crosspan) { //delta
   
-
+            self.pan = absoluteDistance
             self.timer = Timer.scheduledTimer(withTimeInterval: period, repeats: true, block: { (timer : Timer) -> Void in
                 
-                switch self.direction {
-                    
-                case PanDirection.Left:
-                    // go to center
-                    self.pan = 0
-                    self.lastDirection = .Left
-                    self.direction = .Center
-                    break
-                    
-                case PanDirection.Center:
-                    //go to left | right
-                    if (self.lastDirection == .Left) {
-                        //go to right
-                        self.pan = 1.0
-                        self.direction = .Right
-                        break
-                    }
-                    //go to left
-                    self.pan = -1
-                    self.direction = .Left
-                    break
-                    
-                case PanDirection.Right:
-                    //go to center
-                    self.pan = 0
-                    self.lastDirection = .Right
-                    self.direction = .Center
-                    break
-                    
-                default:
-                    print("error")
-                    break
-                }
+                self.pan *= -1
                 
             })
             
         } else if (opt == .Synthesis) { //sigma
             
             //pan = 0
+            self.pan = 0
             self.timer = Timer.scheduledTimer(withTimeInterval: self.period, repeats: true, block: {(timer : Timer) -> Void in
                 
                 // do nothing
             })
             
-        } else if (opt == .Stitch) {
+        } else if (opt == .Stitch) { //gamma
             
             var wavelength : Double = 0
             self.timer = Timer.scheduledTimer(withTimeInterval: self.period, repeats: true, block: { (timer : Timer) -> Void in
+                let newVal = Float(sin(wavelength))
+                wavelength += (pi/16)
+                guard absVal(Double(newVal)) < 0.9 else { return }
+                self.pan = newVal
                 
-                self.pan = Float(sin(wavelength))
-                wavelength += (pi/8)
             
             })
         }
@@ -165,7 +113,6 @@ class PanAudioPlayer: AVAudioPlayer {
         
         do {
             try super.init(contentsOf: url, fileTypeHint: url.pathExtension)
-            
         } catch let error as NSError {
             throw error
         }
@@ -179,7 +126,6 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
     static let documentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
     static let archiveURL = documentsDirectory.appendingPathComponent("tracks")
     static let sessionArchiveURL = documentsDirectory.appendingPathComponent("sessions")
-    
     
     private var tracks : TrackArray //array of Track structs
     private var playIndices : Array<Int>? //array of selected (indexPath.row)
@@ -263,28 +209,34 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
             break
             
         }
+        var amendedPeriod : Double
         
         switch aTrack.rate {
             
         case .Half:
-            rate = ".5x"
+            rate = "0.5x"
+            amendedPeriod = aTrack.period * 2
             break
             
         case .Normal:
             rate = "1x"
+            amendedPeriod = aTrack.period
             break
             
         case .Double:
             rate = "2x"
+            amendedPeriod = aTrack.period / 2
             break
             
         case .Quad:
             rate = "4x"
+            amendedPeriod = aTrack.period / 4
             break
 
         }
+        let perStr = String(format: "%.3f", amendedPeriod)
         
-        return "\(rhythm!) : \(rate!)"
+        return "\(rhythm!) : \(rate!) : \(perStr)"
     }
     
     func isQueued() -> Bool {

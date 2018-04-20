@@ -22,13 +22,22 @@ import AudioKit
 
 typealias TrackArray = Array<Track>
 let pi = 3.14159265
-
+var absoluteDistance : Float = 1
 
 func absVal(_ param : Double) -> Double {
     if param < 0 {
         return -param
     }
     return param
+}
+
+func randsInRange(range: Range<Int>, quantity : Int) -> [Int] {
+    
+    var rands : [Int] = []
+    for _ in 0..<quantity {
+        rands.append(Int(arc4random_uniform(UInt32(range.upperBound - range.lowerBound))) + range.lowerBound)
+    }
+    return rands
 }
 
 func lemniscate(forTime t : Double, amplitude a : Double) -> (x : Double, y : Double) {
@@ -58,7 +67,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var toolbar: UIToolbar!
     @IBOutlet weak var playBarButtonItem: UIBarButtonItem!
-    
+    @IBOutlet weak var distanceItem : UIBarButtonItem!
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -483,6 +492,30 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
+    @IBAction func randomShuffle(_ sender: Any) {
+        
+        let alertController = UIAlertController(title: "Shuffle tracks", message: "Enter the number of tracks to shuffle.", preferredStyle: .alert)
+        let doneAction = UIAlertAction(title: "Done", style: .default) { (alertAction) in
+            
+            guard let _ = self.audioManager else { return }
+            guard let quantity = Int((alertController.textFields?.first?.text)!) else { return }
+            guard quantity <= self.audioManager!.trackCount else { return }
+            
+            let chosen = randsInRange(range: 0..<self.audioManager!.trackCount, quantity: quantity)
+            _ = self.audioManager!.playback(queued: chosen)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alertController.addTextField { (textField) in
+            textField.keyboardType = .numberPad
+        }
+        alertController.addAction(doneAction)
+        alertController.addAction(cancelAction)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
     @IBAction func newSession(_ sender: Any) {
         
         if selectedCells.isEmpty == true {
@@ -523,12 +556,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.tableView.reloadData()
     }
     
-    @IBAction func volumeChanged(_ sender: UISlider) {
+    @IBAction func distanceChanged(_ sender: UISlider) {
         
-        let newLevel = sender.value
-        if let manager = self.audioManager {
-            manager.updateVolume(newLevel)
-        }
+        //affects crosspan only
+        absoluteDistance = sender.value
+        distanceItem.title = String(format: "%.2f", absoluteDistance)
+        
     }
     // MARK: - REM Rhythm controls
     @IBAction func initiateRhythm(_ sender : UIBarButtonItem) {
