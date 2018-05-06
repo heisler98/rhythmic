@@ -22,7 +22,7 @@ import AudioKit
 
 typealias TrackArray = Array<Track>
 let pi = 3.14159265
-var absoluteDistance : Float = 1
+var absoluteDistance : Float = 0.67
 
 func absVal(_ param : Double) -> Double {
     if param < 0 {

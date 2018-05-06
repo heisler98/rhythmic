@@ -304,7 +304,7 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
             retVal = nowPlaying!.play()
             
             if (nowPlaying != nil) {
-                playIndices?.remove(at: 0)
+                //playIndices?.remove(at: 0)
                 playerArray.append(nowPlaying!)
             }
             
@@ -552,7 +552,7 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         var success : Bool = true
         guard let _ = self.playIndices else { return false }
         
-        for index in self.playIndices! {
+        for index in self.playIndices! where index != self.playIndices!.first! {
             
             let aTrack = self.tracks[index]
             var period = aTrack.period
