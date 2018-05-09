@@ -13,6 +13,7 @@
 // Implement 'sessions'
 // we'll need to go faster...slower...faster...slower...faster...
 // ?: Collection view REM/stitch "sessions"/groups/categories/ - organized by speed etc
+// Pair two iPhones (like in EMDR session) for tactile REM w/ haptic feedback
 
 import UIKit
 import AVFoundation
@@ -54,7 +55,11 @@ func council(forTime t: Double, radius r : Double) -> (x : Double, y : Double, z
     return (x, y, z)
 }
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AudioManagerDelegate {
+protocol iTunesDelegate {
+    func dismissed(withURL : URL?)
+}
+
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AudioManagerDelegate, iTunesDelegate {
     
     // MARK: - Private property controls
     private var audioManager : AudioManager?
@@ -88,13 +93,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         if let theTracks = AudioManager.loadTracks() {
             do { try audioManager?.setTracks(theTracks) }
-            catch let error {
-                print("\(error)")
-            }
-        }
-        
-        if let theSessions = AudioManager.loadSessions() {
-            do { try audioManager?.setSessions(theSessions) }
             catch let error {
                 print("\(error)")
             }
@@ -198,40 +196,24 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     // MARK: - Table View data source controls
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         guard let manager = self.audioManager else { return 0 }
         
-        if section == 0 {
-            return manager.sessionCount
-        }
         return manager.trackCount
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
-            return "Sessions"
-        } else {
-            return "Tracks"
-        }
+        
+        return "Tracks"
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     
-        if indexPath.section == 0 {
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: "sessionCell", for: indexPath)
-            guard let manager = audioManager else { return cell }
-            
-            cell.textLabel?.text = manager.sessionInformation(forIndex: indexPath.row).0
-            cell.detailTextLabel?.text = String(manager.sessionInformation(forIndex: indexPath.row).1) + " tracks"
-            
-            return cell
-        }
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
         guard let manager = audioManager else { return cell }
@@ -255,17 +237,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if (indexPath.section == 0) {
-            
-            if audioManager?.isPlayingSession == true {
-                self.audioManager?.stopPlayback()
-                tableView.deselectRow(at: indexPath, animated: true)
-                return
-            }
-            self.audioManager?.playSession(atIndex: indexPath.row)
-            return
-        }
-        
         let cell = tableView.cellForRow(at: indexPath)
         
         if (selectedCells.contains(indexPath.row)) {
@@ -285,32 +256,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
    
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         
-        return true
+        return false
     }
     
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-        
-        if indexPath.section == 0 {
-            return .delete
-        }
-        
-        return .none
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        
-        if (editingStyle == .delete && indexPath.section == 0) {
-            self.tableView.beginUpdates()
-            self.audioManager?.deleteSession(atIndex: indexPath.row)
-            self.tableView.deleteRows(at: [indexPath], with: .automatic)
-            self.tableView.endUpdates()
-            
-        }
-    }
-    
+   
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
-        if indexPath.section == 1 {
         
             let bilateral = UIContextualAction(style: .normal, title: "Bilateral", handler: { action, view, completionHandler in
                 
@@ -372,13 +322,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             let config = UISwipeActionsConfiguration(actions: [bilateral, synthesis, crosspan, stitch])
             config.performsFirstActionWithFullSwipe = false
             return config
-    }
-        return nil
+    
+        
     }
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
-        if indexPath.section == 1 {
+        
         
             let half = UIContextualAction(style: .normal, title: "0.5x", handler: { action, view, completionHandler in
                 
@@ -439,8 +389,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             let config = UISwipeActionsConfiguration(actions: [half, normal, double, quad])
             config.performsFirstActionWithFullSwipe = false
             return config
-    }
-        return nil
+    
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -514,40 +463,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         alertController.addAction(cancelAction)
         
         self.present(alertController, animated: true, completion: nil)
-    }
-    
-    @IBAction func newSession(_ sender: Any) {
-        
-        if selectedCells.isEmpty == true {
-            
-            let alert = UIAlertController(title: "Select Tracks", message: "To create a new session, select some tracks to add.", preferredStyle: .alert)
-            let action = UIAlertAction(title: "Got it", style: .default, handler: nil)
-            alert.addAction(action)
-            
-            self.present(alert, animated: true, completion: nil)
-            return
-        }
-        
-        let alert = UIAlertController(title: "New Session", message: "Provide a name for the new session.", preferredStyle: .alert)
-        alert.addTextField(configurationHandler: { (textField) -> Void in
-            
-            textField.placeholder = "Session 1"
-        })
-        
-        let doneAction = UIAlertAction(title: "Done", style: .default, handler: { (alertAction) -> Void in
-            
-            guard let name = alert.textFields?.first?.text else { return }
-            self.audioManager?.createSession(self.selectedCells, named: name)
-            self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
-            
-        })
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
-        alert.addAction(cancelAction)
-        alert.addAction(doneAction)
-        
-        self.present(alert, animated: true, completion: { () -> Void in })
     }
     
     @IBAction func clearSelections(_ sender: Any) {
@@ -801,14 +716,33 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func audioManagerPlaybackInterrupted() {
         
     }
+    
+    // MARK: - iTunes delegate controls
+    func dismissed(withURL: URL?) {
+        
+        self.dismiss(animated: true, completion: nil)
+        guard let assetURL = withURL else { return }
+        
+        
+        switch self.newTrack(at: assetURL) {
+        case true: break
+        case false:
+            do {
+            try FileManager.default.removeItem(at: assetURL)
+            } catch { print(error) }
+            break
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let vc = segue.destination as? LibraryController else { return }
+        vc.delegate = self as iTunesDelegate
+    }
+    
     // MARK: - Init
     required init?(coder aDecoder: NSCoder) {
-    
-        
         super.init(coder: aDecoder)
     }
-
-    
 }
 // MARK: - Rhythm
 class Rhythm : NSObject {

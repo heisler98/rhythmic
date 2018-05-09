@@ -18,7 +18,7 @@ enum Rhythmic : Int, Codable {
     case Bilateral
     case Crosspan
     case Synthesis
-    case Stitch //volume
+    case Stitch //Swave
 }
 
 enum PanRate : Double, Codable {
@@ -125,13 +125,9 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
     // MARK: - Private property controls
     static let documentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
     static let archiveURL = documentsDirectory.appendingPathComponent("tracks")
-    static let sessionArchiveURL = documentsDirectory.appendingPathComponent("sessions")
     
     private var tracks : TrackArray //array of Track structs
     private var playIndices : Array<Int>? //array of selected (indexPath.row)
-    
-    private var sessions : [Session]
-    private var currentSessionIndex : Int?
     
     private var masterVolume : Float = 1.0
     private var nowPlaying : PanAudioPlayer?
@@ -152,13 +148,6 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         }
     }
     
-    var sessionCount : Int {
-        
-        get {
-            return sessions.count
-        }
-    }
-    
     var isPlaying : Bool {
         
         get {
@@ -168,14 +157,6 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         }
     }
     
-    var isPlayingSession : Bool {
-        
-        get {
-            if isPlaying == false { return false }
-            if currentSessionIndex != nil { return true }
-            return false
-        }
-    }
     
     func title(forIndex: Int) -> String {
         
@@ -334,65 +315,6 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         
     }
     
-    func playSession(atIndex: Int) {
-        
-        clearQueue()
-        if self.isPlaying == true { stopPlayback() }
-        
-        let theSession = self.sessions[atIndex]
-        guard let track = theSession.tracks.first else { return }
-        
-        self.currentSessionIndex = atIndex
-        
-        var period = track.period
-        
-        switch track.rate {
-            
-        case .Double:
-            period /= 2
-            break
-            
-        case .Half:
-            period *= 2
-            break
-            
-        case .Quad:
-            period /= 4
-            break
-            
-        default:
-            break
-        }
-        
-        let url = track.getURL()
-        
-        do {
-            let aPlayer = try PanAudioPlayer(contentsOf: url, period: period)
-            aPlayer.delegate = self as AVAudioPlayerDelegate
-            aPlayer.setupRhythm(track.rhythm)
-            aPlayer.volume = masterVolume
-            aPlayer.trackIndex = 0
-            nowPlaying = aPlayer
-            
-            _ = nowPlaying!.play()
-            
-            if (nowPlaying != nil) {
-                playerArray.append(nowPlaying!)
-            }
-            
-        } catch {
-            print(error)
-        }
-        
-        let background = DispatchQueue.global(qos: .background)
-        background.async {
-            self.queueReady = self.instantiatePlayers(forSession: theSession)
-            
-        }
-        
-    }
-
-    
     func stopPlayback() {
         
         guard let player = nowPlaying else { return }
@@ -449,7 +371,7 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         self.playerArray = []
         nowPlaying = nil
         queueReady = nil
-        currentSessionIndex = nil
+        
     }
     
     func repeatQueue() {
@@ -458,16 +380,11 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         if (isQueued() == true) {
             
             var aTrack : Track?
-            
-            if currentSessionIndex != nil {
-                let theSession = self.sessions[currentSessionIndex!]
-                aTrack = theSession.tracks.first!
-                
-            } else {
-                if let index = self.playIndices?.first {
+        
+            if let index = self.playIndices?.first {
                     aTrack = self.tracks[index]
                 }
-            }
+            
             
             if let _ = aTrack {
                 nowPlaying = self.playerArray[0]
@@ -591,119 +508,6 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         }
         return success
     }
-    // MARK: - Session controls
-    
-    func createSession(_ queue: Array<Int>, named: String) {
-        
-        var someTracks : TrackArray = []
-        for index in queue {
-            let track = self.tracks[index]
-            someTracks.append(track)
-        }
-        let aSession = Session(name: named, tracks: someTracks)
-        self.sessions.append(aSession)
-        _ = AudioManager.saveSessions(self.sessions)
-    }
-    
-    func deleteSession(atIndex: Int) {
-        
-        self.sessions.remove(at: atIndex)
-        _ = AudioManager.saveSessions(self.sessions)
-    }
-    
-    static func loadSessions() -> [Session]? {
-        
-        if let data = FileManager.default.contents(atPath: AudioManager.sessionArchiveURL.path) {
-            
-            do {
-                return try JSONDecoder().decode(Array<Session>.self, from: data)
-            } catch {
-                print("\(error)")
-                return nil
-            }
-        }
-        
-        return nil
-    }
-    
-    static func saveSessions(_ sessions : [Session]) -> Bool {
-        
-        do {
-            let data = try JSONEncoder().encode(sessions)
-            FileManager.default.createFile(atPath: AudioManager.sessionArchiveURL.path, contents: data, attributes: nil)
-        } catch let error {
-            print("\(error)")
-            return false
-        }
-        
-        return true
-    }
-    
-    func setSessions(_ someSessions : [Session]) throws {
-        
-        if self.sessionCount != 0 {
-            let error = NSError(domain: "AMPropertySessionsAlreadySet", code: 2, userInfo: nil)
-            throw error
-        }
-        
-        self.sessions = someSessions
-    }
-    
-    func sessionInformation(forIndex: Int) -> (String, Int) {
-        let aSession = self.sessions[forIndex]
-        return (aSession.name, aSession.tracks.count)
-    }
-    
-    
-    private func instantiatePlayers(forSession aSession: Session) -> Bool {
-        
-        var success : Bool?
-        
-        var allTracks = aSession.tracks
-        allTracks.remove(at: 0)
-        
-        for track in allTracks {
-            
-            var period = track.period
-            
-            switch track.rate {
-                
-            case .Double:
-                period /= 2
-                break
-                
-            case .Half:
-                period *= 2
-                break
-                
-            case .Quad:
-                period /= 4
-                break
-                
-            default:
-                break
-            }
-            
-            let url = track.getURL()
-            
-            do {
-                let aPlayer = try PanAudioPlayer(contentsOf: url, period: period)
-                aPlayer.delegate = self as AVAudioPlayerDelegate
-                aPlayer.volume = masterVolume
-                aPlayer.trackIndex = aSession.tracks.index(of: track)
-                playerArray.append(aPlayer)
-                
-                success = true
-                
-            } catch {
-                print(error)
-                success = false
-            }
-        }
-        
-        guard let _ = success else { return false }
-        return success!
-    }
     
     // MARK: - PanAudioPlayer delegate controls
     
@@ -734,13 +538,7 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
                 nextPlayer.volume = masterVolume
                 guard let index = nextPlayer.trackIndex else { return }
                 
-                if (currentSessionIndex == nil) {
-                    nextPlayer.setupRhythm(self.tracks[index].rhythm)
-                    
-                } else {
-                    let session = self.sessions[currentSessionIndex!]
-                    nextPlayer.setupRhythm(session.tracks[index].rhythm)
-                }
+                nextPlayer.setupRhythm(self.tracks[index].rhythm)
                 
                 _ = nextPlayer.play()
                 nowPlaying = nextPlayer
@@ -755,7 +553,6 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         playIndices = Array()
         playerArray = Array()
         tracks = AudioManager.loadTracks() ?? TrackArray()
-        sessions = AudioManager.loadSessions() ?? []
         
         super.init()
     }
@@ -795,9 +592,3 @@ extension Track : Equatable {
     }
 }
 
-struct Session : Codable {
-    
-    var name : String
-    var tracks : TrackArray
-    
-}

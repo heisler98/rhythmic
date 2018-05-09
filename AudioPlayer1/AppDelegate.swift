@@ -51,13 +51,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         _ = AudioManager.saveTracks(presets)
                     }
                 }
-                
-                if AudioManager.loadSessions() == nil {
-                    guard let tracks = AudioManager.loadTracks() else { return }
-                    let name = "All Tracks"
-                    let aSession = Session(name: name, tracks: tracks)
-                    _ = AudioManager.saveSessions([aSession])
-                }
             }
         }
         
