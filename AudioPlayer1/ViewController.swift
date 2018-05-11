@@ -256,7 +256,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
    
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         
-        return false
+        return true
     }
     
    
@@ -275,7 +275,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     self.selectedCells.append(indexPath.row)
                 }
             })
-            bilateral.backgroundColor = UIColor.red
+            bilateral.backgroundColor = UIColor.green
             
             let crosspan = UIContextualAction(style: .normal, title: "Crosspan", handler: { action, view, completionHandler in
                 
@@ -318,12 +318,32 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             })
             stitch.backgroundColor = UIColor.gray
+        
+        let delete = UIContextualAction(style: .destructive, title: "Delete") { action, view, completionHandler in
             
-            let config = UISwipeActionsConfiguration(actions: [bilateral, synthesis, crosspan, stitch])
+                let alert = UIAlertController(title: "Delete track", message: "Are you sure you want to delete this track?", preferredStyle: UIAlertControllerStyle.alert)
+                let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (action) in
+                  
+                    guard let manager = self.audioManager else { completionHandler(false); return }
+                    let success = manager.deleteTrack(atIndex: indexPath.row)
+                    
+                    if success == true {
+                        self.tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
+                    }
+                    completionHandler(success)
+                    
+                })
+                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+                alert.addAction(okAction)
+                alert.addAction(cancelAction)
+                self.present(alert, animated: true, completion: nil)
+            
+            
+            
+        }
+            let config = UISwipeActionsConfiguration(actions: [bilateral, synthesis, crosspan, stitch, delete])
             config.performsFirstActionWithFullSwipe = false
             return config
-    
-        
     }
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
