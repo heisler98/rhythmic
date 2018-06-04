@@ -9,23 +9,24 @@
 
 import UIKit
 import AVFoundation
+import MediaPlayer
 import AudioKit
 import os.log
 
 // MARK: - Enums
 
 enum Rhythmic : Int, Codable {
-    case Bilateral
+    case Bilateral = 0
     case Crosspan
     case Synthesis
     case Stitch //Swave
 }
 
-enum PanRate : Double, Codable {
-    case Half = 0.5
-    case Normal = 1
-    case Double = 2
-    case Quad = 4
+enum PanRate : Int, Codable {
+    case Half = 0
+    case Normal
+    case Double
+    case Quad
 }
 
 let documentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -120,12 +121,13 @@ class PanAudioPlayer: AVAudioPlayer {
     }
 }
 // MARK: - AudioManager
-class AudioManager : NSObject, AVAudioPlayerDelegate {
+class AudioManager : NSObject, AVAudioPlayerDelegate, SessionDelegate {
     
-    // MARK: - Private property controls
     static let documentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
     static let archiveURL = documentsDirectory.appendingPathComponent("tracks")
     
+    
+    // MARK: - Private property controls
     private var tracks : TrackArray //array of Track structs
     private var playIndices : Array<Int>? //array of selected (indexPath.row)
     
@@ -135,11 +137,14 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
     
     private var queueReady: Bool?
     
+    private let nowPlayingCenter = MPNowPlayingInfoCenter.default()
+    
     
     // MARK: - Settable controls
     var delegate : AudioManagerDelegate?
+    var remDelegate : REMDelegate?
     
-    // MARK: - Answering controller
+    // MARK: - Answering Rhythmic controller
     
     var trackCount : Int { /// return count for tracks
         
@@ -229,6 +234,34 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         return false
     }
     
+    // MARK: - Answering Session controller
+    
+    var selectedTracks : [Int] {
+        get {
+            return checkedTracks
+        }
+    }
+    
+    private var checkedTracks : [Int] = [Int]()
+    
+    func rate(forIndex index : Int) -> PanRate {
+        return self.tracks[index].rate
+    }
+    
+    func rhythm(forIndex index : Int) -> Rhythmic {
+        return self.tracks[index].rhythm
+    }
+    
+    func getPeriod() -> Double {
+        guard let _ = nowPlaying?.trackIndex else { return 0 }
+        return self.tracks[nowPlaying!.trackIndex!].period
+    }
+    
+    func getRate() -> PanRate {
+        guard let _ = nowPlaying?.trackIndex else { return PanRate.Normal }
+        return self.tracks[nowPlaying!.trackIndex!].rate
+    }
+    
     // MARK: - Playback controls
     
     func playback(queued: Array<Int>) -> Bool {
@@ -271,6 +304,10 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         let url = firstTrack.getURL()
         
         do {
+
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            try AVAudioSession.sharedInstance().setActive(true)
+            
             let aPlayer = try PanAudioPlayer(contentsOf: url, period: period)
             aPlayer.delegate = self as AVAudioPlayerDelegate
             aPlayer.trackIndex = firstIndex
@@ -311,6 +348,9 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
             self.queueReady = self.instantiatePlayers()
         }
         
+        UIApplication.shared.beginReceivingRemoteControlEvents()
+        nowPlayingCenter.nowPlayingInfo = [MPMediaItemPropertyTitle : firstTrack.title, MPNowPlayingInfoPropertyElapsedPlaybackTime : NSNumber(value: 0.0)]
+        
         return retVal
         
     }
@@ -321,6 +361,7 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         
         if (player.isPlaying == true) {
             player.stop()
+            UIApplication.shared.endReceivingRemoteControlEvents()
         } 
     
     }
@@ -331,6 +372,7 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         
         if (player.isPlaying == true) {
             player.stop()
+            player.currentTime = 0
         }
         
         self.audioPlayerDidFinishPlaying(player, successfully: false)
@@ -393,6 +435,16 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
                 _ = nowPlaying?.play()
             }
         }
+    }
+    
+
+    // MARK: - Session controls
+    
+    func moveTrackAt(index fromIndex : Int, toIndex : Int) {
+        
+        let trackToMove = checkedTracks.remove(at: fromIndex)
+        checkedTracks.insert(trackToMove, at: toIndex)
+        
     }
     
     // MARK: - Track controls
@@ -539,10 +591,11 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
                 guard let index = nextPlayer.trackIndex else { return }
                 
                 nextPlayer.setupRhythm(self.tracks[index].rhythm)
-                
+                remDelegate?.periodChanged(to: self.tracks[index].period)
                 _ = nextPlayer.play()
                 nowPlaying = nextPlayer
                 
+                nowPlayingCenter.nowPlayingInfo = [MPMediaItemPropertyTitle : tracks[index].title, MPNowPlayingInfoPropertyElapsedPlaybackTime : NSNumber(value: nowPlaying!.currentTime)]
             }
         
     }
@@ -555,6 +608,29 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         tracks = AudioManager.loadTracks() ?? TrackArray()
         
         super.init()
+        
+    }
+    
+    func setupRemoteControlEvents() {
+        
+        let commandCenter = MPRemoteCommandCenter.shared()
+        
+        commandCenter.pauseCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
+            self.togglePauseResume()
+            return .success
+        }
+        
+        commandCenter.playCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
+            self.togglePauseResume()
+            return .success
+        }
+        
+        commandCenter.nextTrackCommand.addTarget(handler: {(event) -> MPRemoteCommandHandlerStatus in
+            
+            self.skipCurrentTrack()
+            return .success
+            
+        })
     }
 
 }

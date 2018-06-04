@@ -64,6 +64,8 @@
 		5A6236FF1F5C019B0027326D /* Viva La Vida.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A6236FE1F5C019B0027326D /* Viva La Vida.mp3 */; };
 		5A6237071F5F44FF0027326D /* Collateral Beauty.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A6237061F5F44FF0027326D /* Collateral Beauty.mp3 */; };
 		5A6E6531203CB4090062FD5B /* Sober Up.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A6E6530203CB4090062FD5B /* Sober Up.mp3 */; };
+		5A896C2020AB8F3400974FE0 /* SessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A896C1F20AB8F3400974FE0 /* SessionViewController.swift */; };
+		5A896C2820C0F61A00974FE0 /* square.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A896C2720C0F61A00974FE0 /* square.png */; };
 		5A8E45261F88416700B33FB7 /* 440 Triangle.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A8E45251F88416700B33FB7 /* 440 Triangle.mp3 */; };
 		5A8E45281F901DB900B33FB7 /* Tell Me.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A8E45271F901DB800B33FB7 /* Tell Me.mp3 */; };
 		5A9D6BDA1E9EF2A300918D8B /* Born.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A9D6BD91E9EF2A300918D8B /* Born.mp3 */; };
@@ -164,6 +166,8 @@
 		5A6236FE1F5C019B0027326D /* Viva La Vida.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Viva La Vida.mp3"; sourceTree = "<group>"; };
 		5A6237061F5F44FF0027326D /* Collateral Beauty.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Collateral Beauty.mp3"; sourceTree = "<group>"; };
 		5A6E6530203CB4090062FD5B /* Sober Up.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Sober Up.mp3"; sourceTree = "<group>"; };
+		5A896C1F20AB8F3400974FE0 /* SessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewController.swift; sourceTree = "<group>"; };
+		5A896C2720C0F61A00974FE0 /* square.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = square.png; sourceTree = "<group>"; };
 		5A8E45251F88416700B33FB7 /* 440 Triangle.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "440 Triangle.mp3"; sourceTree = "<group>"; };
 		5A8E45271F901DB800B33FB7 /* Tell Me.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Tell Me.mp3"; sourceTree = "<group>"; };
 		5A9D6BD91E9EF2A300918D8B /* Born.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Born.mp3; sourceTree = "<group>"; };
@@ -228,8 +232,10 @@
 		5ABA30971DCBC97D006E5999 /* AudioPlayer1 */ = {
 			isa = PBXGroup;
 			children = (
+				5A896C2720C0F61A00974FE0 /* square.png */,
 				5ABA30981DCBC97D006E5999 /* AppDelegate.swift */,
 				5ABA309A1DCBC97D006E5999 /* ViewController.swift */,
+				5A896C1F20AB8F3400974FE0 /* SessionViewController.swift */,
 				5ABEAF611F19851E008E5BB5 /* PanAudioPlayer.swift */,
 				5AB5162A20A25D1C00BE5028 /* LibraryController.swift */,
 				5AB5162C20A2A05700BE5028 /* SongExporter.swift */,
@@ -431,6 +437,7 @@
 				5A4D50B31FD219350040820C /* Dream.mp3 in Resources */,
 				5A9D6BDA1E9EF2A300918D8B /* Born.mp3 in Resources */,
 				5AC5F1A5203A2A15005EBFDA /* The System Only Dreams in Total Darkness.mp3 in Resources */,
+				5A896C2820C0F61A00974FE0 /* square.png in Resources */,
 				5A8E45281F901DB900B33FB7 /* Tell Me.mp3 in Resources */,
 				5A5598401F7B5E6C00AF9E9F /* Courtyard Apocalypse.mp3 in Resources */,
 				5A55983C1F7B5A9900AF9E9F /* Let's Hurt Tonight.mp3 in Resources */,
@@ -485,6 +492,7 @@
 				5AB5162D20A2A05700BE5028 /* SongExporter.swift in Sources */,
 				5ABEAF621F19851E008E5BB5 /* PanAudioPlayer.swift in Sources */,
 				5ABA309B1DCBC97D006E5999 /* ViewController.swift in Sources */,
+				5A896C2020AB8F3400974FE0 /* SessionViewController.swift in Sources */,
 				5ABA30991DCBC97D006E5999 /* AppDelegate.swift in Sources */,
 				5AB5162B20A25D1C00BE5028 /* LibraryController.swift in Sources */,
 			);

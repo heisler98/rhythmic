@@ -68,11 +68,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     private var stitchOn : Bool = false
     
     // MARK: - IBOutlets
-    @IBOutlet weak var navBar: UINavigationBar!
+    @IBOutlet weak var customNavItem: UINavigationItem!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var toolbar: UIToolbar!
     @IBOutlet weak var playBarButtonItem: UIBarButtonItem!
     @IBOutlet weak var distanceItem : UIBarButtonItem!
+    
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -89,54 +90,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         //create new manager from preset mp3s in bundle
         
         audioManager = AudioManager()
-        audioManager?.delegate = self as AudioManagerDelegate
+        audioManager!.delegate = self as AudioManagerDelegate
         
         if let theTracks = AudioManager.loadTracks() {
-            do { try audioManager?.setTracks(theTracks) }
-            catch let error {
+            do {
+                try audioManager!.setTracks(theTracks)
+            } catch {
                 print("\(error)")
             }
         }
         
-        self.navBar.prefersLargeTitles = true
-        
-        do {
-            UIApplication.shared.beginReceivingRemoteControlEvents()
-            
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-            try AVAudioSession.sharedInstance().setActive(true)
-            
-            let commandCenter = MPRemoteCommandCenter.shared()
-            commandCenter.playCommand.addTarget(handler: { (event) -> MPRemoteCommandHandlerStatus in
-                
-                guard let manager = self.audioManager else { return .commandFailed }
-                manager.togglePauseResume()
-                return .success
-                
-            })
-            
-            commandCenter.pauseCommand.addTarget(handler: { (event) -> MPRemoteCommandHandlerStatus in
-                
-                guard let manager = self.audioManager else { return .commandFailed }
-                manager.togglePauseResume()
-                return .success
-            })
-            
-            commandCenter.nextTrackCommand.addTarget(handler: {(event) -> MPRemoteCommandHandlerStatus in
-                
-                guard let manager = self.audioManager else { return .commandFailed }
-                
-                manager.skipCurrentTrack()
-                return .success
-                
-            })
-            
-        } catch let error as NSError {
-            print("error: \(error)")
-        }
-        
-        
-    
+        audioManager!.setupRemoteControlEvents()
     }
     
     override func didReceiveMemoryWarning() {
@@ -145,6 +109,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
         super.viewWillAppear(animated)
     }
     
@@ -161,7 +126,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let fileName = lastComponent[..<firstDot]
         
         let alert = UIAlertController(title: "Period", message: "Enter the desired period or BPM for the piece '\(fileName)'.", preferredStyle: .alert)
-        alert.addTextField(configurationHandler: nil)
+        alert.addTextField { (textField) in
+            textField.keyboardType = .asciiCapableNumberPad
+        }
         
         let action = UIAlertAction(title: "Done", style: .default, handler: {(alertAction) -> Void in
             
@@ -489,6 +456,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         selectedCells.removeAll(keepingCapacity: true)
         self.tableView.reloadData()
+        
+    
     }
     
     @IBAction func distanceChanged(_ sender: UISlider) {
@@ -498,6 +467,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         distanceItem.title = String(format: "%.2f", absoluteDistance)
         
     }
+    
     // MARK: - REM Rhythm controls
     @IBAction func initiateRhythm(_ sender : UIBarButtonItem) {
         //check for selections
@@ -755,8 +725,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let vc = segue.destination as? LibraryController else { return }
-        vc.delegate = self as iTunesDelegate
+        
+        guard let _ = segue.identifier else { return }
+        if segue.identifier! == "librarySegue" {
+            guard let vc = segue.destination as? LibraryController else { return }
+            vc.delegate = self as iTunesDelegate
+        }
+        
+        if segue.identifier! == "showSession" {
+            guard let vc = segue.destination as? SessionViewController else { return }
+            guard let manager = self.audioManager else { return }
+            vc.delegate = manager
+            manager.remDelegate = vc
+        }
     }
     
     // MARK: - Init

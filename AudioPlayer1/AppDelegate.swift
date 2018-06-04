@@ -16,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        
         if (AudioManager.loadTracks() == nil) { //serialize PLIST, make [Tracks]
             
             let background = DispatchQueue.global(qos: .background)
@@ -55,7 +56,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         
-        
         return true
     }
 
@@ -77,8 +77,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // manager should analyze BPM (if that's the route)
         // VC's TableView is updated on reentry
         
-        guard let vc = window?.rootViewController as? ViewController else { print("Cannot load root view controller."); return false }
-        
+        guard let navController = window?.rootViewController else { print("Cannot load root view controller."); return false }
+        guard let vc = navController.childViewControllers.first as? ViewController else { print("Cannot load ViewController in childViewControllers"); return false}
         return vc.newTrack(at: documentsDirectory.appendingPathComponent(url.pathComponents.last!))
         
     }
