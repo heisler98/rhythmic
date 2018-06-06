@@ -349,7 +349,7 @@ class AudioManager : NSObject, AVAudioPlayerDelegate, SessionDelegate {
         }
         
         UIApplication.shared.beginReceivingRemoteControlEvents()
-        nowPlayingCenter.nowPlayingInfo = [MPMediaItemPropertyTitle : firstTrack.title, MPNowPlayingInfoPropertyElapsedPlaybackTime : NSNumber(value: 0.0)]
+        updateNowPlayingCenter(nowPlayingCenter, withTrackAtIndex: firstIndex)
         
         return retVal
         
@@ -433,6 +433,8 @@ class AudioManager : NSObject, AVAudioPlayerDelegate, SessionDelegate {
                 nowPlaying?.volume = masterVolume
                 nowPlaying?.setupRhythm(aTrack!.rhythm)
                 _ = nowPlaying?.play()
+                
+                updateNowPlayingCenter(nowPlayingCenter, withTrackAtIndex: self.playIndices!.first!)
             }
         }
     }
@@ -595,9 +597,14 @@ class AudioManager : NSObject, AVAudioPlayerDelegate, SessionDelegate {
                 _ = nextPlayer.play()
                 nowPlaying = nextPlayer
                 
-                nowPlayingCenter.nowPlayingInfo = [MPMediaItemPropertyTitle : tracks[index].title, MPNowPlayingInfoPropertyElapsedPlaybackTime : NSNumber(value: nowPlaying!.currentTime)]
+                updateNowPlayingCenter(nowPlayingCenter, withTrackAtIndex: index)
             }
         
+    }
+    
+    func updateNowPlayingCenter(_ center: MPNowPlayingInfoCenter, withTrackAtIndex index : Int) {
+        let track = self.tracks[index]
+        center.nowPlayingInfo = [MPMediaItemPropertyTitle : track.title, MPMediaItemPropertyAlbumTitle : "Rhythmic"]
     }
     
     // MARK: - Initializers

@@ -190,7 +190,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         if (selectedCells.contains(indexPath.row)) {
             cell.accessoryType = .checkmark
-            cell.textLabel?.textColor = UIColor(red: 1, green: 0.4, blue: 0.4, alpha: 1.0)
+            cell.textLabel?.textColor = UIColor(red:1, green: 0.4, blue: 0.4, alpha: 1.0)
         } else {
             cell.accessoryType = .none
             cell.textLabel?.textColor = UIColor.black
@@ -215,7 +215,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         } else {
             selectedCells.append(indexPath.row)
             cell?.accessoryType = .checkmark
-            cell?.textLabel?.textColor = UIColor(red: 1, green: 0.4, blue: 0.4, alpha: 1.0)
+            cell?.textLabel?.textColor = UIColor(red:1, green: 0.4, blue: 0.4, alpha: 1.0)
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
@@ -238,7 +238,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
                 if cell?.accessoryType != .checkmark {
                     cell?.accessoryType = .checkmark
-                    cell?.textLabel?.textColor = UIColor(red: 1.0, green: 0.4, blue: 0.4, alpha: 1.0)
+                    cell?.textLabel?.textColor = UIColor(red:1.0, green: 0.4, blue: 0.4, alpha: 1.0)
                     self.selectedCells.append(indexPath.row)
                 }
             })
@@ -252,7 +252,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
                 if cell?.accessoryType != .checkmark {
                     cell?.accessoryType = .checkmark
-                    cell?.textLabel?.textColor = UIColor(red: 1.0, green: 0.4, blue: 0.4, alpha: 1.0)
+                    cell?.textLabel?.textColor = UIColor(red:1.0, green: 0.4, blue: 0.4, alpha: 1.0)
                     self.selectedCells.append(indexPath.row)
                 }
             })
@@ -266,7 +266,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
                 if cell?.accessoryType != .checkmark {
                     cell?.accessoryType = .checkmark
-                    cell?.textLabel?.textColor = UIColor(red: 1.0, green: 0.4, blue: 0.4, alpha: 1.0)
+                    cell?.textLabel?.textColor = UIColor(red:1.0, green: 0.4, blue: 0.4, alpha: 1.0)
                     self.selectedCells.append(indexPath.row)
                 }
             })
@@ -280,7 +280,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
                 if cell?.accessoryType != .checkmark {
                     cell?.accessoryType = .checkmark
-                    cell?.textLabel?.textColor = UIColor(red: 1.0, green: 0.4, blue: 0.4, alpha: 1.0)
+                    cell?.textLabel?.textColor = UIColor(red:1.0, green: 0.4, blue: 0.4, alpha: 1.0)
                     self.selectedCells.append(indexPath.row)
                 }
             })
@@ -325,7 +325,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
                 if cell?.accessoryType != .checkmark {
                     cell?.accessoryType = .checkmark
-                    cell?.textLabel?.textColor = UIColor(red: 1.0, green: 0.4, blue: 0.4, alpha: 1.0)
+                    cell?.textLabel?.textColor = UIColor(red:1.0, green: 0.4, blue: 0.4, alpha: 1.0)
                     self.selectedCells.append(indexPath.row)
                 }
             })
@@ -339,7 +339,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
                 if cell?.accessoryType != .checkmark {
                     cell?.accessoryType = .checkmark
-                    cell?.textLabel?.textColor = UIColor(red: 1.0, green: 0.4, blue: 0.4, alpha: 1.0)
+                    cell?.textLabel?.textColor = UIColor(red:1.0, green: 0.4, blue: 0.4, alpha: 1.0)
                     self.selectedCells.append(indexPath.row)
                 }
             })
@@ -353,7 +353,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
                 if cell?.accessoryType != .checkmark {
                     cell?.accessoryType = .checkmark
-                    cell?.textLabel?.textColor = UIColor(red: 1.0, green: 0.4, blue: 0.4, alpha: 1.0)
+                    cell?.textLabel?.textColor = UIColor(red:1.0, green: 0.4, blue: 0.4, alpha: 1.0)
                     self.selectedCells.append(indexPath.row)
                 }
             })
@@ -367,7 +367,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
                 if cell?.accessoryType != .checkmark {
                     cell?.accessoryType = .checkmark
-                    cell?.textLabel?.textColor = UIColor(red: 1.0, green: 0.4, blue: 0.4, alpha: 1.0)
+                    cell?.textLabel?.textColor = UIColor(red:1.0, green: 0.4, blue: 0.4, alpha: 1.0)
                     self.selectedCells.append(indexPath.row)
                 }
             })

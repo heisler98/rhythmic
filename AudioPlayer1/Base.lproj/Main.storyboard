@@ -115,7 +115,7 @@
                             </connections>
                         </barButtonItem>
                         <rightBarButtonItems>
-                            <barButtonItem systemItem="organize" id="8Jn-4U-ShH">
+                            <barButtonItem title="Item" image="eye.png" id="8Jn-4U-ShH">
                                 <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <segue destination="xDF-PV-M6V" kind="show" identifier="showSession" id="Jtz-tY-YHT"/>
@@ -298,6 +298,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="eye.png" width="25" height="25"/>
         <image name="square.png" width="534" height="538"/>
     </resources>
 </document>

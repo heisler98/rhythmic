@@ -66,6 +66,9 @@
 		5A6E6531203CB4090062FD5B /* Sober Up.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A6E6530203CB4090062FD5B /* Sober Up.mp3 */; };
 		5A896C2020AB8F3400974FE0 /* SessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A896C1F20AB8F3400974FE0 /* SessionViewController.swift */; };
 		5A896C2820C0F61A00974FE0 /* square.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A896C2720C0F61A00974FE0 /* square.png */; };
+		5A896C3320C6210600974FE0 /* eye@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A896C3020C6210600974FE0 /* eye@2x.png */; };
+		5A896C3420C6210600974FE0 /* eye@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A896C3120C6210600974FE0 /* eye@3x.png */; };
+		5A896C3520C6210600974FE0 /* eye@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5A896C3220C6210600974FE0 /* eye@1x.png */; };
 		5A8E45261F88416700B33FB7 /* 440 Triangle.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A8E45251F88416700B33FB7 /* 440 Triangle.mp3 */; };
 		5A8E45281F901DB900B33FB7 /* Tell Me.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A8E45271F901DB800B33FB7 /* Tell Me.mp3 */; };
 		5A9D6BDA1E9EF2A300918D8B /* Born.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A9D6BD91E9EF2A300918D8B /* Born.mp3 */; };
@@ -168,6 +171,9 @@
 		5A6E6530203CB4090062FD5B /* Sober Up.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Sober Up.mp3"; sourceTree = "<group>"; };
 		5A896C1F20AB8F3400974FE0 /* SessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewController.swift; sourceTree = "<group>"; };
 		5A896C2720C0F61A00974FE0 /* square.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = square.png; sourceTree = "<group>"; };
+		5A896C3020C6210600974FE0 /* eye@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "eye@2x.png"; sourceTree = "<group>"; };
+		5A896C3120C6210600974FE0 /* eye@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "eye@3x.png"; sourceTree = "<group>"; };
+		5A896C3220C6210600974FE0 /* eye@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "eye@1x.png"; sourceTree = "<group>"; };
 		5A8E45251F88416700B33FB7 /* 440 Triangle.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "440 Triangle.mp3"; sourceTree = "<group>"; };
 		5A8E45271F901DB800B33FB7 /* Tell Me.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Tell Me.mp3"; sourceTree = "<group>"; };
 		5A9D6BD91E9EF2A300918D8B /* Born.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Born.mp3; sourceTree = "<group>"; };
@@ -211,6 +217,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5A896C2920C61FE800974FE0 /* Image Assets */ = {
+			isa = PBXGroup;
+			children = (
+				5A896C3220C6210600974FE0 /* eye@1x.png */,
+				5A896C3020C6210600974FE0 /* eye@2x.png */,
+				5A896C3120C6210600974FE0 /* eye@3x.png */,
+				5A896C2720C0F61A00974FE0 /* square.png */,
+			);
+			name = "Image Assets";
+			sourceTree = "<group>";
+		};
 		5ABA308C1DCBC97D006E5999 = {
 			isa = PBXGroup;
 			children = (
@@ -232,7 +249,7 @@
 		5ABA30971DCBC97D006E5999 /* AudioPlayer1 */ = {
 			isa = PBXGroup;
 			children = (
-				5A896C2720C0F61A00974FE0 /* square.png */,
+				5A896C2920C61FE800974FE0 /* Image Assets */,
 				5ABA30981DCBC97D006E5999 /* AppDelegate.swift */,
 				5ABA309A1DCBC97D006E5999 /* ViewController.swift */,
 				5A896C1F20AB8F3400974FE0 /* SessionViewController.swift */,
@@ -416,6 +433,7 @@
 				5A6236FF1F5C019B0027326D /* Viva La Vida.mp3 in Resources */,
 				5AFFE8161F0117E400C713FF /* Start Over.mp3 in Resources */,
 				5ABE00FA1FCB70A30099405C /* 18 Musicians II.mp3 in Resources */,
+				5A896C3420C6210600974FE0 /* eye@3x.png in Resources */,
 				5A5598341F7B5A9900AF9E9F /* Praying by Kesha.mp3 in Resources */,
 				5A6E6531203CB4090062FD5B /* Sober Up.mp3 in Resources */,
 				5A6237071F5F44FF0027326D /* Collateral Beauty.mp3 in Resources */,
@@ -466,7 +484,9 @@
 				5A3CD1B61F6A57920015683B /* Main Star Wars.mp3 in Resources */,
 				5ABE00F71FC970A10099405C /* 18 Musicians IV.mp3 in Resources */,
 				5A5598301F7B5A9900AF9E9F /* Lift Me Up.mp3 in Resources */,
+				5A896C3520C6210600974FE0 /* eye@1x.png in Resources */,
 				5A57DB201FBF893500DC46B6 /* Day to Feel Alive.mp3 in Resources */,
+				5A896C3320C6210600974FE0 /* eye@2x.png in Resources */,
 				5A3CD1B41F6A57920015683B /* Feel Again Instrumental.mp3 in Resources */,
 				5A0D0F2D2027A2BF0086F50E /* Fallen.mp3 in Resources */,
 				5A5181841F567947007FA781 /* Song for Sienna.mp3 in Resources */,
