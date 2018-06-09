@@ -16,7 +16,6 @@
 		5A0D0F322028086B0086F50E /* Round and Round.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A0D0F302028086A0086F50E /* Round and Round.mp3 */; };
 		5A0D0F332028086B0086F50E /* America.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A0D0F312028086B0086F50E /* America.mp3 */; };
 		5A0D0F35202EB7AA0086F50E /* Feel Again.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A0D0F34202EB7AA0086F50E /* Feel Again.mp3 */; };
-		5A0E1BB52083E55700FD3954 /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A0E1BB42083E55700FD3954 /* AudioKit.framework */; };
 		5A15980F200BFE4A00CD4E36 /* Knocking at the Door.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A15980E200BFE4A00CD4E36 /* Knocking at the Door.mp3 */; };
 		5A159811200E9BAE00CD4E36 /* Whatever It Takes.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A159810200E9BAE00CD4E36 /* Whatever It Takes.mp3 */; };
 		5A3049491EAF18D10000A144 /* If I Lose Myself.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */; };
@@ -120,7 +119,6 @@
 		5A0D0F302028086A0086F50E /* Round and Round.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Round and Round.mp3"; sourceTree = "<group>"; };
 		5A0D0F312028086B0086F50E /* America.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = America.mp3; sourceTree = "<group>"; };
 		5A0D0F34202EB7AA0086F50E /* Feel Again.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Feel Again.mp3"; sourceTree = "<group>"; };
-		5A0E1BB42083E55700FD3954 /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioKit.framework; path = AudioPlayer1/AudioKit.framework; sourceTree = "<group>"; };
 		5A15980E200BFE4A00CD4E36 /* Knocking at the Door.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Knocking at the Door.mp3"; sourceTree = "<group>"; };
 		5A159810200E9BAE00CD4E36 /* Whatever It Takes.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Whatever It Takes.mp3"; sourceTree = "<group>"; };
 		5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "If I Lose Myself.mp3"; sourceTree = "<group>"; };
@@ -210,13 +208,24 @@
 			files = (
 				5AF19F8C1E95A0BA004E38C9 /* MediaPlayer.framework in Frameworks */,
 				5AF19F8A1E95A0B1004E38C9 /* AVFoundation.framework in Frameworks */,
-				5A0E1BB52083E55700FD3954 /* AudioKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5A2C0BCC20CC4A0700742203 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				5ABA30981DCBC97D006E5999 /* AppDelegate.swift */,
+				5ABA309A1DCBC97D006E5999 /* ViewController.swift */,
+				5A896C1F20AB8F3400974FE0 /* SessionViewController.swift */,
+				5AB5162A20A25D1C00BE5028 /* LibraryController.swift */,
+				5AB5162C20A2A05700BE5028 /* SongExporter.swift */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
 		5A896C2920C61FE800974FE0 /* Image Assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -250,12 +259,8 @@
 			isa = PBXGroup;
 			children = (
 				5A896C2920C61FE800974FE0 /* Image Assets */,
-				5ABA30981DCBC97D006E5999 /* AppDelegate.swift */,
-				5ABA309A1DCBC97D006E5999 /* ViewController.swift */,
-				5A896C1F20AB8F3400974FE0 /* SessionViewController.swift */,
+				5A2C0BCC20CC4A0700742203 /* iOS */,
 				5ABEAF611F19851E008E5BB5 /* PanAudioPlayer.swift */,
-				5AB5162A20A25D1C00BE5028 /* LibraryController.swift */,
-				5AB5162C20A2A05700BE5028 /* SongExporter.swift */,
 				5A0B3FEC1F74CEF100A60D9F /* Tracks.plist */,
 				5ABA309C1DCBC97D006E5999 /* Main.storyboard */,
 				5ABA309F1DCBC97D006E5999 /* Assets.xcassets */,
@@ -346,7 +351,6 @@
 		5AF19F881E95A0B1004E38C9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5A0E1BB42083E55700FD3954 /* AudioKit.framework */,
 				5AF19F8B1E95A0BA004E38C9 /* MediaPlayer.framework */,
 				5AF19F891E95A0B1004E38C9 /* AVFoundation.framework */,
 			);
@@ -668,7 +672,7 @@
 				INFOPLIST_FILE = AudioPlayer1/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "-lstdc++";
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.eisler.AudioPlayer1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -696,7 +700,7 @@
 				INFOPLIST_FILE = AudioPlayer1/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "-lstdc++";
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.eisler.AudioPlayer1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

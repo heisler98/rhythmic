@@ -8,18 +8,12 @@
 //  *Proprietary and confidential*
 
 // **Potentials**
-// !: iTunes Music Library option attached
-// !:support multiple rhythms
-// Implement 'sessions'
-// we'll need to go faster...slower...faster...slower...faster...
 // ?: Collection view REM/stitch "sessions"/groups/categories/ - organized by speed etc
-// Pair two iPhones (like in EMDR session) for tactile REM w/ haptic feedback
 
 import UIKit
 import AVFoundation
 import MediaPlayer
 import os.log
-import AudioKit
 
 typealias TrackArray = Array<Track>
 let pi = 3.14159265
@@ -41,20 +35,6 @@ func randsInRange(range: Range<Int>, quantity : Int) -> [Int] {
     return rands
 }
 
-func lemniscate(forTime t : Double, amplitude a : Double) -> (x : Double, y : Double) {
-    let x = (a*cos(t)) / (1+(sin(t)*sin(t)))
-    let y = (a*sin(t)*cos(t)) / (1+sin(t)*sin(t))
-    return (x, y)
-}
-
-func council(forTime t: Double, radius r : Double) -> (x : Double, y : Double, z : Double) {
-    let x = r*cos(t)
-    let y = r*sin(t)
-    let z = sin(2*r*t)
-    
-    return (x, y, z)
-}
-
 protocol iTunesDelegate {
     func dismissed(withURL : URL?)
 }
@@ -62,10 +42,8 @@ protocol iTunesDelegate {
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AudioManagerDelegate, iTunesDelegate {
     
     // MARK: - Private property controls
-    private var audioManager : AudioManager?
+    private var audioManager = AudioManager.shared
     private var selectedCells : Array<Int> = []
-    private var rhythmSession : Rhythm?
-    private var stitchOn : Bool = false
     
     // MARK: - IBOutlets
     @IBOutlet weak var customNavItem: UINavigationItem!
@@ -84,23 +62,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // load encoded audioManager instantiation
-        // change as necessary inside with newTrackat:
-        // be sure to either save or delegate out save upon finish
-        //create new manager from preset mp3s in bundle
-        
-        audioManager = AudioManager()
-        audioManager!.delegate = self as AudioManagerDelegate
-        
-        if let theTracks = AudioManager.loadTracks() {
-            do {
-                try audioManager!.setTracks(theTracks)
-            } catch {
-                print("\(error)")
-            }
+        if let tracks = AudioManager.loadTracks() {
+            try? audioManager.setTracks(tracks)
         }
-        
-        audioManager!.setupRemoteControlEvents()
+        audioManager.delegate = self as AudioManagerDelegate
+        audioManager.setupRemoteControlEvents()
     }
     
     override func didReceiveMemoryWarning() {
@@ -145,11 +111,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 }
             let newTrack = Track(title: String(fileName), period: doublePeriod, category: category, fileName: lastComponent, rhythm: .Bilateral, rate: .Normal)
             
-                if let manager = self.audioManager {
-                manager.add(newTrack: newTrack)
-                self.tableView.reloadData()
                 
-            }
+            self.audioManager.add(newTrack: newTrack)
+            self.tableView.reloadData()
+                
+            
             }})
         //copyAction for track|file disparity – will not add new track to AM
         let copyAction = UIAlertAction(title: "Copy Only", style: .destructive, handler: nil)
@@ -168,9 +134,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        guard let manager = self.audioManager else { return 0 }
-        
-        return manager.trackCount
+        return audioManager.trackCount
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -183,10 +147,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
-        guard let manager = audioManager else { return cell }
-        
-        cell.textLabel?.text = manager.title(forIndex: indexPath.row)
-        cell.detailTextLabel?.text = manager.rhythmRate(forIndex: indexPath.row)
+        cell.textLabel?.text = audioManager.title(forIndex: indexPath.row)
+        cell.detailTextLabel?.text = audioManager.rhythmRate(forIndex: indexPath.row)
         
         if (selectedCells.contains(indexPath.row)) {
             cell.accessoryType = .checkmark
@@ -231,11 +193,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
             let bilateral = UIContextualAction(style: .normal, title: "Bilateral", handler: { action, view, completionHandler in
                 
-                self.audioManager?.setRhythm(Rhythmic.Bilateral, forIndex:indexPath.row)
+                self.audioManager.setRhythm(Rhythmic.Bilateral, forIndex:indexPath.row)
                 completionHandler(true)
                 //self.tableView.reloadRows(at: [indexPath], with: .none)
                 let cell = tableView.cellForRow(at: indexPath)
-                cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
+                cell?.detailTextLabel?.text = self.audioManager.rhythmRate(forIndex: indexPath.row)
                 if cell?.accessoryType != .checkmark {
                     cell?.accessoryType = .checkmark
                     cell?.textLabel?.textColor = UIColor(red:1.0, green: 0.4, blue: 0.4, alpha: 1.0)
@@ -246,10 +208,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             let crosspan = UIContextualAction(style: .normal, title: "Crosspan", handler: { action, view, completionHandler in
                 
-                self.audioManager?.setRhythm(Rhythmic.Crosspan, forIndex:indexPath.row)
+                self.audioManager.setRhythm(Rhythmic.Crosspan, forIndex:indexPath.row)
                 completionHandler(true)
                 let cell = tableView.cellForRow(at: indexPath)
-                cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
+                cell?.detailTextLabel?.text = self.audioManager.rhythmRate(forIndex: indexPath.row)
                 if cell?.accessoryType != .checkmark {
                     cell?.accessoryType = .checkmark
                     cell?.textLabel?.textColor = UIColor(red:1.0, green: 0.4, blue: 0.4, alpha: 1.0)
@@ -260,10 +222,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             let synthesis = UIContextualAction(style: .normal, title: "Synthesis", handler: { action, view, completionHandler in
                 
-                self.audioManager?.setRhythm(Rhythmic.Synthesis, forIndex:indexPath.row)
+                self.audioManager.setRhythm(Rhythmic.Synthesis, forIndex:indexPath.row)
                 completionHandler(true)
                 let cell = tableView.cellForRow(at: indexPath)
-                cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
+                cell?.detailTextLabel?.text = self.audioManager.rhythmRate(forIndex: indexPath.row)
                 if cell?.accessoryType != .checkmark {
                     cell?.accessoryType = .checkmark
                     cell?.textLabel?.textColor = UIColor(red:1.0, green: 0.4, blue: 0.4, alpha: 1.0)
@@ -274,10 +236,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             let stitch = UIContextualAction(style: .normal, title: "Swave", handler: { action, view, completionHandler in
                 
-                self.audioManager?.setRhythm(Rhythmic.Stitch, forIndex:indexPath.row)
+                self.audioManager.setRhythm(Rhythmic.Stitch, forIndex:indexPath.row)
                 completionHandler(true)
                 let cell = tableView.cellForRow(at: indexPath)
-                cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
+                cell?.detailTextLabel?.text = self.audioManager.rhythmRate(forIndex: indexPath.row)
                 if cell?.accessoryType != .checkmark {
                     cell?.accessoryType = .checkmark
                     cell?.textLabel?.textColor = UIColor(red:1.0, green: 0.4, blue: 0.4, alpha: 1.0)
@@ -291,8 +253,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 let alert = UIAlertController(title: "Delete track", message: "Are you sure you want to delete this track?", preferredStyle: UIAlertControllerStyle.alert)
                 let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (action) in
                   
-                    guard let manager = self.audioManager else { completionHandler(false); return }
-                    let success = manager.deleteTrack(atIndex: indexPath.row)
+                    let success = self.audioManager.deleteTrack(atIndex: indexPath.row)
                     
                     if success == true {
                         self.tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
@@ -319,10 +280,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
             let half = UIContextualAction(style: .normal, title: "0.5x", handler: { action, view, completionHandler in
                 
-                self.audioManager?.setRate(PanRate.Half, forIndex: indexPath.row)
+                self.audioManager.setRate(PanRate.Half, forIndex: indexPath.row)
                 completionHandler(true)
                 let cell = tableView.cellForRow(at: indexPath)
-                cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
+                cell?.detailTextLabel?.text = self.audioManager.rhythmRate(forIndex: indexPath.row)
                 if cell?.accessoryType != .checkmark {
                     cell?.accessoryType = .checkmark
                     cell?.textLabel?.textColor = UIColor(red:1.0, green: 0.4, blue: 0.4, alpha: 1.0)
@@ -333,10 +294,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             let normal = UIContextualAction(style: .normal, title: "1x", handler: { action, view, completionHandler in
                 
-                self.audioManager?.setRate(PanRate.Normal, forIndex: indexPath.row)
+                self.audioManager.setRate(PanRate.Normal, forIndex: indexPath.row)
                 completionHandler(true)
                 let cell = tableView.cellForRow(at: indexPath)
-                cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
+                cell?.detailTextLabel?.text = self.audioManager.rhythmRate(forIndex: indexPath.row)
                 if cell?.accessoryType != .checkmark {
                     cell?.accessoryType = .checkmark
                     cell?.textLabel?.textColor = UIColor(red:1.0, green: 0.4, blue: 0.4, alpha: 1.0)
@@ -347,10 +308,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             let double = UIContextualAction(style: .normal, title: "2x", handler: { action, view, completionHandler in
                 
-                self.audioManager?.setRate(PanRate.Double, forIndex: indexPath.row)
+                self.audioManager.setRate(PanRate.Double, forIndex: indexPath.row)
                 completionHandler(true)
                 let cell = tableView.cellForRow(at: indexPath)
-                cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
+                cell?.detailTextLabel?.text = self.audioManager.rhythmRate(forIndex: indexPath.row)
                 if cell?.accessoryType != .checkmark {
                     cell?.accessoryType = .checkmark
                     cell?.textLabel?.textColor = UIColor(red:1.0, green: 0.4, blue: 0.4, alpha: 1.0)
@@ -361,10 +322,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             
             let quad = UIContextualAction(style: .normal, title: "4x", handler: { action, view, completionHandler in
                 
-                self.audioManager?.setRate(PanRate.Quad, forIndex: indexPath.row)
+                self.audioManager.setRate(PanRate.Quad, forIndex: indexPath.row)
                 completionHandler(true)
                 let cell = tableView.cellForRow(at: indexPath)
-                cell?.detailTextLabel?.text = self.audioManager?.rhythmRate(forIndex: indexPath.row)
+                cell?.detailTextLabel?.text = self.audioManager.rhythmRate(forIndex: indexPath.row)
                 if cell?.accessoryType != .checkmark {
                     cell?.accessoryType = .checkmark
                     cell?.textLabel?.textColor = UIColor(red:1.0, green: 0.4, blue: 0.4, alpha: 1.0)
@@ -390,42 +351,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // MARK: - UI Controls
     @IBAction func handlePlayButton(_ sender: Any) {
         
-        if stitchOn == true {
-            do {
-                try AudioKit.stop()
-                stitchOn = false
-            } catch {
-                print(error)
+        if (selectedCells.isEmpty == true) {
+            if (audioManager.isPlaying == true) {
+                audioManager.stopPlayback()
+                
             }
             return
         }
-        
-        if let _ = rhythmSession {
-            if rhythmSession!.isPlaying == true {
-                _ = rhythmSession!.stop()
-                return
-            }
+            
+        if (audioManager.isPlaying == false) {
+            _ = audioManager.playback(queued: selectedCells)
+        } else {
+            audioManager.stopPlayback()
         }
         
-        
-        if let manager = audioManager {
-            
-            if (selectedCells.isEmpty == true) {
-                if (manager.isPlaying == true) {
-                    manager.stopPlayback()
-                
-                }
-                return
-            }
-            
-            if (manager.isPlaying == false) {
-                
-                _ = manager.playback(queued: selectedCells)
-                
-            } else {
-                manager.stopPlayback()
-            }
-        }
     }
     
     @IBAction func randomShuffle(_ sender: Any) {
@@ -433,12 +372,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let alertController = UIAlertController(title: "Shuffle tracks", message: "Enter the number of tracks to shuffle.", preferredStyle: .alert)
         let doneAction = UIAlertAction(title: "Done", style: .default) { (alertAction) in
             
-            guard let _ = self.audioManager else { return }
             guard let quantity = Int((alertController.textFields?.first?.text)!) else { return }
-            guard quantity <= self.audioManager!.trackCount else { return }
+            guard quantity <= self.audioManager.trackCount else { return }
             
-            let chosen = randsInRange(range: 0..<self.audioManager!.trackCount, quantity: quantity)
-            _ = self.audioManager!.playback(queued: chosen)
+            let chosen = randsInRange(range: 0..<self.audioManager.trackCount, quantity: quantity)
+            _ = self.audioManager.playback(queued: chosen)
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -456,7 +394,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         selectedCells.removeAll(keepingCapacity: true)
         self.tableView.reloadData()
-        
     
     }
     
@@ -468,239 +405,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
-    // MARK: - REM Rhythm controls
-    @IBAction func initiateRhythm(_ sender : UIBarButtonItem) {
-        //check for selections
-        if selectedCells.isEmpty == true {
-            return
-        }
-        
-        //prompt for period
-        let alert = UIAlertController(title: "Enter period", message: "Please enter the REM period.", preferredStyle: .alert)
-        alert.addTextField(configurationHandler: {(textField) -> Void in
-            textField.keyboardType = UIKeyboardType.decimalPad
-            textField.keyboardAppearance = UIKeyboardAppearance.dark
-            textField.placeholder = "0.50"
-        })
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        let doneAction = UIAlertAction(title: "Done", style: .default, handler: { (alertAction) -> Void in
-            if let secTxt = alert.textFields?.first?.text {
-                if let sec = Double(secTxt) {
-                    self.loadRhythm(withPeriod: sec, continuousSweeping: false)
-                }
-            }
-            
-        })
-        let contAction = UIAlertAction(title: "Infinite", style: .default, handler: { (alertAction) -> Void in
-            if let secTxt = alert.textFields?.first?.text {
-                if let sec = Double(secTxt) {
-                    self.loadRhythm(withPeriod: sec, continuousSweeping: true)
-                }
-            }
-            
-        })
-        alert.addAction(cancelAction)
-        alert.addAction(doneAction)
-        alert.addAction(contAction)
-        
-        self.present(alert, animated: true, completion: nil)
-        
-        
-    }
-    
-    private func loadRhythm(withPeriod sec : Double, continuousSweeping : Bool) {
-        //load selected cells to [Track]
-        guard let allTracks = AudioManager.loadTracks() else { return }
-        var selectedTracks : [Track] = []
-        
-        for index in selectedCells {
-            let aTrack = allTracks[index]
-            selectedTracks.append(aTrack)
-        }
-        //Rhythm()
-        rhythmSession = Rhythm(selectedTracks: selectedTracks, period: sec, sweeping: continuousSweeping)
-        _ = rhythmSession!.play()
-    }
-    
-    //MARK: - Stitch controls
-    
-    @IBAction func stitch(_ sender : Any) {
-        
-        if stitchOn == true {
-            do {
-                try AudioKit.stop()
-                stitchOn = false
-            } catch {
-                print(error)
-            }
-            return
-        }
-        
-        let alert = UIAlertController(title: "Enter period", message: "Please enter the stitching period.", preferredStyle: .alert)
-        alert.addTextField(configurationHandler: {(textField) -> Void in
-            textField.keyboardType = UIKeyboardType.decimalPad
-            textField.keyboardAppearance = UIKeyboardAppearance.dark
-            textField.placeholder = "0.50"
-        })
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        let doneAction = UIAlertAction(title: "Done", style: .default, handler: { (alertAction) -> Void in
-            if let secTxt = alert.textFields?.first?.text {
-                if let sec = Double(secTxt) {
-                    self.startStitching(at: sec)
-                }
-            }
-            
-        })
-        let gravityAction = UIAlertAction(title: "Gravity", style: .default) { (alertAction) in
-            if let secTxt = alert.textFields?.first?.text {
-                if let sec = Double(secTxt) {
-                    self.startGravity(at: sec)
-                }
-            }
-        }
-        
-        let crosspanAction = UIAlertAction(title: "Crosspan", style: .default) { (alertAction) in
-            if let secTxt = alert.textFields?.first?.text {
-                if let sec = Double(secTxt) {
-                    self.startCrosspanStitch(at: sec)
-                }
-            }
-        }
-        
-        alert.addAction(cancelAction)
-        alert.addAction(doneAction)
-        alert.addAction(gravityAction)
-        alert.addAction(crosspanAction)
-        
-        self.present(alert, animated: true, completion: nil)
-        
-    }
-    
-    private func startStitching(at period : Double) {
-        
-        guard let allTracks = AudioManager.loadTracks() else { return }
-        let firstTrack : Track = allTracks[selectedCells[0]]
-        let secondTrack : Track = allTracks[selectedCells[1]]
-        
-        do {
-            let firstFile = try AKAudioFile(forReading: firstTrack.getURL())
-            let secondFile = try AKAudioFile(forReading: secondTrack.getURL())
-            let firstPlayer = try AKAudioPlayer(file: firstFile, looping: true, lazyBuffering: false, completionHandler: nil)
-            let secondPlayer = try AKAudioPlayer(file: secondFile, looping: true, lazyBuffering: false, completionHandler: nil)
-            
-            let mixer = AKMixer(firstPlayer, secondPlayer)
-            firstPlayer.pan = -1
-            secondPlayer.pan = 1
-            
-            let function = AKPeriodicFunction(every: period, handler: {
-                firstPlayer.pan = firstPlayer.pan * -1
-                secondPlayer.pan = secondPlayer.pan * -1
-            })
-            
-            AudioKit.output = mixer
-            try AudioKit.start(withPeriodicFunctions: function)
-            function.start()
-            firstPlayer.play()
-            secondPlayer.play()
-            
-            AKSettings.playbackWhileMuted = true
-            AKSettings.disableAVAudioSessionCategoryManagement = false
-            try AKSettings.setSession(category: AKSettings.SessionCategory.playback, with: .mixWithOthers)
-            
-            stitchOn = true
-        } catch {
-            print(error)
-        }
-    }
-    
-    private func startGravity(at period : Double) {
-        guard let allTracks = AudioManager.loadTracks() else { return }
-        let firstTrack : Track = allTracks[selectedCells[0]]
-        let secondTrack : Track = allTracks[selectedCells[1]]
-        
-        do {
-            let firstFile = try AKAudioFile(forReading: firstTrack.getURL())
-            let secondFile = try AKAudioFile(forReading: secondTrack.getURL())
-            let firstPlayer = try AKAudioPlayer(file: firstFile, looping: true, lazyBuffering: false, completionHandler: nil)
-            let secondPlayer = try AKAudioPlayer(file: secondFile, looping: true, lazyBuffering: false, completionHandler: nil)
-            
-            let mixer = AKMixer(firstPlayer, secondPlayer)
-            firstPlayer.pan = -1
-            secondPlayer.pan = 1
-            var wavelength : Double = pi/2
-            let function = AKPeriodicFunction(every: period, handler: {
-                //left is always negative
-                firstPlayer.pan = -absVal(sin(wavelength))
-                
-                //right is always positive
-                secondPlayer.pan = absVal(sin(wavelength))
-                
-                //wavelength interval
-                wavelength = wavelength + (pi/8)
-                
-            })
-            
-            AudioKit.output = mixer
-            try AudioKit.start(withPeriodicFunctions: function)
-            function.start()
-            firstPlayer.play()
-            secondPlayer.play()
-            
-            AKSettings.playbackWhileMuted = true
-            AKSettings.disableAVAudioSessionCategoryManagement = false
-            try AKSettings.setSession(category: AKSettings.SessionCategory.playback, with: .mixWithOthers)
-            
-            stitchOn = true
-        } catch {
-            print(error)
-        }
-    }
-    
-    private func startCrosspanStitch(at period: Double) {
-        guard let allTracks = AudioManager.loadTracks() else { return }
-        let firstTrack : Track = allTracks[selectedCells[0]]
-        let secondTrack : Track = allTracks[selectedCells[1]]
-        
-        do {
-            let firstFile = try AKAudioFile(forReading: firstTrack.getURL())
-            let secondFile = try AKAudioFile(forReading: secondTrack.getURL())
-            let firstPlayer = try AKAudioPlayer(file: firstFile, looping: true, lazyBuffering: false, completionHandler: nil)
-            let secondPlayer = try AKAudioPlayer(file: secondFile, looping: true, lazyBuffering: false, completionHandler: nil)
-            
-            let mixer = AKMixer(firstPlayer, secondPlayer)
-            firstPlayer.pan = -1
-            secondPlayer.pan = 1
-            
-            var wavelength : Double = 0
-            let function = AKPeriodicFunction(every: period, handler: {
-                //left and right pans will intersect
-                firstPlayer.pan = sin(wavelength)
-                secondPlayer.pan = sin(-wavelength)
-                
-                wavelength = wavelength + (pi/8)
-            })
-            
-            AudioKit.output = mixer
-            try AudioKit.start(withPeriodicFunctions: function)
-            function.start()
-            firstPlayer.play()
-            secondPlayer.play()
-            
-            AKSettings.playbackWhileMuted = true
-            AKSettings.disableAVAudioSessionCategoryManagement = false
-            try AKSettings.setSession(category: AKSettings.SessionCategory.playback, with: .mixWithOthers)
-            
-            stitchOn = true
-        } catch {
-            print(error)
-        }
-    }
-    
     // MARK: - AudioManager delegate controls
     func audioManagerDidCompletePlaylist() { 
-       audioManager?.repeatQueue()
+       audioManager.repeatQueue()
     }
     
     func audioManagerPlaybackInterrupted() {
@@ -734,9 +441,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         if segue.identifier! == "showSession" {
             guard let vc = segue.destination as? SessionViewController else { return }
-            guard let manager = self.audioManager else { return }
-            vc.delegate = manager
-            manager.remDelegate = vc
+            
+            vc.delegate = audioManager
+            audioManager.remDelegate = vc
         }
     }
     
@@ -745,172 +452,3 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.init(coder: aDecoder)
     }
 }
-// MARK: - Rhythm
-class Rhythm : NSObject {
-    
-    // MARK: - Ivars
-    var tracks : [Track]
-    var period : Double
-    var sweeping : Bool
-    var readyToPlay : Bool = false
-    
-    var files : [AKAudioFile]?
-    var currentFileIndex : Int = 0
-    
-    var audioPlayer : AKAudioPlayer?
-    var timer : AKPeriodicFunction?
-    var panner : AKPanner?
-    var dimPanner : AK3DPanner?
-    var isLeft : Bool = true
-    
-    var isPlaying : Bool {
-        get {
-            guard let _ = audioPlayer else { return false }
-            return audioPlayer!.isPlaying
-        }
-    }
-    // MARK: - Setup controls
-    private func loadAudio() -> Bool {
-        
-        var mutableFiles : [AKAudioFile] = []
-        
-        for track in tracks {
-            let fileURL = documentsDirectory.appendingPathComponent(track.fileName)
-            do {
-                let aFile = try AKAudioFile(forReading: fileURL)
-                mutableFiles.append(aFile)
-            } catch let error {
-                print(error)
-            }
-        }
-        
-        if mutableFiles.isEmpty == false {
-            files = mutableFiles
-            
-            do {
-                audioPlayer = try AKAudioPlayer(file: files![0], looping: false, lazyBuffering: false, completionHandler: {
-                    
-                    if self.currentFileIndex == (self.files!.count - 1) {
-                        return
-                    }
-                    self.nextTrack()
-                })
-                
-                
-                if !sweeping {
-                    panner = AKPanner(audioPlayer!)
-                timer = AKPeriodicFunction(every: period, handler: {
-                    switch self.isLeft {
-                    case true:
-                        self.panner?.pan = 1.0
-                        self.isLeft = false
-                        break
-                        
-                    case false:
-                        self.panner?.pan = -1.0
-                        self.isLeft = true
-                        break
-                    }
-                })
-                } else {
-                    dimPanner = AK3DPanner.init(audioPlayer!, x: 0, y: 0, z: 0)
-                    var time : Double = 0
-                    timer = AKPeriodicFunction(every: period, handler: {
-                        //let coordinates = lemniscate(forTime: time, amplitude: 14)
-                        let coordinates = council(forTime: time, radius: 5)
-                        self.dimPanner?.x = coordinates.x
-                        self.dimPanner?.y = coordinates.y
-                        self.dimPanner?.z = coordinates.z
-                        
-                        time += (pi/16)
-                    })
-                }
-                AKSettings.playbackWhileMuted = true
-                AKSettings.disableAVAudioSessionCategoryManagement = false
-                try AKSettings.setSession(category: AKSettings.SessionCategory.playback, with: .mixWithOthers)
-                
-            } catch let error {
-                print(error)
-            }
-            
-            return true
-        }
-        
-        return false
-    }
-    
-    func nextTrack() {
-        
-        self.currentFileIndex += 1
-        let nextFile = self.files![self.currentFileIndex]
-        
-        do {
-            try self.audioPlayer?.replace(file: nextFile)
-            _ = self.play()
-        } catch let error {
-            print(error)
-        }
-        
-    }
-    
-    // MARK: - Playback controls
-    
-    func play() -> Bool {
-        if readyToPlay != true {
-            return false
-        }
-        guard let _ = audioPlayer else { return false }
-        guard let _ = timer else { return false }
-        
-        if !sweeping {
-            guard let _ = panner else { return false }
-            AudioKit.output = panner!
-        } else {
-            guard let _ = dimPanner else { return false }
-            AudioKit.output = dimPanner!
-        }
-        
-        
-        do {
-            try AudioKit.start(withPeriodicFunctions: timer!)
-            audioPlayer!.play()
-            timer!.start()
-            return true
-        } catch let error {
-            print(error)
-            return false
-        }
-        
-        
-        
-    }
-    
-    func stop() -> Bool {
-        guard let _ = audioPlayer else { return false }
-        guard let _ = timer else { return false }
-        
-        do {
-            try AudioKit.stop()
-            audioPlayer!.stop()
-            timer!.stop()
-            return true
-        } catch let error {
-            print(error)
-            return false
-        }
-        
-    }
-    
-    // MARK: - Initializer
-    
-    init(selectedTracks: [Track], period sec : Double, sweeping sweep : Bool) {
-        tracks = selectedTracks
-        period = sec
-        sweeping = sweep
-        
-        super.init()
-        
-        self.readyToPlay = self.loadAudio()
-    }
-}
-

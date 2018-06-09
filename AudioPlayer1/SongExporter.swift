@@ -6,7 +6,6 @@
 //  Copyright © 2016 AudioKit. All rights reserved.
 //
 
-import AudioKit
 import AVFoundation
 import MediaPlayer
 import UIKit

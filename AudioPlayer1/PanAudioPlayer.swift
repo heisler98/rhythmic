@@ -10,7 +10,6 @@
 import UIKit
 import AVFoundation
 import MediaPlayer
-import AudioKit
 import os.log
 
 // MARK: - Enums
@@ -126,6 +125,7 @@ class AudioManager : NSObject, AVAudioPlayerDelegate, SessionDelegate {
     static let documentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
     static let archiveURL = documentsDirectory.appendingPathComponent("tracks")
     
+    static let shared = AudioManager()
     
     // MARK: - Private property controls
     private var tracks : TrackArray //array of Track structs
@@ -578,11 +578,10 @@ class AudioManager : NSObject, AVAudioPlayerDelegate, SessionDelegate {
             
             if (currentIndex == (playerArray.count-1)) {
                 
-                
                     if (self.delegate != nil) {
-                        
                         self.delegate!.audioManagerDidCompletePlaylist()
                     }
+                
                 return
             }
             
@@ -609,7 +608,7 @@ class AudioManager : NSObject, AVAudioPlayerDelegate, SessionDelegate {
     
     // MARK: - Initializers
     
-    override init() {
+    override private init() {
         playIndices = Array()
         playerArray = Array()
         tracks = AudioManager.loadTracks() ?? TrackArray()
