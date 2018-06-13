@@ -7,10 +7,31 @@
 //  Unauthorized copying of this file via any medium is strictly prohibited.
 //  *Proprietary and confidential*
 
+#if os(iOS)
 import UIKit
+#endif
+
 import AVFoundation
 import MediaPlayer
 import os.log
+
+// MARK: - Global definitions
+
+typealias TrackArray = Array<Track>
+let pi = 3.14159265
+var absoluteDistance : Float = 0.67
+
+func absVal(_ param : Double) -> Double {
+    if param < 0 {
+        return -param
+    }
+    return param
+}
+
+protocol REMDelegate {
+    func periodChanged(to new: Double)
+    func playbackStopped()
+}
 
 // MARK: - Enums
 
@@ -116,11 +137,11 @@ class PanAudioPlayer: AVAudioPlayer {
         } catch let error as NSError {
             throw error
         }
-        
     }
 }
+
 // MARK: - AudioManager
-class AudioManager : NSObject, AVAudioPlayerDelegate, SessionDelegate {
+class AudioManager : NSObject, AVAudioPlayerDelegate {
     
     static let documentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
     static let archiveURL = documentsDirectory.appendingPathComponent("tracks")
@@ -137,8 +158,9 @@ class AudioManager : NSObject, AVAudioPlayerDelegate, SessionDelegate {
     
     private var queueReady: Bool?
     
+#if os(iOS)
     private let nowPlayingCenter = MPNowPlayingInfoCenter.default()
-    
+#endif
     
     // MARK: - Settable controls
     var delegate : AudioManagerDelegate?
@@ -252,16 +274,6 @@ class AudioManager : NSObject, AVAudioPlayerDelegate, SessionDelegate {
         return self.tracks[index].rhythm
     }
     
-    func getPeriod() -> Double {
-        guard let _ = nowPlaying?.trackIndex else { return 0 }
-        return self.tracks[nowPlaying!.trackIndex!].period
-    }
-    
-    func getRate() -> PanRate {
-        guard let _ = nowPlaying?.trackIndex else { return PanRate.Normal }
-        return self.tracks[nowPlaying!.trackIndex!].rate
-    }
-    
     // MARK: - Playback controls
     
     func playback(queued: Array<Int>) -> Bool {
@@ -304,9 +316,10 @@ class AudioManager : NSObject, AVAudioPlayerDelegate, SessionDelegate {
         let url = firstTrack.getURL()
         
         do {
-
+            #if os(iOS)
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
             try AVAudioSession.sharedInstance().setActive(true)
+            #endif
             
             let aPlayer = try PanAudioPlayer(contentsOf: url, period: period)
             aPlayer.delegate = self as AVAudioPlayerDelegate
@@ -347,9 +360,11 @@ class AudioManager : NSObject, AVAudioPlayerDelegate, SessionDelegate {
         background.async {
             self.queueReady = self.instantiatePlayers()
         }
-        
+
+        #if os(iOS)
         UIApplication.shared.beginReceivingRemoteControlEvents()
         updateNowPlayingCenter(nowPlayingCenter, withTrackAtIndex: firstIndex)
+        #endif
         
         return retVal
         
@@ -361,7 +376,9 @@ class AudioManager : NSObject, AVAudioPlayerDelegate, SessionDelegate {
         
         if (player.isPlaying == true) {
             player.stop()
+            #if os(iOS)
             UIApplication.shared.endReceivingRemoteControlEvents()
+            #endif
         } 
     
     }
@@ -433,8 +450,9 @@ class AudioManager : NSObject, AVAudioPlayerDelegate, SessionDelegate {
                 nowPlaying?.volume = masterVolume
                 nowPlaying?.setupRhythm(aTrack!.rhythm)
                 _ = nowPlaying?.play()
-                
+                #if os(iOS)
                 updateNowPlayingCenter(nowPlayingCenter, withTrackAtIndex: self.playIndices!.first!)
+                #endif
             }
         }
     }
@@ -596,25 +614,16 @@ class AudioManager : NSObject, AVAudioPlayerDelegate, SessionDelegate {
                 _ = nextPlayer.play()
                 nowPlaying = nextPlayer
                 
+                #if os(iOS)
                 updateNowPlayingCenter(nowPlayingCenter, withTrackAtIndex: index)
+                #endif
             }
         
     }
-    
+    #if os(iOS)
     func updateNowPlayingCenter(_ center: MPNowPlayingInfoCenter, withTrackAtIndex index : Int) {
         let track = self.tracks[index]
         center.nowPlayingInfo = [MPMediaItemPropertyTitle : track.title, MPMediaItemPropertyAlbumTitle : "Rhythmic"]
-    }
-    
-    // MARK: - Initializers
-    
-    override private init() {
-        playIndices = Array()
-        playerArray = Array()
-        tracks = AudioManager.loadTracks() ?? TrackArray()
-        
-        super.init()
-        
     }
     
     func setupRemoteControlEvents() {
@@ -638,8 +647,36 @@ class AudioManager : NSObject, AVAudioPlayerDelegate, SessionDelegate {
             
         })
     }
+    #endif
+    
+    // MARK: - Initializers
+    
+    override private init() {
+        playIndices = Array()
+        playerArray = Array()
+        tracks = AudioManager.loadTracks() ?? TrackArray()
+        
+        super.init()
+        
+    }
 
 }
+
+#if os(iOS)
+extension AudioManager : SessionDelegate {
+    func getPeriod() -> Double {
+        guard let _ = nowPlaying?.trackIndex else { return 0 }
+        return self.tracks[nowPlaying!.trackIndex!].period
+    }
+    
+    func getRate() -> PanRate {
+        guard let _ = nowPlaying?.trackIndex else { return PanRate.Normal }
+        return self.tracks[nowPlaying!.trackIndex!].rate
+    }
+
+}
+#endif
+
 // MARK: - AudioManagerDelegate
 protocol AudioManagerDelegate {
     func audioManagerDidCompletePlaylist()

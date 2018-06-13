@@ -90,6 +90,11 @@
 		5AC5F1A3203A252B005EBFDA /* Something to be Proud Of.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AC5F1A2203A252B005EBFDA /* Something to be Proud Of.mp3 */; };
 		5AC5F1A5203A2A15005EBFDA /* The System Only Dreams in Total Darkness.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AC5F1A4203A2A14005EBFDA /* The System Only Dreams in Total Darkness.mp3 */; };
 		5AE0C7B41ECC0DEC00AF6926 /* I Lived.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AE0C7B31ECC0DEC00AF6926 /* I Lived.mp3 */; };
+		5AED133720D0C03200C166D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AED133620D0C03200C166D5 /* AppDelegate.swift */; };
+		5AED133920D0C03200C166D5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AED133820D0C03200C166D5 /* ViewController.swift */; };
+		5AED133E20D0C03400C166D5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5AED133C20D0C03400C166D5 /* Main.storyboard */; };
+		5AED134420D0C0E700C166D5 /* PanAudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABEAF611F19851E008E5BB5 /* PanAudioPlayer.swift */; };
+		5AED134520D0C5C900C166D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5ABA309F1DCBC97D006E5999 /* Assets.xcassets */; };
 		5AF19F8A1E95A0B1004E38C9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AF19F891E95A0B1004E38C9 /* AVFoundation.framework */; };
 		5AF19F8C1E95A0BA004E38C9 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AF19F8B1E95A0BA004E38C9 /* MediaPlayer.framework */; };
 		5AFA297F1F993BFA005B4D79 /* Glorious.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AFA297E1F993BF9005B4D79 /* Glorious.mp3 */; };
@@ -195,6 +200,12 @@
 		5AC5F1A2203A252B005EBFDA /* Something to be Proud Of.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Something to be Proud Of.mp3"; sourceTree = "<group>"; };
 		5AC5F1A4203A2A14005EBFDA /* The System Only Dreams in Total Darkness.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "The System Only Dreams in Total Darkness.mp3"; sourceTree = "<group>"; };
 		5AE0C7B31ECC0DEC00AF6926 /* I Lived.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "I Lived.mp3"; sourceTree = "<group>"; };
+		5AED133420D0C03200C166D5 /* Rhythmic.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rhythmic.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5AED133620D0C03200C166D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		5AED133820D0C03200C166D5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		5AED133D20D0C03400C166D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		5AED133F20D0C03400C166D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5AED134020D0C03400C166D5 /* Rhythmic.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Rhythmic.entitlements; sourceTree = "<group>"; };
 		5AF19F891E95A0B1004E38C9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		5AF19F8B1E95A0BA004E38C9 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		5AFA297E1F993BF9005B4D79 /* Glorious.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Glorious.mp3; sourceTree = "<group>"; };
@@ -211,6 +222,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5AED133120D0C03200C166D5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -222,6 +240,10 @@
 				5A896C1F20AB8F3400974FE0 /* SessionViewController.swift */,
 				5AB5162A20A25D1C00BE5028 /* LibraryController.swift */,
 				5AB5162C20A2A05700BE5028 /* SongExporter.swift */,
+				5A0B3FEC1F74CEF100A60D9F /* Tracks.plist */,
+				5ABA309C1DCBC97D006E5999 /* Main.storyboard */,
+				5ABA30A11DCBC97D006E5999 /* LaunchScreen.storyboard */,
+				5ABA30A41DCBC97D006E5999 /* Info.plist */,
 			);
 			name = iOS;
 			sourceTree = "<group>";
@@ -242,6 +264,7 @@
 			children = (
 				5ABEAF751F36E4AA008E5BB5 /* Audio Assets */,
 				5ABA30971DCBC97D006E5999 /* AudioPlayer1 */,
+				5AED133520D0C03200C166D5 /* Rhythmic */,
 				5ABA30961DCBC97D006E5999 /* Products */,
 				5AF19F881E95A0B1004E38C9 /* Frameworks */,
 			);
@@ -251,6 +274,7 @@
 			isa = PBXGroup;
 			children = (
 				5ABA30951DCBC97D006E5999 /* AudioPlayer1.app */,
+				5AED133420D0C03200C166D5 /* Rhythmic.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -261,11 +285,7 @@
 				5A896C2920C61FE800974FE0 /* Image Assets */,
 				5A2C0BCC20CC4A0700742203 /* iOS */,
 				5ABEAF611F19851E008E5BB5 /* PanAudioPlayer.swift */,
-				5A0B3FEC1F74CEF100A60D9F /* Tracks.plist */,
-				5ABA309C1DCBC97D006E5999 /* Main.storyboard */,
 				5ABA309F1DCBC97D006E5999 /* Assets.xcassets */,
-				5ABA30A11DCBC97D006E5999 /* LaunchScreen.storyboard */,
-				5ABA30A41DCBC97D006E5999 /* Info.plist */,
 			);
 			path = AudioPlayer1;
 			sourceTree = "<group>";
@@ -348,6 +368,18 @@
 			name = "Audio Assets";
 			sourceTree = "<group>";
 		};
+		5AED133520D0C03200C166D5 /* Rhythmic */ = {
+			isa = PBXGroup;
+			children = (
+				5AED133620D0C03200C166D5 /* AppDelegate.swift */,
+				5AED133820D0C03200C166D5 /* ViewController.swift */,
+				5AED133C20D0C03400C166D5 /* Main.storyboard */,
+				5AED133F20D0C03400C166D5 /* Info.plist */,
+				5AED134020D0C03400C166D5 /* Rhythmic.entitlements */,
+			);
+			path = Rhythmic;
+			sourceTree = "<group>";
+		};
 		5AF19F881E95A0B1004E38C9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -378,13 +410,30 @@
 			productReference = 5ABA30951DCBC97D006E5999 /* AudioPlayer1.app */;
 			productType = "com.apple.product-type.application";
 		};
+		5AED133320D0C03200C166D5 /* Rhythmic */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5AED134320D0C03400C166D5 /* Build configuration list for PBXNativeTarget "Rhythmic" */;
+			buildPhases = (
+				5AED133020D0C03200C166D5 /* Sources */,
+				5AED133120D0C03200C166D5 /* Frameworks */,
+				5AED133220D0C03200C166D5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Rhythmic;
+			productName = Rhythmic;
+			productReference = 5AED133420D0C03200C166D5 /* Rhythmic.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		5ABA308D1DCBC97D006E5999 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0930;
+				LastSwiftUpdateCheck = 0940;
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Hunter Eisler";
 				TargetAttributes = {
@@ -398,6 +447,11 @@
 								enabled = 0;
 							};
 						};
+					};
+					5AED133320D0C03200C166D5 = {
+						CreatedOnToolsVersion = 9.4;
+						DevelopmentTeam = TN69P7NFS6;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -415,6 +469,7 @@
 			projectRoot = "";
 			targets = (
 				5ABA30941DCBC97D006E5999 /* AudioPlayer1 */,
+				5AED133320D0C03200C166D5 /* Rhythmic */,
 			);
 		};
 /* End PBXProject section */
@@ -506,6 +561,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5AED133220D0C03200C166D5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5AED134520D0C5C900C166D5 /* Assets.xcassets in Resources */,
+				5AED133E20D0C03400C166D5 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -519,6 +583,16 @@
 				5A896C2020AB8F3400974FE0 /* SessionViewController.swift in Sources */,
 				5ABA30991DCBC97D006E5999 /* AppDelegate.swift in Sources */,
 				5AB5162B20A25D1C00BE5028 /* LibraryController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5AED133020D0C03200C166D5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5AED134420D0C0E700C166D5 /* PanAudioPlayer.swift in Sources */,
+				5AED133920D0C03200C166D5 /* ViewController.swift in Sources */,
+				5AED133720D0C03200C166D5 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -539,6 +613,14 @@
 				5ABA30A21DCBC97D006E5999 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		5AED133C20D0C03400C166D5 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5AED133D20D0C03400C166D5 /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -712,6 +794,54 @@
 			};
 			name = Release;
 		};
+		5AED134120D0C03400C166D5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = Rhythmic/Rhythmic.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = TN69P7NFS6;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = Rhythmic/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = com.eisler.Rhythmic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		5AED134220D0C03400C166D5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = Rhythmic/Rhythmic.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = TN69P7NFS6;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = Rhythmic/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = com.eisler.Rhythmic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -729,6 +859,15 @@
 			buildConfigurations = (
 				5ABA30A81DCBC97D006E5999 /* Debug */,
 				5ABA30A91DCBC97D006E5999 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5AED134320D0C03400C166D5 /* Build configuration list for PBXNativeTarget "Rhythmic" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5AED134120D0C03400C166D5 /* Debug */,
+				5AED134220D0C03400C166D5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

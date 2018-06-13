@@ -15,17 +15,6 @@ import AVFoundation
 import MediaPlayer
 import os.log
 
-typealias TrackArray = Array<Track>
-let pi = 3.14159265
-var absoluteDistance : Float = 0.67
-
-func absVal(_ param : Double) -> Double {
-    if param < 0 {
-        return -param
-    }
-    return param
-}
-
 func randsInRange(range: Range<Int>, quantity : Int) -> [Int] {
     
     var rands : [Int] = []
@@ -375,7 +364,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             guard let quantity = Int((alertController.textFields?.first?.text)!) else { return }
             guard quantity <= self.audioManager.trackCount else { return }
             
-            let chosen = randsInRange(range: 0..<self.audioManager.trackCount, quantity: quantity)
+            var chosen = randsInRange(range: 0..<self.audioManager.trackCount, quantity: quantity)
+            if !self.selectedCells.isEmpty {
+                chosen.insert(contentsOf: self.selectedCells, at: 0)
+            }
             _ = self.audioManager.playback(queued: chosen)
         }
         

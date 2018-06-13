@@ -13,10 +13,6 @@ protocol SessionDelegate {
     func getRate() -> PanRate
 }
 
-protocol REMDelegate {
-    func periodChanged(to new: Double)
-    func playbackStopped()
-}
 
 class SessionViewController: UIViewController, REMDelegate {
 
