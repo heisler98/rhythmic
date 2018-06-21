@@ -121,6 +121,12 @@
                                     <segue destination="xDF-PV-M6V" kind="show" identifier="showSession" id="Jtz-tY-YHT"/>
                                 </connections>
                             </barButtonItem>
+                            <barButtonItem systemItem="action" id="bkL-yK-WRv">
+                                <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <segue destination="9rt-OR-UCx" kind="show" identifier="showBrain" id="iOc-5G-OCe"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem systemItem="add" id="eIn-Im-Ds3">
                                 <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
@@ -232,6 +238,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xiL-kj-sQj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="244" y="347"/>
+        </scene>
+        <!--Brainaural-->
+        <scene sceneID="yyI-TD-YMT">
+            <objects>
+                <viewController title="Brainaural" id="9rt-OR-UCx" customClass="BrainViewController" customModule="AudioPlayer1" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y8S-Wh-6LA"/>
+                        <viewControllerLayoutGuide type="bottom" id="XlK-8F-UxV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="sUY-Xt-22S">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qT5-B6-gII" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1904.8" y="-318.89055472263868"/>
         </scene>
         <!--Library Controller-->
         <scene sceneID="Zlc-fW-6Xj">

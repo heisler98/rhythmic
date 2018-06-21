@@ -70,5 +70,12 @@
 	</array>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>Allows you to add music from your library to Rhythmic.</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoadsInWebContent</key>
+		<true/>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 </dict>
 </plist>

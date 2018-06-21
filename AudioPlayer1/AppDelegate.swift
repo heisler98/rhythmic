@@ -8,6 +8,7 @@
 //  *Proprietary and confidential*
 
 import UIKit
+import AVFoundation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -55,6 +56,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
+        try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+        try? AVAudioSession.sharedInstance().setActive(true)
         
         return true
     }

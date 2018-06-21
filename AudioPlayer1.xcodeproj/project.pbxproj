@@ -74,6 +74,7 @@
 		5A9F2EAE203152C700655FC8 /* Leaf House.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A9F2EAD203152C700655FC8 /* Leaf House.mp3 */; };
 		5AB5162B20A25D1C00BE5028 /* LibraryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB5162A20A25D1C00BE5028 /* LibraryController.swift */; };
 		5AB5162D20A2A05700BE5028 /* SongExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB5162C20A2A05700BE5028 /* SongExporter.swift */; };
+		5AB5833D20DB563E008B051E /* BrainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB5833C20DB563E008B051E /* BrainViewController.swift */; };
 		5ABA30991DCBC97D006E5999 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABA30981DCBC97D006E5999 /* AppDelegate.swift */; };
 		5ABA309B1DCBC97D006E5999 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABA309A1DCBC97D006E5999 /* ViewController.swift */; };
 		5ABA309E1DCBC97D006E5999 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5ABA309C1DCBC97D006E5999 /* Main.storyboard */; };
@@ -95,6 +96,8 @@
 		5AED133E20D0C03400C166D5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5AED133C20D0C03400C166D5 /* Main.storyboard */; };
 		5AED134420D0C0E700C166D5 /* PanAudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABEAF611F19851E008E5BB5 /* PanAudioPlayer.swift */; };
 		5AED134520D0C5C900C166D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5ABA309F1DCBC97D006E5999 /* Assets.xcassets */; };
+		5AED134720D7F95F00C166D5 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AED134620D7F95F00C166D5 /* AVFoundation.framework */; };
+		5AED134A20D7FAC500C166D5 /* boum.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5AED134920D7FAC500C166D5 /* boum.m4a */; };
 		5AF19F8A1E95A0B1004E38C9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AF19F891E95A0B1004E38C9 /* AVFoundation.framework */; };
 		5AF19F8C1E95A0BA004E38C9 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AF19F8B1E95A0BA004E38C9 /* MediaPlayer.framework */; };
 		5AFA297F1F993BFA005B4D79 /* Glorious.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AFA297E1F993BF9005B4D79 /* Glorious.mp3 */; };
@@ -183,6 +186,7 @@
 		5A9F2EAD203152C700655FC8 /* Leaf House.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Leaf House.mp3"; sourceTree = "<group>"; };
 		5AB5162A20A25D1C00BE5028 /* LibraryController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryController.swift; sourceTree = "<group>"; };
 		5AB5162C20A2A05700BE5028 /* SongExporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongExporter.swift; sourceTree = "<group>"; };
+		5AB5833C20DB563E008B051E /* BrainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrainViewController.swift; sourceTree = "<group>"; };
 		5ABA30951DCBC97D006E5999 /* AudioPlayer1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AudioPlayer1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5ABA30981DCBC97D006E5999 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5ABA309A1DCBC97D006E5999 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -206,6 +210,8 @@
 		5AED133D20D0C03400C166D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5AED133F20D0C03400C166D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5AED134020D0C03400C166D5 /* Rhythmic.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Rhythmic.entitlements; sourceTree = "<group>"; };
+		5AED134620D7F95F00C166D5 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
+		5AED134920D7FAC500C166D5 /* boum.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; name = boum.m4a; path = ../boum.m4a; sourceTree = "<group>"; };
 		5AF19F891E95A0B1004E38C9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		5AF19F8B1E95A0BA004E38C9 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		5AFA297E1F993BF9005B4D79 /* Glorious.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Glorious.mp3; sourceTree = "<group>"; };
@@ -226,6 +232,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5AED134720D7F95F00C166D5 /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,6 +245,7 @@
 				5ABA30981DCBC97D006E5999 /* AppDelegate.swift */,
 				5ABA309A1DCBC97D006E5999 /* ViewController.swift */,
 				5A896C1F20AB8F3400974FE0 /* SessionViewController.swift */,
+				5AB5833C20DB563E008B051E /* BrainViewController.swift */,
 				5AB5162A20A25D1C00BE5028 /* LibraryController.swift */,
 				5AB5162C20A2A05700BE5028 /* SongExporter.swift */,
 				5A0B3FEC1F74CEF100A60D9F /* Tracks.plist */,
@@ -293,6 +301,7 @@
 		5ABEAF751F36E4AA008E5BB5 /* Audio Assets */ = {
 			isa = PBXGroup;
 			children = (
+				5AED134920D7FAC500C166D5 /* boum.m4a */,
 				5A6E6530203CB4090062FD5B /* Sober Up.mp3 */,
 				5AC5F1A4203A2A14005EBFDA /* The System Only Dreams in Total Darkness.mp3 */,
 				5AC5F1A2203A252B005EBFDA /* Something to be Proud Of.mp3 */,
@@ -383,6 +392,7 @@
 		5AF19F881E95A0B1004E38C9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5AED134620D7F95F00C166D5 /* AVFoundation.framework */,
 				5AF19F8B1E95A0BA004E38C9 /* MediaPlayer.framework */,
 				5AF19F891E95A0B1004E38C9 /* AVFoundation.framework */,
 			);
@@ -566,6 +576,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5AED134520D0C5C900C166D5 /* Assets.xcassets in Resources */,
+				5AED134A20D7FAC500C166D5 /* boum.m4a in Resources */,
 				5AED133E20D0C03400C166D5 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -582,6 +593,7 @@
 				5ABA309B1DCBC97D006E5999 /* ViewController.swift in Sources */,
 				5A896C2020AB8F3400974FE0 /* SessionViewController.swift in Sources */,
 				5ABA30991DCBC97D006E5999 /* AppDelegate.swift in Sources */,
+				5AB5833D20DB563E008B051E /* BrainViewController.swift in Sources */,
 				5AB5162B20A25D1C00BE5028 /* LibraryController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

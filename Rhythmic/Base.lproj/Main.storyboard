@@ -110,11 +110,12 @@
         <scene sceneID="R2V-B0-nI4">
             <objects>
                 <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" animationBehavior="default" titlebarAppearsTransparent="YES" id="IQv-IB-iLA">
+                    <window key="window" title="Rhythmic" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" animationBehavior="default" titlebarAppearsTransparent="YES" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+                        <value key="minSize" type="size" width="265" height="265"/>
                         <connections>
                             <outlet property="delegate" destination="B8D-0N-5wS" id="98r-iN-zZc"/>
                         </connections>
@@ -125,7 +126,7 @@
                 </windowController>
                 <customObject id="Oky-zY-oP4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="250"/>
+            <point key="canvasLocation" x="-32.5" y="182.5"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="hIz-AP-VOD">
@@ -134,7 +135,58 @@
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Xhm-aN-BeD">
+                                <rect key="frame" x="192" y="173" width="96" height="19"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="92" id="6ye-bt-Gan"/>
+                                    <constraint firstAttribute="height" constant="15" id="k0X-mi-jSh"/>
+                                </constraints>
+                                <sliderCell key="cell" state="on" alignment="left" maxValue="1" doubleValue="0.5" tickMarkPosition="above" sliderType="linear" id="CTZ-KL-oZK"/>
+                            </slider>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uTm-k8-n0l">
+                                <rect key="frame" x="199" y="118" width="82" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="4jd-ZT-sQi"/>
+                                    <constraint firstAttribute="height" constant="21" id="bIN-dB-gCo"/>
+                                </constraints>
+                                <buttonCell key="cell" type="push" title="Start" alternateTitle="Stop" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Cbb-Cg-Ps9">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="buttonPushed:" target="XfG-lQ-9wD" id="7g7-IM-3VL"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Flm-1o-bod">
+                                <rect key="frame" x="199" y="85" width="82" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="h86-g2-PuL"/>
+                                    <constraint firstAttribute="height" constant="21" id="i9H-qY-Os9"/>
+                                </constraints>
+                                <buttonCell key="cell" type="push" title="Stop" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="g42-q0-KPs">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="stop:" target="XfG-lQ-9wD" id="JII-l6-E67"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="Flm-1o-bod" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="7hN-9p-NY7"/>
+                            <constraint firstItem="Flm-1o-bod" firstAttribute="top" secondItem="uTm-k8-n0l" secondAttribute="bottom" constant="12" id="L6I-No-XR2"/>
+                            <constraint firstItem="uTm-k8-n0l" firstAttribute="centerY" secondItem="m2S-Jp-Qdl" secondAttribute="centerY" id="MBb-5v-y32"/>
+                            <constraint firstItem="uTm-k8-n0l" firstAttribute="top" secondItem="Xhm-aN-BeD" secondAttribute="bottom" constant="29" id="fRt-0y-yHB"/>
+                            <constraint firstItem="Xhm-aN-BeD" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="hMC-yc-5ZY"/>
+                            <constraint firstItem="Flm-1o-bod" firstAttribute="centerX" secondItem="Xhm-aN-BeD" secondAttribute="centerX" id="jta-Um-fQ4"/>
+                            <constraint firstItem="uTm-k8-n0l" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="mTO-Dg-DDA"/>
+                            <constraint firstItem="uTm-k8-n0l" firstAttribute="centerX" secondItem="Xhm-aN-BeD" secondAttribute="centerX" id="wbK-u0-RnV"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="slider" destination="Xhm-aN-BeD" id="OHa-cE-sfW"/>
+                    </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>

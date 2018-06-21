@@ -28,7 +28,7 @@ func absVal(_ param : Double) -> Double {
     return param
 }
 
-protocol REMDelegate {
+protocol REMDelegate : class {
     func periodChanged(to new: Double)
     func playbackStopped()
 }
@@ -163,8 +163,8 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
 #endif
     
     // MARK: - Settable controls
-    var delegate : AudioManagerDelegate?
-    var remDelegate : REMDelegate?
+    weak var delegate : AudioManagerDelegate?
+    weak var remDelegate : REMDelegate?
     
     // MARK: - Answering Rhythmic controller
     
@@ -678,7 +678,7 @@ extension AudioManager : SessionDelegate {
 #endif
 
 // MARK: - AudioManagerDelegate
-protocol AudioManagerDelegate {
+protocol AudioManagerDelegate: class {
     func audioManagerDidCompletePlaylist()
     func audioManagerPlaybackInterrupted()
 }
@@ -686,7 +686,7 @@ protocol AudioManagerDelegate {
 //wouldn't it be nice if the TrackArray held the URLs (as string)
 // title, period, category, url xxx extension
 // user inserts title & can auto-periodize or custom period
-
+// MARK: - Track
 struct Track : Codable {
    
     var title : String
@@ -711,3 +711,57 @@ extension Track : Equatable {
     }
 }
 
+// MARK: - Dispatch timer
+class RepeatingTimer {
+    
+    let timeInterval: TimeInterval
+    
+    init(timeInterval: TimeInterval) {
+        self.timeInterval = timeInterval
+    }
+    
+    private lazy var timer: DispatchSourceTimer = {
+        let t = DispatchSource.makeTimerSource(flags: .strict)
+        t.schedule(deadline: .now() + self.timeInterval, repeating: self.timeInterval)
+        t.setEventHandler(handler: { [weak self] in
+            self?.eventHandler?()
+        })
+        return t
+    }()
+    
+    var eventHandler: (() -> Void)?
+    
+    private enum State {
+        case suspended
+        case resumed
+    }
+    
+    private var state: State = .suspended
+    
+    deinit {
+        timer.setEventHandler {}
+        timer.cancel()
+        /*
+         If the timer is suspended, calling cancel without resuming
+         triggers a crash. This is documented here https://forums.developer.apple.com/thread/15902
+         */
+        resume()
+        eventHandler = nil
+    }
+    
+    func resume() {
+        if state == .resumed {
+            return
+        }
+        state = .resumed
+        timer.resume()
+    }
+    
+    func suspend() {
+        if state == .suspended {
+            return
+        }
+        state = .suspended
+        timer.suspend()
+    }
+}

@@ -56,6 +56,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         audioManager.delegate = self as AudioManagerDelegate
         audioManager.setupRemoteControlEvents()
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -142,6 +143,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if (selectedCells.contains(indexPath.row)) {
             cell.accessoryType = .checkmark
             cell.textLabel?.textColor = UIColor(red:1, green: 0.4, blue: 0.4, alpha: 1.0)
+            cell.tintColor = UIColor(red: 1, green: 0.4, blue: 0.4, alpha: 1.0)
         } else {
             cell.accessoryType = .none
             cell.textLabel?.textColor = UIColor.black
