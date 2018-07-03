@@ -14,6 +14,8 @@ import UIKit
 import AVFoundation
 import MediaPlayer
 import os.log
+import WebKit
+
 
 func randsInRange(range: Range<Int>, quantity : Int) -> [Int] {
     
@@ -28,7 +30,7 @@ protocol iTunesDelegate {
     func dismissed(withURL : URL?)
 }
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AudioManagerDelegate, iTunesDelegate {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, AudioManagerDelegate, iTunesDelegate, SearchResults {
     
     // MARK: - Private property controls
     private var audioManager = AudioManager.shared
@@ -41,6 +43,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var playBarButtonItem: UIBarButtonItem!
     @IBOutlet weak var distanceItem : UIBarButtonItem!
     
+    var searchController : UISearchController
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -57,6 +60,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         audioManager.delegate = self as AudioManagerDelegate
         audioManager.setupRemoteControlEvents()
         
+        customNavItem.searchController = searchController
+        definesPresentationContext = true
     }
     
     override func didReceiveMemoryWarning() {
@@ -399,6 +404,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
+    @IBAction func stitch(_ sender: Any) {
+        // do nothing
+        
+    }
+    
     // MARK: - AudioManager delegate controls
     func audioManagerDidCompletePlaylist() { 
        audioManager.repeatQueue()
@@ -424,6 +434,24 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             break
         }
     }
+    // MARK: - Search Results
+    func didSelectTrack(_ selectedTrack: Track) {
+        
+        //dismiss search controller
+        searchController.isActive = false
+        
+        //find track index
+        guard let allTracks = AudioManager.loadTracks() else { return }
+        guard let index = allTracks.index(of: selectedTrack) else { return }
+        
+        //select chosen cell
+        selectedCells.append(index)
+        
+        //show chosen track
+        let indexPath = IndexPath(row: index, section: 0)
+        tableView.reloadRows(at: [indexPath], with: .none)
+        tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
@@ -439,10 +467,72 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             vc.delegate = audioManager
             audioManager.remDelegate = vc
         }
+      
     }
     
     // MARK: - Init
     required init?(coder aDecoder: NSCoder) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let resultsController = storyboard.instantiateViewController(withIdentifier: "searchResults") as! SearchTableController
+        searchController = UISearchController(searchResultsController: resultsController)
+        searchController.searchResultsUpdater = resultsController
+        
         super.init(coder: aDecoder)
+        
+        resultsController.delegate = self as SearchResults
     }
+}
+
+class SearchTableController : UITableViewController, UISearchResultsUpdating {
+    
+    var filteredTracks = TrackArray()
+    var allTracks : TrackArray?
+    var delegate : SearchResults?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        guard let _ = AudioManager.loadTracks() else { print("Cannot load tracks for search"); return }
+        allTracks = AudioManager.loadTracks()!
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContent(forSearchText: searchController.searchBar.text!)
+    }
+    
+    func filterContent(forSearchText searchText : String) {
+        
+        guard let _ = allTracks else { print("Did not load tracks for search; cannot filter"); return }
+        filteredTracks = allTracks!.filter({ (track) -> Bool in
+            return track.title.lowercased().contains(searchText.lowercased())
+        })
+        
+        tableView.reloadData()
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "searchCell") else { fatalError("Cannot dequeue reusable cell")}
+        
+        let track = filteredTracks[indexPath.row]
+        cell.textLabel?.text = track.title
+        
+        return cell
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return filteredTracks.count
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let _ = delegate else { return }
+        delegate!.didSelectTrack(filteredTracks[indexPath.row])
+    }
+}
+
+protocol SearchResults {
+    func didSelectTrack(_ selectedTrack : Track)
 }

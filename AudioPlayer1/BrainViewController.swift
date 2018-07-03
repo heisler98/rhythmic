@@ -27,18 +27,12 @@ class BrainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        do {
-            let session = AVAudioSession.sharedInstance()
-            try session.setCategory(AVAudioSessionCategorySoloAmbient)
-            try session.setActive(true)
-        } catch {
-            print(error)
-        }
         // Do any additional setup after loading the view.
         
         guard let brainURL = URL(string: "https://www.brainaural.com/") else { return }
         let request = URLRequest(url: brainURL)
         webView.load(request)
+        
     }
 
     override func didReceiveMemoryWarning() {
