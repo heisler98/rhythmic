@@ -45,7 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             
                             let urlInBundle = Bundle.main.url(forResource: dict["title"]!, withExtension: dict["extension"]!)
                             do {
-                                try FileManager.default.copyItem(at: urlInBundle!, to: aTrack.getURL())
+                                try FileManager.default.copyItem(at: urlInBundle!, to: aTrack.url)
                             } catch let error as NSError {
                                 print("\(error)")
                             }

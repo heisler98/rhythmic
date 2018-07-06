@@ -313,7 +313,7 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         }
         
         
-        let url = firstTrack.getURL()
+        let url = firstTrack.url
         
         do {
             #if os(iOS)
@@ -392,7 +392,7 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
             player.currentTime = 0
         }
         
-        self.audioPlayerDidFinishPlaying(player, successfully: false)
+        self.audioPlayerDidFinishPlaying(player, successfully: true)
     }
     
     func togglePauseResume() {
@@ -564,7 +564,7 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
                 break
             }
             
-            let url = aTrack.getURL()
+            let url = aTrack.url
         
             do {
                 let aPlayer = try PanAudioPlayer(contentsOf: url, period: period)
@@ -623,7 +623,8 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
     #if os(iOS)
     func updateNowPlayingCenter(_ center: MPNowPlayingInfoCenter, withTrackAtIndex index : Int) {
         let track = self.tracks[index]
-        center.nowPlayingInfo = [MPMediaItemPropertyTitle : track.title, MPMediaItemPropertyAlbumTitle : "Rhythmic"]
+        
+        center.nowPlayingInfo = [MPMediaItemPropertyTitle : track.title, MPMediaItemPropertyAlbumTitle : "Rhythmic", MPNowPlayingInfoPropertyElapsedPlaybackTime : self.nowPlaying!.currentTime, MPNowPlayingInfoPropertyExternalUserProfileIdentifier : "rhythmic"]
     }
     
     func setupRemoteControlEvents() {
@@ -698,10 +699,11 @@ struct Track : Codable {
     var rhythm : Rhythmic
     var rate : PanRate
     
-    func getURL() -> URL {
-        return AudioManager.documentsDirectory.appendingPathComponent(fileName)
+    var url : URL {
+        get {
+            return AudioManager.documentsDirectory.appendingPathComponent(fileName)
+        }
     }
-    
 }
 
 extension Track : Equatable {
@@ -711,57 +713,4 @@ extension Track : Equatable {
     }
 }
 
-// MARK: - Dispatch timer
-class RepeatingTimer {
-    
-    let timeInterval: TimeInterval
-    
-    init(timeInterval: TimeInterval) {
-        self.timeInterval = timeInterval
-    }
-    
-    private lazy var timer: DispatchSourceTimer = {
-        let t = DispatchSource.makeTimerSource(flags: .strict)
-        t.schedule(deadline: .now() + self.timeInterval, repeating: self.timeInterval)
-        t.setEventHandler(handler: { [weak self] in
-            self?.eventHandler?()
-        })
-        return t
-    }()
-    
-    var eventHandler: (() -> Void)?
-    
-    private enum State {
-        case suspended
-        case resumed
-    }
-    
-    private var state: State = .suspended
-    
-    deinit {
-        timer.setEventHandler {}
-        timer.cancel()
-        /*
-         If the timer is suspended, calling cancel without resuming
-         triggers a crash. This is documented here https://forums.developer.apple.com/thread/15902
-         */
-        resume()
-        eventHandler = nil
-    }
-    
-    func resume() {
-        if state == .resumed {
-            return
-        }
-        state = .resumed
-        timer.resume()
-    }
-    
-    func suspend() {
-        if state == .suspended {
-            return
-        }
-        state = .suspended
-        timer.suspend()
-    }
-}
+

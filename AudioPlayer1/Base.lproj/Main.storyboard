@@ -173,7 +173,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RVs-tQ-6lu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1145" y="1085"/>
+            <point key="canvasLocation" x="1145" y="1121"/>
         </scene>
         <!--VisREM-->
         <scene sceneID="HU5-0P-s6u">

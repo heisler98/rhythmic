@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A00F54020EFE3EF004AF873 /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A00F53F20EFE3EF004AF873 /* AudioKit.framework */; };
+		5A00F54220EFE490004AF873 /* Entrainment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A00F54120EFE490004AF873 /* Entrainment.swift */; };
 		5A017D3D1FDA395F0030103B /* It's Time.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A017D3C1FDA395F0030103B /* It's Time.mp3 */; };
 		5A017D3F1FDA531F0030103B /* Good Old Days (feat. Kesha).mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A017D3E1FDA531F0030103B /* Good Old Days (feat. Kesha).mp3 */; };
 		5A0B3FED1F74CEF100A60D9F /* Tracks.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5A0B3FEC1F74CEF100A60D9F /* Tracks.plist */; };
@@ -118,6 +120,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5A00F53F20EFE3EF004AF873 /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioKit.framework; path = "../AudioKit/Frameworks/AudioKit-iOS/AudioKit.framework"; sourceTree = "<group>"; };
+		5A00F54120EFE490004AF873 /* Entrainment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entrainment.swift; sourceTree = "<group>"; };
 		5A017D3C1FDA395F0030103B /* It's Time.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "It's Time.mp3"; sourceTree = "<group>"; };
 		5A017D3E1FDA531F0030103B /* Good Old Days (feat. Kesha).mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Good Old Days (feat. Kesha).mp3"; sourceTree = "<group>"; };
 		5A0B3FEC1F74CEF100A60D9F /* Tracks.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Tracks.plist; sourceTree = "<group>"; };
@@ -225,6 +229,7 @@
 			files = (
 				5AF19F8C1E95A0BA004E38C9 /* MediaPlayer.framework in Frameworks */,
 				5AF19F8A1E95A0B1004E38C9 /* AVFoundation.framework in Frameworks */,
+				5A00F54020EFE3EF004AF873 /* AudioKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,6 +298,7 @@
 				5A896C2920C61FE800974FE0 /* Image Assets */,
 				5A2C0BCC20CC4A0700742203 /* iOS */,
 				5ABEAF611F19851E008E5BB5 /* PanAudioPlayer.swift */,
+				5A00F54120EFE490004AF873 /* Entrainment.swift */,
 				5ABA309F1DCBC97D006E5999 /* Assets.xcassets */,
 			);
 			path = AudioPlayer1;
@@ -392,6 +398,7 @@
 		5AF19F881E95A0B1004E38C9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5A00F53F20EFE3EF004AF873 /* AudioKit.framework */,
 				5AED134620D7F95F00C166D5 /* AVFoundation.framework */,
 				5AF19F8B1E95A0BA004E38C9 /* MediaPlayer.framework */,
 				5AF19F891E95A0B1004E38C9 /* AVFoundation.framework */,
@@ -589,6 +596,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5AB5162D20A2A05700BE5028 /* SongExporter.swift in Sources */,
+				5A00F54220EFE490004AF873 /* Entrainment.swift in Sources */,
 				5ABEAF621F19851E008E5BB5 /* PanAudioPlayer.swift in Sources */,
 				5ABA309B1DCBC97D006E5999 /* ViewController.swift in Sources */,
 				5A896C2020AB8F3400974FE0 /* SessionViewController.swift in Sources */,
@@ -766,7 +774,7 @@
 				INFOPLIST_FILE = AudioPlayer1/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-lstdc++";
 				PRODUCT_BUNDLE_IDENTIFIER = com.eisler.AudioPlayer1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -794,7 +802,7 @@
 				INFOPLIST_FILE = AudioPlayer1/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-lstdc++";
 				PRODUCT_BUNDLE_IDENTIFIER = com.eisler.AudioPlayer1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

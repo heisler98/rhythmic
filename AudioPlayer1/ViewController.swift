@@ -46,7 +46,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var searchController : UISearchController
     
     override var prefersStatusBarHidden: Bool {
-        return true
+        return false
     }
     
     // MARK: - View controls
@@ -62,6 +62,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         customNavItem.searchController = searchController
         definesPresentationContext = true
+        
     }
     
     override func didReceiveMemoryWarning() {
@@ -174,6 +175,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             selectedCells.append(indexPath.row)
             cell?.accessoryType = .checkmark
             cell?.textLabel?.textColor = UIColor(red:1, green: 0.4, blue: 0.4, alpha: 1.0)
+            cell?.tintColor = UIColor(red: 1, green: 0.4, blue: 0.4, alpha: 1.0)
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
@@ -488,6 +490,8 @@ class SearchTableController : UITableViewController, UISearchResultsUpdating {
     var filteredTracks = TrackArray()
     var allTracks : TrackArray?
     var delegate : SearchResults?
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
