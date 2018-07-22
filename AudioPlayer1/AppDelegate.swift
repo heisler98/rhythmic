@@ -80,8 +80,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // manager should analyze BPM (if that's the route)
         // VC's TableView is updated on reentry
         
-        guard let navController = window?.rootViewController else { print("Cannot load root view controller."); return false }
-        guard let vc = navController.childViewControllers.first as? ViewController else { print("Cannot load ViewController in childViewControllers"); return false}
+        guard let tabController = window?.rootViewController as? UITabBarController else { print("Cannot load root view controller."); return false }
+        guard let navController = tabController.viewControllers!.first as? UINavigationController else { print("Cannot load navController in tab bar vcs"); return false}
+        guard let vc = navController.childViewControllers.first as? ViewController else { print("Cannot load ViewController"); return false}
+        
         return vc.newTrack(at: documentsDirectory.appendingPathComponent(url.pathComponents.last!))
         
     }
