@@ -19,7 +19,7 @@ import os.log
 
 typealias TrackArray = Array<Track>
 let pi = 3.14159265
-var absoluteDistance : Float = 0.67
+var absoluteDistance : Float = 0.87
 
 func absVal(_ param : Double) -> Double {
     if param < 0 {

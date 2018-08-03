@@ -407,8 +407,39 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     @IBAction func stitch(_ sender: Any) {
+        if selectedCells.count == 0 {
         // do nothing
+            return
+        }
         
+        let massChange : (Rhythmic) -> Void = { (rhythm) in
+            for index in self.selectedCells {
+                self.audioManager.setRhythm(rhythm, forIndex: index)
+                let indexPath = IndexPath(row: index, section: 0)
+                let cell = self.tableView.cellForRow(at: indexPath)
+                cell?.detailTextLabel?.text = self.audioManager.rhythmRate(forIndex: index)
+            }
+        }
+        
+        let alertController = UIAlertController(title: "Change rhythms", message: "Choose the new rhythm for all selected cells.", preferredStyle: .alert)
+        let bilateralAction = UIAlertAction(title: "Bilateral", style: .default) { (action) in
+            massChange(.Bilateral)
+            self.dismiss(animated: true, completion: nil)
+        }
+        let crosspanAction = UIAlertAction(title: "Crosspan", style: .default) { (action) in
+            massChange(.Crosspan)
+            self.dismiss(animated: true, completion: nil)
+        }
+        let synthesisAction = UIAlertAction(title: "Synthesis", style: .default) { (action) in
+            massChange(.Synthesis)
+            self.dismiss(animated: true, completion: nil)
+        }
+        
+        alertController.addAction(crosspanAction)
+        alertController.addAction(bilateralAction)
+        alertController.addAction(synthesisAction)
+        
+        self.present(alertController, animated: true, completion: nil)
     }
     
     // MARK: - AudioManager delegate controls
