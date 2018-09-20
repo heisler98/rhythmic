@@ -61,13 +61,11 @@ class PanAudioPlayer: AVAudioPlayer {
     
     // MARK: - Playback controls
     override func play() -> Bool {
-    
-        
+
         timer.fire()
         print("Period: \(self.period)")
         
         return super.play()
-        
     }
     
     override func stop() {
@@ -78,9 +76,7 @@ class PanAudioPlayer: AVAudioPlayer {
     // MARK: - Rhythm controls
     
     func invalidateRhythm() {
-        
         timer.invalidate()
-        
     }
     
     func setupRhythm(_ opt: Rhythmic) {
@@ -148,6 +144,8 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
     
     static let shared = AudioManager()
     
+    lazy var entrainer = Entrainment()
+    
     // MARK: - Private property controls
     private var tracks : TrackArray //array of Track structs
     private var playIndices : Array<Int>? //array of selected (indexPath.row)
@@ -165,26 +163,29 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
     // MARK: - Settable controls
     weak var delegate : AudioManagerDelegate?
     weak var remDelegate : REMDelegate?
-    
+    /// Choose entrainment to play with tracks (optional)
+    var entrain : EntrainmentType? = nil {
+        willSet {
+            if newValue == nil {
+                entrainer.stopAudio()
+            }
+        }
+    }
     // MARK: - Answering Rhythmic controller
     
     var trackCount : Int { /// return count for tracks
-        
         get {
             return tracks.count
         }
     }
-    
     var isPlaying : Bool {
-        
         get {
             if (nowPlaying != nil) {
                 return nowPlaying!.isPlaying
             };  return false
         }
     }
-    
-    
+
     func title(forIndex: Int) -> String {
         
         let aTrack = tracks[forIndex]
@@ -248,11 +249,9 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
     }
     
     func isQueued() -> Bool {
-        
         if let retVal = self.queueReady {
             return retVal
         }
-        
         return false
     }
     
@@ -317,7 +316,7 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         
         do {
             #if os(iOS)
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, mode: AVAudioSession.Mode.default)
             try AVAudioSession.sharedInstance().setActive(true)
             #endif
             
@@ -339,20 +338,41 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
                 playerArray.append(nowPlaying!)
             }
             
-        } catch {
-            
-            print(error)
-            return false
-        }
-        
-        
-        if (queueReady != true) {
-            
-            if (queued.count > 0) {
-                self.queueReady = true
+            // entrainment
+            if entrain != nil && !entrainer.isPlaying {
+                switch entrain! {
+                case nil:
+                    break
+                    
+                case .Binaural(let freq):
+                    entrainer.binaural(midFrequency: NSNumber(value: freq))
+                    break
+                    
+                case .Bilateral(let freq, let period):
+                    let periodVal : Double
+                    if period == 0 {
+                        periodVal = firstTrack.period
+                    } else {
+                        periodVal = period
+                    }
+                    entrainer.bilateral(tonalFrequency: NSNumber(value: freq), period: NSNumber(value: periodVal))
+                    break
+                    
+                case .Isochronic(let freq, let wave):
+                    entrainer.isochronic(tonalFrequency: NSNumber(value: freq), brainwaveTarget: NSNumber(value: wave))
+                    break
+                }
             }
             
             
+        } catch {
+            print(error)
+            return false
+        }
+        if (queueReady != true) {
+            if (queued.count > 0) {
+                self.queueReady = true
+            }
         }
         
         let background = DispatchQueue.global()
@@ -376,6 +396,11 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         
         if (player.isPlaying == true) {
             player.stop()
+            
+            if entrainer.isPlaying == true {
+                entrainer.stopAudio()
+            }
+            
             #if os(iOS)
             UIApplication.shared.endReceivingRemoteControlEvents()
             #endif
@@ -435,6 +460,7 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
     
     func repeatQueue() {
         // are playSession:atIndex & playback:queued valid to use here, instead of single-loading the track?
+        // the players are already instantiated...
         
         if (isQueued() == true) {
             
@@ -524,10 +550,12 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         self.tracks = setup
     }
     
-    func setRhythm(_ rhythm : Rhythmic, forIndex trackIndex : Int) {
-        
+    func setRhythm(_ rhythm : Rhythmic, forIndex trackIndex : Int) -> Bool {
+        if rhythm == self.tracks[trackIndex].rhythm {
+            return false
+        }
         self.tracks[trackIndex].rhythm = rhythm
-        _ = AudioManager.saveTracks(self.tracks)
+        return AudioManager.saveTracks(self.tracks)
     }
     
     func setRate(_ rate : PanRate, forIndex trackIndex : Int) {
@@ -613,6 +641,14 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
                 remDelegate?.periodChanged(to: self.tracks[index].period)
                 _ = nextPlayer.play()
                 nowPlaying = nextPlayer
+                
+                if case .Bilateral( _, _)? = entrain {
+                    do {
+                        try entrainer.changeBilateralPeriod(to: NSNumber(value: self.tracks[index].period))
+                    } catch {
+                        print(error)
+                    }
+                }
                 
                 #if os(iOS)
                 updateNowPlayingCenter(nowPlayingCenter, withTrackAtIndex: index)
@@ -712,5 +748,3 @@ extension Track : Equatable {
         return lTrack.title == rTrack.title && lTrack.period == rTrack.period && lTrack.category == rTrack.category && rTrack.fileName == lTrack.fileName
     }
 }
-
-

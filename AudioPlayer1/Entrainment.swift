@@ -10,20 +10,43 @@
 import Foundation
 import AudioKit
 
-class Entrainment {
+// MARK: - Convenience oscillator return
+let osc : () -> AKOscillator = {
+    return AKOscillator(waveform: Entrainment.waveform)
+}
+// binaural:midFreq:
+// bilateral:tonalFreq:period:
+// isochronic:tonalFreq:brainwaveTarget:
+public enum EntrainmentType {
+    case Binaural(freq: Double)
+    case Bilateral(freq: Double, period: Double)
+    case Isochronic(freq: Double, target: Double)
+}
+
+// MARK: - Entrainment
+public class Entrainment {
     
-    fileprivate static let waveform = AKTable(.sine, count: 4096)
+    // MARK: - Private properties
+    fileprivate static let waveform = AKTable(.sine)
     private lazy var lowerBinauralOsc : AKOscillator = osc()
     private lazy var upperBinauralOsc : AKOscillator = osc()
     private var mixer : AKMixer?
     
-    private var clarinet : AKClarinet?
+    private var bilateralOsc : AKOscillator = osc()
     private var bCallback : AKPeriodicFunction?
     private var panner : AKPanner?
     
     private lazy var isochronicOsc : AKOscillator = osc()
     private var iCallback : AKPeriodicFunction?
     
+    // MARK: - Public properties
+    public var isPlaying : Bool {
+        get {
+            return lowerBinauralOsc.isStarted || bilateralOsc.isStarted || isochronicOsc.isStarted
+        }
+    }
+    
+    // MARK: - Entrainment methods
     /// Play binaural beats
     func binaural(midFrequency freq : NSNumber) {
         lowerBinauralOsc.frequency = freq.doubleValue-5
@@ -59,20 +82,19 @@ class Entrainment {
     
     /// Start bilateral beats
     func bilateral(tonalFrequency : NSNumber, period : NSNumber) {
-        clarinet = AKClarinet(frequency: tonalFrequency.doubleValue, amplitude: 0.5)
-        panner = AKPanner(clarinet!)
+        bilateralOsc.frequency = tonalFrequency.doubleValue
+        panner = AKPanner(bilateralOsc)
         panner!.pan = -1
         
         bCallback = AKPeriodicFunction(every: period.doubleValue, handler: {
             self.panner!.pan *= -1
-            self.clarinet!.trigger()
         })
         
         AudioKit.output = panner!
         
         do {
             try AudioKit.start(withPeriodicFunctions: bCallback!)
-            clarinet!.start()
+            bilateralOsc.start()
             panner!.start()
             bCallback!.start()
         } catch {
@@ -81,11 +103,32 @@ class Entrainment {
         
     }
     
+    func changeBilateralPeriod(to : NSNumber) throws {
+        guard let _ = bCallback, let _ = panner else {
+            throw NSError(domain: "EntrainNotInited", code: 1, userInfo: nil)
+        }
+        if !bCallback!.isStarted || !bilateralOsc.isStarted {
+            throw NSError(domain: "EntrainNotPlaying", code: 1, userInfo: nil)
+        }
+        
+        bilateralOsc.stop()
+        bCallback = AKPeriodicFunction(every: to.doubleValue, handler: {
+            self.panner!.pan *= -1
+        })
+        do {
+            try AudioKit.start(withPeriodicFunctions: bCallback!)
+            bilateralOsc.start()
+            bCallback!.start()
+        } catch {
+            print(error)
+        }
+    }
+    
     /// Stop bilateral playback
     func stopBilateral() {
         guard let _ = panner else { return }
         guard let _ = bCallback else { return }
-        clarinet?.stop()
+        bilateralOsc.stop()
         panner!.stop()
         bCallback!.stop()
         
@@ -117,18 +160,18 @@ class Entrainment {
         guard let _ = iCallback else { return }
         iCallback!.stop()
         isochronicOsc.stop()
+        
     }
     
     /// Stop all audio playback and reset oscillators
     func stopAudio() {
-        try? AudioKit.stop()
         stopBinaural()
         stopBilateral()
         stopIsochronic()
     }
     
+    init() {
+        
+    }
 }
 
-func osc() -> AKOscillator {
-    return AKOscillator(waveform: Entrainment.waveform)
-}

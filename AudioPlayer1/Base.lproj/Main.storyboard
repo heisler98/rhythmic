@@ -108,12 +108,29 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Rhythmic" largeTitleDisplayMode="always" id="HDd-Hg-Ltf">
-                        <barButtonItem key="leftBarButtonItem" systemItem="reply" id="0gT-rm-3QT">
-                            <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <action selector="stitch:" destination="yga-hq-uB9" id="xRv-C8-l8g"/>
-                            </connections>
-                        </barButtonItem>
+                        <leftBarButtonItems>
+                            <barButtonItem systemItem="reply" id="0gT-rm-3QT">
+                                <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="stitch:" destination="yga-hq-uB9" id="xRv-C8-l8g"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem style="plain" id="AqF-OL-fwU">
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="knC-CZ-Pa9">
+                                    <rect key="frame" x="60" y="7" width="83" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <state key="normal" title="Entrain">
+                                        <color key="titleColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="titleShadowColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="entrain:" destination="yga-hq-uB9" eventType="touchUpInside" id="sAB-oz-kZe"/>
+                                    </connections>
+                                </button>
+                                <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                            </barButtonItem>
+                        </leftBarButtonItems>
                         <rightBarButtonItems>
                             <barButtonItem title="Item" image="eye" id="8Jn-4U-ShH">
                                 <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -138,6 +155,7 @@
                     <connections>
                         <outlet property="customNavItem" destination="HDd-Hg-Ltf" id="IZb-F8-7sn"/>
                         <outlet property="distanceItem" destination="w6T-l8-MTR" id="lxi-t6-ZUB"/>
+                        <outlet property="entrainItem" destination="AqF-OL-fwU" id="LBt-AN-3n0"/>
                         <outlet property="playBarButtonItem" destination="QdZ-v5-ZkR" id="qjg-pU-xaj"/>
                         <outlet property="tableView" destination="v4b-yd-TSc" id="LY1-dp-m8A"/>
                         <outlet property="toolbar" destination="dDu-h7-mgw" id="eBv-1C-ifE"/>
@@ -215,7 +233,7 @@
                                 </variation>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <constraints>
                             <constraint firstItem="hXt-Gh-R3T" firstAttribute="trailing" secondItem="LqC-bY-PDm" secondAttribute="trailing" id="598-kR-R3n"/>
                             <constraint firstItem="8m3-xO-Vxq" firstAttribute="centerY" secondItem="LqC-bY-PDm" secondAttribute="centerY" id="79U-ZH-7Ke"/>

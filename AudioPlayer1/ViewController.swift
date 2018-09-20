@@ -42,6 +42,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var toolbar: UIToolbar!
     @IBOutlet weak var playBarButtonItem: UIBarButtonItem!
     @IBOutlet weak var distanceItem : UIBarButtonItem!
+    @IBOutlet weak var entrainItem : UIBarButtonItem!
+    
     
     var searchController : UISearchController
     
@@ -89,7 +91,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let alert = UIAlertController(title: "Period", message: "Enter the desired period or BPM for the piece '\(fileName)'.", preferredStyle: .alert)
         alert.addTextField { (textField) in
-            textField.keyboardType = .asciiCapableNumberPad
+            textField.keyboardType = .decimalPad
         }
         
         let action = UIAlertAction(title: "Done", style: .default, handler: {(alertAction) -> Void in
@@ -187,74 +189,59 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
    
+    fileprivate func rhythmChange(_ rhythm : Rhythmic, atIndexPath indexPath : IndexPath, _ completionHandler: (Bool) -> Void) {
+        
+        let success = self.audioManager.setRhythm(rhythm, forIndex:indexPath.row)
+        completionHandler(true)
+        
+        let cell = tableView.cellForRow(at: indexPath)
+        if success == true {
+            cell?.detailTextLabel?.text = self.audioManager.rhythmRate(forIndex: indexPath.row)
+        }
+        if cell?.accessoryType != .checkmark {
+            cell?.accessoryType = .checkmark
+            cell?.textLabel?.textColor = UIColor(red:1.0, green: 0.4, blue: 0.4, alpha: 1.0)
+            cell?.tintColor = UIColor(red: 1, green: 0.4, blue: 0.4, alpha: 1.0)
+            self.selectedCells.append(indexPath.row)
+        }
+    }
+    
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
             let bilateral = UIContextualAction(style: .normal, title: "Bilateral", handler: { action, view, completionHandler in
                 
-                self.audioManager.setRhythm(Rhythmic.Bilateral, forIndex:indexPath.row)
-                completionHandler(true)
-                //self.tableView.reloadRows(at: [indexPath], with: .none)
-                let cell = tableView.cellForRow(at: indexPath)
-                cell?.detailTextLabel?.text = self.audioManager.rhythmRate(forIndex: indexPath.row)
-                if cell?.accessoryType != .checkmark {
-                    cell?.accessoryType = .checkmark
-                    cell?.textLabel?.textColor = UIColor(red:1.0, green: 0.4, blue: 0.4, alpha: 1.0)
-                    self.selectedCells.append(indexPath.row)
-                }
+                self.rhythmChange(.Bilateral, atIndexPath: indexPath, completionHandler)
             })
             bilateral.backgroundColor = UIColor.green
             
             let crosspan = UIContextualAction(style: .normal, title: "Crosspan", handler: { action, view, completionHandler in
                 
-                self.audioManager.setRhythm(Rhythmic.Crosspan, forIndex:indexPath.row)
-                completionHandler(true)
-                let cell = tableView.cellForRow(at: indexPath)
-                cell?.detailTextLabel?.text = self.audioManager.rhythmRate(forIndex: indexPath.row)
-                if cell?.accessoryType != .checkmark {
-                    cell?.accessoryType = .checkmark
-                    cell?.textLabel?.textColor = UIColor(red:1.0, green: 0.4, blue: 0.4, alpha: 1.0)
-                    self.selectedCells.append(indexPath.row)
-                }
+                self.rhythmChange(.Crosspan, atIndexPath: indexPath, completionHandler)
+                
             })
             crosspan.backgroundColor = UIColor.purple
             
             let synthesis = UIContextualAction(style: .normal, title: "Synthesis", handler: { action, view, completionHandler in
                 
-                self.audioManager.setRhythm(Rhythmic.Synthesis, forIndex:indexPath.row)
-                completionHandler(true)
-                let cell = tableView.cellForRow(at: indexPath)
-                cell?.detailTextLabel?.text = self.audioManager.rhythmRate(forIndex: indexPath.row)
-                if cell?.accessoryType != .checkmark {
-                    cell?.accessoryType = .checkmark
-                    cell?.textLabel?.textColor = UIColor(red:1.0, green: 0.4, blue: 0.4, alpha: 1.0)
-                    self.selectedCells.append(indexPath.row)
-                }
+                self.rhythmChange(.Synthesis, atIndexPath: indexPath, completionHandler)
             })
             synthesis.backgroundColor = UIColor.blue
             
             let stitch = UIContextualAction(style: .normal, title: "Swave", handler: { action, view, completionHandler in
                 
-                self.audioManager.setRhythm(Rhythmic.Stitch, forIndex:indexPath.row)
-                completionHandler(true)
-                let cell = tableView.cellForRow(at: indexPath)
-                cell?.detailTextLabel?.text = self.audioManager.rhythmRate(forIndex: indexPath.row)
-                if cell?.accessoryType != .checkmark {
-                    cell?.accessoryType = .checkmark
-                    cell?.textLabel?.textColor = UIColor(red:1.0, green: 0.4, blue: 0.4, alpha: 1.0)
-                    self.selectedCells.append(indexPath.row)
-                }
+                self.rhythmChange(.Stitch, atIndexPath: indexPath, completionHandler)
             })
             stitch.backgroundColor = UIColor.gray
         
         let delete = UIContextualAction(style: .destructive, title: "Delete") { action, view, completionHandler in
             
-                let alert = UIAlertController(title: "Delete track", message: "Are you sure you want to delete this track?", preferredStyle: UIAlertControllerStyle.alert)
-                let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: { (action) in
+                let alert = UIAlertController(title: "Delete track", message: "Are you sure you want to delete this track?", preferredStyle: UIAlertController.Style.alert)
+                let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { (action) in
                   
                     let success = self.audioManager.deleteTrack(atIndex: indexPath.row)
                     
                     if success == true {
-                        self.tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
+                        self.tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
                     }
                     completionHandler(success)
                     
@@ -272,63 +259,43 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             return config
     }
     
+    fileprivate func rateChange(_ rate : PanRate, atIndexPath indexPath : IndexPath, _ completionHandler: (Bool) -> Void) {
+        
+        self.audioManager.setRate(rate, forIndex: indexPath.row)
+        completionHandler(true)
+        let cell = tableView.cellForRow(at: indexPath)
+        cell?.detailTextLabel?.text = self.audioManager.rhythmRate(forIndex: indexPath.row)
+        if cell?.accessoryType != .checkmark {
+            cell?.accessoryType = .checkmark
+            cell?.textLabel?.textColor = UIColor(red:1.0, green: 0.4, blue: 0.4, alpha: 1.0)
+            cell?.tintColor = UIColor(red: 1, green: 0.4, blue: 0.4, alpha: 1.0)
+            self.selectedCells.append(indexPath.row)
+        }
+    }
+    
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
-        
         
             let half = UIContextualAction(style: .normal, title: "0.5x", handler: { action, view, completionHandler in
                 
-                self.audioManager.setRate(PanRate.Half, forIndex: indexPath.row)
-                completionHandler(true)
-                let cell = tableView.cellForRow(at: indexPath)
-                cell?.detailTextLabel?.text = self.audioManager.rhythmRate(forIndex: indexPath.row)
-                if cell?.accessoryType != .checkmark {
-                    cell?.accessoryType = .checkmark
-                    cell?.textLabel?.textColor = UIColor(red:1.0, green: 0.4, blue: 0.4, alpha: 1.0)
-                    self.selectedCells.append(indexPath.row)
-                }
+                self.rateChange(.Half, atIndexPath: indexPath, completionHandler)
             })
             half.backgroundColor = UIColor.red
             
             let normal = UIContextualAction(style: .normal, title: "1x", handler: { action, view, completionHandler in
                 
-                self.audioManager.setRate(PanRate.Normal, forIndex: indexPath.row)
-                completionHandler(true)
-                let cell = tableView.cellForRow(at: indexPath)
-                cell?.detailTextLabel?.text = self.audioManager.rhythmRate(forIndex: indexPath.row)
-                if cell?.accessoryType != .checkmark {
-                    cell?.accessoryType = .checkmark
-                    cell?.textLabel?.textColor = UIColor(red:1.0, green: 0.4, blue: 0.4, alpha: 1.0)
-                    self.selectedCells.append(indexPath.row)
-                }
+                self.rateChange(.Normal, atIndexPath: indexPath, completionHandler)
             })
             normal.backgroundColor = UIColor.gray
             
             let double = UIContextualAction(style: .normal, title: "2x", handler: { action, view, completionHandler in
                 
-                self.audioManager.setRate(PanRate.Double, forIndex: indexPath.row)
-                completionHandler(true)
-                let cell = tableView.cellForRow(at: indexPath)
-                cell?.detailTextLabel?.text = self.audioManager.rhythmRate(forIndex: indexPath.row)
-                if cell?.accessoryType != .checkmark {
-                    cell?.accessoryType = .checkmark
-                    cell?.textLabel?.textColor = UIColor(red:1.0, green: 0.4, blue: 0.4, alpha: 1.0)
-                    self.selectedCells.append(indexPath.row)
-                }
+                self.rateChange(.Double, atIndexPath: indexPath, completionHandler)
             })
             double.backgroundColor = UIColor.blue
             
             let quad = UIContextualAction(style: .normal, title: "4x", handler: { action, view, completionHandler in
                 
-                self.audioManager.setRate(PanRate.Quad, forIndex: indexPath.row)
-                completionHandler(true)
-                let cell = tableView.cellForRow(at: indexPath)
-                cell?.detailTextLabel?.text = self.audioManager.rhythmRate(forIndex: indexPath.row)
-                if cell?.accessoryType != .checkmark {
-                    cell?.accessoryType = .checkmark
-                    cell?.textLabel?.textColor = UIColor(red:1.0, green: 0.4, blue: 0.4, alpha: 1.0)
-                    self.selectedCells.append(indexPath.row)
-                }
+                self.rateChange(.Quad, atIndexPath: indexPath, completionHandler)
             })
             quad.backgroundColor = UIColor.purple
             
@@ -339,11 +306,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
     
     // MARK: - UI Controls
@@ -414,7 +381,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let massChange : (Rhythmic) -> Void = { (rhythm) in
             for index in self.selectedCells {
-                self.audioManager.setRhythm(rhythm, forIndex: index)
+                _ = self.audioManager.setRhythm(rhythm, forIndex: index)
                 let indexPath = IndexPath(row: index, section: 0)
                 let cell = self.tableView.cellForRow(at: indexPath)
                 cell?.detailTextLabel?.text = self.audioManager.rhythmRate(forIndex: index)
@@ -440,6 +407,70 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         alertController.addAction(synthesisAction)
         
         self.present(alertController, animated: true, completion: nil)
+    }
+    
+    @IBAction func entrain(_ sender: Any) {
+        guard let button = self.entrainItem.customView as? UIButton else {
+            return
+        }
+        if button.isSelected == true {
+            audioManager.entrain = nil
+            button.isSelected = false
+            return
+        }
+        
+        let alertController = UIAlertController(title: "Choose entrainment", message: "Select the type of entrainment to play alongside audio.", preferredStyle: .alert)
+        
+        alertController.addTextField { (toneTextField) in
+            toneTextField.keyboardType = .decimalPad
+            toneTextField.placeholder = "Entrainment tone (e.g. 440Hz)"
+        }
+        
+        alertController.addTextField { (waveTextField) in
+            waveTextField.keyboardType = .decimalPad
+            waveTextField.placeholder = "Period or brainwave target (e.g. 0.25s; 10Hz)"
+        }
+        
+        guard let toneTextField = alertController.textFields?[0] else {
+            return
+        }
+        guard let waveTextField = alertController.textFields?[1] else {
+            return
+        }
+        
+        let binauralAction = UIAlertAction(title: "Binaural", style: .default) { (alertAction) in
+            guard let toneStr = toneTextField.text, let tone = Double(toneStr) else {
+                return
+            }
+            self.audioManager.entrain = .Binaural(freq: tone)
+            button.isSelected = true
+        }
+        let bilateralAction = UIAlertAction(title: "Bilateral", style: .default) { (alertAction) in
+            guard let toneStr = toneTextField.text, let tone = Double(toneStr) else {
+                return
+            }
+            guard let waveStr = waveTextField.text, let wave = Double(waveStr) else {
+                return
+            }
+            self.audioManager.entrain = .Bilateral(freq: tone, period: wave)
+            button.isSelected = true
+        }
+        let isochronicAction = UIAlertAction(title: "Isochronic", style: .default) { (alertAction) in
+            guard let toneStr = toneTextField.text, let tone = Double(toneStr) else {
+                return
+            }
+            guard let waveStr = waveTextField.text, let wave = Double(waveStr) else {
+                return
+            }
+            self.audioManager.entrain = EntrainmentType.Isochronic(freq: tone, target: wave)
+            button.isSelected = true
+        }
+        alertController.addAction(binauralAction)
+        alertController.addAction(bilateralAction)
+        alertController.addAction(isochronicAction)
+        
+        self.present(alertController, animated: true, completion: nil)
+        
     }
     
     // MARK: - AudioManager delegate controls
@@ -522,12 +553,11 @@ class SearchTableController : UITableViewController, UISearchResultsUpdating {
     var allTracks : TrackArray?
     var delegate : SearchResults?
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let _ = AudioManager.loadTracks() else { print("Cannot load tracks for search"); return }
+        guard AudioManager.loadTracks() != nil else { print("Cannot load tracks for search"); return }
+        
         allTracks = AudioManager.loadTracks()!
     }
     

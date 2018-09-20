@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         
         if (AudioManager.loadTracks() == nil) { //serialize PLIST, make [Tracks]
@@ -56,13 +56,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-        try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+        try? AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, mode: AVAudioSession.Mode.default)
         try? AVAudioSession.sharedInstance().setActive(true)
         
         return true
     }
 
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         
         // Implement copying the music files
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
@@ -81,7 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // VC's TableView is updated on reentry
         
         guard let navController = window?.rootViewController else { print("Cannot load root view controller."); return false }
-        guard let vc = navController.childViewControllers.first as? ViewController else { print("Cannot load ViewController in childViewControllers"); return false}
+        guard let vc = navController.children.first as? ViewController else { print("Cannot load ViewController in childViewControllers"); return false}
         return vc.newTrack(at: documentsDirectory.appendingPathComponent(url.pathComponents.last!))
         
     }
@@ -112,4 +112,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
 }
-

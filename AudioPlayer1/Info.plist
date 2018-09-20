@@ -69,7 +69,9 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>NSAppleMusicUsageDescription</key>
-	<string>Allows you to add music from your library to Rhythmic.</string>
+	<string>Allow Rhythmic to access and import songs from your Music Library.</string>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<false/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoadsInWebContent</key>
