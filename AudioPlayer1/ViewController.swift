@@ -36,6 +36,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     private var audioManager = AudioManager.shared
     private var selectedCells : Array<Int> = []
     
+    
     // MARK: - IBOutlets
     @IBOutlet weak var customNavItem: UINavigationItem!
     @IBOutlet weak var tableView: UITableView!
@@ -43,7 +44,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var playBarButtonItem: UIBarButtonItem!
     @IBOutlet weak var distanceItem : UIBarButtonItem!
     @IBOutlet weak var entrainItem : UIBarButtonItem!
-    
     
     var searchController : UISearchController
     
@@ -141,6 +141,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
+    func setupSelectedCell(_ cell : UITableViewCell) {
+        cell.accessoryType = .checkmark
+        let color = UIColor(red: 1, green: 0.4, blue: 0.4, alpha: 1.0)
+        cell.textLabel?.textColor = color
+        cell.tintColor = color
+    }
+    
+    func setupUnselectedCell(_ cell : UITableViewCell) {
+        cell.accessoryType = .none
+        cell.textLabel?.textColor = UIColor.black
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
@@ -149,12 +161,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         cell.detailTextLabel?.text = audioManager.rhythmRate(forIndex: indexPath.row)
         
         if (selectedCells.contains(indexPath.row)) {
-            cell.accessoryType = .checkmark
-            cell.textLabel?.textColor = UIColor(red:1, green: 0.4, blue: 0.4, alpha: 1.0)
-            cell.tintColor = UIColor(red: 1, green: 0.4, blue: 0.4, alpha: 1.0)
+            setupSelectedCell(cell)
         } else {
-            cell.accessoryType = .none
-            cell.textLabel?.textColor = UIColor.black
+            setupUnselectedCell(cell)
         }
 
         return cell
@@ -167,17 +176,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let cell = tableView.cellForRow(at: indexPath)
         
+        selected:
         if (selectedCells.contains(indexPath.row)) {
             if let rIndex = selectedCells.index(of: indexPath.row) {
                 selectedCells.remove(at: rIndex)
             }
-            cell?.accessoryType = .none
-            cell?.textLabel?.textColor = UIColor.black
+            guard cell != nil else { break selected }
+            setupUnselectedCell(cell!)
         } else {
             selectedCells.append(indexPath.row)
-            cell?.accessoryType = .checkmark
-            cell?.textLabel?.textColor = UIColor(red:1, green: 0.4, blue: 0.4, alpha: 1.0)
-            cell?.tintColor = UIColor(red: 1, green: 0.4, blue: 0.4, alpha: 1.0)
+            guard cell != nil else { break selected }
+            setupSelectedCell(cell!)
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
@@ -198,10 +207,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if success == true {
             cell?.detailTextLabel?.text = self.audioManager.rhythmRate(forIndex: indexPath.row)
         }
-        if cell?.accessoryType != .checkmark {
-            cell?.accessoryType = .checkmark
-            cell?.textLabel?.textColor = UIColor(red:1.0, green: 0.4, blue: 0.4, alpha: 1.0)
-            cell?.tintColor = UIColor(red: 1, green: 0.4, blue: 0.4, alpha: 1.0)
+        selected:
+        if !selectedCells.contains(indexPath.row) {
+            guard cell != nil else { break selected }
+            setupSelectedCell(cell!)
             self.selectedCells.append(indexPath.row)
         }
     }
@@ -265,10 +274,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         completionHandler(true)
         let cell = tableView.cellForRow(at: indexPath)
         cell?.detailTextLabel?.text = self.audioManager.rhythmRate(forIndex: indexPath.row)
-        if cell?.accessoryType != .checkmark {
-            cell?.accessoryType = .checkmark
-            cell?.textLabel?.textColor = UIColor(red:1.0, green: 0.4, blue: 0.4, alpha: 1.0)
-            cell?.tintColor = UIColor(red: 1, green: 0.4, blue: 0.4, alpha: 1.0)
+        
+        selected:
+        if !selectedCells.contains(indexPath.row) {
+            guard cell != nil else { break selected }
+            setupSelectedCell(cell!)
             self.selectedCells.append(indexPath.row)
         }
     }
@@ -545,6 +555,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         resultsController.delegate = self as SearchResults
     }
+    
 }
 
 class SearchTableController : UITableViewController, UISearchResultsUpdating {

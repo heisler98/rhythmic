@@ -147,8 +147,9 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
     lazy var entrainer = Entrainment()
     
     // MARK: - Private property controls
-    private var tracks : TrackArray //array of Track structs
-    private var playIndices : Array<Int>? //array of selected (indexPath.row)
+    var tracks : TrackArray //array of Track structs
+    //normally `private`; excluded for testing purposes
+    var playIndices : Array<Int>? //array of selected (indexPath.row)
     
     private var masterVolume : Float = 1.0
     private var nowPlaying : PanAudioPlayer?
@@ -564,7 +565,8 @@ class AudioManager : NSObject, AVAudioPlayerDelegate {
         _ = AudioManager.saveTracks(self.tracks)
     }
     
-    private func instantiatePlayers() -> Bool { ///call async
+    //this is marked `private`; excluded for testing purposes
+    func instantiatePlayers() -> Bool { ///call async
         
         var success : Bool = true
         guard let _ = self.playIndices else { return false }
@@ -740,6 +742,7 @@ struct Track : Codable {
             return AudioManager.documentsDirectory.appendingPathComponent(fileName)
         }
     }
+
 }
 
 extension Track : Equatable {
