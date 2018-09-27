@@ -108,36 +108,13 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Rhythmic" largeTitleDisplayMode="always" id="HDd-Hg-Ltf">
-                        <leftBarButtonItems>
-                            <barButtonItem systemItem="reply" id="0gT-rm-3QT">
-                                <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <connections>
-                                    <action selector="stitch:" destination="yga-hq-uB9" id="xRv-C8-l8g"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem style="plain" id="AqF-OL-fwU">
-                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="knC-CZ-Pa9">
-                                    <rect key="frame" x="60" y="7" width="83" height="30"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <state key="normal" title="Entrain">
-                                        <color key="titleColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
-                                        <color key="titleShadowColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="entrain:" destination="yga-hq-uB9" eventType="touchUpInside" id="sAB-oz-kZe"/>
-                                    </connections>
-                                </button>
-                                <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
-                            </barButtonItem>
-                        </leftBarButtonItems>
+                        <barButtonItem key="leftBarButtonItem" systemItem="reply" id="0gT-rm-3QT">
+                            <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="stitch:" destination="yga-hq-uB9" id="xRv-C8-l8g"/>
+                            </connections>
+                        </barButtonItem>
                         <rightBarButtonItems>
-                            <barButtonItem title="Item" image="eye" id="8Jn-4U-ShH">
-                                <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <connections>
-                                    <segue destination="xDF-PV-M6V" kind="show" identifier="showSession" id="Jtz-tY-YHT"/>
-                                </connections>
-                            </barButtonItem>
                             <barButtonItem systemItem="action" id="bkL-yK-WRv">
                                 <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
@@ -155,7 +132,6 @@
                     <connections>
                         <outlet property="customNavItem" destination="HDd-Hg-Ltf" id="IZb-F8-7sn"/>
                         <outlet property="distanceItem" destination="w6T-l8-MTR" id="lxi-t6-ZUB"/>
-                        <outlet property="entrainItem" destination="AqF-OL-fwU" id="LBt-AN-3n0"/>
                         <outlet property="playBarButtonItem" destination="QdZ-v5-ZkR" id="qjg-pU-xaj"/>
                         <outlet property="tableView" destination="v4b-yd-TSc" id="LY1-dp-m8A"/>
                         <outlet property="toolbar" destination="dDu-h7-mgw" id="eBv-1C-ifE"/>
@@ -195,76 +171,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RVs-tQ-6lu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1145" y="1121"/>
-        </scene>
-        <!--VisREM-->
-        <scene sceneID="HU5-0P-s6u">
-            <objects>
-                <viewController title="VisREM" id="xDF-PV-M6V" customClass="SessionViewController" customModule="AudioPlayer1" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="vgv-HL-b5a"/>
-                        <viewControllerLayoutGuide type="bottom" id="wdB-p5-ftX"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="LqC-bY-PDm">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hXt-Gh-R3T">
-                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
-                                <items>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="pof-RM-Ac3"/>
-                                    <barButtonItem systemItem="refresh" id="CoM-Wa-Vm0">
-                                        <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
-                                        <connections>
-                                            <action selector="restart:" destination="xDF-PV-M6V" id="CiV-Hu-aEP"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="TqP-lq-5RI"/>
-                                </items>
-                            </toolbar>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="square.png" translatesAutoresizingMaskIntoConstraints="NO" id="8m3-xO-Vxq">
-                                <rect key="frame" x="16" y="310" width="47" height="47"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="64" id="BB8-0t-NjO"/>
-                                    <constraint firstAttribute="width" secondItem="8m3-xO-Vxq" secondAttribute="height" multiplier="1:1" id="DNS-jS-Ovs"/>
-                                    <constraint firstAttribute="height" constant="64" id="ZYI-k6-tv9"/>
-                                </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="BB8-0t-NjO"/>
-                                        <exclude reference="ZYI-k6-tv9"/>
-                                    </mask>
-                                </variation>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
-                        <constraints>
-                            <constraint firstItem="hXt-Gh-R3T" firstAttribute="trailing" secondItem="LqC-bY-PDm" secondAttribute="trailing" id="598-kR-R3n"/>
-                            <constraint firstItem="8m3-xO-Vxq" firstAttribute="centerY" secondItem="LqC-bY-PDm" secondAttribute="centerY" id="79U-ZH-7Ke"/>
-                            <constraint firstItem="hXt-Gh-R3T" firstAttribute="leading" secondItem="LqC-bY-PDm" secondAttribute="leading" id="Pm0-jO-vWs"/>
-                            <constraint firstItem="8m3-xO-Vxq" firstAttribute="leading" secondItem="LqC-bY-PDm" secondAttribute="leadingMargin" id="dYe-k0-Aa8"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="8m3-xO-Vxq" secondAttribute="trailing" id="fR7-yR-TUd"/>
-                            <constraint firstItem="8m3-xO-Vxq" firstAttribute="width" secondItem="LqC-bY-PDm" secondAttribute="width" multiplier="0.125" id="g19-Mx-KLp"/>
-                            <constraint firstItem="hXt-Gh-R3T" firstAttribute="bottom" secondItem="wdB-p5-ftX" secondAttribute="top" id="hm4-mE-8Mk"/>
-                        </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="fR7-yR-TUd"/>
-                            </mask>
-                        </variation>
-                    </view>
-                    <toolbarItems/>
-                    <nil key="simulatedTopBarMetrics"/>
-                    <nil key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <outlet property="imageView" destination="8m3-xO-Vxq" id="vXW-Zd-zgc"/>
-                        <outlet property="imageViewLeadingMargin" destination="dYe-k0-Aa8" id="FwO-1I-kVi"/>
-                        <outlet property="imageViewTrailingMargin" destination="fR7-yR-TUd" id="ygB-Hx-Zy2"/>
-                        <outlet property="toolbar" destination="hXt-Gh-R3T" id="E4k-UU-UPk"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="q9F-k2-kBU" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="244" y="1122"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="xYg-6o-hxP">
@@ -373,11 +279,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LkX-0l-xmf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1910" y="347"/>
+            <point key="canvasLocation" x="2558" y="-319"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="eye" width="40" height="40"/>
-        <image name="square.png" width="534" height="538"/>
-    </resources>
 </document>

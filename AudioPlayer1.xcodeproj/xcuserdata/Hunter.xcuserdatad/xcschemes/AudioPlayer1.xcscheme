@@ -29,22 +29,13 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
          <TestableReference
-            skipped = "NO">
+            skipped = "NO"
+            parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "5A51AC1C214DCC090063E3FF"
                BuildableName = "AudioPlayerTests.xctest"
                BlueprintName = "AudioPlayerTests"
-               ReferencedContainer = "container:AudioPlayer1.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5A402BBF2159B343005BD956"
-               BuildableName = "AudioPlayerUITests.xctest"
-               BlueprintName = "AudioPlayerUITests"
                ReferencedContainer = "container:AudioPlayer1.xcodeproj">
             </BuildableReference>
          </TestableReference>

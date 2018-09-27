@@ -16,49 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
-        
-        if (AudioManager.loadTracks() == nil) { //serialize PLIST, make [Tracks]
-            
-            let background = DispatchQueue.global(qos: .background)
-            
-            background.sync {
-                
-                if let plistURL = Bundle.main.url(forResource: "Tracks", withExtension: "plist") { //PLIST url
-                
-                    if let plistData = NSData(contentsOf: plistURL) { //PLIST data
-                        let data = plistData as Data
-                        var trackArr : Array<Dictionary<String, String>>?
-                        var presets : TrackArray = []
-                        do { //PLIST serialization to Array<Dictionary<String,String>> (TrackArray)
-                            trackArr = try PropertyListSerialization.propertyList(from: data, options:.mutableContainers,   format:nil) as? Array<Dictionary<String, String>>
-                        } catch {
-                            print(error)
-                        }
-                    
-                        guard let array = trackArr else { return }
-                        
-                        for dict in array {
-                            let file = dict["title"]! + "." + dict["extension"]!
-                            let aTrack = Track(title: dict["title"]!, period: Double(dict["period"]!)!, category: dict["category"]!, fileName: file, rhythm: .Bilateral, rate: .Normal)
-                            presets.append(aTrack)
-                            
-                            let urlInBundle = Bundle.main.url(forResource: dict["title"]!, withExtension: dict["extension"]!)
-                            do {
-                                try FileManager.default.copyItem(at: urlInBundle!, to: aTrack.url)
-                            } catch let error as NSError {
-                                print("\(error)")
-                            }
-                        }
-                        _ = AudioManager.saveTracks(presets)
-                    }
-                }
-            }
-        }
-        
-        try? AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, mode: AVAudioSession.Mode.default)
-        try? AVAudioSession.sharedInstance().setActive(true)
-        
+        UIApplication.shared.isStatusBarHidden = false
         return true
     }
 
@@ -69,7 +27,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let documentsDirectory = paths[0].appendingPathComponent(url.lastPathComponent)
         
         do {
-            
             try FileManager.default.copyItem(at: url, to: documentsDirectory)
         } catch {
             print("\(error)")

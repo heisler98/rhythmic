@@ -9,6 +9,10 @@
 import UIKit
 import MediaPlayer
 
+protocol iTunesDelegate {
+    func dismissed(withURL : URL?)
+}
+
 class LibraryController: UITableViewController {
     
     var delegate : iTunesDelegate?

@@ -7,10 +7,7 @@
 //  Unauthorized copying of this file via any medium is strictly prohibited.
 //  *Proprietary and confidential*
 
-#if os(iOS)
 import UIKit
-#endif
-
 import AVFoundation
 import MediaPlayer
 import os.log
@@ -40,6 +37,19 @@ enum Rhythmic : Int, Codable {
     case Crosspan
     case Synthesis
     case Stitch //Swave
+    
+    func descriptor() -> String {
+        switch self {
+        case .Bilateral:
+            return "Bilateral"
+        case .Crosspan:
+            return "Crosspan"
+        case .Synthesis:
+            return "Synthesis"
+        case .Stitch:
+            return "Swave"
+        }
+    }
 }
 
 enum PanRate : Int, Codable {
@@ -47,6 +57,19 @@ enum PanRate : Int, Codable {
     case Normal
     case Double
     case Quad
+    
+    func descriptor() -> String {
+        switch self {
+        case .Half:
+            return "0.5x"
+        case .Normal:
+            return "1x"
+        case .Double:
+            return "2x"
+        case .Quad:
+            return "4x"
+        }
+    }
 }
 
 let documentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -61,10 +84,7 @@ class PanAudioPlayer: AVAudioPlayer {
     
     // MARK: - Playback controls
     override func play() -> Bool {
-
         timer.fire()
-        print("Period: \(self.period)")
-        
         return super.play()
     }
     
@@ -125,9 +145,7 @@ class PanAudioPlayer: AVAudioPlayer {
     
     // MARK: - Inits
     init(contentsOf url: URL, period: Double) throws {
-        
         self.period = period
-        
         do {
             try super.init(contentsOf: url, fileTypeHint: url.pathExtension)
         } catch let error as NSError {
@@ -136,590 +154,307 @@ class PanAudioPlayer: AVAudioPlayer {
     }
 }
 
-// MARK: - AudioManager
-class AudioManager : NSObject, AVAudioPlayerDelegate {
-    
-    static let documentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
-    static let archiveURL = documentsDirectory.appendingPathComponent("tracks")
-    
-    static let shared = AudioManager()
-    
-    lazy var entrainer = Entrainment()
-    
-    // MARK: - Private property controls
-    var tracks : TrackArray //array of Track structs
-    //normally `private`; excluded for testing purposes
-    var playIndices : Array<Int>? //array of selected (indexPath.row)
-    
-    private var masterVolume : Float = 1.0
-    private var nowPlaying : PanAudioPlayer?
-    private var playerArray : Array<PanAudioPlayer>
-    
-    private var queueReady: Bool?
-    
-#if os(iOS)
-    private let nowPlayingCenter = MPNowPlayingInfoCenter.default()
-#endif
-    
-    // MARK: - Settable controls
-    weak var delegate : AudioManagerDelegate?
-    weak var remDelegate : REMDelegate?
-    /// Choose entrainment to play with tracks (optional)
-    var entrain : EntrainmentType? = nil {
-        willSet {
-            if newValue == nil {
-                entrainer.stopAudio()
-            }
-        }
-    }
-    // MARK: - Answering Rhythmic controller
-    
-    var trackCount : Int { /// return count for tracks
+// MARK: - TrackManager
+class TrackManager {
+    var tracks : [Track]
+    var count : Int {
         get {
             return tracks.count
         }
     }
-    var isPlaying : Bool {
+    lazy var dataHandler = DataHandler()
+   
+    subscript(index : Index) -> Track {
         get {
-            if (nowPlaying != nil) {
-                return nowPlaying!.isPlaying
-            };  return false
+            if index > tracks.endIndex-1 {
+                return tracks[0]
+            }
+            return tracks[index]
+        }
+        set {
+            tracks[index] = newValue
+            try? dataHandler.encodeTracks(tracks)
         }
     }
+    // MARK: - Track management
+    func append(track: Track) {
+        tracks.append(track)
+        try? dataHandler.encodeTracks(tracks)
+    }
+    
+    func remove(at index: Index) -> Track {
+        defer {
+            try? dataHandler.encodeTracks(tracks)
+        }
+        return tracks.remove(at: index)
+    }
+        
+    init(tracks trackArr : [Track]) {
+        tracks = trackArr
+    }
+    
+    convenience init() {
+        guard let trackArr = try? DataHandler().decodeJSONData() else {
+            self.init(tracks: DataHandler().defaultTracks())
+            return
+        }
+        self.init(tracks: trackArr)
+    }
+    
+    deinit {
+        try? dataHandler.encodeTracks(tracks)
+    }
+}
 
-    func title(forIndex: Int) -> String {
-        
-        let aTrack = tracks[forIndex]
-        return aTrack.title
+// MARK: - PlaybackHandler
+class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
+    var queue : QueueHandler
+    var tracks : TrackManager
+    var isPlaying : Bool = false
+    
+    // MARK: - Playback functions
+    func startPlaying() {
+        guard let player = tracks[queue.now].audioPlayer else { fatalError() }
+        player.setupRhythm(tracks[queue.now].rhythm)
+        player.delegate = self as AVAudioPlayerDelegate
+        isPlaying = player.play()
+        beginReceivingEvents()
+    }
+    
+    func stopPlaying() {
+        if isPlaying == true {
+            isPlaying = false
+            tracks[queue.now].audioPlayer?.stop()
+        }
         
     }
     
-    func rhythmRate(forIndex: Int) -> String {
-        
-        let aTrack = tracks[forIndex]
-        var rhythm : String?
-        var rate : String?
-        
-        switch aTrack.rhythm {
-        
-        case .Bilateral:
-            rhythm = "Bilateral"
-            break
-            
-        case .Crosspan:
-            rhythm = "Crosspan"
-            break
-            
-        case .Synthesis:
-            rhythm = "Synthesis"
-            break
-            
-        case .Stitch:
-            rhythm = "Swave"
-            break
-            
-        }
-        var amendedPeriod : Double
-        
-        switch aTrack.rate {
-            
-        case .Half:
-            rate = "0.5x"
-            amendedPeriod = aTrack.period * 2
-            break
-            
-        case .Normal:
-            rate = "1x"
-            amendedPeriod = aTrack.period
-            break
-            
-        case .Double:
-            rate = "2x"
-            amendedPeriod = aTrack.period / 2
-            break
-            
-        case .Quad:
-            rate = "4x"
-            amendedPeriod = aTrack.period / 4
-            break
-
-        }
-        let perStr = String(format: "%.3f", amendedPeriod)
-        
-        return "\(rhythm!) : \(rate!) : \(perStr)"
-    }
-    
-    func isQueued() -> Bool {
-        if let retVal = self.queueReady {
-            return retVal
-        }
-        return false
-    }
-    
-    // MARK: - Answering Session controller
-    
-    var selectedTracks : [Int] {
-        get {
-            return checkedTracks
-        }
-    }
-    
-    private var checkedTracks : [Int] = [Int]()
-    
-    func rate(forIndex index : Int) -> PanRate {
-        return self.tracks[index].rate
-    }
-    
-    func rhythm(forIndex index : Int) -> Rhythmic {
-        return self.tracks[index].rhythm
-    }
-    
-    // MARK: - Playback controls
-    
-    func playback(queued: Array<Int>) -> Bool {
-        
-        var retVal : Bool
-        
-        if let indices = self.playIndices {
-            if (indices != queued) {
-                self.clearQueue()
-                self.playIndices = queued
-            }
-        }
-        
-        guard let _ = playIndices else { return false }
-        
-        let firstIndex = playIndices![0] as Int
-        let firstTrack : Track = tracks[firstIndex]
-        
-        var period = firstTrack.period
-        
-        switch firstTrack.rate {
-        
-            case .Double:
-                period /= 2
-                break
-            
-            case .Half:
-                period *= 2
-                break
-            
-            case .Quad:
-                period /= 4
-                break
-            
-            default:
-                break
-        }
-        
-        
-        let url = firstTrack.url
-        
-        do {
-            #if os(iOS)
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, mode: AVAudioSession.Mode.default)
-            try AVAudioSession.sharedInstance().setActive(true)
-            #endif
-            
-            let aPlayer = try PanAudioPlayer(contentsOf: url, period: period)
-            aPlayer.delegate = self as AVAudioPlayerDelegate
-            aPlayer.trackIndex = firstIndex
-            aPlayer.setupRhythm(firstTrack.rhythm)
-            aPlayer.volume = masterVolume
-            nowPlaying = aPlayer
-            
-            if (playIndices!.count == 1) {
-                aPlayer.numberOfLoops = -1
-            }
-            
-            retVal = nowPlaying!.play()
-            
-            if (nowPlaying != nil) {
-                //playIndices?.remove(at: 0)
-                playerArray.append(nowPlaying!)
-            }
-            
-            // entrainment
-            if entrain != nil && !entrainer.isPlaying {
-                switch entrain! {
-                case nil:
-                    break
-                    
-                case .Binaural(let freq):
-                    entrainer.binaural(midFrequency: NSNumber(value: freq))
-                    break
-                    
-                case .Bilateral(let freq, let period):
-                    let periodVal : Double
-                    if period == 0 {
-                        periodVal = firstTrack.period
-                    } else {
-                        periodVal = period
-                    }
-                    entrainer.bilateral(tonalFrequency: NSNumber(value: freq), period: NSNumber(value: periodVal))
-                    break
-                    
-                case .Isochronic(let freq, let wave):
-                    entrainer.isochronic(tonalFrequency: NSNumber(value: freq), brainwaveTarget: NSNumber(value: wave))
-                    break
-                }
-            }
-            
-            
-        } catch {
-            print(error)
-            return false
-        }
-        if (queueReady != true) {
-            if (queued.count > 0) {
-                self.queueReady = true
-            }
-        }
-        
-        let background = DispatchQueue.global()
-        
-        background.async {
-            self.queueReady = self.instantiatePlayers()
-        }
-
-        #if os(iOS)
-        UIApplication.shared.beginReceivingRemoteControlEvents()
-        updateNowPlayingCenter(nowPlayingCenter, withTrackAtIndex: firstIndex)
-        #endif
-        
-        return retVal
-        
-    }
-    
-    func stopPlayback() {
-        
-        guard let player = nowPlaying else { return }
-        
-        if (player.isPlaying == true) {
-            player.stop()
-            
-            if entrainer.isPlaying == true {
-                entrainer.stopAudio()
-            }
-            
-            #if os(iOS)
-            UIApplication.shared.endReceivingRemoteControlEvents()
-            #endif
-        } 
-    
-    }
-    
-    func skipCurrentTrack() {
-        
-        guard let player = nowPlaying else { return }
-        
-        if (player.isPlaying == true) {
-            player.stop()
-            player.currentTime = 0
-        }
-        
-        self.audioPlayerDidFinishPlaying(player, successfully: true)
-    }
-    
-    func togglePauseResume() {
-        
-        if (self.isPlaying == true) {
-            if let player = nowPlaying {
-                player.pause()
-            }
+    func pauseResume() {
+        if isPlaying == true {
+            tracks[queue.now].audioPlayer?.pause()
+            isPlaying = false
             return
         }
         
-        if (self.isPlaying == false) {
-            if let player = nowPlaying {
-                _ = player.play()
-            }
+        if !isPlaying {
+            isPlaying = tracks[queue.now].audioPlayer?.play() ?? false
         }
     }
     
-    func updateVolume(_ level: Float) {
+    func skip() {
+        let player = tracks[queue.now].audioPlayer
+        player?.stop()
+        player?.currentTime = 0.0
+        player?.invalidateRhythm()
         
-        masterVolume = level
+        audioPlayerDidFinishPlaying(player!, successfully: false)
         
-        if (self.isPlaying == true) {
-            if let player = self.nowPlaying {
-                player.volume = masterVolume
-            }
+    }
+    
+    func previous() {
+        let player = tracks[queue.now].audioPlayer
+        player?.stop()
+        player?.currentTime = 0.0
+        player?.invalidateRhythm()
+        
+        _ = queue.previous()
+        startPlaying()
+    }
+    
+    func seek(to: TimeInterval) {
+        let player = tracks[queue.now].audioPlayer!
+        if to < player.duration {
+            player.currentTime = to
         }
     }
     
-    // MARK: - Queue controls
-    
-    private func clearQueue() {
-        
-        self.playIndices = []
-        self.playerArray = []
-        nowPlaying = nil
-        queueReady = nil
-        
-    }
-    
-    func repeatQueue() {
-        // are playSession:atIndex & playback:queued valid to use here, instead of single-loading the track?
-        // the players are already instantiated...
-        
-        if (isQueued() == true) {
-            
-            var aTrack : Track?
-        
-            if let index = self.playIndices?.first {
-                    aTrack = self.tracks[index]
-                }
-            
-            
-            if let _ = aTrack {
-                nowPlaying = self.playerArray[0]
-                nowPlaying?.volume = masterVolume
-                nowPlaying?.setupRhythm(aTrack!.rhythm)
-                _ = nowPlaying?.play()
-                #if os(iOS)
-                updateNowPlayingCenter(nowPlayingCenter, withTrackAtIndex: self.playIndices!.first!)
-                #endif
-            }
-        }
-    }
-    
-
-    // MARK: - Session controls
-    
-    func moveTrackAt(index fromIndex : Int, toIndex : Int) {
-        
-        let trackToMove = checkedTracks.remove(at: fromIndex)
-        checkedTracks.insert(trackToMove, at: toIndex)
-        
-    }
-    
-    // MARK: - Track controls
-    
-    func add(newTrack : Track) {
-        
-        tracks.append(newTrack)
-        _ = AudioManager.saveTracks(self.tracks)
-    }
-    
-    func deleteTrack(atIndex index : Int) -> Bool {
-        
-        if tracks.indices.contains(index) {
-            tracks.remove(at: index)
-            return AudioManager.saveTracks(self.tracks)
+    func seekForward(_ interval : TimeInterval) {
+        let player = tracks[queue.now].audioPlayer!
+        if player.currentTime + interval < player.duration {
+            player.currentTime += interval
         } else {
-            print("Deletion index out of track range")
-            return false
+            skip()
         }
     }
     
-    static func saveTracks(_ tracks : [Track]) -> Bool {
-        
-        do {
-            let data = try JSONEncoder().encode(tracks)
-            FileManager.default.createFile(atPath: AudioManager.archiveURL.path, contents: data, attributes: nil)
-        } catch let error {
-            print("\(error)")
-            return false
-        }
-        
-        return true
-    }
-    
-    static func loadTracks() -> [Track]? {
-        
-        if let data = FileManager.default.contents(atPath: AudioManager.archiveURL.path) {
-            
-            do {
-                return try JSONDecoder().decode(TrackArray.self, from: data)
-            } catch {
-                print("\(error)")
-                return nil
-            }
+    func seekBackward(_ interval : TimeInterval) {
+        let player = tracks[queue.now].audioPlayer!
+        if player.currentTime - interval > 0 {
+            player.currentTime -= interval
         } else {
-            return nil
+            previous()
+        }
+    }
+    // MARK: - MPRemoteCommandCenter
+    func beginReceivingEvents() {
+        UIApplication.shared.beginReceivingRemoteControlEvents()
+        updateNowPlayingCenter()
+        setupRemoteCommands()
+    }
+    
+    func updateNowPlayingCenter() {
+        var track = tracks[queue.now]
+        let center = MPNowPlayingInfoCenter.default()
+        center.nowPlayingInfo = [MPMediaItemPropertyTitle : track.title, MPMediaItemPropertyAlbumTitle : "Rhythmic", MPNowPlayingInfoPropertyElapsedPlaybackTime : track.audioPlayer!.currentTime, MPMediaItemPropertyPlaybackDuration : NSNumber(value: track.audioPlayer!.duration)]
+    }
+    
+    func setupRemoteCommands() {
+        let center = MPRemoteCommandCenter.shared()
+        center.pauseCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
+            self.pauseResume()
+            return .success
+        }
+        center.playCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
+            self.pauseResume()
+            return .success
+        }
+        center.nextTrackCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
+            self.skip()
+            return .success
+        }
+        center.previousTrackCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
+            self.previous()
+            return .success
+        }
+        center.skipForwardCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
+            guard let command = event.command as? MPSkipIntervalCommand else { return .commandFailed }
+            self.seekForward(command.preferredIntervals[0].doubleValue)
+            return .success
+        }
+        center.skipBackwardCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
+            guard let command = event.command as? MPSkipIntervalCommand else { return .commandFailed }
+            self.seekBackward(command.preferredIntervals[0].doubleValue)
+            return .success
+        }
+        center.seekForwardCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
+            self.seekForward(5)
+            return .success
+        }
+        center.seekBackwardCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
+            self.seekBackward(5)
+            return .success
+        }
+        center.changePlaybackPositionCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
+            guard let timeEvent = event as? MPChangePlaybackPositionCommandEvent else { return .commandFailed }
+            self.seek(to: timeEvent.positionTime)
+            return .success
         }
     }
     
-    func setTracks(_ setup : [Track]) throws {
-        
-        if (self.tracks.isEmpty != false) {
-            let error = NSError(domain: "AMPropertyTrackAlreadySet", code: 1, userInfo: nil)
-            throw error
-        }
-        
-        self.tracks = setup
+    // MARK: - AVAudioPlayerDelegate methods
+    func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
+        isPlaying = false
+        let corruptPosition = queue.position
+        queue.queued.remove(at: corruptPosition)
+        _ = queue.next()
+        startPlaying()
     }
-    
-    func setRhythm(_ rhythm : Rhythmic, forIndex trackIndex : Int) -> Bool {
-        if rhythm == self.tracks[trackIndex].rhythm {
-            return false
-        }
-        self.tracks[trackIndex].rhythm = rhythm
-        return AudioManager.saveTracks(self.tracks)
-    }
-    
-    func setRate(_ rate : PanRate, forIndex trackIndex : Int) {
-        
-        self.tracks[trackIndex].rate = rate
-        _ = AudioManager.saveTracks(self.tracks)
-    }
-    
-    //this is marked `private`; excluded for testing purposes
-    func instantiatePlayers() -> Bool { ///call async
-        
-        var success : Bool = true
-        guard let _ = self.playIndices else { return false }
-        
-        for index in self.playIndices! where index != self.playIndices!.first! {
-            
-            let aTrack = self.tracks[index]
-            var period = aTrack.period
-            
-            switch aTrack.rate {
-                
-            case .Double:
-                period /= 2
-                break
-                
-            case .Half:
-                period *= 2
-                break
-                
-            case .Quad:
-                period /= 4
-                break
-                
-            default:
-                break
-            }
-            
-            let url = aTrack.url
-        
-            do {
-                let aPlayer = try PanAudioPlayer(contentsOf: url, period: period)
-                aPlayer.delegate = self as AVAudioPlayerDelegate
-                //aPlayer.setupRhythm(aTrack.rhythm)
-                aPlayer.trackIndex = index
-                self.playerArray.append(aPlayer)
-                
-            } catch {
-                print(error)
-                success = false; return success
-            }
-        }
-        return success
-    }
-    
-    // MARK: - PanAudioPlayer delegate controls
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-     
-            guard let audioPlayer = player as? PanAudioPlayer else { return }
+        tracks[queue.now].audioPlayer?.invalidateRhythm()
         
-            audioPlayer.invalidateRhythm()
-        
-            guard let currentIndex = self.playerArray.index(of: audioPlayer) else {
-                self.delegate?.audioManagerPlaybackInterrupted()
-                return
-            }
-            
-            if (currentIndex == (playerArray.count-1)) {
-                
-                    if (self.delegate != nil) {
-                        self.delegate!.audioManagerDidCompletePlaylist()
-                    }
-                
-                return
-            }
-            
-            if (queueReady == true) {
-            
-                let nextPlayer = self.playerArray[currentIndex+1] as PanAudioPlayer
-                nextPlayer.volume = masterVolume
-                guard let index = nextPlayer.trackIndex else { return }
-                
-                nextPlayer.setupRhythm(self.tracks[index].rhythm)
-                remDelegate?.periodChanged(to: self.tracks[index].period)
-                _ = nextPlayer.play()
-                nowPlaying = nextPlayer
-                
-                if case .Bilateral( _, _)? = entrain {
-                    do {
-                        try entrainer.changeBilateralPeriod(to: NSNumber(value: self.tracks[index].period))
-                    } catch {
-                        print(error)
-                    }
-                }
-                
-                #if os(iOS)
-                updateNowPlayingCenter(nowPlayingCenter, withTrackAtIndex: index)
-                #endif
-            }
-        
+        _ = queue.next()
+        startPlaying()
+        updateNowPlayingCenter()
     }
-    #if os(iOS)
-    func updateNowPlayingCenter(_ center: MPNowPlayingInfoCenter, withTrackAtIndex index : Int) {
-        let track = self.tracks[index]
-        
-        center.nowPlayingInfo = [MPMediaItemPropertyTitle : track.title, MPMediaItemPropertyAlbumTitle : "Rhythmic", MPNowPlayingInfoPropertyElapsedPlaybackTime : self.nowPlaying!.currentTime, MPNowPlayingInfoPropertyExternalUserProfileIdentifier : "rhythmic"]
-    }
-    
-    func setupRemoteControlEvents() {
-        
-        let commandCenter = MPRemoteCommandCenter.shared()
-        
-        commandCenter.pauseCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
-            self.togglePauseResume()
-            return .success
-        }
-        
-        commandCenter.playCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
-            self.togglePauseResume()
-            return .success
-        }
-        
-        commandCenter.nextTrackCommand.addTarget(handler: {(event) -> MPRemoteCommandHandlerStatus in
-            
-            self.skipCurrentTrack()
-            return .success
-            
-        })
-    }
-    #endif
-    
     // MARK: - Initializers
-    
-    override private init() {
-        playIndices = Array()
-        playerArray = Array()
-        tracks = AudioManager.loadTracks() ?? TrackArray()
+    init(queue : Queue, tracks : TrackManager) throws {
+        guard let queued = queue.queued else {
+            throw NSError(domain: "PHandlerQueuedTracksNil", code: 1, userInfo: nil)
+        }
         
-        super.init()
-        
-    }
-
-}
-
-#if os(iOS)
-extension AudioManager : SessionDelegate {
-    func getPeriod() -> Double {
-        guard let _ = nowPlaying?.trackIndex else { return 0 }
-        return self.tracks[nowPlaying!.trackIndex!].period
+        self.queue = QueueHandler(queued: queued)
+        self.tracks = tracks
+        try? AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, mode: AVAudioSession.Mode.default)
+        try? AVAudioSession.sharedInstance().setActive(true)
     }
     
-    func getRate() -> PanRate {
-        guard let _ = nowPlaying?.trackIndex else { return PanRate.Normal }
-        return self.tracks[nowPlaying!.trackIndex!].rate
+    convenience init(queue: Queue, start : Bool = true) throws {
+        do {
+            try self.init(queue: queue, tracks : TrackManager())
+        } catch {
+            throw error
+        }
+        if start == true {
+            startPlaying()
+        }
+    }
+}
+
+typealias Index = Int
+typealias Position = Int
+// MARK: - QueueHandler
+struct QueueHandler {
+    var queued : [Index]
+    var position : Position
+    var now : Index {
+        return queued[position]
+    }
+    
+    subscript(position : Position) -> Index {
+        get {
+            if position > queued.endIndex-1 {
+                return queued[0]
+            }
+            return queued[position]
+        }
+        set {
+            queued[position] = newValue
+        }
     }
 
-}
-#endif
-
-// MARK: - AudioManagerDelegate
-protocol AudioManagerDelegate: class {
-    func audioManagerDidCompletePlaylist()
-    func audioManagerPlaybackInterrupted()
+    // MARK: - Queue management
+    mutating func next() -> Index {
+        if position < queued.endIndex-1 {
+            position += 1
+            return queued[position]
+        }
+        
+        position = 0
+        return queued[position]
+    }
+    
+    mutating func previous() -> Index {
+        if position == queued.startIndex {
+            position = queued.endIndex-1
+            return queued[position]
+        }
+        
+        position -= 1
+        return queued[position]
+    }
+    
+    mutating func reset() {
+        position = 0
+    }
+    
+    
+    // MARK: - Finding positions
+    func position(of: Index) -> Position {
+        guard let position = queued.firstIndex(of: of) else { fatalError() }
+        return position
+    }
+    
+    func position(after : Index) -> Position {
+        let before = position(of: after)
+        if before < queued.endIndex-1 {
+            return before + 1
+        }
+        return 0
+    }
+    
+    func position(before : Index) -> Position {
+        let after = position(of: before)
+        if after == queued.startIndex {
+            return queued.endIndex-1
+        }
+        return after-1
+    }
+    
+    init(queued queue : [Index]) {
+        queued = queue
+        position = 0
+    }
 }
 
 //wouldn't it be nice if the TrackArray held the URLs (as string)
@@ -739,15 +474,192 @@ struct Track : Codable {
     
     var url : URL {
         get {
-            return AudioManager.documentsDirectory.appendingPathComponent(fileName)
+            return (DataHandler.documentsDirectory?.appendingPathComponent(fileName))!
         }
     }
+    // MARK: - Audio player
+    lazy var audioPlayer: PanAudioPlayer? = {
+        do {
+            let val = try PanAudioPlayer(contentsOf: self.url, period: self.period.toPanRate(self.rate))
+            return val
+        } catch {
+            print(error)
+            return nil
+        }
+        
+    }()
 
+    init(title : String, period : Double, category : String = "song", fileName : String, rhythm : Rhythmic = .Bilateral, rate : PanRate = .Normal) {
+        
+        self.title = title
+        self.period = period
+        self.category = category
+        self.fileName = fileName
+        self.rhythm = rhythm
+        self.rate = rate
+    }
 }
 
 extension Track : Equatable {
     
     static func == (lTrack : Track, rTrack : Track) -> Bool {
         return lTrack.title == rTrack.title && lTrack.period == rTrack.period && lTrack.category == rTrack.category && rTrack.fileName == lTrack.fileName
+    }
+}
+
+extension Double {
+    func toPanRate(_ rate : PanRate) -> Double {
+        switch rate {
+        case .Double:
+            return self / 2
+            
+        case .Half:
+            return self * 2
+            
+        case .Quad:
+            return self / 4
+            
+        default:
+            return self
+        }
+    }
+}
+// MARK: - ViewModel
+struct ViewModel {
+    var tracks = TrackManager()
+    private var trackQueue = Queue()
+    var queue : Queue {
+        get {
+            return trackQueue
+        }
+    }
+ 
+    func detailString(for index: Index) -> String {
+        let aTrack = tracks[index]
+        let rhythm = aTrack.rhythm.descriptor()
+        let rate : String = aTrack.rate.descriptor()
+        
+        let amendedPeriod = aTrack.period.toPanRate(aTrack.rate)
+        let perStr = String(format: "%.3f", amendedPeriod)
+        
+        return "\(rhythm) : \(rate) : \(perStr)"
+    }
+    
+    func title(for index : Index) -> String {
+        return tracks[index].title
+    }
+
+    // MARK: - Setup cells
+    private func setupSelectedCell(_ cell : UITableViewCell) {
+        cell.accessoryType = .checkmark
+        let color = UIColor(red: 1, green: 0.4, blue: 0.4, alpha: 1.0)
+        cell.textLabel?.textColor = color
+        cell.tintColor = color
+    }
+    
+    private func setupUnselectedCell(_ cell : UITableViewCell) {
+        cell.accessoryType = .none
+        cell.textLabel?.textColor = UIColor.black
+    }
+    
+    func setupCell(_ cell : UITableViewCell, forRow index : Index) {
+        cell.textLabel!.text = tracks[index].title
+        cell.detailTextLabel!.text = self.detailString(for: index)
+        
+        if queue.contains(index) {
+            setupSelectedCell(cell)
+        } else {
+            setupUnselectedCell(cell)
+        }
+    }
+    
+    // MARK: - Playback
+    /// Returns an instantiated `PlaybackHandler` object.
+    func playbackHandler() throws -> PlaybackHandler  {
+        do {
+            return try PlaybackHandler(queue: queue, tracks: tracks)
+        } catch {
+            throw error
+        }
+    }
+}
+// MARK: - Queue
+/// Type for queue construction to pass to PlaybackHandler
+class Queue : Sequence, IteratorProtocol {
+    typealias Element = Index
+    
+    var selectedTracks = [Index]()
+    private var position : Position
+    var queued : [Index]? {
+        get {
+            if isEmpty == true { return nil }
+            return selectedTracks
+        }
+    }
+    var isEmpty : Bool {
+        get {
+            return selectedTracks.isEmpty
+        }
+    }
+    
+    subscript(position : Position) -> Index {
+        get {
+            return selectedTracks[position]
+        } set {
+            selectedTracks[position] = newValue
+        }
+    }
+    // MARK: - Iteration
+    func next() -> Index? {
+        if position == selectedTracks.endIndex-1 {
+            return nil
+        }
+        defer { position += 1 }
+        return selectedTracks[position]
+    }
+    
+    
+    // MARK: - Selected tracks
+    func append(selected : Index) {
+        selectedTracks.append(selected)
+    }
+    
+    func append(all : [Index]) {
+        selectedTracks.append(contentsOf: all)
+    }
+    
+    func remove(selected : Index) -> Index? {
+        if selectedTracks.contains(selected) {
+            return selectedTracks.remove(at: selectedTracks.firstIndex(of: selected)!)
+        }
+        return nil
+    }
+    
+    func removeAll() {
+        selectedTracks.removeAll()
+    }
+    
+    func contains(_ index : Index) -> Bool {
+        return selectedTracks.contains(index)
+    }
+    
+    // MARK: - Selected cells
+    func cellSelected(at index : Index) {
+        if selectedTracks.contains(index) {
+            _ = self.remove(selected: index)
+        } else {
+            self.append(selected: index)
+        }
+    }
+    
+    /// Only append index if not already present; will not remove index if selected. Non-destructive.
+    func safeSelectCell(at index : Index) {
+        if !contains(index) {
+            selectedTracks.append(index)
+        }
+    }
+    
+    fileprivate init() {
+        position = 0
     }
 }
