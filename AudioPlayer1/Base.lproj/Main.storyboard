@@ -108,12 +108,17 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Rhythmic" largeTitleDisplayMode="always" id="HDd-Hg-Ltf">
-                        <barButtonItem key="leftBarButtonItem" systemItem="reply" id="0gT-rm-3QT">
-                            <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
-                            <connections>
-                                <action selector="stitch:" destination="yga-hq-uB9" id="xRv-C8-l8g"/>
-                            </connections>
-                        </barButtonItem>
+                        <leftBarButtonItems>
+                            <barButtonItem systemItem="reply" id="0gT-rm-3QT">
+                                <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="stitch:" destination="yga-hq-uB9" id="xRv-C8-l8g"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="add" id="OkT-XG-g2F">
+                                <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                            </barButtonItem>
+                        </leftBarButtonItems>
                         <rightBarButtonItems>
                             <barButtonItem systemItem="action" id="bkL-yK-WRv">
                                 <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -122,7 +127,6 @@
                                 </connections>
                             </barButtonItem>
                             <barButtonItem systemItem="add" id="eIn-Im-Ds3">
-                                <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <segue destination="Ajk-gq-kdF" kind="presentation" identifier="librarySegue" id="SyB-qa-0Sm"/>
                                 </connections>

@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		5A017D3D1FDA395F0030103B /* It's Time.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A017D3C1FDA395F0030103B /* It's Time.mp3 */; };
 		5A017D3F1FDA531F0030103B /* Good Old Days (feat. Kesha).mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A017D3E1FDA531F0030103B /* Good Old Days (feat. Kesha).mp3 */; };
+		5A01949B215C9225003C76F5 /* tracks_test in Resources */ = {isa = PBXBuildFile; fileRef = 5A01949A215C9225003C76F5 /* tracks_test */; };
+		5A01949C215C947B003C76F5 /* tracks_test in Resources */ = {isa = PBXBuildFile; fileRef = 5A01949A215C9225003C76F5 /* tracks_test */; };
+		5A01949E215D5B75003C76F5 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5A01949D215D5B75003C76F5 /* Settings.bundle */; };
+		5A0194A0215F0917003C76F5 /* Handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A01949F215F0917003C76F5 /* Handlers.swift */; };
 		5A0B3FED1F74CEF100A60D9F /* Tracks.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5A0B3FEC1F74CEF100A60D9F /* Tracks.plist */; };
 		5A0D0F2B202393E60086F50E /* Working Man.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A0D0F2A202393E60086F50E /* Working Man.mp3 */; };
 		5A0D0F2D2027A2BF0086F50E /* Fallen.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A0D0F2C2027A2BF0086F50E /* Fallen.mp3 */; };
@@ -30,7 +34,7 @@
 		5A3CD1B81F6A57920015683B /* The Force Suite.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3CD1AE1F6A57920015683B /* The Force Suite.mp3 */; };
 		5A3CD1B91F6A57920015683B /* The Force Theme.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3CD1AF1F6A57920015683B /* The Force Theme.mp3 */; };
 		5A402BD12159D207005BD956 /* TrackManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A402BD02159D207005BD956 /* TrackManagerTests.swift */; };
-		5A402BD32159D62C005BD956 /* DataHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A402BD22159D62C005BD956 /* DataHandler.swift */; };
+		5A402BD32159D62C005BD956 /* Managers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A402BD22159D62C005BD956 /* Managers.swift */; };
 		5A402BD4215AC20B005BD956 /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A402BCC2159B932005BD956 /* AudioKit.framework */; };
 		5A402BD6215B4E9E005BD956 /* Controls.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A402BD5215B4E9E005BD956 /* Controls.xib */; };
 		5A4748FD1F9BF89B000D58AD /* Home Now.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A4748FC1F9BF89A000D58AD /* Home Now.mp3 */; };
@@ -82,7 +86,7 @@
 		5ABE00F71FC970A10099405C /* 18 Musicians IV.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5ABE00F61FC970A10099405C /* 18 Musicians IV.mp3 */; };
 		5ABE00FA1FCB70A30099405C /* 18 Musicians II.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5ABE00F81FCB70A20099405C /* 18 Musicians II.mp3 */; };
 		5ABE00FB1FCB70A30099405C /* 18 Musicians III.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5ABE00F91FCB70A30099405C /* 18 Musicians III.mp3 */; };
-		5ABEAF621F19851E008E5BB5 /* PanAudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABEAF611F19851E008E5BB5 /* PanAudioPlayer.swift */; };
+		5ABEAF621F19851E008E5BB5 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABEAF611F19851E008E5BB5 /* Models.swift */; };
 		5AC062651FE2FF7000B6F797 /* The Fall.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A4D50B81FD221A10040820C /* The Fall.mp3 */; };
 		5AC062671FE9E8AF00B6F797 /* Love Runs Out.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AC062661FE9E8AF00B6F797 /* Love Runs Out.mp3 */; };
 		5AC5F1A0203A2320005EBFDA /* Keep Falling.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AC5F19E203A2320005EBFDA /* Keep Falling.mp3 */; };
@@ -122,6 +126,9 @@
 /* Begin PBXFileReference section */
 		5A017D3C1FDA395F0030103B /* It's Time.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "It's Time.mp3"; sourceTree = "<group>"; };
 		5A017D3E1FDA531F0030103B /* Good Old Days (feat. Kesha).mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Good Old Days (feat. Kesha).mp3"; sourceTree = "<group>"; };
+		5A01949A215C9225003C76F5 /* tracks_test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tracks_test; sourceTree = "<group>"; };
+		5A01949D215D5B75003C76F5 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		5A01949F215F0917003C76F5 /* Handlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Handlers.swift; sourceTree = "<group>"; };
 		5A0B3FEC1F74CEF100A60D9F /* Tracks.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Tracks.plist; sourceTree = "<group>"; };
 		5A0D0F2A202393E60086F50E /* Working Man.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Working Man.mp3"; sourceTree = "<group>"; };
 		5A0D0F2C2027A2BF0086F50E /* Fallen.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Fallen.mp3; sourceTree = "<group>"; };
@@ -144,7 +151,7 @@
 		5A3CD1AF1F6A57920015683B /* The Force Theme.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "The Force Theme.mp3"; sourceTree = "<group>"; };
 		5A402BCC2159B932005BD956 /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioKit.framework; path = AudioPlayer1/AudioKit.framework; sourceTree = "<group>"; };
 		5A402BD02159D207005BD956 /* TrackManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackManagerTests.swift; sourceTree = "<group>"; };
-		5A402BD22159D62C005BD956 /* DataHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataHandler.swift; sourceTree = "<group>"; };
+		5A402BD22159D62C005BD956 /* Managers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Managers.swift; sourceTree = "<group>"; };
 		5A402BD5215B4E9E005BD956 /* Controls.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Controls.xib; sourceTree = "<group>"; };
 		5A4748FC1F9BF89A000D58AD /* Home Now.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Home Now.mp3"; sourceTree = "<group>"; };
 		5A4748FE1F9BFEE4000D58AD /* I Could Not Plan This.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "I Could Not Plan This.mp3"; sourceTree = "<group>"; };
@@ -200,7 +207,7 @@
 		5ABE00F61FC970A10099405C /* 18 Musicians IV.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "18 Musicians IV.mp3"; path = "../../../../Music/Converted by MediaHuman/18 Musicians IV.mp3"; sourceTree = "<group>"; };
 		5ABE00F81FCB70A20099405C /* 18 Musicians II.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "18 Musicians II.mp3"; path = "../../../../Music/Converted by MediaHuman/18 Musicians II.mp3"; sourceTree = "<group>"; };
 		5ABE00F91FCB70A30099405C /* 18 Musicians III.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = "18 Musicians III.mp3"; path = "../../../../Music/Converted by MediaHuman/18 Musicians III.mp3"; sourceTree = "<group>"; };
-		5ABEAF611F19851E008E5BB5 /* PanAudioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PanAudioPlayer.swift; sourceTree = "<group>"; };
+		5ABEAF611F19851E008E5BB5 /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		5AC062661FE9E8AF00B6F797 /* Love Runs Out.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Love Runs Out.mp3"; sourceTree = "<group>"; };
 		5AC5F19E203A2320005EBFDA /* Keep Falling.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Keep Falling.mp3"; sourceTree = "<group>"; };
 		5AC5F19F203A2320005EBFDA /* Dog Days Are Over.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Dog Days Are Over.mp3"; sourceTree = "<group>"; };
@@ -248,6 +255,7 @@
 				5ABA30A11DCBC97D006E5999 /* LaunchScreen.storyboard */,
 				5A402BD5215B4E9E005BD956 /* Controls.xib */,
 				5ABA30A41DCBC97D006E5999 /* Info.plist */,
+				5A01949D215D5B75003C76F5 /* Settings.bundle */,
 			);
 			name = iOS;
 			sourceTree = "<group>";
@@ -255,6 +263,7 @@
 		5A51AC1E214DCC090063E3FF /* AudioPlayerTests */ = {
 			isa = PBXGroup;
 			children = (
+				5A01949A215C9225003C76F5 /* tracks_test */,
 				5A402BD02159D207005BD956 /* TrackManagerTests.swift */,
 				5A51AC21214DCC0A0063E3FF /* Info.plist */,
 			);
@@ -285,8 +294,9 @@
 			isa = PBXGroup;
 			children = (
 				5A2C0BCC20CC4A0700742203 /* iOS */,
-				5ABEAF611F19851E008E5BB5 /* PanAudioPlayer.swift */,
-				5A402BD22159D62C005BD956 /* DataHandler.swift */,
+				5ABEAF611F19851E008E5BB5 /* Models.swift */,
+				5A01949F215F0917003C76F5 /* Handlers.swift */,
+				5A402BD22159D62C005BD956 /* Managers.swift */,
 				5ABA309F1DCBC97D006E5999 /* Assets.xcassets */,
 			);
 			path = AudioPlayer1;
@@ -480,6 +490,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A01949B215C9225003C76F5 /* tracks_test in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -515,6 +526,7 @@
 				5A5598321F7B5A9900AF9E9F /* Hand of God.mp3 in Resources */,
 				5AC5F1A0203A2320005EBFDA /* Keep Falling.mp3 in Resources */,
 				5A4D50BA1FD710EE0040820C /* Polaroid.mp3 in Resources */,
+				5A01949E215D5B75003C76F5 /* Settings.bundle in Resources */,
 				5A159811200E9BAE00CD4E36 /* Whatever It Takes.mp3 in Resources */,
 				5A5598361F7B5A9900AF9E9F /* Learn to Let Go.mp3 in Resources */,
 				5ABA309E1DCBC97D006E5999 /* Main.storyboard in Resources */,
@@ -541,6 +553,7 @@
 				5A5598421F7C1E7300AF9E9F /* On Top of the World.mp3 in Resources */,
 				5A55982F1F7B5A9900AF9E9F /* Better.mp3 in Resources */,
 				5AC062671FE9E8AF00B6F797 /* Love Runs Out.mp3 in Resources */,
+				5A01949C215C947B003C76F5 /* tracks_test in Resources */,
 				5A8E45261F88416700B33FB7 /* 440 Triangle.mp3 in Resources */,
 				5A0D0F2F202808600086F50E /* My Fault.mp3 in Resources */,
 				5A0B3FED1F74CEF100A60D9F /* Tracks.plist in Resources */,
@@ -582,9 +595,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				5AB5162D20A2A05700BE5028 /* SongExporter.swift in Sources */,
-				5ABEAF621F19851E008E5BB5 /* PanAudioPlayer.swift in Sources */,
+				5ABEAF621F19851E008E5BB5 /* Models.swift in Sources */,
+				5A0194A0215F0917003C76F5 /* Handlers.swift in Sources */,
 				5ABA309B1DCBC97D006E5999 /* ViewController.swift in Sources */,
-				5A402BD32159D62C005BD956 /* DataHandler.swift in Sources */,
+				5A402BD32159D62C005BD956 /* Managers.swift in Sources */,
 				5ABA30991DCBC97D006E5999 /* AppDelegate.swift in Sources */,
 				5AB5833D20DB563E008B051E /* BrainViewController.swift in Sources */,
 				5AB5162B20A25D1C00BE5028 /* LibraryController.swift in Sources */,

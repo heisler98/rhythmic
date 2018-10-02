@@ -101,11 +101,8 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
         
         if handler!.isPlaying {
             handler!.stopPlaying()
+            handler = nil
             return
-        }
-        
-        if !handler!.isPlaying {
-            handler!.startPlaying()
         }
         
     }
@@ -181,6 +178,13 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
         self.present(alertController, animated: true, completion: nil)
     }
     
+    @IBAction func createSession(_ sender : Any) { // add tvc and show keyboard edit directly in cell? would require uitextfield
+        guard viewModel.queue.selectedTracks.isEmpty != true else { return }
+        let someTracks = viewModel.tracks.tracks(forIndices: viewModel.queue.selectedTracks)
+        let newSession = Session(tracks: someTracks, title: "New session")
+        viewModel.sessions.add(newSession)
+        tableView.reloadData()
+    }
     
     // MARK: - iTunes delegate controls
     func dismissed(withURL: URL?) {
@@ -238,15 +242,26 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
 }
 // MARK: - ViewController tableView extension
 extension ViewController : UITableViewDelegate, UITableViewDataSource {
-    
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
+        if indexPath.section == 0 {
+            do {
+                let handler = try viewModel.sessionSelected(at: indexPath.row)
+                handler.startPlaying()
+            } catch {
+                fatalError("\(error)")
+            }
+        }
         
-        queue.cellSelected(at: indexPath.row)
-        guard cell != nil else { fatalError("Unexpectedly found nil in unwrapping tableviewcell") }
-        viewModel.setupCell(cell!, forRow: indexPath.row)
-        tableView.deselectRow(at: indexPath, animated: true)
+        if indexPath.section == 1 {
+            let cell = tableView.cellForRow(at: indexPath)
+            
+            queue.cellSelected(at: indexPath.row)
+            guard cell != nil else { fatalError("Unexpectedly found nil in unwrapping tableviewcell") }
+            viewModel.setupCell(cell!, forIndexPath: indexPath)
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
+        
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -265,11 +280,33 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
             if !queue.contains(indexPath.row) {
             queue.cellSelected(at: indexPath.row)
             guard cell != nil else { break selected }
-            viewModel.setupCell(cell!, forRow: indexPath.row)
+            viewModel.setupCell(cell!, forIndexPath: indexPath)
         }
     }
     
+    fileprivate func deleteSessionSwipeConfig(forIndexPath indexPath : IndexPath) -> UISwipeActionsConfiguration {
+        let delete = UIContextualAction(style: .destructive, title: "Delete") { (_, _, completionHandler) in
+            let alert = UIAlertController(title: "Delete session", message: "Are you sure you want to delete this session?", preferredStyle: UIAlertController.Style.alert)
+            let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { (action) in
+                
+                //delete track
+                _ = self.viewModel.sessions.delete(session: indexPath.row)
+                self.tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
+                completionHandler(true)
+                
+            })
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            alert.addAction(okAction)
+            alert.addAction(cancelAction)
+            self.present(alert, animated: true, completion: nil)
+        }
+        let config = UISwipeActionsConfiguration(actions: [delete])
+        config.performsFirstActionWithFullSwipe = true
+        return config
+    }
+    
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        if indexPath.section == 0 { return deleteSessionSwipeConfig(forIndexPath: indexPath) }
         
         let bilateral = UIContextualAction(style: .normal, title: "Bilateral", handler: { _, _, completionHandler in
             self.rhythmChange(.Bilateral, atIndexPath: indexPath, completionHandler) })
@@ -291,8 +328,7 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
             
             let alert = UIAlertController(title: "Delete track", message: "Are you sure you want to delete this track?", preferredStyle: UIAlertController.Style.alert)
             let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { (action) in
-                
-                //delete track
+
                 _ = self.viewModel.tracks.remove(at: indexPath.row)
                 self.tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
                 completionHandler(true)
@@ -302,9 +338,6 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
             alert.addAction(okAction)
             alert.addAction(cancelAction)
             self.present(alert, animated: true, completion: nil)
-            
-            
-            
         }
         let config = UISwipeActionsConfiguration(actions: [bilateral, synthesis, crosspan, stitch, delete])
         config.performsFirstActionWithFullSwipe = false
@@ -322,11 +355,12 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
             if !queue.contains(indexPath.row) {
             queue.cellSelected(at: indexPath.row)
             guard cell != nil else { break selected }
-            viewModel.setupCell(cell!, forRow: indexPath.row)
+            viewModel.setupCell(cell!, forIndexPath: indexPath)
         }
     }
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        if indexPath.section == 0 { return nil }
         
         let half = UIContextualAction(style: .normal, title: "0.5x", handler: { _, _, completionHandler in
             self.rateChange(.Half, atIndexPath: indexPath, completionHandler) })
@@ -360,16 +394,24 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
     
     // MARK: - Table View data source controls
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 { return "Sessions" }
+        if section == 1 { return "Songs" }
+        return nil
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.tracks.count
+        if section == 0 { return viewModel.sessions.count }
+        if section == 1 { return viewModel.tracks.count }
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        viewModel.setupCell(cell, forRow: indexPath.row)
+        viewModel.setupCell(cell, forIndexPath: indexPath)
         return cell
     }
 }

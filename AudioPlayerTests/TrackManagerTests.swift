@@ -17,7 +17,7 @@ class TrackManagerTests: XCTestCase {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
         let handler = DataHandler()
-        guard let tracks = try? handler.decodeJSONData() else {
+        guard let tracks = try? handler.decodeJSONTracks() else {
             fatalError()
         }
         manager = TrackManager(tracks: tracks)
@@ -39,7 +39,7 @@ class TrackManagerTests: XCTestCase {
     func testTrackManagerCount() {
         var tracks = [Track]()
         do {
-            tracks = try DataHandler().decodeJSONData()
+            tracks = try DataHandler().decodeJSONTracks()
         } catch {
             XCTFail("Cannot get JSON tracks: \(error)")
         }
@@ -56,10 +56,15 @@ class TrackManagerTests: XCTestCase {
         let track = manager.remove(at: manager.tracks.endIndex-1)
         XCTAssertFalse(manager.tracks.contains(track))
     }
-
+/*
+    func testPref() {
+        XCTAssertTrue(UserDefaults.standard.double(forKey: "slider_crosspan") == 0.87)
+    }
+ */
 }
 
 class DataHandlerTests : XCTestCase {
+    var mockHandler : MockJSONRead!
     
     override func setUp() {
         super.setUp()
@@ -73,7 +78,7 @@ class DataHandlerTests : XCTestCase {
     }
     
     func testArchiveURL() {
-    XCTAssertEqual(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("tracks"), DataHandler.archiveURL)
+    XCTAssertEqual(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("tracks"), DataHandler.tracksArchiveURL)
     }
     
     func testEncodeTracks() {
@@ -88,7 +93,7 @@ class DataHandlerTests : XCTestCase {
         
         var decoded = [Track]()
         do {
-            decoded = try DataHandler().decodeJSONData()
+            decoded = try DataHandler().decodeJSONTracks()
         } catch {
             XCTFail("Decoding threw exception: \(error)")
         }
@@ -96,6 +101,35 @@ class DataHandlerTests : XCTestCase {
         XCTAssertEqual(tracks, decoded)
     }
     
+    func testDecodeTracks() {
+        mockHandler = DataHandler()
+        let array = mockHandler.mockDecodeJSON()
+        for track in array {
+            XCTAssertTrue(track.rate.rawValue < 4)
+            XCTAssertTrue(track.rhythm.rawValue < 4)
+            XCTAssertTrue(track.title != "")
+            XCTAssertTrue(track.period > 0)
+        }
+    }
+    
+}
+
+protocol MockJSONRead {
+    func mockDecodeJSON() -> TrackArray
+}
+
+extension DataHandler : MockJSONRead {
+    func mockDecodeJSON() -> TrackArray {
+        let assetURL = Bundle.main.url(forResource: "tracks_test", withExtension: nil)
+        let data : Data
+        do {
+            data = try Data(contentsOf: assetURL!)
+            return try JSONDecoder().decode(TrackArray.self, from: data)
+        } catch {
+            print(error)
+            fatalError()
+        }
+    }
 }
 
 class QueueHandlerTests : XCTestCase {
@@ -295,7 +329,7 @@ class ViewModelTests : XCTestCase {
     func testSetupCell() {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         viewModel.queue.append(selected: 0)
-        viewModel.setupCell(cell, forRow: 0)
+        viewModel.setupCell(cell, forIndexPath: IndexPath(row: 0, section: 1))
         
         let title = viewModel.tracks[0].title
         let detailText = viewModel.detailString(for: 0)
@@ -308,6 +342,15 @@ class ViewModelTests : XCTestCase {
         XCTAssertEqual(color, cell.textLabel!.textColor)
     }
 
+    func testSelectSession() {
+        let someTracks = Array(viewModel.tracks.tracks[0..<3])
+        let session = Session(tracks: someTracks, title: "First 3")
+        viewModel.sessions.add(session)
+        
+        guard let index = viewModel.sessions.sessions.firstIndex(of: session) else { XCTFail(); return }
+        let handler = try! viewModel.sessionSelected(at: index)
+        XCTAssertTrue(handler.queue.queued == [0, 1, 2])
+    }
 }
 
 class QueueTests : XCTestCase {
@@ -367,5 +410,41 @@ class QueueTests : XCTestCase {
         queue.cellSelected(at: 10)
         queue.safeSelectCell(at: 10)
         XCTAssertTrue(queue.contains(10))
+    }
+}
+
+class SessionManagerTests : XCTestCase {
+    var manager : SessionManager!
+    var tracks : TrackManager!
+    
+    override func setUp() {
+        super.setUp()
+        try? DataHandler().encodeTracks(DataHandler().defaultTracks())
+        manager = SessionManager()
+        tracks = TrackManager()
+    }
+    
+    override func tearDown() {
+        manager = nil
+        tracks = nil
+        super.tearDown()
+    }
+    
+    func testAddSession() {
+        let someTracks = Array(tracks.tracks[0..<3])
+        let session = Session(tracks: someTracks, title: "First 4")
+        manager.add(session)
+       
+        let aSession = manager[manager.sessions.count-1]
+        XCTAssertTrue(aSession == session)
+    }
+    
+    func testTracksInSession() {
+        let someTracks = Array(tracks.tracks[3..<7])
+        let session = Session(tracks: someTracks, title: "3 thru 6")
+        manager.add(session)
+        
+        let aSession = manager[manager.sessions.count-1]
+        XCTAssertTrue(aSession.tracks == someTracks)
     }
 }
