@@ -16,7 +16,11 @@ import MediaPlayer
 import os.log
 import WebKit
 
-
+///Computes a set quantity of random integers in a given range.
+/// - returns: An array containing the given quantity of random integers from the specified range.
+/// - Parameters:
+///   - range: A range of integers to draw at random.
+///   - quantity: The amount of integers to draw.
 func randsInRange(range: Range<Int>, quantity : Int) -> [Int] {
     var rands : [Int] = []
     for _ in 0..<quantity {
@@ -28,9 +32,12 @@ func randsInRange(range: Range<Int>, quantity : Int) -> [Int] {
 class ViewController: UIViewController, iTunesDelegate, SearchResults {
     
     // MARK: - Private property controls
+    ///The playback handler for the set of selected tracks. Set at play-time.
     var handler : PlaybackHandler?
+    ///The view model for the view controller.
     var viewModel : ViewModel
-    var queue : Queue!
+    ///A reference to the queue contained in `ViewModel`.
+    var queue : Queue
     
     // MARK: - IBOutlets
     @IBOutlet weak var customNavItem: UINavigationItem!
@@ -40,6 +47,7 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
     @IBOutlet weak var distanceItem : UIBarButtonItem!
     @IBOutlet weak var entrainItem : UIBarButtonItem!
     
+    ///The search controller used for searching through `Track`s.
     var searchController : UISearchController
     
     override var prefersStatusBarHidden: Bool {
@@ -56,6 +64,10 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
 
     // MARK: - New track from OpenURL
     
+    ///Builds a new `Track` and passes it to `TrackManager` within `ViewModel`.
+    /// - returns: A Boolean value indicating whether the `Track` was successfully added.
+    /// - parameters:
+    ///    - url: The URL of the audio file asset.
     func newTrack(at url: URL) -> Bool {
         let lastComponent = url.pathComponents.last!
         let firstDot = lastComponent.index(of: ".") ?? lastComponent.endIndex
@@ -92,6 +104,9 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
     }
 
     // MARK: - UI funcs
+    ///Intercepts the handling of the play button being pushed.
+    /// - parameters:
+    ///     - sender: `Any` sender of the play button action.
     @IBAction func handlePlayButton(_ sender: Any) {
         if handler == nil {
             handler = try? viewModel.playbackHandler()
@@ -106,6 +121,9 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
         }
         
     }
+    ///Intercepts the shuffle button being pushed.
+    /// - parameters:
+    ///     - sender: `Any` sender of the shuffle action.
     @IBAction func randomShuffle(_ sender: Any) {
         
         let alertController = UIAlertController(title: "Shuffle tracks", message: "Enter the number of tracks to shuffle.", preferredStyle: .alert)
@@ -114,10 +132,7 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
             guard let quantity = Int((alertController.textFields?.first?.text)!) else { return }
             guard quantity <= self.viewModel.tracks.count else { return }
             
-            let chosen = randsInRange(range: 0..<self.viewModel.tracks.count, quantity: quantity)
-            self.queue.append(all: chosen)
-            self.handler = try? self.viewModel.playbackHandler()
-            self.handler?.startPlaying()
+            self.startShuffle(quantity: quantity)
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -130,7 +145,17 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
         
         self.present(alertController, animated: true, completion: nil)
     }
-    
+    ///Selects shuffled tracks and begins playback.
+    /// - parameter quantity: The number of shuffled tracks to draw.
+    private func startShuffle(quantity : Int) {
+        guard quantity <= self.viewModel.tracks.count else { return }
+        let chosen = randsInRange(range: 0..<self.viewModel.tracks.count, quantity: quantity)
+        self.queue.append(all: chosen)
+        self.handler = try? self.viewModel.playbackHandler()
+        self.handler?.startPlaying()
+    }
+    ///Clears all selected tracks from the queue, and reloads the table view.
+    /// - parameter sender: `Any` sender of the clear button being pushed.
     @IBAction func clearSelections(_ sender: Any) {
         queue.removeAll()
         self.tableView.reloadData()
@@ -141,7 +166,7 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
         absoluteDistance = sender.value
         distanceItem.title = String(format: "%.2f", absoluteDistance)
     }
-    
+
     @IBAction func stitch(_ sender: Any) {
         if queue.isEmpty {
         // do nothing
@@ -151,7 +176,7 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
         let massChange : (Rhythmic) -> Void = { (rhythm) in
             for index in self.queue {
                 self.viewModel.tracks[index].rhythm = rhythm
-                let indexPath = IndexPath(row: index, section: 0)
+                let indexPath = IndexPath(row: index, section: 1)
                 let cell = self.tableView.cellForRow(at: indexPath)
                 cell?.detailTextLabel?.text = self.viewModel.detailString(for: index)
             }
@@ -203,6 +228,8 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
         }
     }
     // MARK: - Search Results
+    ///Handles the selection of a `Track` cell from the search controller.
+    /// - parameter selectedTrack: The `Track` object associated with the selected cell.
     func didSelectTrack(_ selectedTrack: Track) {
         searchController.isActive = false
 
@@ -211,7 +238,7 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
         
         queue.safeSelectCell(at: index)
         
-        let indexPath = IndexPath(row: index, section: 0)
+        let indexPath = IndexPath(row: index, section: 1)
         tableView.reloadRows(at: [indexPath], with: .none)
         tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
     }
@@ -267,7 +294,18 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
+    /**
+    Handles the rhythm change of a `Track` at a designated `IndexPath`.
+     
+     - parameters:
     
+         - rhythm: A new rhythm.
+         - atIndexPath: The selected index path.
+         - completionHandler: The closure passed in from a
+    `UISwipeActionsConfiguration`.
+     
+     Changing the rhythm of a `Track` object requires setting the proper case on the track inside `TrackManager`, then updating the table view accordingly. Call this function when the rhythm is changed from a UI interaction.
+ */
     fileprivate func rhythmChange(_ rhythm : Rhythmic, atIndexPath indexPath : IndexPath, _ completionHandler: (Bool) -> Void) {
         
         viewModel.tracks[indexPath.row].rhythm = rhythm
@@ -283,7 +321,12 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
             viewModel.setupCell(cell!, forIndexPath: indexPath)
         }
     }
-    
+    /**
+     Sets up and returns a `UISwipeActionsConfiguration` object to delete the `Track` at a specified index.
+     
+     - parameter forIndexPath: The index path of the `Track` to delete
+     - returns: A `UISwipeConfiguration` object for processing deletion.
+ */
     fileprivate func deleteSessionSwipeConfig(forIndexPath indexPath : IndexPath) -> UISwipeActionsConfiguration {
         let delete = UIContextualAction(style: .destructive, title: "Delete") { (_, _, completionHandler) in
             let alert = UIAlertController(title: "Delete session", message: "Are you sure you want to delete this session?", preferredStyle: UIAlertController.Style.alert)
@@ -343,7 +386,14 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
         config.performsFirstActionWithFullSwipe = false
         return config
     }
-    
+    /**
+     Handles the rate change of a `Track` at a specified index path.
+     - parameters:
+     
+        - rate: A new rate.
+        - atIndexPath: The index path of the `Track`.
+        - completionHandler: A closure passed in from a `UISwipeActionsConfiguration` object.
+ */
     fileprivate func rateChange(_ rate : PanRate, atIndexPath indexPath : IndexPath, _ completionHandler: (Bool) -> Void) {
         
         viewModel.tracks[indexPath.row].rate = rate
@@ -422,9 +472,11 @@ protocol SearchResults {
 // MARK: - Search table view controller
 
 class SearchTableController : UITableViewController, UISearchResultsUpdating {
-    
+    ///The tracks returned from filtering all available tracks.
     var filteredTracks = TrackArray()
+    ///All tracks available to the application.
     var allTracks : TrackArray!
+    ///The delegate object for handling selection.
     var delegate : SearchResults?
     
     override func viewDidLoad() {

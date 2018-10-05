@@ -12,37 +12,48 @@ import UIKit
 import MediaPlayer
 
 // MARK: - PlaybackHandler
+///A class for handling track playback.
 class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
+    ///The handler's queue value.
     var queue : QueueHandler
+    ///The handler's track manager.
     var tracks : TrackManager
+    ///A Boolean indicating whether the handler is playing a track.
     var isPlaying : Bool = false
+    ///A Boolean indicating whether the handler is paused.
+    var isPaused : Bool = false
+    ///The remote control object.
+    let remote = RemoteHandler()
     
     // MARK: - Playback functions
+    ///Begin playing the queued tracks.
     func startPlaying() {
-        guard let player = tracks[queue.now].audioPlayer else { fatalError() }
-        player.setupRhythm(tracks[queue.now].rhythm)
-        player.delegate = self as AVAudioPlayerDelegate
-        isPlaying = player.play()
-        beginReceivingEvents()
+        let player = tracks[queue.now].audioPlayer
+        player?.setupRhythm(tracks[queue.now].rhythm)
+        player?.delegate = self as AVAudioPlayerDelegate
+        isPlaying = player?.play() ?? false
+        remoteSetup()
     }
-    
+    ///Stop playing the queued tracks.
+    ///This method does not reset the queue.
     func stopPlaying() {
         if isPlaying == true {
             isPlaying = false
             tracks[queue.now].audioPlayer?.stop()
+            tracks[queue.now].audioPlayer?.currentTime = 0
         }
     }
-    
+    ///Toggle pausing and resuming playback.
     func pauseResume() {
-        if isPlaying == true {
+        if isPaused == false {
             tracks[queue.now].audioPlayer?.pause()
-            isPlaying = false
+            isPaused = true
             return
         } else {
-            isPlaying = tracks[queue.now].audioPlayer?.play() ?? false
+            isPaused = tracks[queue.now].audioPlayer?.play() ?? true
         }
     }
-    
+    ///Skips the currently-playing track.
     func skip() {
         let player = tracks[queue.now].audioPlayer
         player?.stop()
@@ -52,7 +63,7 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
         audioPlayerDidFinishPlaying(player!, successfully: false)
         
     }
-    
+    ///Moves playback to the previous track.
     func previous() {
         let player = tracks[queue.now].audioPlayer
         player?.stop()
@@ -62,14 +73,20 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
         _ = queue.previous()
         startPlaying()
     }
-    
+    /**
+     Seeks to a `TimeInterval` in the currently-playing track.
+     - parameter to: The time interval in seconds.
+ */
     func seek(to: TimeInterval) {
         let player = tracks[queue.now].audioPlayer!
         if to < player.duration {
             player.currentTime = to
         }
     }
-    
+    /**
+     Seeks forward a specific `TimeInterval` in the currently-playing track.
+     - parameter interval: The amount of time to seek forward.
+ */
     func seekForward(_ interval : TimeInterval) {
         let player = tracks[queue.now].audioPlayer!
         if player.currentTime + interval < player.duration {
@@ -78,7 +95,10 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
             skip()
         }
     }
-    
+    /**
+     Seeks backward a specific `TimeInterval` in the currently-playing track.
+     - parameter interval: The amount of time to seek backward.
+     */
     func seekBackward(_ interval : TimeInterval) {
         let player = tracks[queue.now].audioPlayer!
         if player.currentTime - interval > 0 {
@@ -87,60 +107,12 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
             previous()
         }
     }
-    // MARK: - MPRemoteCommandCenter
-    func beginReceivingEvents() {
-        UIApplication.shared.beginReceivingRemoteControlEvents()
-        updateNowPlayingCenter()
-        setupRemoteCommands()
-    }
-    
-    func updateNowPlayingCenter() {
-        var track = tracks[queue.now]
-        let center = MPNowPlayingInfoCenter.default()
-        center.nowPlayingInfo = [MPMediaItemPropertyTitle : track.title, MPMediaItemPropertyAlbumTitle : "Rhythmic", MPNowPlayingInfoPropertyElapsedPlaybackTime : track.audioPlayer!.currentTime, MPMediaItemPropertyPlaybackDuration : NSNumber(value: track.audioPlayer!.duration)]
-    }
-    
-    func setupRemoteCommands() {
-        let center = MPRemoteCommandCenter.shared()
-        center.pauseCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
-            self.pauseResume()
-            return .success
-        }
-        center.playCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
-            self.pauseResume()
-            return .success
-        }
-        center.nextTrackCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
-            self.skip()
-            return .success
-        }
-        center.previousTrackCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
-            self.previous()
-            return .success
-        }
-        center.skipForwardCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
-            guard let command = event.command as? MPSkipIntervalCommand else { return .commandFailed }
-            self.seekForward(command.preferredIntervals[0].doubleValue)
-            return .success
-        }
-        center.skipBackwardCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
-            guard let command = event.command as? MPSkipIntervalCommand else { return .commandFailed }
-            self.seekBackward(command.preferredIntervals[0].doubleValue)
-            return .success
-        }
-        center.seekForwardCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
-            self.seekForward(5)
-            return .success
-        }
-        center.seekBackwardCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
-            self.seekBackward(5)
-            return .success
-        }
-        center.changePlaybackPositionCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
-            guard let timeEvent = event as? MPChangePlaybackPositionCommandEvent else { return .commandFailed }
-            self.seek(to: timeEvent.positionTime)
-            return .success
-        }
+    // MARK: - Remote setup
+    ///Set up the remote delegate object.
+    func remoteSetup() {
+        remote.beginReceivingEvents()
+        remote.updateInfoCenter(with: tracks[queue.now], audioPlayer: tracks[queue.now].audioPlayer!)
+        remote.setupRemoteCommands(handler: self)
     }
     
     // MARK: - AVAudioPlayerDelegate methods
@@ -154,13 +126,21 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         tracks[queue.now].audioPlayer?.invalidateRhythm()
-        
-        _ = queue.next()
+        remote.endReceivingEvents()
+        let next = queue.next()
         startPlaying()
-        updateNowPlayingCenter()
+        remote.updateInfoCenter(with: tracks[next], audioPlayer: tracks[next].audioPlayer!)
     }
     // MARK: - Initializers
-    init(queue : Queue, tracks : TrackManager) throws {
+    /**
+     Initialize a `PlaybackHandler` object.
+     - throws: Throws a `HandlerError` object if the queue is empty.
+     - Parameters:
+     
+        - queue: A queue of tracks.
+        - tracks: A `TrackManager` instance.
+ */
+    init(queue : Queue, tracks : TrackManager = TrackManager()) throws {
         guard let queued = queue.queued else {
             throw HandlerError.UnexpectedlyFoundNil(Optional<[Index]>.self)
         }
@@ -170,7 +150,16 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
         try? AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, mode: AVAudioSession.Mode.default)
         try? AVAudioSession.sharedInstance().setActive(true)
     }
-    
+    /**
+     Initialize a `PlaybackHandler` object and begin playback.
+     - throws: Throws a `HandlerError` object if the queue is empty.
+     - Parameters:
+     
+        - queue: A queue of tracks.
+        - start: A Boolean indicating whether to automatically begin playback.
+     
+     This convenience initializer uses a default instantiation of `TrackManager`.
+ */
     convenience init(queue: Queue, start : Bool = true) throws {
         do {
             try self.init(queue: queue, tracks : TrackManager())
@@ -183,17 +172,97 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
     }
 }
 
+// MARK: - RemoteHandler
+///A centralized management type for receiving and interpreting remote audio commands.
+struct RemoteHandler {
+    ///The shared instance of `MPRemoteCommandCenter`.
+    let commandCenter = MPRemoteCommandCenter.shared()
+    ///The default instance of `MPNowPlayingInfoCenter`.
+    let infoCenter = MPNowPlayingInfoCenter.default()
+    
+    ///Tells `UIApplication` to begin receiving remote control events.
+    func beginReceivingEvents() {
+        UIApplication.shared.beginReceivingRemoteControlEvents()
+    }
+    ///Tells `UIApplication` to stop receiving remote control events.
+    func endReceivingEvents() {
+        UIApplication.shared.endReceivingRemoteControlEvents()
+    }
+    ///Updates `MPNowPlayingInfoCenter` with the next track.
+    /// - Parameters:
+    ///   - track: The currently playing track.
+    ///   - audioPlayer: The audio player associated with the track.
+    func updateInfoCenter(with track : Track, audioPlayer : AVAudioPlayer) {
+        infoCenter.nowPlayingInfo = [
+            MPMediaItemPropertyTitle : track.title,
+            MPMediaItemPropertyAlbumTitle : "Rhythmic",
+            MPNowPlayingInfoPropertyElapsedPlaybackTime : audioPlayer.currentTime,
+            MPMediaItemPropertyPlaybackDuration : NSNumber(value: audioPlayer.duration)]
+    }
+    ///Sets up the remote commands for `MPRemoteCommandCenter`.
+    /// - Parameters:
+    ///   - handler: The `PlaybackHandler` controlling audio commands.
+    func setupRemoteCommands(handler : PlaybackHandler) {
+        commandCenter.pauseCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
+            handler.pauseResume()
+            return .success
+        }
+        commandCenter.playCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
+            handler.pauseResume()
+            return .success
+        }
+        commandCenter.nextTrackCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
+            handler.skip()
+            return .success
+        }
+        commandCenter.previousTrackCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
+            handler.previous()
+            return .success
+        }
+        /*
+        commandCenter.skipForwardCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
+            handler.seekForward(15)
+            return .success
+        }
+        commandCenter.skipBackwardCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
+            handler.seekBackward(15)
+            return .success
+        }
+        commandCenter.seekForwardCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
+            handler.seekForward(5)
+            return .success
+        }
+        commandCenter.seekBackwardCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
+            handler.seekBackward(5)
+            return .success
+        }
+        commandCenter.changePlaybackPositionCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
+            guard let timeEvent = event as? MPChangePlaybackPositionCommandEvent else { return .commandFailed }
+            handler.seek(to: timeEvent.positionTime)
+            return .success
+        }
+ */
+    }
+}
 
 typealias Index = Int
 typealias Position = Int
 // MARK: - QueueHandler
+///A type to handle a queue of tracks.
 struct QueueHandler {
+    ///The queued indices of the tracks.
     var queued : [Index]
+    ///The current position in the queued indices.
     var position : Position
+    ///A computed property of the current queued index.
     var now : Index {
         return queued[position]
     }
-    
+    /**
+     A subscript getter-setter.
+     - parameter position: A position in the queue of indices.
+     - returns: The index at the specified position.
+ */
     subscript(position : Position) -> Index {
         get {
             if position > queued.endIndex-1 {
@@ -207,6 +276,10 @@ struct QueueHandler {
     }
     
     // MARK: - Queue management
+    /**
+     The next index in the queue.
+     - returns: The next index.
+ */
     mutating func next() -> Index {
         if position < queued.endIndex-1 {
             position += 1
@@ -216,7 +289,10 @@ struct QueueHandler {
         position = 0
         return queued[position]
     }
-    
+    /**
+     The previous index in the queue.
+     - returns: The previous index.
+ */
     mutating func previous() -> Index {
         if position == queued.startIndex {
             position = queued.endIndex-1
@@ -226,18 +302,27 @@ struct QueueHandler {
         position -= 1
         return queued[position]
     }
-    
+    ///Resets the position in the queue.
     mutating func reset() {
         position = 0
     }
     
     
     // MARK: - Finding positions
+    /**
+     Finds and returns the position of an index in the queue.
+     - returns: The position of the specified index.
+     - parameter of: An index in the queue.
+ */
     func position(of: Index) -> Position {
         guard let position = queued.firstIndex(of: of) else { fatalError() }
         return position
     }
-    
+    /**
+     Finds the position of an index after the specified index.
+     - returns: The position after the specified index.
+     - parameter after: An index in the queue.
+ */
     func position(after : Index) -> Position {
         let before = position(of: after)
         if before < queued.endIndex-1 {
@@ -245,7 +330,11 @@ struct QueueHandler {
         }
         return 0
     }
-    
+    /**
+     Finds the position of an index before the specified index.
+     - returns: The position before the specified index.
+     - parameter before: An index in the queue.
+ */
     func position(before : Index) -> Position {
         let after = position(of: before)
         if after == queued.startIndex {
@@ -253,20 +342,30 @@ struct QueueHandler {
         }
         return after-1
     }
-    
+    /**
+     Initializes a `QueueHandler` instance.
+     - parameter queue: An array of indices to queue.
+ */
     init(queued queue : [Index]) {
         queued = queue
         position = 0
     }
 }
 
-
+// MARK: - DataHandler
+///A type to handle data encoding & decoding.
 public struct DataHandler {
-    
+    ///The `URL` of the documents directory in the user's domain.
     static let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+    ///The `URL` of the archive for the JSON track file.
     static let tracksArchiveURL = DataHandler.documentsDirectory.appendingPathComponent("tracks")
+    ///The `URL` of the archive for the JSON session file.
     static let sessionsArchiveURL = DataHandler.documentsDirectory.appendingPathComponent("sessions")
-    
+    /**
+     Decodes the JSON archive of tracks.
+     - throws: Throws the `JSONDecoder` error if decoding fails.
+     - returns: An array of decoded `Track`s.
+ */
     func decodeJSONTracks() throws -> [Track] {
         do {
             let data = try getTracksData()
@@ -277,7 +376,10 @@ public struct DataHandler {
         }
         
     }
-    /// Decodes persisted sessions, or returns nil if none are encoded.
+    /**
+    Decodes the JSON archive of sessions, or returns nil if no sessions are persisted.
+     - returns: An optional array of `Session`s.
+ */
     func decodeJSONSessions() -> [Session]? {
         do {
             let data = try getSessionsData()
@@ -287,7 +389,11 @@ public struct DataHandler {
             return nil
         }
     }
-    
+    /**
+     Persists an array of `Track`s to JSON storage.
+     - throws: Throws an error if the array cannot be JSON encoded.
+     - parameter tracks: The array of `Tracks` to persist.
+ */
     func encodeTracks(_ tracks : [Track]) throws {
         do {
             let data = try JSONEncoder().encode(tracks)
@@ -296,7 +402,11 @@ public struct DataHandler {
             throw error
         }
     }
-    
+    /**
+     Persists an array of `Session`s to JSON storage.
+     - throws: Throws an error if the array cannot be JSON encoded.
+     - parameter sessions: The array of `Session`s to persist.
+ */
     func encodeSessions(_ sessions : [Session]) throws {
         do {
             let data = try JSONEncoder().encode(sessions)
@@ -305,7 +415,10 @@ public struct DataHandler {
             throw error
         }
     }
-    
+    /**
+     Builds and returns a set of tracks from default storage.
+     - returns: A preset array of `Track`s.
+ */
     func defaultTracks() -> [Track] {
         
         guard let plistUrl = Bundle.main.url(forResource: "Tracks", withExtension: "plist") else { fatalError() }
@@ -315,7 +428,13 @@ public struct DataHandler {
         
         return tracks(fromSerialized: plistArray)
     }
-    
+    /**
+     Copies an asset from one location to another.
+     - Parameters:
+     
+        - bundleURL: The URL of the asset in the bundle.
+        - trackURL: The new URL of the asset in the user's domain.
+ */
     private func copyAsset(fromBundle bundleURL : URL, toUserDomain trackURL : URL) {
         
         do {
@@ -324,7 +443,11 @@ public struct DataHandler {
             print(error)
         }
     }
-    
+    /**
+     Builds and returns a set of tracks from property-list configuration.
+     - returns: An array of `Track`s.
+     - parameter serial: An array of dictionaried representations of a property list.
+ */
     private func tracks(fromSerialized serial: [Dictionary<String, String>]) -> [Track] {
         var tracks = [Track]()
         
@@ -338,7 +461,11 @@ public struct DataHandler {
         }
         return tracks
     }
-    
+    /**
+     Serializes a dictionaried representation of a property list from data.
+     - returns: An array of dictionaried representations of a property list.
+     - parameter data: Property list data.
+ */
     private func serializePLIST(fromData data : Data) -> [Dictionary<String, String>] {
         var tracks : [Dictionary<String, String>]?
         
@@ -350,14 +477,22 @@ public struct DataHandler {
         guard tracks != nil else { fatalError() }
         return tracks!
     }
-    
+    /**
+     Retrieves the data at the tracks archive URL.
+     - throws: Throws a `HandlerError` if no data can be found.
+     - returns: The data of the JSON archive.
+ */
     private func getTracksData() throws -> Data {
         guard let data = FileManager.default.contents(atPath: DataHandler.tracksArchiveURL.path) else {
             throw HandlerError.NoDataFound(DataHandler.tracksArchiveURL.path)
         }
         return data
     }
-    
+    /**
+     Retrieves the data at the sessions archive URL.
+     - throws: Throws a `HandlerError` if no data can be found.
+     - returns: The data of the JSON archive.
+     */
     private func getSessionsData() throws -> Data {
         guard let data = FileManager.default.contents(atPath: DataHandler.sessionsArchiveURL.path) else {
             throw HandlerError.NoDataFound(DataHandler.tracksArchiveURL.path)
@@ -365,8 +500,13 @@ public struct DataHandler {
         return data
     }
 }
-
+///The protocol for subscript access of UserDefault preferences.
 protocol Preferences {
+    /**
+     A subscript getter-setter for preferences.
+     - returns: A `Float`, or nil if no value exists for the key.
+     - parameter key: The preference key.
+ */
     subscript(key : String) -> Float? { get set }
 }
 
@@ -381,9 +521,14 @@ extension UserDefaults : Preferences {
     }
 }
 // testable
+///The wrapper type for user preferences.
 struct PrefsHandler {
+    ///The preference storage mechanism conforming to `Preferences`.
     var prefs : Preferences
-    
+    /**
+     Initializes a `PrefsHandler` object.
+     - parameter prefs: A preference mechanism conforming to `Preferences`. The standard `UserDefaults` instantiation is used by default.
+ */
     init(prefs : Preferences = UserDefaults.standard) {
         self.prefs = prefs
     }
