@@ -462,7 +462,7 @@ class Queue : Sequence, IteratorProtocol {
     /**
      Clears the entire queue by removing all indices.
  */
-    func removeAll() {
+    func reset() {
         selectedTracks.removeAll()
     }
     /**

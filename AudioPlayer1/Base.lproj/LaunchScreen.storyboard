@@ -22,11 +22,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rhythmic" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="QxF-7t-BlP">
-                                <rect key="frame" x="110" y="308.5" width="155.5" height="50.5"/>
+                                <rect key="frame" x="105" y="308.5" width="165" height="50.5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50.5" id="xws-TT-YOb"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="ultraLight" pointSize="42"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="42"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>

@@ -117,7 +117,7 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
         if handler!.isPlaying {
             handler!.stopPlaying()
             handler = nil
-            return
+            queue.reset()
         }
         
     }
@@ -151,13 +151,14 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
         guard quantity <= self.viewModel.tracks.count else { return }
         let chosen = randsInRange(range: 0..<self.viewModel.tracks.count, quantity: quantity)
         self.queue.append(all: chosen)
+        self.handler = nil
         self.handler = try? self.viewModel.playbackHandler()
         self.handler?.startPlaying()
     }
     ///Clears all selected tracks from the queue, and reloads the table view.
     /// - parameter sender: `Any` sender of the clear button being pushed.
     @IBAction func clearSelections(_ sender: Any) {
-        queue.removeAll()
+        queue.reset()
         self.tableView.reloadData()
     }
     

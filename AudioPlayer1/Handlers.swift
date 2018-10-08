@@ -23,7 +23,7 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
     ///A Boolean indicating whether the handler is paused.
     var isPaused : Bool = false
     ///The remote control object.
-    let remote = RemoteHandler()
+    unowned let remote = RemoteHandler.shared
     
     // MARK: - Playback functions
     ///Begin playing the queued tracks.
@@ -32,8 +32,9 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
         player?.setupRhythm(tracks[queue.now].rhythm)
         player?.delegate = self as AVAudioPlayerDelegate
         isPlaying = player?.play() ?? false
-        remoteSetup()
+        updateRemote()
     }
+    
     ///Stop playing the queued tracks.
     ///This method does not reset the queue.
     func stopPlaying() {
@@ -50,7 +51,7 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
             isPaused = true
             return
         } else {
-            isPaused = tracks[queue.now].audioPlayer?.play() ?? true
+            isPaused = !(tracks[queue.now].audioPlayer!.play())
         }
     }
     ///Skips the currently-playing track.
@@ -107,12 +108,10 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
             previous()
         }
     }
-    // MARK: - Remote setup
-    ///Set up the remote delegate object.
-    func remoteSetup() {
-        remote.beginReceivingEvents()
+    // MARK: - Remote
+    ///Update the remote delegate object.
+    func updateRemote() {
         remote.updateInfoCenter(with: tracks[queue.now], audioPlayer: tracks[queue.now].audioPlayer!)
-        remote.setupRemoteCommands(handler: self)
     }
     
     // MARK: - AVAudioPlayerDelegate methods
@@ -144,9 +143,11 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
         guard let queued = queue.queued else {
             throw HandlerError.UnexpectedlyFoundNil(Optional<[Index]>.self)
         }
-        
         self.queue = QueueHandler(queued: queued)
         self.tracks = tracks
+        super.init()
+        remote.handler = self
+        remote.beginReceivingEvents()
         try? AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, mode: AVAudioSession.Mode.default)
         try? AVAudioSession.sharedInstance().setActive(true)
     }
@@ -174,11 +175,15 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
 
 // MARK: - RemoteHandler
 ///A centralized management type for receiving and interpreting remote audio commands.
-struct RemoteHandler {
+class RemoteHandler {
     ///The shared instance of `MPRemoteCommandCenter`.
     let commandCenter = MPRemoteCommandCenter.shared()
     ///The default instance of `MPNowPlayingInfoCenter`.
     let infoCenter = MPNowPlayingInfoCenter.default()
+    ///The current `PlaybackHandler`.
+    weak var handler : PlaybackHandler?
+    ///The shared singleton instance.
+    static let shared = RemoteHandler()
     
     ///Tells `UIApplication` to begin receiving remote control events.
     func beginReceivingEvents() {
@@ -202,7 +207,8 @@ struct RemoteHandler {
     ///Sets up the remote commands for `MPRemoteCommandCenter`.
     /// - Parameters:
     ///   - handler: The `PlaybackHandler` controlling audio commands.
-    func setupRemoteCommands(handler : PlaybackHandler) {
+    private func setupRemoteCommands() {
+        /**
         commandCenter.pauseCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
             handler.pauseResume()
             return .success
@@ -211,12 +217,18 @@ struct RemoteHandler {
             handler.pauseResume()
             return .success
         }
+ */
+        commandCenter.togglePlayPauseCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
+            self.handler?.pauseResume()
+            print("pauseResume target pushed")
+            return .success
+        }
         commandCenter.nextTrackCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
-            handler.skip()
+            self.handler?.skip()
             return .success
         }
         commandCenter.previousTrackCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
-            handler.previous()
+            self.handler?.previous()
             return .success
         }
         /*
@@ -242,6 +254,9 @@ struct RemoteHandler {
             return .success
         }
  */
+    }
+    private init() {
+        setupRemoteCommands()
     }
 }
 
