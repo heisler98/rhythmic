@@ -22,7 +22,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="v4b-yd-TSc">
-                                <rect key="frame" x="0.0" y="116" width="375" height="507"/>
+                                <rect key="frame" x="0.0" y="116" width="375" height="485"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="shy-RY-WlM" detailTextLabel="dbn-R3-Q3j" style="IBUITableViewCellStyleSubtitle" id="OO0-Qe-KIt">
@@ -59,38 +59,30 @@
                                 </connections>
                             </tableView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dDu-h7-mgw">
-                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="601" width="375" height="66"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="66" id="J5G-4C-5AA"/>
+                                </constraints>
                                 <items>
-                                    <barButtonItem title="Clear" id="IcP-rn-02z">
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="us9-lA-NrG"/>
+                                    <barButtonItem systemItem="rewind" id="2vT-d1-z22">
                                         <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
-                                            <action selector="clearSelections:" destination="yga-hq-uB9" id="6F6-SG-QHG"/>
+                                            <action selector="handlePlayButton:" destination="yga-hq-uB9" id="RrL-kH-4ia"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem systemItem="fastForward" id="RlZ-QL-e8i">
-                                        <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
-                                        <connections>
-                                            <action selector="randomShuffle:" destination="yga-hq-uB9" id="3oP-hl-UDa"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Epv-xP-u2t"/>
-                                    <barButtonItem style="plain" id="vny-kL-DVU">
-                                        <slider key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.87" minValue="0.0" maxValue="1" id="h9U-rP-wbP">
-                                            <rect key="frame" x="134" y="5" width="118" height="34"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <color key="minimumTrackTintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
-                                            <color key="maximumTrackTintColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
-                                            <connections>
-                                                <action selector="distanceChanged:" destination="yga-hq-uB9" eventType="valueChanged" id="Z4e-bR-S7n"/>
-                                            </connections>
-                                        </slider>
-                                    </barButtonItem>
-                                    <barButtonItem enabled="NO" title="0.87" style="plain" id="w6T-l8-MTR"/>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="dIz-uw-cTg"/>
+                                    <barButtonItem width="27" style="plain" systemItem="fixedSpace" id="fPW-ca-Swz"/>
                                     <barButtonItem systemItem="play" id="QdZ-v5-ZkR">
                                         <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <action selector="handlePlayButton:" destination="yga-hq-uB9" id="wV6-Lq-422"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem width="27" style="plain" systemItem="fixedSpace" id="RGM-VH-siO"/>
+                                    <barButtonItem systemItem="fastForward" id="RlZ-QL-e8i">
+                                        <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <action selector="randomShuffle:" destination="yga-hq-uB9" id="3oP-hl-UDa"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
@@ -109,10 +101,10 @@
                     </view>
                     <navigationItem key="navigationItem" title="Rhythmic" largeTitleDisplayMode="always" id="HDd-Hg-Ltf">
                         <leftBarButtonItems>
-                            <barButtonItem systemItem="reply" id="0gT-rm-3QT">
+                            <barButtonItem title="Clear" id="IcP-rn-02z">
                                 <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
-                                    <action selector="stitch:" destination="yga-hq-uB9" id="xRv-C8-l8g"/>
+                                    <action selector="clearSelections:" destination="yga-hq-uB9" id="6F6-SG-QHG"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem systemItem="add" id="OkT-XG-g2F">
@@ -135,7 +127,6 @@
                     </navigationItem>
                     <connections>
                         <outlet property="customNavItem" destination="HDd-Hg-Ltf" id="IZb-F8-7sn"/>
-                        <outlet property="distanceItem" destination="w6T-l8-MTR" id="lxi-t6-ZUB"/>
                         <outlet property="playBarButtonItem" destination="QdZ-v5-ZkR" id="qjg-pU-xaj"/>
                         <outlet property="tableView" destination="v4b-yd-TSc" id="LY1-dp-m8A"/>
                         <outlet property="toolbar" destination="dDu-h7-mgw" id="eBv-1C-ifE"/>
