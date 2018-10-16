@@ -91,6 +91,28 @@ enum HandlerError : Error {
     case NoDataFound(String)
 }
 
+extension UIColor {
+    ///The local project color swatch.
+    static var swatch : UIColor {
+        get {
+            return UIColor(red: 1, green: 0.4, blue: 0.4, alpha: 1.0)
+        }
+    }
+    ///The local project translucent color swatch.
+    static var translucentSwatch : UIColor {
+        get {
+            return UIColor(red: 1, green: 0.4, blue: 0.4, alpha: 0.7)
+        }
+    }
+}
+///A protocol for receiving playback progress.
+protocol ProgressUpdater: AnyObject {
+    /**
+     Tells the delegate object the current playback progress.
+     - parameter to: The playback progress indicated between 0.0 and 1.0.
+ */
+    func updateProgress(to fractionalUnit : Float)
+}
 //MARK: - PanAudioPlayer
 ///Subclass of `AVAudioPlayer` supporting bilateral pan.
 class PanAudioPlayer: AVAudioPlayer {
@@ -102,6 +124,8 @@ class PanAudioPlayer: AVAudioPlayer {
     private var period : Double
     ///The index associated with the currently playing `Track`.
     var trackIndex : Int?
+    ///The progress delegate.
+    weak var progressDelegate : ProgressUpdater?
     
     // MARK: - Playback controls
     
@@ -129,7 +153,7 @@ class PanAudioPlayer: AVAudioPlayer {
         if (opt == .Bilateral) { //phi
             self.pan = -1
             self.timer = Timer.scheduledTimer(withTimeInterval: period, repeats: true, block: { (timer : Timer) -> Void in
-            
+                self.progressDelegate?.updateProgress(to: Float(self.currentTime / self.duration))
                 self.pan *= -1
             })
             
@@ -140,7 +164,7 @@ class PanAudioPlayer: AVAudioPlayer {
   
             //self.pan = absoluteDistance
             self.timer = Timer.scheduledTimer(withTimeInterval: period, repeats: true, block: { (timer : Timer) -> Void in
-                
+                self.progressDelegate?.updateProgress(to: Float(self.currentTime / self.duration))
                 self.pan *= -1
                 
             })
@@ -150,7 +174,7 @@ class PanAudioPlayer: AVAudioPlayer {
             //pan = 0
             self.pan = 0
             self.timer = Timer.scheduledTimer(withTimeInterval: self.period, repeats: true, block: {(timer : Timer) -> Void in
-                
+                self.progressDelegate?.updateProgress(to: Float(self.currentTime / self.duration))
                 // do nothing
             })
             
@@ -162,13 +186,20 @@ class PanAudioPlayer: AVAudioPlayer {
                 wavelength += (pi/16)
                 guard absVal(Double(newVal)) < 0.9 else { return }
                 self.pan = newVal
-                
+                self.progressDelegate?.updateProgress(to: Float(self.currentTime / self.duration))
             
             })
         }
 
     }
-    
+    // MARK: - Progress updating
+    /**
+     Calculates the playback progress of the current player.
+     - returns: A value between 0.0 and 1.0 indicating progress.
+ */
+    func progress() -> Float {
+        return Float(currentTime / duration)
+    }
     // MARK: - Inits
     init(contentsOf url: URL, period: Double) throws {
         self.period = period
@@ -183,7 +214,6 @@ class PanAudioPlayer: AVAudioPlayer {
 // MARK: - Track
 ///A type holding the available values of a track.
 struct Track : Codable {
-   
     ///The title of a track.
     var title : String
     ///The period of a track, calculated from tempo.
@@ -264,6 +294,12 @@ public struct Session : Codable {
     var tracks : [Track]
     ///The title of the session.
     var title : String
+    ///The number of tracks in the session. (Convenience).
+    var count : Int {
+        get {
+            return tracks.count
+        }
+    }
     
     init(tracks: [Track], title: String) {
         self.tracks = tracks
@@ -292,6 +328,8 @@ struct ViewModel {
             return trackQueue
         }
     }
+    // MARK: - Modeling the view
+    
     /// Returns the detail string for track at the specified index.
     /// - parameter index: The index of the track object.
     /// - returns: A rhythm-rate string.
@@ -315,7 +353,55 @@ struct ViewModel {
         if indexPath.section == 1 { return tracks[indexPath.row].title }
         return ""
     }
-
+    /**
+     Selects a given quantity of random tracks.
+     - parameter quantity: The number of tracks to randomly select.
+     
+     This method does not instantiate a PlaybackHandler. After calling, use `playbackHandler()`.
+ */
+    func shuffle(quantity: Int) {
+        guard quantity <= tracks.count else { return }
+        let range = 0..<quantity
+        var randoms = [Index]()
+        for _ in range {
+            randoms.append(Int.random(in: range))
+        }
+        queue.append(all: randoms)
+    }
+    // MARK: Building models
+    /**
+     Builds a Track and adds it to the TrackManager.
+     - parameters:
+     
+        - url: The URL of the track.
+        - periodOrBPM: The user-inputted period or tempo of the track.
+     
+     If the entered period/tempo value is greater than 10, the method assumes the entered value was a tempo.
+ */
+    func buildTrack(url : URL, periodOrBPM: Double) {
+        let lastComponent = url.pathComponents.last!
+        let firstDot = lastComponent.index(of: ".") ?? lastComponent.endIndex
+        let fileName = lastComponent[..<firstDot]
+        var period : Double
+        
+        if periodOrBPM > 10 {
+            period = 1/(periodOrBPM * 60) } else {
+            period = periodOrBPM }
+        
+        let track = Track(title: String(fileName), period: period, fileName: lastComponent)
+        tracks.append(track: track)
+        
+    }
+    /**
+     Builds a Session and adds it to the TrackManager.
+     - parameter name: The name for the new session.
+ */
+    func buildSession(name: String) {
+        let selectedTracks = tracks.tracks(forIndices: queue.selectedTracks)
+        let session = Session(tracks: selectedTracks, title: name)
+        sessions.add(session)
+        
+    }
     // MARK: - Setup cells
     /**
      Sets up the properties of a `UITableViewCell` to represent a selected state.
@@ -323,9 +409,8 @@ struct ViewModel {
  */
     private func setupSelectedCell(_ cell : UITableViewCell) {
         cell.accessoryType = .checkmark
-        let color = UIColor(red: 1, green: 0.4, blue: 0.4, alpha: 1.0)
-        cell.textLabel?.textColor = color
-        cell.tintColor = color
+        cell.textLabel?.textColor = UIColor.swatch
+        cell.tintColor = UIColor.swatch
     }
     /**
      Sets up the properties of a `UITableViewCell` to represent an unselected state.
@@ -334,6 +419,7 @@ struct ViewModel {
     private func setupUnselectedCell(_ cell : UITableViewCell) {
         cell.accessoryType = .none
         cell.textLabel?.textColor = UIColor.black
+        
     }
     /**
      Modifies a cell with the proper configuration based on the current queue of selected tracks.
@@ -345,7 +431,7 @@ struct ViewModel {
     func setupCell(_ cell : UITableViewCell, forIndexPath indexPath : IndexPath) {
         if indexPath.section == 0 {
             cell.textLabel!.text = sessions[indexPath.row].title
-            cell.detailTextLabel!.text = "\(sessions.count) songs"
+            cell.detailTextLabel!.text = "\(sessions[indexPath.row].count) songs"
         }
         
         if indexPath.section == 1 {
@@ -373,6 +459,7 @@ struct ViewModel {
             throw error
         }
     }
+    
     /**
      Loads an instantiated `PlaybackHandler` from the selected session.
      - returns: A `PlaybackHandler` object.
@@ -381,11 +468,12 @@ struct ViewModel {
  */
     func sessionSelected(at index : Index) throws -> PlaybackHandler {
         let tracksToPlay = sessions[index].tracks
+        let sessionQueue = Queue()
         for track in tracksToPlay {
             guard let index = tracks.tracks.firstIndex(of: track) else { continue }
-            queue.append(selected: index)
+            sessionQueue.append(selected: index)
         }
-        return try playbackHandler()
+        return try PlaybackHandler(queue: sessionQueue, tracks: tracks)
     }
 
 }
@@ -403,6 +491,12 @@ class Queue : Sequence, IteratorProtocol {
         get {
             if isEmpty == true { return nil }
             return selectedTracks
+        }
+    }
+    ///The number of queued indices.
+    var count : Int {
+        get {
+            return queued?.count ?? 0
         }
     }
     ///Tells if `selectedTracks` is empty.
@@ -473,7 +567,7 @@ class Queue : Sequence, IteratorProtocol {
     func contains(_ index : Index) -> Bool {
         return selectedTracks.contains(index)
     }
-    
+
     // MARK: - Selected cells
     /**
      Interprets the selection of a cell.
@@ -495,6 +589,7 @@ class Queue : Sequence, IteratorProtocol {
         if !contains(index) {
             selectedTracks.append(index)
         }
+        
     }
     
     fileprivate init() {

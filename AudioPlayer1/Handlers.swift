@@ -24,6 +24,8 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
     var isPaused : Bool = false
     ///The remote control object.
     unowned let remote = RemoteHandler.shared
+    ///The progress delegate receiver.
+    weak var progressReceiver : ProgressUpdater?
     
     // MARK: - Playback functions
     ///Begin playing the queued tracks.
@@ -31,6 +33,7 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
         let player = tracks[queue.now].audioPlayer
         player?.setupRhythm(tracks[queue.now].rhythm)
         player?.delegate = self as AVAudioPlayerDelegate
+        player?.progressDelegate = progressReceiver
         isPlaying = player?.play() ?? false
         updateRemote()
     }
@@ -64,8 +67,17 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
         audioPlayerDidFinishPlaying(player!, successfully: false)
         
     }
+    ///Rewinds playback to the beginning; or, if at the beginning, moves to the previous track.
+    func rewind() {
+        guard let player = tracks[queue.now].audioPlayer else { return }
+        if player.currentTime < 5 {
+            previous()
+        } else {
+            player.currentTime = 0.0
+        }
+    }
     ///Moves playback to the previous track.
-    func previous() {
+    private func previous() {
         let player = tracks[queue.now].audioPlayer
         player?.stop()
         player?.currentTime = 0.0
@@ -74,6 +86,7 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
         _ = queue.previous()
         startPlaying()
     }
+    
     /**
      Seeks to a `TimeInterval` in the currently-playing track.
      - parameter to: The time interval in seconds.
@@ -105,7 +118,7 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
         if player.currentTime - interval > 0 {
             player.currentTime -= interval
         } else {
-            previous()
+            rewind()
         }
     }
     // MARK: - Remote
@@ -228,7 +241,7 @@ class RemoteHandler {
             return .success
         }
         commandCenter.previousTrackCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
-            self.handler?.previous()
+            self.handler?.rewind()
             return .success
         }
         /*

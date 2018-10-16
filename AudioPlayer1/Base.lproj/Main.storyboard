@@ -18,11 +18,11 @@
                         <viewControllerLayoutGuide type="bottom" id="IQw-ma-Swb"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="gMA-iT-lQa">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="v4b-yd-TSc">
-                                <rect key="frame" x="0.0" y="116" width="375" height="485"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="483"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="shy-RY-WlM" detailTextLabel="dbn-R3-Q3j" style="IBUITableViewCellStyleSubtitle" id="OO0-Qe-KIt">
@@ -59,77 +59,104 @@
                                 </connections>
                             </tableView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dDu-h7-mgw">
-                                <rect key="frame" x="0.0" y="601" width="375" height="66"/>
+                                <rect key="frame" x="0.0" y="485" width="375" height="66"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="66" id="J5G-4C-5AA"/>
                                 </constraints>
                                 <items>
+                                    <barButtonItem style="plain" id="IJf-2R-YZI">
+                                        <view key="customView" contentMode="scaleToFill" id="b70-RW-aWV">
+                                            <rect key="frame" x="16" y="8.5" width="165" height="49"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 songs selected" textAlignment="natural" lineBreakMode="tailTruncation" minimumScaleFactor="0.25" translatesAutoresizingMaskIntoConstraints="NO" id="YHE-oW-PFe">
+                                                    <rect key="frame" x="0.0" y="0.0" width="165" height="49"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="thin" pointSize="20"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstItem="YHE-oW-PFe" firstAttribute="top" secondItem="b70-RW-aWV" secondAttribute="top" id="Lpg-10-9Qr"/>
+                                                <constraint firstAttribute="trailing" secondItem="YHE-oW-PFe" secondAttribute="trailing" id="fMG-fU-knz"/>
+                                                <constraint firstItem="YHE-oW-PFe" firstAttribute="leading" secondItem="b70-RW-aWV" secondAttribute="leading" id="tcl-YB-rPK"/>
+                                                <constraint firstAttribute="bottom" secondItem="YHE-oW-PFe" secondAttribute="bottom" id="xXP-HP-7Qb"/>
+                                            </constraints>
+                                        </view>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="us9-lA-NrG"/>
                                     <barButtonItem systemItem="rewind" id="2vT-d1-z22">
-                                        <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
-                                            <action selector="handlePlayButton:" destination="yga-hq-uB9" id="RrL-kH-4ia"/>
+                                            <action selector="rewind:" destination="yga-hq-uB9" id="ovz-Ba-g46"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem width="27" style="plain" systemItem="fixedSpace" id="fPW-ca-Swz"/>
                                     <barButtonItem systemItem="play" id="QdZ-v5-ZkR">
-                                        <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
-                                        <connections>
-                                            <action selector="handlePlayButton:" destination="yga-hq-uB9" id="wV6-Lq-422"/>
-                                        </connections>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </barButtonItem>
                                     <barButtonItem width="27" style="plain" systemItem="fixedSpace" id="RGM-VH-siO"/>
                                     <barButtonItem systemItem="fastForward" id="RlZ-QL-e8i">
-                                        <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
-                                            <action selector="randomShuffle:" destination="yga-hq-uB9" id="3oP-hl-UDa"/>
+                                            <action selector="fastForward:" destination="yga-hq-uB9" id="tAP-WT-FJu"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
+                                <color key="barTintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                             </toolbar>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DKD-I4-YBf">
+                                <rect key="frame" x="0.0" y="483" width="375" height="2"/>
+                                <color key="progressTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="trackTintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                            </progressView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="dDu-h7-mgw" secondAttribute="trailing" id="5KL-k4-m8R"/>
                             <constraint firstItem="v4b-yd-TSc" firstAttribute="top" secondItem="kvG-SA-Ivh" secondAttribute="bottom" id="6ms-h8-PRT"/>
+                            <constraint firstItem="dDu-h7-mgw" firstAttribute="top" secondItem="DKD-I4-YBf" secondAttribute="bottom" id="HVD-Ge-tAj"/>
                             <constraint firstAttribute="trailing" secondItem="v4b-yd-TSc" secondAttribute="trailing" id="Iaq-R1-0Ph"/>
+                            <constraint firstItem="DKD-I4-YBf" firstAttribute="leading" secondItem="gMA-iT-lQa" secondAttribute="leading" id="KkP-3l-6ul"/>
                             <constraint firstItem="IQw-ma-Swb" firstAttribute="top" secondItem="dDu-h7-mgw" secondAttribute="bottom" id="Wtv-1X-ufu"/>
-                            <constraint firstItem="dDu-h7-mgw" firstAttribute="top" secondItem="v4b-yd-TSc" secondAttribute="bottom" id="Xg9-Pe-rVu"/>
+                            <constraint firstItem="DKD-I4-YBf" firstAttribute="top" secondItem="v4b-yd-TSc" secondAttribute="bottom" id="XUs-Mj-nVg"/>
+                            <constraint firstItem="dDu-h7-mgw" firstAttribute="top" secondItem="v4b-yd-TSc" secondAttribute="bottom" constant="2" id="Xg9-Pe-rVu"/>
                             <constraint firstItem="dDu-h7-mgw" firstAttribute="leading" secondItem="gMA-iT-lQa" secondAttribute="leading" id="Z3Y-Xr-peG"/>
+                            <constraint firstAttribute="trailing" secondItem="DKD-I4-YBf" secondAttribute="trailing" id="bNN-vf-YuV"/>
                             <constraint firstItem="v4b-yd-TSc" firstAttribute="leading" secondItem="gMA-iT-lQa" secondAttribute="leading" id="xjI-fD-bUO"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Rhythmic" largeTitleDisplayMode="always" id="HDd-Hg-Ltf">
                         <leftBarButtonItems>
                             <barButtonItem title="Clear" id="IcP-rn-02z">
-                                <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <action selector="clearSelections:" destination="yga-hq-uB9" id="6F6-SG-QHG"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem systemItem="add" id="OkT-XG-g2F">
-                                <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="createSession:" destination="yga-hq-uB9" id="VQw-Ny-yTG"/>
+                                </connections>
                             </barButtonItem>
                         </leftBarButtonItems>
-                        <rightBarButtonItems>
-                            <barButtonItem systemItem="action" id="bkL-yK-WRv">
-                                <color key="tintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <connections>
-                                    <segue destination="9rt-OR-UCx" kind="show" identifier="showBrain" id="iOc-5G-OCe"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem systemItem="add" id="eIn-Im-Ds3">
-                                <connections>
-                                    <segue destination="Ajk-gq-kdF" kind="presentation" identifier="librarySegue" id="SyB-qa-0Sm"/>
-                                </connections>
-                            </barButtonItem>
-                        </rightBarButtonItems>
+                        <barButtonItem key="rightBarButtonItem" systemItem="organize" id="eIn-Im-Ds3">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <segue destination="Ajk-gq-kdF" kind="presentation" identifier="librarySegue" id="SyB-qa-0Sm"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="customNavItem" destination="HDd-Hg-Ltf" id="IZb-F8-7sn"/>
-                        <outlet property="playBarButtonItem" destination="QdZ-v5-ZkR" id="qjg-pU-xaj"/>
+                        <outlet property="infoLabel" destination="YHE-oW-PFe" id="dBe-wh-afu"/>
+                        <outlet property="playButtonItem" destination="QdZ-v5-ZkR" id="EDy-dM-jAQ"/>
+                        <outlet property="progressView" destination="DKD-I4-YBf" id="hCZ-ty-2Xn"/>
                         <outlet property="tableView" destination="v4b-yd-TSc" id="LY1-dp-m8A"/>
                         <outlet property="toolbar" destination="dDu-h7-mgw" id="eBv-1C-ifE"/>
+                        <outlet property="view" destination="gMA-iT-lQa" id="LBL-E7-KM2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ynD-UW-8LV" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -171,14 +198,15 @@
         <scene sceneID="xYg-6o-hxP">
             <objects>
                 <navigationController id="4bM-03-hVw" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="46F-S7-W9L">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" largeTitles="YES" id="46F-S7-W9L">
                         <rect key="frame" x="0.0" y="20" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                         <textAttributes key="titleTextAttributes">
-                            <color key="textColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </textAttributes>
                         <textAttributes key="largeTitleTextAttributes">
-                            <color key="textColor" red="1" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </textAttributes>
                     </navigationBar>
                     <connections>
@@ -188,27 +216,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xiL-kj-sQj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="244" y="347"/>
-        </scene>
-        <!--Brainaural-->
-        <scene sceneID="yyI-TD-YMT">
-            <objects>
-                <viewController title="Brainaural" id="9rt-OR-UCx" customClass="BrainViewController" customModule="AudioPlayer1" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="y8S-Wh-6LA"/>
-                        <viewControllerLayoutGuide type="bottom" id="XlK-8F-UxV"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="sUY-Xt-22S">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <accessibility key="accessibilityConfiguration">
-                            <bool key="isElement" value="YES"/>
-                        </accessibility>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="qT5-B6-gII" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1904.8" y="-318.89055472263868"/>
         </scene>
         <!--Library Controller-->
         <scene sceneID="Zlc-fW-6Xj">
@@ -274,7 +281,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LkX-0l-xmf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2558" y="-319"/>
+            <point key="canvasLocation" x="1943" y="347"/>
         </scene>
     </scenes>
 </document>

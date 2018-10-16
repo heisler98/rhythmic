@@ -43,9 +43,9 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
     @IBOutlet weak var customNavItem: UINavigationItem!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var toolbar: UIToolbar!
-    @IBOutlet weak var playBarButtonItem: UIBarButtonItem!
-    @IBOutlet weak var distanceItem : UIBarButtonItem!
-    @IBOutlet weak var entrainItem : UIBarButtonItem!
+    @IBOutlet weak var infoLabel: UILabel!
+    @IBOutlet weak var playButtonItem: UIBarButtonItem!
+    @IBOutlet weak var progressView : UIProgressView!
     
     ///The search controller used for searching through `Track`s.
     var searchController : UISearchController
@@ -59,6 +59,10 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
     override func viewDidLoad() {
         super.viewDidLoad()
         customNavItem.searchController = searchController
+        searchController.searchBar.tintColor = UIColor.white
+        playButtonItem.target = self
+        playButtonItem.action = #selector(handlePlayButton(_:))
+        
         definesPresentationContext = true
     }
 
@@ -77,29 +81,15 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
         alert.addTextField { (textField) in
             textField.keyboardType = .decimalPad
         }
-        
         let action = UIAlertAction(title: "Done", style: .default, handler: {(alertAction) -> Void in
             
             if let period = alert.textFields?.first?.text {
-                var doublePeriod : Double
-                
-                if Double(period)! < 10 {
-                    doublePeriod = Double(period)!
-                } else {
-                    doublePeriod = 1/((Double(period)!)/60)
-                }
-            
-                
-            let newTrack = Track(title: String(fileName), period: doublePeriod, fileName: lastComponent)
-            self.viewModel.tracks.append(track: newTrack)
+                guard let periodOrBPM = Double(period) else { return }
+                self.viewModel.buildTrack(url: url, periodOrBPM: periodOrBPM)
             self.tableView.reloadData()
         }})
-        //copyAction for track|file disparity – will not add new track to AM
-        let copyAction = UIAlertAction(title: "Copy Only", style: .destructive, handler: nil)
-        
         alert.addAction(action)
-        alert.addAction(copyAction)
-        self.present(alert, animated: true, completion: {() -> Void in })
+        self.present(alert, animated: true, completion: nil)
         return true
     }
 
@@ -108,18 +98,10 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
     /// - parameters:
     ///     - sender: `Any` sender of the play button action.
     @IBAction func handlePlayButton(_ sender: Any) {
-        if handler == nil {
-            handler = try? viewModel.playbackHandler()
-            handler?.startPlaying()
-            return
-        }
-        
-        if handler!.isPlaying {
-            handler!.stopPlaying()
-            handler = nil
-            queue.reset()
-        }
-        
+        handler = try? viewModel.playbackHandler()
+        handler?.progressReceiver = self as ProgressUpdater
+        handler?.startPlaying()
+        playButtonItem.action = #selector(stop(_:))
     }
     ///Intercepts the shuffle button being pushed.
     /// - parameters:
@@ -130,9 +112,9 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
         let doneAction = UIAlertAction(title: "Done", style: .default) { (alertAction) in
             
             guard let quantity = Int((alertController.textFields?.first?.text)!) else { return }
-            guard quantity <= self.viewModel.tracks.count else { return }
             
-            self.startShuffle(quantity: quantity)
+            self.viewModel.shuffle(quantity: quantity)
+            self.handlePlayButton(self)
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -145,79 +127,60 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
         
         self.present(alertController, animated: true, completion: nil)
     }
-    ///Selects shuffled tracks and begins playback.
-    /// - parameter quantity: The number of shuffled tracks to draw.
-    private func startShuffle(quantity : Int) {
-        guard quantity <= self.viewModel.tracks.count else { return }
-        let chosen = randsInRange(range: 0..<self.viewModel.tracks.count, quantity: quantity)
-        self.queue.append(all: chosen)
-        self.handler = nil
-        self.handler = try? self.viewModel.playbackHandler()
-        self.handler?.startPlaying()
-    }
     ///Clears all selected tracks from the queue, and reloads the table view.
     /// - parameter sender: `Any` sender of the clear button being pushed.
     @IBAction func clearSelections(_ sender: Any) {
         queue.reset()
+        updateTrackInfo()
         self.tableView.reloadData()
     }
-    
-    @IBAction func distanceChanged(_ sender: UISlider) {
-        //affects crosspan only
-        absoluteDistance = sender.value
-        distanceItem.title = String(format: "%.2f", absoluteDistance)
-    }
-
-    @IBAction func stitch(_ sender: Any) {
-        if queue.isEmpty {
-        // do nothing
-            return
+    /**
+     Creates a session.
+     - parameter sender: The sender of the action.
+ */
+    @IBAction func createSession(_ sender : Any) {
+        guard viewModel.queue.selectedTracks.isEmpty != true else { return }
+        let alertController = UIAlertController(title: "New session", message: "Give the new session a name.", preferredStyle: .alert)
+        alertController.addTextField { (textField) in
+            textField.keyboardType = UIKeyboardType.alphabet
+            textField.keyboardAppearance = UIKeyboardAppearance.alert
         }
-        
-        let massChange : (Rhythmic) -> Void = { (rhythm) in
-            for index in self.queue {
-                self.viewModel.tracks[index].rhythm = rhythm
-                let indexPath = IndexPath(row: index, section: 1)
-                let cell = self.tableView.cellForRow(at: indexPath)
-                cell?.detailTextLabel?.text = self.viewModel.detailString(for: index)
-            }
-        }
-        
-        let alertController = UIAlertController(title: "Change rhythms", message: "Choose the new rhythm for all selected cells.", preferredStyle: .alert)
-        let bilateralAction = UIAlertAction(title: "Bilateral", style: .default) { (action) in
-            massChange(.Bilateral)
-            self.dismiss(animated: true, completion: nil)
-        }
-        let crosspanAction = UIAlertAction(title: "Crosspan", style: .default) { (action) in
-            massChange(.Crosspan)
-            self.dismiss(animated: true, completion: nil)
-        }
-        let synthesisAction = UIAlertAction(title: "Synthesis", style: .default) { (action) in
-            massChange(.Synthesis)
-            self.dismiss(animated: true, completion: nil)
-        }
-        
-        alertController.addAction(crosspanAction)
-        alertController.addAction(bilateralAction)
-        alertController.addAction(synthesisAction)
-        
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            self.viewModel.buildSession(name: alertController.textFields![0].text!)
+        }))
         self.present(alertController, animated: true, completion: nil)
     }
-    
-    @IBAction func createSession(_ sender : Any) { // add tvc and show keyboard edit directly in cell? would require uitextfield
-        guard viewModel.queue.selectedTracks.isEmpty != true else { return }
-        let someTracks = viewModel.tracks.tracks(forIndices: viewModel.queue.selectedTracks)
-        let newSession = Session(tracks: someTracks, title: "New session")
-        viewModel.sessions.add(newSession)
-        tableView.reloadData()
+    ///Skip the current track.
+    @IBAction func fastForward(_ sender: Any) {
+        handler?.skip()
+    }
+    ///Rewind the track, or skip to the previous track.
+    @IBAction func rewind(_ sender: Any) {
+        handler?.rewind()
+    }
+    ///Stop the currently playing `PlaybackHandler` and reset the queue.
+    @objc func stop(_ sender: Any) {
+        handler?.stopPlaying()
+        handler = nil
+        queue.reset()
+        playButtonItem.action = #selector(handlePlayButton(_:))
+    }
+    ///Updates the info label with the number of queued tracks.
+    func updateTrackInfo() {
+        infoLabel.text = "\(queue.count) songs selected"
+    }
+    /**
+     Updates the info label with the name of the `Session`.
+     - parameter sessionName: The name of the selected `Session`.
+ */
+    func updateInfo(sessionName: String) {
+        infoLabel.text = sessionName
     }
     
     // MARK: - iTunes delegate controls
     func dismissed(withURL: URL?) {
-        
         self.dismiss(animated: true, completion: nil)
         guard let assetURL = withURL else { return }
-        
         
         switch self.newTrack(at: assetURL) {
         case true: break
@@ -274,8 +237,10 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             do {
-                let handler = try viewModel.sessionSelected(at: indexPath.row)
-                handler.startPlaying()
+                self.handler = try viewModel.sessionSelected(at: indexPath.row)
+                handler?.progressReceiver = self as ProgressUpdater
+                handler?.startPlaying()
+                updateInfo(sessionName: viewModel.title(for: indexPath))
             } catch {
                 fatalError("\(error)")
             }
@@ -288,6 +253,7 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
             guard cell != nil else { fatalError("Unexpectedly found nil in unwrapping tableviewcell") }
             viewModel.setupCell(cell!, forIndexPath: indexPath)
             tableView.deselectRow(at: indexPath, animated: true)
+            updateTrackInfo()
         }
         
     }
@@ -369,23 +335,32 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
         stitch.backgroundColor = UIColor.gray
         
         let delete = UIContextualAction(style: .destructive, title: "Delete") { _, _, completionHandler in
-            
-            let alert = UIAlertController(title: "Delete track", message: "Are you sure you want to delete this track?", preferredStyle: UIAlertController.Style.alert)
-            let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { (action) in
-
-                _ = self.viewModel.tracks.remove(at: indexPath.row)
-                self.tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
-                completionHandler(true)
-                
-            })
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            alert.addAction(okAction)
-            alert.addAction(cancelAction)
-            self.present(alert, animated: true, completion: nil)
+            self.delete(atIndexPath: indexPath, completionHandler: completionHandler)
         }
+    
         let config = UISwipeActionsConfiguration(actions: [bilateral, synthesis, crosspan, stitch, delete])
         config.performsFirstActionWithFullSwipe = false
         return config
+    }
+    /**
+     Deletes a track at the specified IndexPath.
+     - parameters:
+     
+        - indexPath: An IndexPath to delete.
+        - completionHandler: The completionHandler of the contextual action.
+ */
+    func delete(atIndexPath indexPath: IndexPath, completionHandler : @escaping (Bool) -> Void) {
+        let alert = UIAlertController(title: "Delete track", message: "Are you sure you want to delete this track?", preferredStyle: UIAlertController.Style.alert)
+        let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { (action) in
+            
+            _ = self.viewModel.tracks.remove(at: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
+            completionHandler(true)
+        })
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
+        self.present(alert, animated: true, completion: nil)
     }
     /**
      Handles the rate change of a `Track` at a specified index path.
@@ -464,6 +439,12 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         viewModel.setupCell(cell, forIndexPath: indexPath)
         return cell
+    }
+}
+
+extension ViewController : ProgressUpdater {
+    func updateProgress(to fractionalUnit: Float) {
+        progressView.setProgress(fractionalUnit, animated: false)
     }
 }
 

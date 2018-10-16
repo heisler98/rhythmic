@@ -17,10 +17,7 @@ class TrackManagerTests: XCTestCase {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
         let handler = DataHandler()
-        guard let tracks = try? handler.decodeJSONTracks() else {
-            fatalError()
-        }
-        manager = TrackManager(tracks: tracks)
+        manager = TrackManager(tracks: handler.defaultTracks())
         
     }
 
@@ -38,11 +35,7 @@ class TrackManagerTests: XCTestCase {
     
     func testTrackManagerCount() {
         var tracks = [Track]()
-        do {
-            tracks = try DataHandler().decodeJSONTracks()
-        } catch {
-            XCTFail("Cannot get JSON tracks: \(error)")
-        }
+        tracks = DataHandler().defaultTracks()
         XCTAssertEqual(tracks.count, manager.count)
     }
     
@@ -55,6 +48,15 @@ class TrackManagerTests: XCTestCase {
     func testRemoveTrack() {
         let track = manager.remove(at: manager.tracks.endIndex-1)
         XCTAssertFalse(manager.tracks.contains(track))
+    }
+    
+    func testFindingIndices() {
+        let indices = [0, 1, 2]
+        let tracks = [manager[0], manager[1], manager[2]]
+        
+        let managersTracks = manager.tracks(forIndices: indices)
+        
+        XCTAssertEqual(tracks, managersTracks)
     }
 /*
     func testPref() {
@@ -193,7 +195,7 @@ class PlaybackHandlerTests : XCTestCase {
         queue.append(all: indices)
         try? DataHandler().encodeTracks(DataHandler().defaultTracks())
         do {
-            playback = try PlaybackHandler(queue: queue)
+            playback = try PlaybackHandler(queue: queue, start: false)
         } catch {
             fatalError()
         }
@@ -226,9 +228,9 @@ class PlaybackHandlerTests : XCTestCase {
         playback.startPlaying()
         XCTAssertTrue(playback.isPlaying)
         playback.pauseResume()
-        XCTAssertFalse(playback.isPlaying)
+        XCTAssertTrue(playback.isPaused)
         playback.pauseResume()
-        XCTAssertTrue(playback.isPlaying)
+        XCTAssertFalse(playback.isPaused)
     }
     
     func testSkip() {
@@ -243,7 +245,7 @@ class PlaybackHandlerTests : XCTestCase {
     func testPrevious() {
         playback.startPlaying()
         //position = 0
-        playback.previous()
+        playback.rewind()
         //position = endIndex-1
         XCTAssertTrue(playback.queue.position == playback.queue.queued.endIndex-1)
         XCTAssertTrue(playback.isPlaying)
@@ -333,7 +335,7 @@ class ViewModelTests : XCTestCase {
         
         let title = viewModel.tracks[0].title
         let detailText = viewModel.detailString(for: 0)
-        let color = UIColor(red: 1, green: 0.4, blue: 0.4, alpha: 1.0)
+        let color = UIColor.swatch
         
         XCTAssertEqual(title, cell.textLabel!.text!)
         XCTAssertEqual(detailText, cell.detailTextLabel!.text!)
@@ -348,8 +350,31 @@ class ViewModelTests : XCTestCase {
         viewModel.sessions.add(session)
         
         guard let index = viewModel.sessions.sessions.firstIndex(of: session) else { XCTFail(); return }
-        let handler = try! viewModel.sessionSelected(at: index)
-        XCTAssertTrue(handler.queue.queued == [0, 1, 2])
+        let handler = try? viewModel.sessionSelected(at: index)
+        XCTAssertTrue(handler?.queue.queued == [0, 1, 2])
+    }
+    
+    func testBuildTrack() {
+        let baseTrack = viewModel.tracks[0]
+        let url = baseTrack.url
+        let period = baseTrack.period
+        
+        viewModel.buildTrack(url: url, periodOrBPM: period)
+        
+        let endTrack = viewModel.tracks[viewModel.tracks.tracks.endIndex-1]
+        XCTAssertEqual(endTrack.url, url)
+        XCTAssertEqual(endTrack.period, period)
+    }
+    
+    func testBuildSession() {
+        let indices = [0, 1, 2]
+        let tracks = viewModel.tracks.tracks(forIndices: indices)
+        viewModel.queue.append(all: indices)
+        viewModel.buildSession(name: "A New Session")
+        
+        let newSession = viewModel.sessions[viewModel.sessions.sessions.endIndex-1]
+        XCTAssertEqual(newSession.tracks, tracks)
+        XCTAssertEqual(newSession.title, "A New Session")
     }
 }
 
