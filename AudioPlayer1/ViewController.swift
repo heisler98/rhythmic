@@ -49,9 +49,11 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
     ///The search controller used for searching through `Track`s.
     var searchController : UISearchController
     
+    /*
     override var prefersStatusBarHidden: Bool {
         return false
     }
+ */
     
     // MARK: - View controls
     
@@ -67,11 +69,13 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
         self.navigationItem.searchController = searchController
         
         searchController.searchBar.tintColor = UIColor.white
-        
+    
         playButtonItem.target = self
         playButtonItem.action = #selector(handlePlayButton(_:))
         
         definesPresentationContext = true
+        
+        tableView.separatorColor = UIColor.swatch
     }
 
     // MARK: - New track from OpenURL
@@ -511,6 +515,7 @@ class SearchTableController : UITableViewController, UISearchResultsUpdating {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "searchCell") else { fatalError("Cannot dequeue reusable cell")}
         
         let track = filteredTracks[indexPath.row]
+        
         cell.textLabel?.text = track.title
         
         return cell
@@ -529,4 +534,3 @@ class SearchTableController : UITableViewController, UISearchResultsUpdating {
         delegate!.didSelectTrack(filteredTracks[indexPath.row])
     }
 }
-

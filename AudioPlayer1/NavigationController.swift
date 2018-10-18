@@ -10,9 +10,17 @@ import UIKit
 
 class NavigationController: UINavigationController, UINavigationControllerDelegate {
 
+    override var prefersStatusBarHidden: Bool {
+        return false
+    }
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self as UINavigationControllerDelegate
+        extendedLayoutIncludesOpaqueBars = true
         // Do any additional setup after loading the view.
     }
     

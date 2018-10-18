@@ -50,12 +50,10 @@ class LibraryController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         if songs.count == 0 {
             return 1
         }
@@ -64,7 +62,7 @@ class LibraryController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "songCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.Library.rawValue, for: indexPath)
         
         if songs.count == 0 {
             cell.textLabel?.text = "Tap 'Load'"

@@ -1,5 +1,5 @@
-//
-//  PanAudioPlayer.swift
+//  (Formerly PanAudioPlayer.swift)
+//  Models.swift
 //  AudioPlayer1
 //
 //  Created by Hunter Eisler on 7/14/17.
@@ -16,7 +16,6 @@ import os.log
 
 typealias TrackArray = Array<Track>
 let pi = 3.14159265
-var absoluteDistance : Float = 0.87
 
 /**
  Calculates and returns the absolute value of a `Double`.
@@ -94,7 +93,7 @@ enum HandlerError : Error {
 enum CellIdentifiers : String {
     case Session = "sessionCell"
     case Track = "cell"
-    
+    case Library = "songCell"
     case TrackInSession = "trackCell"
 }
 
