@@ -132,6 +132,7 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
     @IBAction func clearSelections(_ sender: Any) {
         queue.reset()
         updateTrackInfo()
+        progressView.setProgress(0, animated: false)
         self.tableView.reloadData()
     }
     /**
@@ -147,6 +148,7 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
         }
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             self.viewModel.buildSession(name: alertController.textFields![0].text!)
+            self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
         }))
         self.present(alertController, animated: true, completion: nil)
     }
@@ -213,6 +215,15 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
             guard let vc = segue.destination as? LibraryController else { return }
             vc.delegate = self as iTunesDelegate
         }
+        if segue.identifier! == "sessionSegue" {
+            guard let vc = segue.destination as? SessionController else { return }
+            guard sender is UITableViewCell else { return }
+            guard let path = tableView.indexPath(for: sender! as! UITableViewCell) else { return }
+            vc.name = viewModel.sessions[path.row].title
+            vc.tracks = viewModel.sessions[path.row].tracks
+            vc.sessionPath = path
+            vc.delegate = self as SessionResponder
+        }
     }
     
     // MARK: - Init
@@ -240,7 +251,9 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
                 self.handler = try viewModel.sessionSelected(at: indexPath.row)
                 handler?.progressReceiver = self as ProgressUpdater
                 handler?.startPlaying()
+                playButtonItem.action = #selector(stop(_:))
                 updateInfo(sessionName: viewModel.title(for: indexPath))
+                tableView.deselectRow(at: indexPath, animated: true)
             } catch {
                 fatalError("\(error)")
             }
@@ -436,7 +449,12 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        var cell : UITableViewCell
+        if indexPath.section == 0 {
+            cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.Session.rawValue, for: indexPath)
+        } else {
+            cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.Track.rawValue, for: indexPath)
+        }
         viewModel.setupCell(cell, forIndexPath: indexPath)
         return cell
     }
@@ -445,6 +463,18 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
 extension ViewController : ProgressUpdater {
     func updateProgress(to fractionalUnit: Float) {
         progressView.setProgress(fractionalUnit, animated: false)
+    }
+}
+
+extension ViewController : SessionResponder {
+    func trackRemoved(at index: Index, from sessionIndex: Index) {
+        let trackToRemove = viewModel.sessions[sessionIndex].tracks[index]
+        _ = viewModel.sessions.removeTrack(trackToRemove, fromSession: sessionIndex)
+    }
+    
+    func trackMoved(from oldIndex: Index, to newIndex: Index, in sessionIndex: Index) {
+        let toMove = viewModel.sessions.sessions[sessionIndex].tracks.remove(at: oldIndex)
+        viewModel.sessions.sessions[sessionIndex].tracks.insert(toMove, at: newIndex)
     }
 }
 

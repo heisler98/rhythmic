@@ -156,10 +156,10 @@ class SessionManager {
         guard sessions[index].tracks.contains(track) else {
             return nil
         }
-        guard let index = sessions[index].tracks.firstIndex(of: track) else {
+        guard let tIndex = sessions[index].tracks.firstIndex(of: track) else {
             return nil
         }
-        return sessions[index].tracks.remove(at: index)
+        return sessions[index].tracks.remove(at: tIndex)
         
     }
     /**

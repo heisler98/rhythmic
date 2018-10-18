@@ -90,6 +90,13 @@ enum HandlerError : Error {
     /// No data found at specified path
     case NoDataFound(String)
 }
+///An enumeration of table view cell identifiers. 
+enum CellIdentifiers : String {
+    case Session = "sessionCell"
+    case Track = "cell"
+    
+    case TrackInSession = "trackCell"
+}
 
 extension UIColor {
     ///The local project color swatch.

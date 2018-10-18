@@ -72,6 +72,7 @@
 		5A6237071F5F44FF0027326D /* Collateral Beauty.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A6237061F5F44FF0027326D /* Collateral Beauty.mp3 */; };
 		5A6E6531203CB4090062FD5B /* Sober Up.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A6E6530203CB4090062FD5B /* Sober Up.mp3 */; };
 		5A7AD6F42170003600090A86 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7AD6F32170003600090A86 /* NavigationController.swift */; };
+		5A7AD6F62176A62800090A86 /* SessionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7AD6F52176A62800090A86 /* SessionController.swift */; };
 		5A8E45261F88416700B33FB7 /* 440 Triangle.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A8E45251F88416700B33FB7 /* 440 Triangle.mp3 */; };
 		5A8E45281F901DB900B33FB7 /* Tell Me.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A8E45271F901DB800B33FB7 /* Tell Me.mp3 */; };
 		5A9D6BDA1E9EF2A300918D8B /* Born.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A9D6BD91E9EF2A300918D8B /* Born.mp3 */; };
@@ -191,6 +192,7 @@
 		5A6237061F5F44FF0027326D /* Collateral Beauty.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Collateral Beauty.mp3"; sourceTree = "<group>"; };
 		5A6E6530203CB4090062FD5B /* Sober Up.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Sober Up.mp3"; sourceTree = "<group>"; };
 		5A7AD6F32170003600090A86 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
+		5A7AD6F52176A62800090A86 /* SessionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionController.swift; sourceTree = "<group>"; };
 		5A8E45251F88416700B33FB7 /* 440 Triangle.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "440 Triangle.mp3"; sourceTree = "<group>"; };
 		5A8E45271F901DB800B33FB7 /* Tell Me.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Tell Me.mp3"; sourceTree = "<group>"; };
 		5A9D6BD91E9EF2A300918D8B /* Born.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Born.mp3; sourceTree = "<group>"; };
@@ -247,6 +249,7 @@
 			children = (
 				5ABA30981DCBC97D006E5999 /* AppDelegate.swift */,
 				5ABA309A1DCBC97D006E5999 /* ViewController.swift */,
+				5A7AD6F52176A62800090A86 /* SessionController.swift */,
 				5A7AD6F32170003600090A86 /* NavigationController.swift */,
 				5AB5162A20A25D1C00BE5028 /* LibraryController.swift */,
 				5AB5162C20A2A05700BE5028 /* SongExporter.swift */,
@@ -595,6 +598,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5AB5162D20A2A05700BE5028 /* SongExporter.swift in Sources */,
+				5A7AD6F62176A62800090A86 /* SessionController.swift in Sources */,
 				5A7AD6F42170003600090A86 /* NavigationController.swift in Sources */,
 				5ABEAF621F19851E008E5BB5 /* Models.swift in Sources */,
 				5A0194A0215F0917003C76F5 /* Handlers.swift in Sources */,
