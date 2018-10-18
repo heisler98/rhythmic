@@ -163,6 +163,19 @@ class SessionManager {
         
     }
     /**
+     Removes a Track at a specified index from a specified Session.
+     - returns: The track removed, or nil if no track exists at that index.
+     - parameters:
+     
+        - trackIndex: The index of a Track in a Session.
+        - sessionIndex: The index of a Session.
+ */
+    func removeTrack(at trackIndex: Index, fromSession sessionIndex: Index) -> Track? {
+        guard sessions.indices.contains(sessionIndex) == true else { return nil }
+        guard sessions[sessionIndex].tracks.indices.contains(trackIndex) == true else { return nil }
+        return sessions[sessionIndex].tracks.remove(at: trackIndex)
+    }
+    /**
      Adds a `Track` to a specified `Session`.
      - Parameters:
     
@@ -189,5 +202,32 @@ class SessionManager {
             return
         }
         self.init(sessions)
+    }
+}
+
+extension SessionManager : SessionResponder {
+    func trackRemoved(at index: Index, from sessionIndex: Index) {
+        _ = removeTrack(at: index, fromSession: sessionIndex)
+    }
+    
+    func trackMoved(from oldIndex: Index, to newIndex: Index, in sessionIndex: Index) {
+        guard sessions.indices.contains(sessionIndex) else { return }
+        sessions[sessionIndex].tracks.moveElement(at: oldIndex, to: newIndex)
+    }
+    
+    
+}
+
+extension Array where Element: Equatable {
+    /**
+     Moves an element at a specified index to a new index.
+     - parameters:
+     
+        - at: The index of an element.
+        - to: The new index of the element.
+ */
+    mutating func moveElement(at: Index, to: Index) {
+        precondition(at != to && indices.contains(at) && indices.contains(to), "Invalid indices")
+        insert(remove(at: at), at: to)
     }
 }

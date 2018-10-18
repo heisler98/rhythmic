@@ -40,7 +40,6 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
     var queue : Queue
     
     // MARK: - IBOutlets
-    @IBOutlet weak var customNavItem: UINavigationItem!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var toolbar: UIToolbar!
     @IBOutlet weak var infoLabel: UILabel!
@@ -58,8 +57,17 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        customNavItem.searchController = searchController
+        
+        let clear = UIBarButtonItem(title: "Clear", style: .plain, target: self, action: #selector(clearSelections(_:)))
+        let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(createSession(_:)))
+        let organize = UIBarButtonItem(barButtonSystemItem: .organize, target: self, action: #selector(showMusicLibrary(_:)))
+        
+        self.navigationItem.setLeftBarButtonItems([clear, add], animated: false)
+        self.navigationItem.setRightBarButton(organize, animated: false)
+        self.navigationItem.searchController = searchController
+        
         searchController.searchBar.tintColor = UIColor.white
+        
         playButtonItem.target = self
         playButtonItem.action = #selector(handlePlayButton(_:))
         
@@ -193,6 +201,10 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
             break
         }
     }
+    
+    @objc func showMusicLibrary(_ sender: Any) {
+        performSegue(withIdentifier: "librarySegue", sender: sender)
+    }
     // MARK: - Search Results
     ///Handles the selection of a `Track` cell from the search controller.
     /// - parameter selectedTrack: The `Track` object associated with the selected cell.
@@ -222,7 +234,7 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
             vc.name = viewModel.sessions[path.row].title
             vc.tracks = viewModel.sessions[path.row].tracks
             vc.sessionPath = path
-            vc.delegate = self as SessionResponder
+            vc.delegate = viewModel.sessions as SessionResponder
         }
     }
     
@@ -463,18 +475,6 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
 extension ViewController : ProgressUpdater {
     func updateProgress(to fractionalUnit: Float) {
         progressView.setProgress(fractionalUnit, animated: false)
-    }
-}
-
-extension ViewController : SessionResponder {
-    func trackRemoved(at index: Index, from sessionIndex: Index) {
-        let trackToRemove = viewModel.sessions[sessionIndex].tracks[index]
-        _ = viewModel.sessions.removeTrack(trackToRemove, fromSession: sessionIndex)
-    }
-    
-    func trackMoved(from oldIndex: Index, to newIndex: Index, in sessionIndex: Index) {
-        let toMove = viewModel.sessions.sessions[sessionIndex].tracks.remove(at: oldIndex)
-        viewModel.sessions.sessions[sessionIndex].tracks.insert(toMove, at: newIndex)
     }
 }
 

@@ -8,15 +8,19 @@
 
 import UIKit
 
-class NavigationController: UINavigationController {
+class NavigationController: UINavigationController, UINavigationControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.delegate = self as UINavigationControllerDelegate
         // Do any additional setup after loading the view.
     }
     
-
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        guard let vc = viewController as? ViewController else { return }
+        vc.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+    }
+    
     /*
     // MARK: - Navigation
 

@@ -155,36 +155,15 @@
                             <constraint firstItem="v4b-yd-TSc" firstAttribute="leading" secondItem="gMA-iT-lQa" secondAttribute="leading" id="xjI-fD-bUO"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Rhythmic" largeTitleDisplayMode="always" id="HDd-Hg-Ltf">
-                        <leftBarButtonItems>
-                            <barButtonItem title="Clear" id="IcP-rn-02z">
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <connections>
-                                    <action selector="clearSelections:" destination="yga-hq-uB9" id="6F6-SG-QHG"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem systemItem="add" id="OkT-XG-g2F">
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <connections>
-                                    <action selector="createSession:" destination="yga-hq-uB9" id="VQw-Ny-yTG"/>
-                                </connections>
-                            </barButtonItem>
-                        </leftBarButtonItems>
-                        <barButtonItem key="rightBarButtonItem" systemItem="organize" id="eIn-Im-Ds3">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <connections>
-                                <segue destination="Ajk-gq-kdF" kind="presentation" identifier="librarySegue" id="SyB-qa-0Sm"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Rhythmic" id="HDd-Hg-Ltf"/>
                     <connections>
-                        <outlet property="customNavItem" destination="HDd-Hg-Ltf" id="IZb-F8-7sn"/>
                         <outlet property="infoLabel" destination="YHE-oW-PFe" id="dBe-wh-afu"/>
                         <outlet property="playButtonItem" destination="QdZ-v5-ZkR" id="EDy-dM-jAQ"/>
                         <outlet property="progressView" destination="DKD-I4-YBf" id="hCZ-ty-2Xn"/>
-                        <outlet property="tableView" destination="v4b-yd-TSc" id="LY1-dp-m8A"/>
+                        <outlet property="tableView" destination="v4b-yd-TSc" id="vyf-wt-uTr"/>
                         <outlet property="toolbar" destination="dDu-h7-mgw" id="eBv-1C-ifE"/>
                         <outlet property="view" destination="gMA-iT-lQa" id="LBL-E7-KM2"/>
+                        <segue destination="Ajk-gq-kdF" kind="presentation" identifier="librarySegue" id="wrb-WV-gsA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ynD-UW-8LV" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -262,7 +241,7 @@
         <!--Navigation Controller-->
         <scene sceneID="xYg-6o-hxP">
             <objects>
-                <navigationController id="4bM-03-hVw" sceneMemberID="viewController">
+                <navigationController id="4bM-03-hVw" customClass="NavigationController" customModule="AudioPlayer1" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" largeTitles="YES" id="46F-S7-W9L">
                         <rect key="frame" x="0.0" y="20" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -347,7 +326,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LkX-0l-xmf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1900" y="-290"/>
+            <point key="canvasLocation" x="1908" y="-334"/>
         </scene>
     </scenes>
 </document>
