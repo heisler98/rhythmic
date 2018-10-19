@@ -8,7 +8,6 @@
 //  *Proprietary and confidential*
 
 import UIKit
-import AVFoundation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

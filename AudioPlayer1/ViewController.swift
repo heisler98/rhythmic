@@ -11,10 +11,6 @@
 // ?: Collection view REM/stitch "sessions"/groups/categories/ - organized by speed etc
 
 import UIKit
-import AVFoundation
-import MediaPlayer
-import os.log
-import WebKit
 
 ///Computes a set quantity of random integers in a given range.
 /// - returns: An array containing the given quantity of random integers from the specified range.
@@ -56,7 +52,6 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
  */
     
     // MARK: - View controls
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -238,6 +233,7 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
             vc.name = viewModel.sessions[path.row].title
             vc.tracks = viewModel.sessions[path.row].tracks
             vc.sessionPath = path
+            vc.masterCollection = viewModel.tracks.tracks
             vc.delegate = viewModel.sessions as SessionResponder
         }
     }
@@ -325,8 +321,8 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
  */
     fileprivate func deleteSessionSwipeConfig(forIndexPath indexPath : IndexPath) -> UISwipeActionsConfiguration {
         let delete = UIContextualAction(style: .destructive, title: "Delete") { (_, _, completionHandler) in
-            let alert = UIAlertController(title: "Delete session", message: "Are you sure you want to delete this session?", preferredStyle: UIAlertController.Style.alert)
-            let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { (action) in
+            let alert = UIAlertController(title: nil, message: "Are you sure you want to delete this session?", preferredStyle: UIAlertController.Style.actionSheet)
+            let okAction = UIAlertAction(title: "Yes", style: UIAlertAction.Style.destructive, handler: { (action) in
                 
                 //delete track
                 _ = self.viewModel.sessions.delete(session: indexPath.row)
@@ -334,13 +330,16 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
                 completionHandler(true)
                 
             })
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
+                self.tableView.setEditing(false, animated: true)
+                completionHandler(false)
+            })
             alert.addAction(okAction)
             alert.addAction(cancelAction)
             self.present(alert, animated: true, completion: nil)
         }
         let config = UISwipeActionsConfiguration(actions: [delete])
-        config.performsFirstActionWithFullSwipe = true
+        config.performsFirstActionWithFullSwipe = false
         return config
     }
     
@@ -379,14 +378,17 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
         - completionHandler: The completionHandler of the contextual action.
  */
     func delete(atIndexPath indexPath: IndexPath, completionHandler : @escaping (Bool) -> Void) {
-        let alert = UIAlertController(title: "Delete track", message: "Are you sure you want to delete this track?", preferredStyle: UIAlertController.Style.alert)
-        let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { (action) in
+        let alert = UIAlertController(title: nil, message: "Are you sure you want to delete this track?", preferredStyle: UIAlertController.Style.actionSheet)
+        let okAction = UIAlertAction(title: "Yes", style: UIAlertAction.Style.destructive, handler: { (action) in
             
             _ = self.viewModel.tracks.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
             completionHandler(true)
         })
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
+            self.tableView.setEditing(false, animated: true)
+            completionHandler(false)
+        })
         alert.addAction(okAction)
         alert.addAction(cancelAction)
         self.present(alert, animated: true, completion: nil)
@@ -447,13 +449,24 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
         return UITableView.automaticDimension
     }
     
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard let headerView = view as? UITableViewHeaderFooterView else { return }
+
+        let descriptor = UIFontDescriptor(name: UIFont.ProjectFonts.Regular.rawValue, size: 17)
+        let font = UIFont(descriptor: descriptor, size: 17)
+        headerView.textLabel?.font = font
+    }
+    
     // MARK: - Table View data source controls
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 { return "Sessions" }
+        if section == 0 {
+            if viewModel.sessions.count == 0 { return nil }
+            return "Sessions"
+        }
         if section == 1 { return "Songs" }
         return nil
     }

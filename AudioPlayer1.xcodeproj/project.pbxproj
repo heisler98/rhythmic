@@ -33,7 +33,7 @@
 		5A3CD1B71F6A57920015683B /* Star Trek Main Theme.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3CD1AD1F6A57920015683B /* Star Trek Main Theme.mp3 */; };
 		5A3CD1B81F6A57920015683B /* The Force Suite.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3CD1AE1F6A57920015683B /* The Force Suite.mp3 */; };
 		5A3CD1B91F6A57920015683B /* The Force Theme.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3CD1AF1F6A57920015683B /* The Force Theme.mp3 */; };
-		5A402BD12159D207005BD956 /* TrackManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A402BD02159D207005BD956 /* TrackManagerTests.swift */; };
+		5A402BD12159D207005BD956 /* ManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A402BD02159D207005BD956 /* ManagerTests.swift */; };
 		5A402BD32159D62C005BD956 /* Managers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A402BD22159D62C005BD956 /* Managers.swift */; };
 		5A402BD4215AC20B005BD956 /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A402BCC2159B932005BD956 /* AudioKit.framework */; };
 		5A402BD6215B4E9E005BD956 /* Controls.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A402BD5215B4E9E005BD956 /* Controls.xib */; };
@@ -73,6 +73,9 @@
 		5A6E6531203CB4090062FD5B /* Sober Up.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A6E6530203CB4090062FD5B /* Sober Up.mp3 */; };
 		5A7AD6F42170003600090A86 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7AD6F32170003600090A86 /* NavigationController.swift */; };
 		5A7AD6F62176A62800090A86 /* SessionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7AD6F52176A62800090A86 /* SessionController.swift */; };
+		5A7AD6F82179859500090A86 /* ViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7AD6F72179859400090A86 /* ViewModelTests.swift */; };
+		5A7AD6FA2179881B00090A86 /* HandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7AD6F92179881B00090A86 /* HandlerTests.swift */; };
+		5A7AD6FC2179886B00090A86 /* QueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7AD6FB2179886B00090A86 /* QueueTests.swift */; };
 		5A8E45261F88416700B33FB7 /* 440 Triangle.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A8E45251F88416700B33FB7 /* 440 Triangle.mp3 */; };
 		5A8E45281F901DB900B33FB7 /* Tell Me.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A8E45271F901DB800B33FB7 /* Tell Me.mp3 */; };
 		5A9D6BDA1E9EF2A300918D8B /* Born.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A9D6BD91E9EF2A300918D8B /* Born.mp3 */; };
@@ -151,7 +154,7 @@
 		5A3CD1AE1F6A57920015683B /* The Force Suite.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "The Force Suite.mp3"; sourceTree = "<group>"; };
 		5A3CD1AF1F6A57920015683B /* The Force Theme.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "The Force Theme.mp3"; sourceTree = "<group>"; };
 		5A402BCC2159B932005BD956 /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioKit.framework; path = AudioPlayer1/AudioKit.framework; sourceTree = "<group>"; };
-		5A402BD02159D207005BD956 /* TrackManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackManagerTests.swift; sourceTree = "<group>"; };
+		5A402BD02159D207005BD956 /* ManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerTests.swift; sourceTree = "<group>"; };
 		5A402BD22159D62C005BD956 /* Managers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Managers.swift; sourceTree = "<group>"; };
 		5A402BD5215B4E9E005BD956 /* Controls.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Controls.xib; sourceTree = "<group>"; };
 		5A4748FC1F9BF89A000D58AD /* Home Now.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Home Now.mp3"; sourceTree = "<group>"; };
@@ -193,6 +196,9 @@
 		5A6E6530203CB4090062FD5B /* Sober Up.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Sober Up.mp3"; sourceTree = "<group>"; };
 		5A7AD6F32170003600090A86 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		5A7AD6F52176A62800090A86 /* SessionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionController.swift; sourceTree = "<group>"; };
+		5A7AD6F72179859400090A86 /* ViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelTests.swift; sourceTree = "<group>"; };
+		5A7AD6F92179881B00090A86 /* HandlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandlerTests.swift; sourceTree = "<group>"; };
+		5A7AD6FB2179886B00090A86 /* QueueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueTests.swift; sourceTree = "<group>"; };
 		5A8E45251F88416700B33FB7 /* 440 Triangle.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "440 Triangle.mp3"; sourceTree = "<group>"; };
 		5A8E45271F901DB800B33FB7 /* Tell Me.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Tell Me.mp3"; sourceTree = "<group>"; };
 		5A9D6BD91E9EF2A300918D8B /* Born.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Born.mp3; sourceTree = "<group>"; };
@@ -267,7 +273,10 @@
 			isa = PBXGroup;
 			children = (
 				5A01949A215C9225003C76F5 /* tracks_test */,
-				5A402BD02159D207005BD956 /* TrackManagerTests.swift */,
+				5A402BD02159D207005BD956 /* ManagerTests.swift */,
+				5A7AD6F72179859400090A86 /* ViewModelTests.swift */,
+				5A7AD6F92179881B00090A86 /* HandlerTests.swift */,
+				5A7AD6FB2179886B00090A86 /* QueueTests.swift */,
 				5A51AC21214DCC0A0063E3FF /* Info.plist */,
 			);
 			path = AudioPlayerTests;
@@ -589,7 +598,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5A402BD12159D207005BD956 /* TrackManagerTests.swift in Sources */,
+				5A7AD6F82179859500090A86 /* ViewModelTests.swift in Sources */,
+				5A7AD6FA2179881B00090A86 /* HandlerTests.swift in Sources */,
+				5A402BD12159D207005BD956 /* ManagerTests.swift in Sources */,
+				5A7AD6FC2179886B00090A86 /* QueueTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

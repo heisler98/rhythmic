@@ -55,6 +55,7 @@ class TrackManager {
      - returns: The removed `Track` object.
      */
     func remove(at index: Index) -> Track {
+        _ = dataHandler.removeFile(at: tracks[index].url)
         return tracks.remove(at: index)
     }
     
@@ -215,7 +216,10 @@ extension SessionManager : SessionResponder {
         sessions[sessionIndex].tracks.moveElement(at: oldIndex, to: newIndex)
     }
     
-    
+    func addedTrack(_ track: Track, to sessionIndex: Index) {
+        guard sessions.indices.contains(sessionIndex) else { return }
+        addTrack(track, toSession: sessionIndex)
+    }
 }
 
 extension Array where Element: Equatable {

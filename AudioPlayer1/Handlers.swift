@@ -8,7 +8,6 @@
 
 import Foundation
 import AVFoundation
-import UIKit
 import MediaPlayer
 
 // MARK: - PlaybackHandler
@@ -455,6 +454,18 @@ public struct DataHandler {
         let plistArray = serializePLIST(fromData: data)
         
         return tracks(fromSerialized: plistArray)
+    }
+    /**
+ */
+    func removeFile(at url: URL) -> Bool {
+        guard FileManager.default.fileExists(atPath: url.path) == true else { return false }
+        do {
+            try FileManager.default.removeItem(at: url)
+        } catch {
+            print(error)
+            return false
+        }
+        return true
     }
     /**
      Copies an asset from one location to another.

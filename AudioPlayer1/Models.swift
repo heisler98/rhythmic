@@ -10,7 +10,6 @@
 import UIKit
 import AVFoundation
 import MediaPlayer
-import os.log
 
 // MARK: - Global definitions
 
@@ -95,6 +94,19 @@ enum CellIdentifiers : String {
     case Track = "cell"
     case Library = "songCell"
     case TrackInSession = "trackCell"
+}
+
+extension UIFont {
+    enum ProjectFonts: String {
+        typealias RawValue = String
+        
+        case Regular = "AvenirNext-Regular"
+        case Italic = "AvenirNext-Italic"
+        case DemiBold = "AvenirNext-DemiBold"
+        case DemiBoldItalic = "AvenirNext-DemiBoldItalic"
+        case HeavyItalic = "AvenirNext-HeavyItalic"
+        case Medium = "AvenirNext-Medium"
+    }
 }
 
 extension UIColor {
@@ -391,8 +403,10 @@ struct ViewModel {
         var period : Double
         
         if periodOrBPM > 10 {
-            period = 1/(periodOrBPM * 60) } else {
-            period = periodOrBPM }
+            period = 1/(periodOrBPM / 60)
+        } else {
+            period = periodOrBPM
+        }
         
         let track = Track(title: String(fileName), period: period, fileName: lastComponent)
         tracks.append(track: track)

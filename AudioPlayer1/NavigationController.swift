@@ -21,7 +21,6 @@ class NavigationController: UINavigationController, UINavigationControllerDelega
         super.viewDidLoad()
         self.delegate = self as UINavigationControllerDelegate
         extendedLayoutIncludesOpaqueBars = true
-        // Do any additional setup after loading the view.
     }
     
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {

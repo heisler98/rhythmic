@@ -65,7 +65,8 @@ class LibraryController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.Library.rawValue, for: indexPath)
         
         if songs.count == 0 {
-            cell.textLabel?.text = "Tap 'Load'"
+            cell.textLabel?.text = "No songs found"
+            cell.detailTextLabel?.text = "Tap 'Reload'"
             return cell
         }
         
@@ -79,6 +80,10 @@ class LibraryController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard songs.count > 0 else {
+            tableView.deselectRow(at: indexPath, animated: true)
+            return
+        }
         let song = songs[indexPath.row]
         
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
