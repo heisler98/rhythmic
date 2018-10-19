@@ -20,7 +20,7 @@ import UIKit
 func randsInRange(range: Range<Int>, quantity : Int) -> [Int] {
     var rands : [Int] = []
     for _ in 0..<quantity {
-        rands.append(Int(arc4random_uniform(UInt32(range.upperBound - range.lowerBound))) + range.lowerBound)
+        rands.append(Int.random(in: range))
     }
     return rands
 }
