@@ -140,8 +140,6 @@ class PanAudioPlayer: AVAudioPlayer {
     private var timer : Timer = Timer()
     ///The period/(frequency) of the pan.
     private var period : Double
-    ///The index associated with the currently playing `Track`.
-    var trackIndex : Int?
     ///The progress delegate.
     weak var progressDelegate : ProgressUpdater?
     
@@ -174,7 +172,6 @@ class PanAudioPlayer: AVAudioPlayer {
                 self.progressDelegate?.updateProgress(to: Float(self.currentTime / self.duration))
                 self.pan *= -1
             })
-            
         }
         
         else if (opt == .Crosspan) { //delta
@@ -346,6 +343,11 @@ struct ViewModel {
             return trackQueue
         }
     }
+    ///Indicates whether a Session can be built.
+    var canBuildSession : Bool {
+        if trackQueue.isEmpty == true { return false }
+        return true
+    }
     // MARK: - Modeling the view
     
     /// Returns the detail string for track at the specified index.
@@ -450,6 +452,12 @@ struct ViewModel {
  */
     func setupCell(_ cell : UITableViewCell, forIndexPath indexPath : IndexPath) {
         if indexPath.section == 0 {
+            if indexPath.row == sessions.count {
+                cell.textLabel!.text = "Create a new session..."
+                cell.detailTextLabel?.text = ""
+                cell.accessoryType = .none
+                return
+            }
             cell.textLabel!.text = sessions[indexPath.row].title
             cell.detailTextLabel!.text = "\(sessions[indexPath.row].count) songs"
         }
@@ -489,11 +497,9 @@ struct ViewModel {
     func sessionSelected(at index : Index) throws -> PlaybackHandler {
         let tracksToPlay = sessions[index].tracks
         let sessionQueue = Queue()
-        for track in tracksToPlay {
-            guard let index = tracks.tracks.firstIndex(of: track) else { continue }
-            sessionQueue.append(selected: index)
-        }
-        return try PlaybackHandler(queue: sessionQueue, tracks: tracks)
+        let manager = TrackManager(tracks: tracksToPlay)
+        sessionQueue.append(all: Array(tracksToPlay.indices))
+        return try PlaybackHandler(queue: sessionQueue, tracks: manager)
     }
 
 }

@@ -73,6 +73,7 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
             previous()
         } else {
             player.currentTime = 0.0
+            remote.updateInfoCenter(with: tracks[queue.now], audioPlayer: player)
         }
     }
     ///Moves playback to the previous track.
@@ -457,7 +458,7 @@ public struct DataHandler {
     }
     /**
  */
-    func removeFile(at url: URL) -> Bool {
+    func removeAsset(at url: URL) -> Bool {
         guard FileManager.default.fileExists(atPath: url.path) == true else { return false }
         do {
             try FileManager.default.removeItem(at: url)

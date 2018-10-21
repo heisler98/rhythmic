@@ -55,7 +55,7 @@ class TrackManager {
      - returns: The removed `Track` object.
      */
     func remove(at index: Index) -> Track {
-        _ = dataHandler.removeFile(at: tracks[index].url)
+        _ = dataHandler.removeAsset(at: tracks[index].url)
         return tracks.remove(at: index)
     }
     
@@ -207,6 +207,18 @@ class SessionManager {
 }
 
 extension SessionManager : SessionResponder {
+    func rhythmChanged(_ to: Rhythmic, at trackIndex: Index, in sessionIndex: Index) {
+        guard sessions.indices.contains(sessionIndex) else { return }
+        guard sessions[sessionIndex].tracks.indices.contains(trackIndex) else { return }
+        sessions[sessionIndex].tracks[trackIndex].rhythm = to
+    }
+    
+    func rateChanged(_ to: PanRate, at trackIndex: Index, in sessionIndex: Index) {
+        guard sessions.indices.contains(sessionIndex) else { return }
+        guard sessions[sessionIndex].tracks.indices.contains(trackIndex) else { return }
+        sessions[sessionIndex].tracks[trackIndex].rate = to
+    }
+    
     func trackRemoved(at index: Index, from sessionIndex: Index) {
         _ = removeTrack(at: index, fromSession: sessionIndex)
     }
@@ -231,7 +243,19 @@ extension Array where Element: Equatable {
         - to: The new index of the element.
  */
     mutating func moveElement(at: Index, to: Index) {
-        precondition(at != to && indices.contains(at) && indices.contains(to), "Invalid indices")
+        guard at != to && indices.contains(at) && indices.contains(to) else { return }
         insert(remove(at: at), at: to)
+    }
+    
+    /**
+     Returns the index of the given element.
+     - parameter of: An element in the collection.
+     - returns: The index of the given element.
+     
+     The first index where the given element is found in the collection will be returned. If the element cannot be found in the collection, this function returns `NSNotFound`.
+ */
+    func index(of: Element) -> Index {
+        let firstIndex = self.firstIndex(of: of)
+        return firstIndex ?? NSNotFound
     }
 }

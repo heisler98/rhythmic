@@ -18,7 +18,7 @@ import UIKit
 ///   - range: A range of integers to draw at random.
 ///   - quantity: The amount of integers to draw.
 func randsInRange(range: Range<Int>, quantity : Int) -> [Int] {
-    var rands : [Int] = []
+    var rands = [Int]()
     for _ in 0..<quantity {
         rands.append(Int.random(in: range))
     }
@@ -54,13 +54,7 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
     // MARK: - View controls
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let clear = UIBarButtonItem(title: "Clear", style: .plain, target: self, action: #selector(clearSelections(_:)))
-        let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(createSession(_:)))
-        let organize = UIBarButtonItem(barButtonSystemItem: .organize, target: self, action: #selector(showMusicLibrary(_:)))
-        
-        self.navigationItem.setLeftBarButtonItems([clear, add], animated: false)
-        self.navigationItem.setRightBarButton(organize, animated: false)
+        setupNavigationItem()
         self.navigationItem.searchController = searchController
         
         searchController.searchBar.tintColor = UIColor.white
@@ -69,8 +63,15 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
         playButtonItem.action = #selector(handlePlayButton(_:))
         
         definesPresentationContext = true
-        
         tableView.separatorColor = UIColor.swatch
+    }
+    
+    func setupNavigationItem() {
+        let clear = UIBarButtonItem(title: "Clear", style: .plain, target: self, action: #selector(clearSelections(_:)))
+        let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showMusicLibrary(_:)))
+        
+        self.navigationItem.setLeftBarButton(clear, animated: false)
+        self.navigationItem.setRightBarButton(add, animated: false)
     }
 
     // MARK: - New track from OpenURL
@@ -147,7 +148,7 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
      - parameter sender: The sender of the action.
  */
     @IBAction func createSession(_ sender : Any) {
-        guard viewModel.queue.selectedTracks.isEmpty != true else { return }
+        guard viewModel.canBuildSession == true else { return }
         let alertController = UIAlertController(title: "New session", message: "Give the new session a name.", preferredStyle: .alert)
         alertController.addTextField { (textField) in
             textField.keyboardType = UIKeyboardType.alphabet
@@ -211,7 +212,7 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
         searchController.isActive = false
 
         let allTracks = viewModel.tracks.tracks
-        guard let index = allTracks.index(of: selectedTrack) else { return }
+        let index = allTracks.index(of: selectedTrack)
         
         queue.safeSelectCell(at: index)
         
@@ -259,6 +260,11 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
+            if indexPath.row == viewModel.sessions.count {
+                createSession(tableView)
+                tableView.deselectRow(at: indexPath, animated: true)
+                return
+            }
             do {
                 self.handler = try viewModel.sessionSelected(at: indexPath.row)
                 handler?.progressReceiver = self as ProgressUpdater
@@ -472,7 +478,7 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 { return viewModel.sessions.count }
+        if section == 0 { return viewModel.sessions.count + 1 }
         if section == 1 { return viewModel.tracks.count }
         return 0
     }
@@ -530,6 +536,8 @@ class SearchTableController : UITableViewController, UISearchResultsUpdating {
         let track = filteredTracks[indexPath.row]
         
         cell.textLabel?.text = track.title
+        let descriptor = UIFontDescriptor(name: UIFont.ProjectFonts.Regular.rawValue, size: 18)
+        cell.textLabel?.font = UIFont(descriptor: descriptor, size: 18)
         
         return cell
     }
