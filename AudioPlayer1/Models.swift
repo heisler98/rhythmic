@@ -482,8 +482,10 @@ struct ViewModel {
  */
     func playbackHandler() throws -> PlaybackHandler {
         do {
+            queue.hasChangedSincePlayback = false
             return try PlaybackHandler(queue: queue, tracks: tracks)
         } catch {
+            queue.hasChangedSincePlayback = true
             throw error
         }
     }
@@ -499,7 +501,13 @@ struct ViewModel {
         let sessionQueue = Queue()
         let manager = TrackManager(tracks: tracksToPlay)
         sessionQueue.append(all: Array(tracksToPlay.indices))
-        return try PlaybackHandler(queue: sessionQueue, tracks: manager)
+        do {
+            queue.hasChangedSincePlayback = false
+            return try PlaybackHandler(queue: sessionQueue, tracks: manager)
+        } catch {
+            queue.hasChangedSincePlayback = true
+            throw error
+        }
     }
 
 }
@@ -512,6 +520,8 @@ class Queue : Sequence, IteratorProtocol {
     var selectedTracks = [Index]()
     ///The current position for iteration.
     private var position : Position
+    ///Indicates whether the queue has been changed since playback.
+    var hasChangedSincePlayback : Bool = true
     ///An optional, computed array of selected indices.
     var queued : [Index]? {
         get {
@@ -559,6 +569,7 @@ class Queue : Sequence, IteratorProtocol {
      - parameter selected: The index to append.
  */
     func append(selected : Index) {
+        hasChangedSincePlayback = true
         selectedTracks.append(selected)
     }
     /**
@@ -566,6 +577,7 @@ class Queue : Sequence, IteratorProtocol {
      - parameter all: The indices to append.
  */
     func append(all : [Index]) {
+        hasChangedSincePlayback = true
         selectedTracks.append(contentsOf: all)
     }
     /**
@@ -575,6 +587,7 @@ class Queue : Sequence, IteratorProtocol {
  */
     func remove(selected : Index) -> Index? {
         if selectedTracks.contains(selected) {
+            hasChangedSincePlayback = true
             return selectedTracks.remove(at: selectedTracks.firstIndex(of: selected)!)
         }
         return nil
@@ -583,6 +596,7 @@ class Queue : Sequence, IteratorProtocol {
      Clears the entire queue by removing all indices.
  */
     func reset() {
+        hasChangedSincePlayback = true
         selectedTracks.removeAll()
     }
     /**
@@ -603,8 +617,10 @@ class Queue : Sequence, IteratorProtocol {
  */
     func cellSelected(at index : Index) {
         if selectedTracks.contains(index) {
+            hasChangedSincePlayback = true
             _ = self.remove(selected: index)
         } else {
+            hasChangedSincePlayback = true
             self.append(selected: index)
         }
     }
@@ -613,6 +629,7 @@ class Queue : Sequence, IteratorProtocol {
     /// - parameter index: The selected index.
     func safeSelectCell(at index : Index) {
         if !contains(index) {
+            hasChangedSincePlayback = true
             selectedTracks.append(index)
         }
         
