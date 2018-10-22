@@ -412,7 +412,7 @@ struct ViewModel {
         
         let track = Track(title: String(fileName), period: period, fileName: lastComponent)
         tracks.append(track: track)
-        
+        _ = DataHandler.setPreferredFileProtection(on: url)
     }
     /**
      Builds a Session and adds it to the TrackManager.

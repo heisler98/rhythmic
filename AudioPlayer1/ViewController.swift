@@ -266,17 +266,29 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
                 tableView.deselectRow(at: indexPath, animated: true)
                 return
             }
+
             do {
+
                 self.handler = try viewModel.sessionSelected(at: indexPath.row)
                 handler?.progressReceiver = self as ProgressUpdater
                 handler?.startPlaying()
                 playButtonItem.action = #selector(stop(_:))
                 updateInfo(sessionName: viewModel.title(for: indexPath))
                 tableView.deselectRow(at: indexPath, animated: true)
+ 
             } catch {
                 fatalError("\(error)")
             }
-        }
+ /*
+            guard let drawerController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Drawer") as? DrawerController else { return }
+            drawerController.tracks = viewModel.sessions[indexPath.row].tracks
+            drawerController.name = viewModel.sessions[indexPath.row].title
+            drawerController.delegate = viewModel.sessions as SessionResponder
+            drawerController.masterCollection = viewModel.tracks.tracks
+            displayInDrawer(drawerController, drawerPositionDelegate: nil)
+            tableView.deselectRow(at: indexPath, animated: false)
+ */
+ }
         
         if indexPath.section == 1 {
             let cell = tableView.cellForRow(at: indexPath)

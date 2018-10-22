@@ -138,9 +138,8 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         tracks[queue.now].audioPlayer?.invalidateRhythm()
-        let next = queue.next()
+        _ = queue.next()
         startPlaying()
-        remote.updateInfoCenter(with: tracks[next], audioPlayer: tracks[next].audioPlayer!)
     }
     // MARK: - Initializers
     /**
@@ -479,6 +478,23 @@ public struct DataHandler {
             try FileManager.default.copyItem(at: bundleURL, to: trackURL)
         } catch {
             print(error)
+        }
+    }
+    /**
+     Sets the preferred URLFileProtection resource value on the specified URL.
+     - parameter on: The item's URL to set the value on.
+     - returns: A Boolean value indicating success.
+ */
+    static func setPreferredFileProtection(on: URL) -> Bool {
+        let url = on as NSURL
+        let key = URLResourceKey.fileProtectionKey
+        let value = URLFileProtection.completeUntilFirstUserAuthentication
+        do {
+            try url.setResourceValue(value, forKey: key)
+            return true
+        } catch {
+            print(error)
+            return false
         }
     }
     /**

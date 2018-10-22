@@ -155,7 +155,7 @@ class SessionController: UITableViewController {
             delegate?.trackMoved(from: fromIndexPath.row, to: to.row, in: sessionPath!.row)
             let toMove = tracks!.remove(at: fromIndexPath.row)
             tracks!.insert(toMove, at: to.row)
-            tableView.moveRow(at: fromIndexPath, to: to)
+            
         }
     }
  
