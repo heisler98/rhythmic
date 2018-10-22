@@ -138,7 +138,6 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         tracks[queue.now].audioPlayer?.invalidateRhythm()
-        remote.endReceivingEvents()
         let next = queue.next()
         startPlaying()
         remote.updateInfoCenter(with: tracks[next], audioPlayer: tracks[next].audioPlayer!)
@@ -233,7 +232,6 @@ class RemoteHandler {
  */
         commandCenter.togglePlayPauseCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
             self.handler?.pauseResume()
-            print("pauseResume target pushed")
             return .success
         }
         commandCenter.nextTrackCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
@@ -449,7 +447,7 @@ public struct DataHandler {
  */
     func defaultTracks() -> [Track] {
         
-        guard let plistUrl = Bundle.main.url(forResource: "Tracks", withExtension: "plist") else { fatalError() }
+        guard let plistUrl = Bundle.main.url(forResource: "Preload", withExtension: "plist") else { fatalError() }
         guard let data = try? Data(contentsOf: plistUrl)  else { fatalError() }
         
         let plistArray = serializePLIST(fromData: data)

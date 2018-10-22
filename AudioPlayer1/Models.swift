@@ -499,7 +499,7 @@ struct ViewModel {
     func sessionSelected(at index : Index) throws -> PlaybackHandler {
         let tracksToPlay = sessions[index].tracks
         let sessionQueue = Queue()
-        let manager = TrackManager(tracks: tracksToPlay)
+        let manager = SessionTrackManager(tracks: tracksToPlay)
         sessionQueue.append(all: Array(tracksToPlay.indices))
         do {
             queue.hasChangedSincePlayback = false

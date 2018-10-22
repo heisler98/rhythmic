@@ -63,7 +63,7 @@ class SessionController: UITableViewController {
     var sessionPath : IndexPath?
     ///The master collection of available Tracks.
     var masterCollection : [Track]?
-    
+  
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.rightBarButtonItem = self.editButtonItem

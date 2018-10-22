@@ -13,7 +13,7 @@
 		5A01949C215C947B003C76F5 /* tracks_test in Resources */ = {isa = PBXBuildFile; fileRef = 5A01949A215C9225003C76F5 /* tracks_test */; };
 		5A01949E215D5B75003C76F5 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5A01949D215D5B75003C76F5 /* Settings.bundle */; };
 		5A0194A0215F0917003C76F5 /* Handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A01949F215F0917003C76F5 /* Handlers.swift */; };
-		5A0B3FED1F74CEF100A60D9F /* Tracks.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5A0B3FEC1F74CEF100A60D9F /* Tracks.plist */; };
+		5A0B3FED1F74CEF100A60D9F /* Preload.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5A0B3FEC1F74CEF100A60D9F /* Preload.plist */; };
 		5A0D0F2B202393E60086F50E /* Working Man.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A0D0F2A202393E60086F50E /* Working Man.mp3 */; };
 		5A0D0F2D2027A2BF0086F50E /* Fallen.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A0D0F2C2027A2BF0086F50E /* Fallen.mp3 */; };
 		5A0D0F2F202808600086F50E /* My Fault.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A0D0F2E202808600086F50E /* My Fault.mp3 */; };
@@ -76,6 +76,12 @@
 		5A7AD6F82179859500090A86 /* ViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7AD6F72179859400090A86 /* ViewModelTests.swift */; };
 		5A7AD6FA2179881B00090A86 /* HandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7AD6F92179881B00090A86 /* HandlerTests.swift */; };
 		5A7AD6FC2179886B00090A86 /* QueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7AD6FB2179886B00090A86 /* QueueTests.swift */; };
+		5A7AD707217D0D9D00090A86 /* UIViewController+PresentDrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7AD6FF217D0D9D00090A86 /* UIViewController+PresentDrawerController.swift */; };
+		5A7AD708217D0D9D00090A86 /* OutsideBoundsHittableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7AD700217D0D9D00090A86 /* OutsideBoundsHittableView.swift */; };
+		5A7AD70A217D0D9D00090A86 /* dLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7AD702217D0D9D00090A86 /* dLog.swift */; };
+		5A7AD70B217D0D9D00090A86 /* PanGestureTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7AD703217D0D9D00090A86 /* PanGestureTarget.swift */; };
+		5A7AD70C217D0D9D00090A86 /* UIView+PinSubview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7AD704217D0D9D00090A86 /* UIView+PinSubview.swift */; };
+		5A7AD70F217D7B0D00090A86 /* DrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7AD70E217D7B0D00090A86 /* DrawerController.swift */; };
 		5A8E45261F88416700B33FB7 /* 440 Triangle.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A8E45251F88416700B33FB7 /* 440 Triangle.mp3 */; };
 		5A8E45281F901DB900B33FB7 /* Tell Me.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A8E45271F901DB800B33FB7 /* Tell Me.mp3 */; };
 		5A9D6BDA1E9EF2A300918D8B /* Born.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A9D6BD91E9EF2A300918D8B /* Born.mp3 */; };
@@ -133,7 +139,7 @@
 		5A01949A215C9225003C76F5 /* tracks_test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tracks_test; sourceTree = "<group>"; };
 		5A01949D215D5B75003C76F5 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		5A01949F215F0917003C76F5 /* Handlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Handlers.swift; sourceTree = "<group>"; };
-		5A0B3FEC1F74CEF100A60D9F /* Tracks.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Tracks.plist; sourceTree = "<group>"; };
+		5A0B3FEC1F74CEF100A60D9F /* Preload.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Preload.plist; sourceTree = "<group>"; };
 		5A0D0F2A202393E60086F50E /* Working Man.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Working Man.mp3"; sourceTree = "<group>"; };
 		5A0D0F2C2027A2BF0086F50E /* Fallen.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Fallen.mp3; sourceTree = "<group>"; };
 		5A0D0F2E202808600086F50E /* My Fault.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "My Fault.mp3"; sourceTree = "<group>"; };
@@ -199,6 +205,12 @@
 		5A7AD6F72179859400090A86 /* ViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelTests.swift; sourceTree = "<group>"; };
 		5A7AD6F92179881B00090A86 /* HandlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandlerTests.swift; sourceTree = "<group>"; };
 		5A7AD6FB2179886B00090A86 /* QueueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueTests.swift; sourceTree = "<group>"; };
+		5A7AD6FF217D0D9D00090A86 /* UIViewController+PresentDrawerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+PresentDrawerController.swift"; sourceTree = "<group>"; };
+		5A7AD700217D0D9D00090A86 /* OutsideBoundsHittableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutsideBoundsHittableView.swift; sourceTree = "<group>"; };
+		5A7AD702217D0D9D00090A86 /* dLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dLog.swift; sourceTree = "<group>"; };
+		5A7AD703217D0D9D00090A86 /* PanGestureTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PanGestureTarget.swift; sourceTree = "<group>"; };
+		5A7AD704217D0D9D00090A86 /* UIView+PinSubview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+PinSubview.swift"; sourceTree = "<group>"; };
+		5A7AD70E217D7B0D00090A86 /* DrawerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerController.swift; sourceTree = "<group>"; };
 		5A8E45251F88416700B33FB7 /* 440 Triangle.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "440 Triangle.mp3"; sourceTree = "<group>"; };
 		5A8E45271F901DB800B33FB7 /* Tell Me.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Tell Me.mp3"; sourceTree = "<group>"; };
 		5A9D6BD91E9EF2A300918D8B /* Born.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Born.mp3; sourceTree = "<group>"; };
@@ -256,14 +268,16 @@
 				5ABA30981DCBC97D006E5999 /* AppDelegate.swift */,
 				5ABA309A1DCBC97D006E5999 /* ViewController.swift */,
 				5A7AD6F52176A62800090A86 /* SessionController.swift */,
+				5A7AD70E217D7B0D00090A86 /* DrawerController.swift */,
 				5A7AD6F32170003600090A86 /* NavigationController.swift */,
 				5AB5162A20A25D1C00BE5028 /* LibraryController.swift */,
 				5AB5162C20A2A05700BE5028 /* SongExporter.swift */,
-				5A0B3FEC1F74CEF100A60D9F /* Tracks.plist */,
+				5A0B3FEC1F74CEF100A60D9F /* Preload.plist */,
 				5ABA309C1DCBC97D006E5999 /* Main.storyboard */,
 				5ABA30A11DCBC97D006E5999 /* LaunchScreen.storyboard */,
 				5A402BD5215B4E9E005BD956 /* Controls.xib */,
 				5ABA30A41DCBC97D006E5999 /* Info.plist */,
+				5A7AD6FD217D0D9D00090A86 /* UIViewController-DisplayInDrawer */,
 				5A01949D215D5B75003C76F5 /* Settings.bundle */,
 			);
 			name = iOS;
@@ -280,6 +294,34 @@
 				5A51AC21214DCC0A0063E3FF /* Info.plist */,
 			);
 			path = AudioPlayerTests;
+			sourceTree = "<group>";
+		};
+		5A7AD6FD217D0D9D00090A86 /* UIViewController-DisplayInDrawer */ = {
+			isa = PBXGroup;
+			children = (
+				5A7AD6FE217D0D9D00090A86 /* Classes */,
+				5A7AD705217D0D9D00090A86 /* Assets */,
+			);
+			path = "UIViewController-DisplayInDrawer";
+			sourceTree = "<group>";
+		};
+		5A7AD6FE217D0D9D00090A86 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				5A7AD6FF217D0D9D00090A86 /* UIViewController+PresentDrawerController.swift */,
+				5A7AD700217D0D9D00090A86 /* OutsideBoundsHittableView.swift */,
+				5A7AD702217D0D9D00090A86 /* dLog.swift */,
+				5A7AD703217D0D9D00090A86 /* PanGestureTarget.swift */,
+				5A7AD704217D0D9D00090A86 /* UIView+PinSubview.swift */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		5A7AD705217D0D9D00090A86 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Assets;
 			sourceTree = "<group>";
 		};
 		5ABA308C1DCBC97D006E5999 = {
@@ -568,7 +610,7 @@
 				5A01949C215C947B003C76F5 /* tracks_test in Resources */,
 				5A8E45261F88416700B33FB7 /* 440 Triangle.mp3 in Resources */,
 				5A0D0F2F202808600086F50E /* My Fault.mp3 in Resources */,
-				5A0B3FED1F74CEF100A60D9F /* Tracks.plist in Resources */,
+				5A0B3FED1F74CEF100A60D9F /* Preload.plist in Resources */,
 				5A0D0F332028086B0086F50E /* America.mp3 in Resources */,
 				5A5598311F7B5A9900AF9E9F /* Counting Stars.mp3 in Resources */,
 				5AFA297F1F993BFA005B4D79 /* Glorious.mp3 in Resources */,
@@ -612,11 +654,17 @@
 				5AB5162D20A2A05700BE5028 /* SongExporter.swift in Sources */,
 				5A7AD6F62176A62800090A86 /* SessionController.swift in Sources */,
 				5A7AD6F42170003600090A86 /* NavigationController.swift in Sources */,
+				5A7AD70A217D0D9D00090A86 /* dLog.swift in Sources */,
+				5A7AD70B217D0D9D00090A86 /* PanGestureTarget.swift in Sources */,
 				5ABEAF621F19851E008E5BB5 /* Models.swift in Sources */,
+				5A7AD708217D0D9D00090A86 /* OutsideBoundsHittableView.swift in Sources */,
 				5A0194A0215F0917003C76F5 /* Handlers.swift in Sources */,
 				5ABA309B1DCBC97D006E5999 /* ViewController.swift in Sources */,
 				5A402BD32159D62C005BD956 /* Managers.swift in Sources */,
+				5A7AD707217D0D9D00090A86 /* UIViewController+PresentDrawerController.swift in Sources */,
+				5A7AD70F217D7B0D00090A86 /* DrawerController.swift in Sources */,
 				5ABA30991DCBC97D006E5999 /* AppDelegate.swift in Sources */,
+				5A7AD70C217D0D9D00090A86 /* UIView+PinSubview.swift in Sources */,
 				5AB5162B20A25D1C00BE5028 /* LibraryController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

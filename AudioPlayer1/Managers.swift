@@ -14,7 +14,7 @@ class TrackManager {
     ///The master collection of `Track`s.
     var tracks : [Track] {
         didSet {
-            try? dataHandler.encodeTracks(tracks)
+            persist()
         }
     }
     ///The number of `Track`s accessible to the manager.
@@ -71,6 +71,11 @@ class TrackManager {
             someTracks.append(tracks[index])
         }
         return someTracks
+    }
+    /**
+ */
+    fileprivate func persist() {
+        try? dataHandler.encodeTracks(tracks)
     }
     /**
      Initializes a `TrackManager` object.
@@ -232,6 +237,10 @@ extension SessionManager : SessionResponder {
         guard sessions.indices.contains(sessionIndex) else { return }
         addTrack(track, toSession: sessionIndex)
     }
+}
+
+class SessionTrackManager : TrackManager {
+    override func persist() { }
 }
 
 extension Array where Element: Equatable {

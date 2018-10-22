@@ -142,6 +142,7 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
         updateTrackInfo()
         progressView.setProgress(0, animated: false)
         self.tableView.reloadData()
+ 
     }
     /**
      Creates a session.
