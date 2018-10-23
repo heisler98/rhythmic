@@ -415,7 +415,7 @@ struct ViewModel {
         _ = DataHandler.setPreferredFileProtection(on: url)
     }
     /**
-     Builds a Session and adds it to the TrackManager.
+     Builds a Session and adds it to the SessionManager.
      - parameter name: The name for the new session.
  */
     func buildSession(name: String) {
@@ -460,6 +460,7 @@ struct ViewModel {
             }
             cell.textLabel!.text = sessions[indexPath.row].title
             cell.detailTextLabel!.text = "\(sessions[indexPath.row].count) songs"
+            cell.accessoryType = .detailButton
         }
         
         if indexPath.section == 1 {
@@ -496,8 +497,9 @@ struct ViewModel {
      - parameter index: The index of the session.
      - throws: Throws a `HandlerError` case if the `PlaybackHandler` cannot be instantiated with the selected session.
  */
-    func sessionSelected(at index : Index) throws -> PlaybackHandler {
-        let tracksToPlay = sessions[index].tracks
+    func sessionSelected(at index : Index, shuffled: Bool) throws -> PlaybackHandler {
+        var tracksToPlay = sessions[index].tracks
+        if shuffled == true { tracksToPlay.shuffle() }
         let sessionQueue = Queue()
         let manager = SessionTrackManager(tracks: tracksToPlay)
         sessionQueue.append(all: Array(tracksToPlay.indices))
@@ -510,6 +512,7 @@ struct ViewModel {
         }
     }
 
+    
 }
 
 // MARK: - Queue
@@ -541,6 +544,8 @@ class Queue : Sequence, IteratorProtocol {
             return selectedTracks.isEmpty
         }
     }
+    ///The `QueueUpdater` delegate.
+    var delegate : QueueUpdater?
     /**
      A subscript getter and setter.
      - parameter position: The position in the queue to access.
@@ -571,6 +576,7 @@ class Queue : Sequence, IteratorProtocol {
     func append(selected : Index) {
         hasChangedSincePlayback = true
         selectedTracks.append(selected)
+        notifyDelegate()
     }
     /**
      Appends an array of indices to the end of the queue.
@@ -579,6 +585,7 @@ class Queue : Sequence, IteratorProtocol {
     func append(all : [Index]) {
         hasChangedSincePlayback = true
         selectedTracks.append(contentsOf: all)
+        notifyDelegate()
     }
     /**
      Removes an index from the queue.
@@ -588,6 +595,7 @@ class Queue : Sequence, IteratorProtocol {
     func remove(selected : Index) -> Index? {
         if selectedTracks.contains(selected) {
             hasChangedSincePlayback = true
+            defer { notifyDelegate() }
             return selectedTracks.remove(at: selectedTracks.firstIndex(of: selected)!)
         }
         return nil
@@ -598,6 +606,7 @@ class Queue : Sequence, IteratorProtocol {
     func reset() {
         hasChangedSincePlayback = true
         selectedTracks.removeAll()
+        notifyDelegate()
     }
     /**
      Tells whether the queue contains a specified index.
@@ -619,9 +628,11 @@ class Queue : Sequence, IteratorProtocol {
         if selectedTracks.contains(index) {
             hasChangedSincePlayback = true
             _ = self.remove(selected: index)
+            notifyDelegate()
         } else {
             hasChangedSincePlayback = true
             self.append(selected: index)
+            notifyDelegate()
         }
     }
     
@@ -631,11 +642,16 @@ class Queue : Sequence, IteratorProtocol {
         if !contains(index) {
             hasChangedSincePlayback = true
             selectedTracks.append(index)
+            notifyDelegate()
         }
         
     }
     
-    fileprivate init() {
+    func notifyDelegate() {
+        delegate?.notify()
+    }
+    
+    init() {
         position = 0
     }
 }

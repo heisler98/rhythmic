@@ -44,7 +44,8 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
     
     ///The search controller used for searching through `Track`s.
     var searchController : UISearchController
-    
+    ///Indicates whether a drawer is present.
+    var isDrawerPresent = false
     /*
     override var prefersStatusBarHidden: Bool {
         return false
@@ -64,6 +65,8 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
         
         definesPresentationContext = true
         tableView.separatorColor = UIColor.swatch
+        tableView.backgroundView = nil
+        tableView.backgroundColor = UIColor.swatch
     }
     
     func setupNavigationItem() {
@@ -150,7 +153,7 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
  */
     @IBAction func createSession(_ sender : Any) {
         guard viewModel.canBuildSession == true else { return }
-        let alertController = UIAlertController(title: "New session", message: "Give the new session a name.", preferredStyle: .alert)
+/*        let alertController = UIAlertController(title: "New session", message: "Give the new session a name.", preferredStyle: .alert)
         alertController.addTextField { (textField) in
             textField.keyboardType = UIKeyboardType.alphabet
             textField.keyboardAppearance = UIKeyboardAppearance.alert
@@ -160,6 +163,11 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
             self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
         }))
         self.present(alertController, animated: true, completion: nil)
+ */
+        guard let trackDrawerController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TrackDrawer") as? TrackDrawerController else { return }
+        trackDrawerController.viewModel = viewModel
+        displayInDrawer(trackDrawerController, drawerPositionDelegate: self)
+        isDrawerPresent = true
     }
     ///Skip the current track.
     @IBAction func fastForward(_ sender: Any) {
@@ -269,7 +277,7 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
 
             do {
 
-                self.handler = try viewModel.sessionSelected(at: indexPath.row)
+                self.handler = try viewModel.sessionSelected(at: indexPath.row, shuffled: false)
                 handler?.progressReceiver = self as ProgressUpdater
                 handler?.startPlaying()
                 playButtonItem.action = #selector(stop(_:))
@@ -279,15 +287,6 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
             } catch {
                 fatalError("\(error)")
             }
- /*
-            guard let drawerController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Drawer") as? DrawerController else { return }
-            drawerController.tracks = viewModel.sessions[indexPath.row].tracks
-            drawerController.name = viewModel.sessions[indexPath.row].title
-            drawerController.delegate = viewModel.sessions as SessionResponder
-            drawerController.masterCollection = viewModel.tracks.tracks
-            displayInDrawer(drawerController, drawerPositionDelegate: nil)
-            tableView.deselectRow(at: indexPath, animated: false)
- */
  }
         
         if indexPath.section == 1 {
@@ -298,6 +297,14 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
             viewModel.setupCell(cell!, forIndexPath: indexPath)
             tableView.deselectRow(at: indexPath, animated: true)
             updateTrackInfo()
+/*
+            if queue.count == 1 && isDrawerPresent == false {
+                guard let trackDrawer = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TrackDrawer") as? TrackDrawerController else { return }
+                trackDrawer.viewModel = viewModel
+                displayInDrawer(trackDrawer, drawerPositionDelegate: self)
+                isDrawerPresent = true
+            }
+ */
         }
         
     }
@@ -436,7 +443,25 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        if indexPath.section == 0 { return nil }
+        if indexPath.section == 0 && indexPath.row != viewModel.sessions.count {
+            let shuffle = UIContextualAction(style: .normal, title: "Shuffle") { (_, _, completionHandler) in
+                do {
+                    self.handler = try self.viewModel.sessionSelected(at: indexPath.row, shuffled: true)
+                    self.handler?.progressReceiver = self as ProgressUpdater
+                    self.handler?.startPlaying()
+                    self.playButtonItem.action = #selector(self.stop(_:))
+                    self.updateInfo(sessionName: self.viewModel.title(for: indexPath))
+                    completionHandler(true)
+                } catch {
+                    print(error)
+                    completionHandler(true)
+                }
+            }
+            shuffle.backgroundColor = UIColor.swatch
+            let config = UISwipeActionsConfiguration(actions: [shuffle])
+            config.performsFirstActionWithFullSwipe = false
+            return config
+        }
         
         let half = UIContextualAction(style: .normal, title: "0.5x", handler: { _, _, completionHandler in
             self.rateChange(.Half, atIndexPath: indexPath, completionHandler) })
@@ -476,6 +501,16 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
         headerView.textLabel?.font = font
     }
     
+    func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        guard let drawerController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Drawer") as? DrawerController else { return }
+        drawerController.delegate = viewModel.sessions as SessionResponder
+        drawerController.masterCollection = viewModel.tracks.tracks
+        drawerController.tracks = viewModel.sessions[indexPath.row].tracks
+        drawerController.name = viewModel.sessions[indexPath.row].title
+        drawerController.sessionPath = indexPath
+        displayInDrawer(drawerController, drawerPositionDelegate: nil)
+    }
+    
     // MARK: - Table View data source controls
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
@@ -512,6 +547,27 @@ extension ViewController : ProgressUpdater {
     func updateProgress(to fractionalUnit: Float) {
         progressView.setProgress(fractionalUnit, animated: false)
     }
+}
+
+extension ViewController : DrawerPositionDelegate {
+    func didMoveDrawerToTopPosition() {
+    }
+    
+    func didMoveDrawerToMiddlePosition() {
+    }
+    
+    func didMoveDrawerToBasePosition() {
+    }
+    
+    func willDismissDrawer() {
+        self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+    }
+    
+    func didDismissDrawer() {
+        isDrawerPresent = false
+    }
+    
+    
 }
 
 protocol SearchResults {

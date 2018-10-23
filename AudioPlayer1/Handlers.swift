@@ -454,6 +454,9 @@ public struct DataHandler {
         return tracks(fromSerialized: plistArray)
     }
     /**
+     Removes the asset at the specified URL.
+     - parameter url: The URL of the asset to delete.
+     - returns: A Boolean value indicating whether the deletion was successful.
  */
     func removeAsset(at url: URL) -> Bool {
         guard FileManager.default.fileExists(atPath: url.path) == true else { return false }
@@ -464,6 +467,53 @@ public struct DataHandler {
             return false
         }
         return true
+    }
+    /**
+     Copies the JSON Track object model to an iCloud-backed location.
+     - returns: A Boolean value indicating if the backup was successful.
+ */
+    func backupTracks() -> Bool {
+        return backup(DataHandler.tracksArchiveURL)
+    }
+    /**
+     Copies the JSON Track object model to an iCloud-backed location.
+     - returns: A Boolean value indicating if the backup was successful.
+ */
+    func backupSessions() -> Bool {
+        return backup(DataHandler.sessionsArchiveURL)
+    }
+    /**
+ */
+    func backup() {
+        _ = backup(DataHandler.tracksArchiveURL)
+        _ = backup(DataHandler.sessionsArchiveURL)
+    }
+    /**
+     Copies an asset to an iCloud-backed location.
+     - parameter asset: The asset to backup.
+     - returns: A Boolean value indicating success.
+ */
+    func backup(_ asset: URL) -> Bool {
+        guard FileManager.default.fileExists(atPath: asset.path) else { return false }
+        let backupURL = DataHandler.documentsDirectory.appendingPathComponent("Inbox", isDirectory: true).appendingPathComponent(asset.lastPathComponent)
+        if FileManager.default.fileExists(atPath: backupURL.path) {
+            do {
+                try FileManager.default.removeItem(at: backupURL)
+                try FileManager.default.copyItem(at: asset, to: backupURL)
+                return true
+            } catch {
+                print(error)
+                return false
+            }
+        } else {
+            do {
+                try FileManager.default.copyItem(at: asset, to: backupURL)
+                return true
+            } catch {
+                print(error)
+                return false
+            }
+        }
     }
     /**
      Copies an asset from one location to another.

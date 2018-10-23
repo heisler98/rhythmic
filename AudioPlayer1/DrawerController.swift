@@ -26,6 +26,7 @@ class DrawerController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.clear
+        gestureRecognizer.delegate = self as UIGestureRecognizerDelegate
         tableView.separatorColor = UIColor.swatch
         tableView.backgroundView = nil
         tableView.backgroundColor = UIColor(white: 1.0, alpha: 0.25)
@@ -43,9 +44,15 @@ class DrawerController: UIViewController {
         
         if editing == true {
             tableView.insertSections(IndexSet(integer: 1), with: .bottom)
+            UIView.animate(withDuration: 0.35) {
+                self.didChangeLayoutClosure?()
+            }
         } else {
             if tableView.numberOfSections == 2 {
                 tableView.deleteSections(IndexSet(integer: 1), with: .bottom)
+                UIView.animate(withDuration: 0.35) {
+                    self.didChangeLayoutClosure?()
+                }
             }
         }
         
@@ -53,6 +60,16 @@ class DrawerController: UIViewController {
     
     @IBAction func dismiss(_ sender: Any) {
         drawerDismissClosure?()
+    }
+    
+    @IBAction func edit(_ sender: UIButton) {
+        if !isEditing {
+            setEditing(true, animated: true)
+            sender.setTitle("Done", for: .normal)
+        } else {
+            setEditing(false, animated: true)
+            sender.setTitle("Edit", for: .normal)
+        }
     }
     
     fileprivate func detailText(forRow indexPath: IndexPath) -> String {
@@ -105,12 +122,13 @@ extension DrawerController : UITableViewDelegate, UITableViewDataSource {
         if indexPath.section == 0 {
             guard let tracks = self.tracks else { return cell }
             cell.textLabel?.text = tracks[indexPath.row].title
+            cell.detailTextLabel?.text = detailText(forRow: indexPath)
             return cell
         }
         
         guard masterCollection != nil else { return cell }
         cell.textLabel?.text = masterCollection![indexPath.row].title
-        
+        cell.detailTextLabel?.text = ""
         return cell
     }
     
@@ -156,9 +174,17 @@ extension DrawerController : UITableViewDelegate, UITableViewDataSource {
         return true
     }
     
+    func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
+        if proposedDestinationIndexPath.section == 0 {
+            return proposedDestinationIndexPath
+        } else {
+            return sourceIndexPath
+        }
+    }
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard section == 0 else { return "Available" }
-        return "In \(name!)"
+        return nil
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
@@ -166,6 +192,7 @@ extension DrawerController : UITableViewDelegate, UITableViewDataSource {
         let descriptor = UIFontDescriptor(name: UIFont.ProjectFonts.Regular.rawValue, size: 17)
         let font = UIFont(descriptor: descriptor, size: 17)
         headerView.textLabel?.font = font
+        headerView.backgroundView?.backgroundColor = UIColor.swatch.withAlphaComponent(0.5)
     }
     
     func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath) { }
@@ -244,7 +271,13 @@ extension DrawerController : UITableViewDelegate, UITableViewDataSource {
 
 extension DrawerController : DrawerConfiguration {
     func topPositionY(for parentHeight: CGFloat) -> CGFloat {
-        return 140
+        guard isViewLoaded == true else { return 0 }
+        var contentHeight = tableView.rect(forSection: 0).height
+        if tableView.numberOfSections == 2 { contentHeight += tableView.rect(forSection: 1).height }
+        guard parentHeight-(contentHeight+150) > 170 else {
+            return 170
+        }
+        return parentHeight - (contentHeight + 150)
     }
     
     func middlePositionY(for parentHeight: CGFloat) -> CGFloat? {
@@ -260,6 +293,115 @@ extension DrawerController : DrawerConfiguration {
         panGestureTarget = target
         gestureRecognizer.addTarget(target, action: action)
     }
+}
+
+extension DrawerController : UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        guard let view = touch.view else { return true }
+        if view.isDescendant(of: tableView) {
+            return false
+        }
+        return true
+    }
+}
+
+protocol QueueUpdater: AnyObject {
+    /**
+     Intercepts the result of the queue being updated.
+     
+     This is called when a `Queue` is mutated.
+ */
+    func notify()
+}
+
+
+
+class TrackDrawerController: UIViewController {
+    @IBOutlet weak var textField: UITextField!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet var gestureRecognizer: UIPanGestureRecognizer!
+    var viewModel : ViewModel?
+    var queue: Queue? { return viewModel?.queue }
+    var panGestureTarget: Any?
+    
+    var drawerDismissClosure: (() -> Void)?
+    var didChangeLayoutClosure: (() -> Void)?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        viewModel?.queue.delegate = self as QueueUpdater
+        textField.textColor = UIColor.swatch
+        textField.delegate = self as UITextFieldDelegate
+        
+        let descriptor = UIFontDescriptor(name: UIFont.ProjectFonts.Regular.rawValue, size: 42)
+        textField.font = UIFont(descriptor: descriptor, size: 42)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        textField.becomeFirstResponder()
+    }
+    
+    @IBAction func dismiss(_ sender: Any) {
+        drawerDismissClosure?()
+    }
+    @IBAction func save(_ sender: Any) {
+        guard let viewModel = self.viewModel else { return }
+        guard let text = textField.text else { return }
+        guard viewModel.canBuildSession == true else { return }
+        viewModel.buildSession(name: text)
+        drawerDismissClosure?()
+    }
+}
+
+extension TrackDrawerController : QueueUpdater {
+    func notify() {
+        //notification that queue has been updated
+        tableView.reloadData()
+    }
+}
+
+extension TrackDrawerController : UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard viewModel != nil else { return 0 }
+        return viewModel!.queue.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "trackCell")
+        //Setup cell
+        
+        
+        guard viewModel != nil else { return cell! }
+        cell?.textLabel?.text = viewModel!.tracks[queue![indexPath.row]].title
+        cell?.detailTextLabel?.text = viewModel!.detailString(for: queue![indexPath.row])
+        return cell!
+    }
+}
+
+extension TrackDrawerController : DrawerConfiguration {
+    func topPositionY(for parentHeight: CGFloat) -> CGFloat {
+        return 140
+    }
+    
+    func middlePositionY(for parentHeight: CGFloat) -> CGFloat? {
+        return nil
+    }
+    
+    func bottomPositionY(for parentHeight: CGFloat) -> CGFloat {
+        return 140
+    }
     
     
+    func setPanGestureTarget(_ target: Any, action: Selector) {
+        panGestureTarget = target
+        gestureRecognizer.addTarget(target, action: action)
+    }
+}
+
+extension TrackDrawerController : UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 }
