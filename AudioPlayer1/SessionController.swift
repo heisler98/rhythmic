@@ -8,53 +8,6 @@
 
 import UIKit
 
-///A protocol to conform to track editing in a Session.
-protocol SessionResponder {
-    /**
-     Indicates a Track was removed from a specified Session.
-     - parameters:
-     
-        - index: The index of a Track.
-        - sessionIndex: The index of the Session.
- */
-    func trackRemoved(at index: Index, from sessionIndex: Index)
-    /**
-     Indicates a Track was moved from one position to another inside a Session.
-     - parameters:
-     
-        - oldIndex: The former index of the Track.
-        - newIndex: The new index of the Track.
-        - sessionIndex: The index of the Session.
- */
-    func trackMoved(from oldIndex: Index, to newIndex: Index, in sessionIndex: Index)
-    /**
-     Indicates a Track was added to a Session.
-     - parameters:
-     
-        - track: The Track to append.
-        - sessionIndex: The index of the Session.
- */
-    func addedTrack(_ track: Track, to sessionIndex: Index)
-    /**
-     Indicates the rhythm of a Track was changed.
-     - parameters:
-     
-        - to: The new rhythm.
-        - trackIndex: The index of the Track in the Session.
-        - sessionIndex: The index of the Session.
- */
-    func rhythmChanged(_ to: Rhythmic, at trackIndex: Index, in sessionIndex: Index)
-    /**
-     Indicates the rate of a Track was changed.
-     - parameters:
-     
-        - to: The new rate.
-        - trackIndex: The index of the Track in the Session.
-        - sessionIndex: The index of the Session.
- */
-    func rateChanged(_ to: PanRate, at trackIndex: Index, in sessionIndex: Index)
-}
-
 class SessionController: UITableViewController {
 
     var tracks : [Track]?

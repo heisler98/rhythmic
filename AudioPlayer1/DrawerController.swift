@@ -17,7 +17,7 @@ class DrawerController: UIViewController {
     var name: String?
     var sessionPath: IndexPath?
     var masterCollection: [Track]?
-    var delegate : SessionResponder?
+    weak var delegate : SessionResponder?
     
     var drawerDismissClosure: (() -> Void)?
     var didChangeLayoutClosure: (() -> Void)?
@@ -333,8 +333,9 @@ class TrackDrawerController: UIViewController {
         textField.textColor = UIColor.swatch
         textField.delegate = self as UITextFieldDelegate
         
-        let descriptor = UIFontDescriptor(name: UIFont.ProjectFonts.Regular.rawValue, size: 42)
-        textField.font = UIFont(descriptor: descriptor, size: 42)
+        let descriptor = UIFontDescriptor(name: UIFont.ProjectFonts.Regular.rawValue, size: 38)
+        textField.font = UIFont(descriptor: descriptor, size: 38)
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -381,7 +382,12 @@ extension TrackDrawerController : UITableViewDelegate, UITableViewDataSource {
 
 extension TrackDrawerController : DrawerConfiguration {
     func topPositionY(for parentHeight: CGFloat) -> CGFloat {
-        return 140
+        guard isViewLoaded == true else { return 0 }
+        let contentHeight = tableView.rect(forSection: 0).height
+        guard parentHeight-(contentHeight+150) > 170 else {
+            return 170
+        }
+        return parentHeight - (contentHeight + 150)
     }
     
     func middlePositionY(for parentHeight: CGFloat) -> CGFloat? {

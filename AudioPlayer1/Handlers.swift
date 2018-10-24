@@ -158,7 +158,7 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
         self.tracks = tracks
         super.init()
         remote.handler = self
-        remote.beginReceivingEvents()
+        //remote.beginReceivingEvents()
         try? AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, mode: AVAudioSession.Mode.default)
         try? AVAudioSession.sharedInstance().setActive(true)
     }
@@ -196,14 +196,6 @@ class RemoteHandler {
     ///The shared singleton instance.
     static let shared = RemoteHandler()
     
-    ///Tells `UIApplication` to begin receiving remote control events.
-    func beginReceivingEvents() {
-        UIApplication.shared.beginReceivingRemoteControlEvents()
-    }
-    ///Tells `UIApplication` to stop receiving remote control events.
-    func endReceivingEvents() {
-        UIApplication.shared.endReceivingRemoteControlEvents()
-    }
     ///Updates `MPNowPlayingInfoCenter` with the next track.
     /// - Parameters:
     ///   - track: The currently playing track.
@@ -265,8 +257,39 @@ class RemoteHandler {
         }
  */
     }
+    /**
+     Handles a notification that the device's audio route changed.
+     - parameter notification: The `Notification` of the route change.
+ */
+    @objc func audioRouteChanged(_ notification: Notification) {
+        guard let userInfo = notification.userInfo, let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt, let reason = AVAudioSession.RouteChangeReason(rawValue: reasonValue)  else { return }
+        
+        switch reason {
+        case .newDeviceAvailable:
+            let session = AVAudioSession.sharedInstance()
+            for output in session.currentRoute.outputs where output.portType == AVAudioSession.Port.headphones {
+                guard let handler = self.handler else { return }
+                if handler.isPaused { handler.pauseResume() }
+            }
+            break
+        case .oldDeviceUnavailable:
+            //pause
+            if let previousRoute = userInfo[AVAudioSessionRouteChangePreviousRouteKey] as? AVAudioSessionRouteDescription {
+                for output in previousRoute.outputs where output.portType == AVAudioSession.Port.headphones {
+                    handler?.pauseResume()
+                }
+            }
+            break
+        default:()
+        }
+        
+    }
     private init() {
         setupRemoteCommands()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(audioRouteChanged(_:)),
+                                               name: AVAudioSession.routeChangeNotification,
+                                               object: AVAudioSession.sharedInstance())
     }
 }
 
@@ -599,7 +622,7 @@ public struct DataHandler {
      */
     private func getSessionsData() throws -> Data {
         guard let data = FileManager.default.contents(atPath: DataHandler.sessionsArchiveURL.path) else {
-            throw HandlerError.NoDataFound(DataHandler.tracksArchiveURL.path)
+            throw HandlerError.NoDataFound(DataHandler.sessionsArchiveURL.path)
         }
         return data
     }

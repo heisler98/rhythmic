@@ -236,16 +236,6 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
             guard let vc = segue.destination as? LibraryController else { return }
             vc.delegate = self as iTunesDelegate
         }
-        if segue.identifier! == "sessionSegue" {
-            guard let vc = segue.destination as? SessionController else { return }
-            guard sender is UITableViewCell else { return }
-            guard let path = tableView.indexPath(for: sender! as! UITableViewCell) else { return }
-            vc.name = viewModel.sessions[path.row].title
-            vc.tracks = viewModel.sessions[path.row].tracks
-            vc.sessionPath = path
-            vc.masterCollection = viewModel.tracks.tracks
-            vc.delegate = viewModel.sessions as SessionResponder
-        }
     }
     
     // MARK: - Init

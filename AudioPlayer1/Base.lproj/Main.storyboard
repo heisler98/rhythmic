@@ -167,50 +167,6 @@
             </objects>
             <point key="canvasLocation" x="1144.8" y="346.77661169415296"/>
         </scene>
-        <!--Session-->
-        <scene sceneID="TyT-Sw-bho">
-            <objects>
-                <tableViewController storyboardIdentifier="Session" title="Session" id="U4F-Gq-D4Y" customClass="SessionController" customModule="AudioPlayer1" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="yPW-Ey-vd1">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="trackCell" textLabel="TYL-zV-4WL" detailTextLabel="mYs-6N-dWp" style="IBUITableViewCellStyleSubtitle" id="vEl-Hi-MhB">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="vEl-Hi-MhB" id="U4z-DY-4ZD">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="TYL-zV-4WL">
-                                            <rect key="frame" x="16" y="0.0" width="35.5" height="25"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="18"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mYs-6N-dWp">
-                                            <rect key="frame" x="16" y="25" width="49" height="19.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="U4F-Gq-D4Y" id="xpu-43-0aX"/>
-                            <outlet property="delegate" destination="U4F-Gq-D4Y" id="UVf-lu-YSG"/>
-                        </connections>
-                    </tableView>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dV8-Fk-kj1" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1909" y="366"/>
-        </scene>
         <!--Search Table Controller-->
         <scene sceneID="rBf-Hr-9cZ">
             <objects>
@@ -240,7 +196,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RVs-tQ-6lu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1145" y="1121"/>
+            <point key="canvasLocation" x="1145" y="1035"/>
         </scene>
         <!--Drawer-->
         <scene sceneID="ojf-zi-0vf">
@@ -349,7 +305,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hgj-vV-rbD" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <panGestureRecognizer cancelsTouchesInView="NO" minimumNumberOfTouches="1" id="M08-dt-rjr"/>
             </objects>
-            <point key="canvasLocation" x="1954" y="1120"/>
+            <point key="canvasLocation" x="1908" y="347"/>
         </scene>
         <!--Track Drawer Controller-->
         <scene sceneID="jaj-G5-LCR">
@@ -408,8 +364,8 @@
                                     <action selector="dismiss:" destination="6GI-LX-8nE" eventType="touchUpInside" id="yb0-iS-qbb"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" placeholder="New Session" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rLJ-Lj-98u">
-                                <rect key="frame" x="16" y="46" width="200" height="52"/>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="250" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" placeholder="New Session" minimumFontSize="24" translatesAutoresizingMaskIntoConstraints="NO" id="rLJ-Lj-98u">
+                                <rect key="frame" x="16" y="46" width="102.5" height="52"/>
                                 <attributedString key="attributedText"/>
                                 <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
                             </textField>
@@ -430,7 +386,7 @@
                             <constraint firstItem="AVK-Rk-Aym" firstAttribute="trailing" secondItem="Plp-94-pUO" secondAttribute="trailingMargin" id="AvO-r5-bTo"/>
                             <constraint firstItem="Ird-H4-UPB" firstAttribute="top" secondItem="rLJ-Lj-98u" secondAttribute="bottom" constant="23" id="DJ1-Ui-NFc"/>
                             <constraint firstItem="rLJ-Lj-98u" firstAttribute="top" secondItem="CCA-og-Ui5" secondAttribute="bottom" constant="26" id="J87-2s-P83"/>
-                            <constraint firstItem="mAh-Ti-TBQ" firstAttribute="leading" relation="lessThanOrEqual" secondItem="rLJ-Lj-98u" secondAttribute="trailing" constant="52" id="KMT-gN-yNV"/>
+                            <constraint firstItem="mAh-Ti-TBQ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="rLJ-Lj-98u" secondAttribute="trailing" constant="16" id="KMT-gN-yNV"/>
                             <constraint firstItem="NNb-Uy-3TN" firstAttribute="top" secondItem="Ird-H4-UPB" secondAttribute="bottom" id="M6D-SA-H1j"/>
                             <constraint firstItem="AVK-Rk-Aym" firstAttribute="top" secondItem="CCA-og-Ui5" secondAttribute="bottom" constant="36" id="Qua-Jk-Wgx"/>
                             <constraint firstItem="AVK-Rk-Aym" firstAttribute="leading" secondItem="mAh-Ti-TBQ" secondAttribute="trailing" constant="19" id="RF1-cf-AJ7"/>
@@ -455,7 +411,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sgl-wG-nqZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <panGestureRecognizer minimumNumberOfTouches="1" id="R5T-Iz-Rr8"/>
             </objects>
-            <point key="canvasLocation" x="2709.5999999999999" y="1118.5907046476761"/>
+            <point key="canvasLocation" x="2684" y="347"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="xYg-6o-hxP">
