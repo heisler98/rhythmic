@@ -211,6 +211,12 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
         }
     }
     
+    func dismissed(withURL: URL, period: Double) {
+        self.dismiss(animated: true, completion: nil)
+        viewModel.buildTrack(url: withURL, periodOrBPM: period)
+        tableView.reloadData()
+    }
+    
     @objc func showMusicLibrary(_ sender: Any) {
         performSegue(withIdentifier: "librarySegue", sender: sender)
     }

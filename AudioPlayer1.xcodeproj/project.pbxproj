@@ -12,6 +12,9 @@
 		5A01949E215D5B75003C76F5 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5A01949D215D5B75003C76F5 /* Settings.bundle */; };
 		5A0194A0215F0917003C76F5 /* Handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A01949F215F0917003C76F5 /* Handlers.swift */; };
 		5A0B3FED1F74CEF100A60D9F /* Preload.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5A0B3FEC1F74CEF100A60D9F /* Preload.plist */; };
+		5A241D3221810D5300BBA177 /* Superpowered.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5A241D2E21810D5300BBA177 /* Superpowered.mm */; };
+		5A241D3321810D5300BBA177 /* libSuperpoweredAudioIOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A241D2F21810D5300BBA177 /* libSuperpoweredAudioIOS.a */; };
+		5A241D6521811E0200BBA177 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A241D6421811E0200BBA177 /* CoreGraphics.framework */; };
 		5A3049491EAF18D10000A144 /* If I Lose Myself.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */; };
 		5A402BD12159D207005BD956 /* ManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A402BD02159D207005BD956 /* ManagerTests.swift */; };
 		5A402BD32159D62C005BD956 /* Managers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A402BD22159D62C005BD956 /* Managers.swift */; };
@@ -71,6 +74,13 @@
 		5A01949D215D5B75003C76F5 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		5A01949F215F0917003C76F5 /* Handlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Handlers.swift; sourceTree = "<group>"; };
 		5A0B3FEC1F74CEF100A60D9F /* Preload.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Preload.plist; sourceTree = "<group>"; };
+		5A241D2C21810D5300BBA177 /* SuperpoweredDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredDecoder.h; sourceTree = "<group>"; };
+		5A241D2D21810D5300BBA177 /* SuperpoweredSimple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredSimple.h; sourceTree = "<group>"; };
+		5A241D2E21810D5300BBA177 /* Superpowered.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Superpowered.mm; sourceTree = "<group>"; };
+		5A241D2F21810D5300BBA177 /* libSuperpoweredAudioIOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSuperpoweredAudioIOS.a; sourceTree = "<group>"; };
+		5A241D3121810D5300BBA177 /* SuperpoweredAnalyzer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredAnalyzer.h; sourceTree = "<group>"; };
+		5A241D3521810E9300BBA177 /* AudioPlayer1-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AudioPlayer1-Bridging-Header.h"; sourceTree = "<group>"; };
+		5A241D6421811E0200BBA177 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "If I Lose Myself.mp3"; sourceTree = "<group>"; };
 		5A402BCC2159B932005BD956 /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioKit.framework; path = AudioPlayer1/AudioKit.framework; sourceTree = "<group>"; };
 		5A402BD02159D207005BD956 /* ManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerTests.swift; sourceTree = "<group>"; };
@@ -118,7 +128,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A241D6521811E0200BBA177 /* CoreGraphics.framework in Frameworks */,
 				5AF19F8C1E95A0BA004E38C9 /* MediaPlayer.framework in Frameworks */,
+				5A241D3321810D5300BBA177 /* libSuperpoweredAudioIOS.a in Frameworks */,
 				5AF19F8A1E95A0B1004E38C9 /* AVFoundation.framework in Frameworks */,
 				5A402BD4215AC20B005BD956 /* AudioKit.framework in Frameworks */,
 			);
@@ -138,9 +150,22 @@
 			name = "VIew Controllers";
 			sourceTree = "<group>";
 		};
+		5A241D2B21810D5300BBA177 /* Superpower */ = {
+			isa = PBXGroup;
+			children = (
+				5A241D2C21810D5300BBA177 /* SuperpoweredDecoder.h */,
+				5A241D2D21810D5300BBA177 /* SuperpoweredSimple.h */,
+				5A241D2E21810D5300BBA177 /* Superpowered.mm */,
+				5A241D2F21810D5300BBA177 /* libSuperpoweredAudioIOS.a */,
+				5A241D3121810D5300BBA177 /* SuperpoweredAnalyzer.h */,
+			);
+			path = Superpower;
+			sourceTree = "<group>";
+		};
 		5A2C0BCC20CC4A0700742203 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				5A241D2B21810D5300BBA177 /* Superpower */,
 				5A241D2A2180EC8A00BBA177 /* VIew Controllers */,
 				5ABA30981DCBC97D006E5999 /* AppDelegate.swift */,
 				5AB5162C20A2A05700BE5028 /* SongExporter.swift */,
@@ -223,6 +248,7 @@
 				5ABEAF611F19851E008E5BB5 /* Models.swift */,
 				5A01949F215F0917003C76F5 /* Handlers.swift */,
 				5A402BD22159D62C005BD956 /* Managers.swift */,
+				5A241D3521810E9300BBA177 /* AudioPlayer1-Bridging-Header.h */,
 				5ABA309F1DCBC97D006E5999 /* Assets.xcassets */,
 			);
 			path = AudioPlayer1;
@@ -243,6 +269,7 @@
 		5AF19F881E95A0B1004E38C9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5A241D6421811E0200BBA177 /* CoreGraphics.framework */,
 				5A402BCC2159B932005BD956 /* AudioKit.framework */,
 				5AF19F8B1E95A0BA004E38C9 /* MediaPlayer.framework */,
 				5AF19F891E95A0B1004E38C9 /* AVFoundation.framework */,
@@ -399,6 +426,7 @@
 				5A0194A0215F0917003C76F5 /* Handlers.swift in Sources */,
 				5ABA309B1DCBC97D006E5999 /* ViewController.swift in Sources */,
 				5A402BD32159D62C005BD956 /* Managers.swift in Sources */,
+				5A241D3221810D5300BBA177 /* Superpowered.mm in Sources */,
 				5A7AD707217D0D9D00090A86 /* UIViewController+PresentDrawerController.swift in Sources */,
 				5A7AD70F217D7B0D00090A86 /* DrawerController.swift in Sources */,
 				5ABA30991DCBC97D006E5999 /* AppDelegate.swift in Sources */,
@@ -611,12 +639,16 @@
 				INFOPLIST_FILE = AudioPlayer1/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/AudioPlayer1/Superpower",
+				);
 				OTHER_LDFLAGS = "-lstdc++";
 				PRODUCT_BUNDLE_IDENTIFIER = com.eisler.AudioPlayer1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/$(PROJECT_NAME)/$(PROJECT_NAME)-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
@@ -640,12 +672,16 @@
 				INFOPLIST_FILE = AudioPlayer1/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/AudioPlayer1/Superpower",
+				);
 				OTHER_LDFLAGS = "-lstdc++";
 				PRODUCT_BUNDLE_IDENTIFIER = com.eisler.AudioPlayer1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/$(PROJECT_NAME)/$(PROJECT_NAME)-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
 				SWIFT_VERSION = 4.2;
 			};

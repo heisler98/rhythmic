@@ -660,3 +660,17 @@ struct PrefsHandler {
         self.prefs = prefs
     }
 }
+
+final class TempoHandler {
+    public static let core = TempoHandler()
+    public func tempo(of url: URL, completion: ((Double?) ->())?) -> Double? {
+        let tempo = Double(Superpowered().offlineAnalyze(url))
+        if tempo > 0 {
+            completion?(tempo)
+            return tempo
+        } else {
+            completion?(nil)
+            return nil
+        }
+    }
+}

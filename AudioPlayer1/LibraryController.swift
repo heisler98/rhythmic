@@ -8,9 +8,11 @@
 
 import UIKit
 import MediaPlayer
+import CoreGraphics
 
 protocol iTunesDelegate {
     func dismissed(withURL : URL?)
+    func dismissed(withURL: URL, period: Double)
 }
 
 class LibraryController: UITableViewController {
@@ -84,21 +86,36 @@ class LibraryController: UITableViewController {
             tableView.deselectRow(at: indexPath, animated: true)
             return
         }
+        let main = DispatchQueue.main
+        
+        let activityView = UIActivityIndicatorView(style: .whiteLarge)
+        activityView.center = view.center
+        activityView.layer.backgroundColor = UIColor(white: 0.0, alpha: 0.35).cgColor
+        activityView.hidesWhenStopped = true
+        view.insertSubview(activityView, aboveSubview: tableView)
         let song = songs[indexPath.row]
         
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         guard let directory = paths.first else { print("no path found"); delegate?.dismissed(withURL: nil); return }
         let pathURL = directory.appendingPathComponent("\(song.title!).caf")
         
-        let exporter = SongExporter(exportPath: pathURL.path)
-        exporter.exportSong(song) { (success) in
+        SongExporter(exportPath: pathURL.path).exportSong(song) { (success) in
             if success == true {
-                DispatchQueue.main.sync {
-                    self.delegate?.dismissed(withURL: pathURL)
+                main.sync {
+                    activityView.startAnimating()
+                }
+                let tempo = TempoHandler.core.tempo(of: song.assetURL!, completion: { _ in
+                    //stop activityviewindicator
+                    main.sync {
+                        activityView.stopAnimating()
+                    }
+                })
+                main.sync {
+                    guard let bpm = tempo else { self.delegate?.dismissed(withURL: pathURL); return }
+                    self.delegate?.dismissed(withURL: pathURL, period: (1/(bpm/60)))
                 }
             } else {
-                DispatchQueue.main.sync {
-                    print("SongExporter failed")
+                main.sync {
                     self.delegate?.dismissed(withURL: nil)
                 }
             }
