@@ -246,14 +246,6 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
         tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let _ = segue.identifier else { return }
-        if segue.identifier! == "librarySegue" {
-            guard let vc = segue.destination as? LibraryController else { return }
-            vc.delegate = self as iTunesDelegate
-        }
-    }
-    
     // MARK: - Init
     required init?(coder aDecoder: NSCoder) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)

@@ -9,6 +9,22 @@
 import UIKit
 import MediaPlayer
 
+///A protocol for responding to new music items.
+protocol iTunesDelegate : AnyObject {
+    /**
+     Indicates the view controller completed an import.
+     - parameter withURL: The URL of the import, or nil if the import failed.
+ */
+    func dismissed(withURL : URL?)
+    /**
+     Indicates the view controller successfully completed importing and analyzed the tempo.
+     - Parameters:
+        - withURL: The URL of the imported asset.
+        - period: The period of the asset. ``(60/BPM)``
+ */
+    func dismissed(withURL: URL, period: Double)
+}
+
 class MusicDrawerController: UIViewController {
 
     @IBOutlet var gestureRecognizer: UIPanGestureRecognizer!

@@ -35,7 +35,6 @@
 		5A7AD70C217D0D9D00090A86 /* UIView+PinSubview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7AD704217D0D9D00090A86 /* UIView+PinSubview.swift */; };
 		5A7AD70F217D7B0D00090A86 /* DrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7AD70E217D7B0D00090A86 /* DrawerController.swift */; };
 		5A9D6BDA1E9EF2A300918D8B /* Born.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A9D6BD91E9EF2A300918D8B /* Born.mp3 */; };
-		5AB5162B20A25D1C00BE5028 /* LibraryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB5162A20A25D1C00BE5028 /* LibraryController.swift */; };
 		5AB5162D20A2A05700BE5028 /* SongExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB5162C20A2A05700BE5028 /* SongExporter.swift */; };
 		5ABA30991DCBC97D006E5999 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABA30981DCBC97D006E5999 /* AppDelegate.swift */; };
 		5ABA309B1DCBC97D006E5999 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABA309A1DCBC97D006E5999 /* ViewController.swift */; };
@@ -104,7 +103,6 @@
 		5A7AD704217D0D9D00090A86 /* UIView+PinSubview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+PinSubview.swift"; sourceTree = "<group>"; };
 		5A7AD70E217D7B0D00090A86 /* DrawerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerController.swift; sourceTree = "<group>"; };
 		5A9D6BD91E9EF2A300918D8B /* Born.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Born.mp3; sourceTree = "<group>"; };
-		5AB5162A20A25D1C00BE5028 /* LibraryController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryController.swift; sourceTree = "<group>"; };
 		5AB5162C20A2A05700BE5028 /* SongExporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongExporter.swift; sourceTree = "<group>"; };
 		5ABA30951DCBC97D006E5999 /* AudioPlayer1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AudioPlayer1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5ABA30981DCBC97D006E5999 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -147,7 +145,6 @@
 				5ABA309A1DCBC97D006E5999 /* ViewController.swift */,
 				5A7AD70E217D7B0D00090A86 /* DrawerController.swift */,
 				5A7AD6F32170003600090A86 /* NavigationController.swift */,
-				5AB5162A20A25D1C00BE5028 /* LibraryController.swift */,
 				5A241D6621818F0500BBA177 /* MusicDrawerController.swift */,
 			);
 			name = "VIew Controllers";
@@ -435,7 +432,6 @@
 				5A7AD70F217D7B0D00090A86 /* DrawerController.swift in Sources */,
 				5ABA30991DCBC97D006E5999 /* AppDelegate.swift in Sources */,
 				5A7AD70C217D0D9D00090A86 /* UIView+PinSubview.swift in Sources */,
-				5AB5162B20A25D1C00BE5028 /* LibraryController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
