@@ -343,6 +343,11 @@ class TrackDrawerController: UIViewController {
         textField.becomeFirstResponder()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        didChangeLayoutClosure?()
+    }
+    
     @IBAction func dismiss(_ sender: Any) {
         drawerDismissClosure?()
     }

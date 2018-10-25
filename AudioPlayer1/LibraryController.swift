@@ -10,7 +10,7 @@ import UIKit
 import MediaPlayer
 import CoreGraphics
 
-protocol iTunesDelegate {
+protocol iTunesDelegate : AnyObject {
     func dismissed(withURL : URL?)
     func dismissed(withURL: URL, period: Double)
 }
@@ -19,6 +19,11 @@ class LibraryController: UITableViewController {
     
     var delegate : iTunesDelegate?
     var songs = [MPMediaItem]()
+    
+    @IBOutlet var gestureRecognizer: UIPanGestureRecognizer!
+    var drawerDismissClosure: (() -> Void)?
+    var didChangeLayoutClosure: (() -> Void)?
+    var panGestureTarget: Any?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +38,11 @@ class LibraryController: UITableViewController {
         
         tableView.reloadData()
         
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        didChangeLayoutClosure?()
     }
 
     @IBAction func load(_ sender : Any) {
@@ -120,10 +130,54 @@ class LibraryController: UITableViewController {
                 }
             }
         }
+        drawerDismissClosure?()
     }
     
     @IBAction func cancel(_ sender : Any) {
         delegate?.dismissed(withURL: nil)
+        drawerDismissClosure?()
     }
 
+}
+
+extension LibraryController : DrawerConfiguration {
+    func topPositionY(for parentHeight: CGFloat) -> CGFloat {
+        guard isViewLoaded == true else { return 0 }
+        let contentHeight = tableView.rect(forSection: 0).height
+        guard parentHeight-(contentHeight+150) > 170 else {
+            return 170
+        }
+        return parentHeight - (contentHeight + 150)
+    }
+    
+    func middlePositionY(for parentHeight: CGFloat) -> CGFloat? {
+        return nil
+    }
+    
+    func bottomPositionY(for parentHeight: CGFloat) -> CGFloat {
+        guard isViewLoaded == true else { return 0 }
+        let contentHeight = tableView.rect(forSection: 0).height
+        guard parentHeight-(contentHeight+150) > 170 else {
+            return 170
+        }
+        return parentHeight - (contentHeight + 150)
+    }
+    
+    func setPanGestureTarget(_ target: Any, action: Selector) {
+        panGestureTarget = target
+        gestureRecognizer.addTarget(target, action: action)
+    }
+}
+
+extension LibraryController : UIGestureRecognizerDelegate {
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        guard let view = touch.view else { return true }
+        if (view is UINavigationBar) {
+            return true
+        }
+        return false
+    }
+ 
+    
 }

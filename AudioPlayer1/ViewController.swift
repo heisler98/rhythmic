@@ -153,6 +153,7 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
  */
     @IBAction func createSession(_ sender : Any) {
         guard viewModel.canBuildSession == true else { return }
+        guard isDrawerPresent == false else { return } 
 /*        let alertController = UIAlertController(title: "New session", message: "Give the new session a name.", preferredStyle: .alert)
         alertController.addTextField { (textField) in
             textField.keyboardType = UIKeyboardType.alphabet
@@ -166,8 +167,11 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
  */
         guard let trackDrawerController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TrackDrawer") as? TrackDrawerController else { return }
         trackDrawerController.viewModel = viewModel
+        
         displayInDrawer(trackDrawerController, drawerPositionDelegate: self)
         isDrawerPresent = true
+        
+        
     }
     ///Skip the current track.
     @IBAction func fastForward(_ sender: Any) {
@@ -181,7 +185,7 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
     @objc func stop(_ sender: Any) {
         handler?.stopPlaying()
         handler = nil
-        queue.reset()
+        clearSelections(sender)
         playButtonItem.action = #selector(handlePlayButton(_:))
     }
     ///Updates the info label with the number of queued tracks.
@@ -198,7 +202,7 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
     
     // MARK: - iTunes delegate controls
     func dismissed(withURL: URL?) {
-        self.dismiss(animated: true, completion: nil)
+        //self.dismiss(animated: true, completion: nil)
         guard let assetURL = withURL else { return }
         
         switch self.newTrack(at: assetURL) {
@@ -212,13 +216,19 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
     }
     
     func dismissed(withURL: URL, period: Double) {
-        self.dismiss(animated: true, completion: nil)
+        //self.dismiss(animated: true, completion: nil)
         viewModel.buildTrack(url: withURL, periodOrBPM: period)
         tableView.reloadData()
     }
     
     @objc func showMusicLibrary(_ sender: Any) {
-        performSegue(withIdentifier: "librarySegue", sender: sender)
+        guard isDrawerPresent == false else { return }
+        guard let libraryController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "musicLibrary") as? MusicDrawerController else {
+                return
+            }
+        libraryController.delegate = self as iTunesDelegate
+        displayInDrawer(libraryController, drawerPositionDelegate: self)
+        
     }
     // MARK: - Search Results
     ///Handles the selection of a `Track` cell from the search controller.
@@ -455,7 +465,7 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
             }
             shuffle.backgroundColor = UIColor.swatch
             let config = UISwipeActionsConfiguration(actions: [shuffle])
-            config.performsFirstActionWithFullSwipe = false
+            config.performsFirstActionWithFullSwipe = true
             return config
         }
         
@@ -498,13 +508,17 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
-        guard let drawerController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Drawer") as? DrawerController else { return }
-        drawerController.delegate = viewModel.sessions as SessionResponder
-        drawerController.masterCollection = viewModel.tracks.tracks
-        drawerController.tracks = viewModel.sessions[indexPath.row].tracks
-        drawerController.name = viewModel.sessions[indexPath.row].title
-        drawerController.sessionPath = indexPath
-        displayInDrawer(drawerController, drawerPositionDelegate: nil)
+        if isDrawerPresent == false {
+            guard let drawerController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Drawer") as? DrawerController else { return }
+            drawerController.delegate = viewModel.sessions as SessionResponder
+            drawerController.masterCollection = viewModel.tracks.tracks
+            drawerController.tracks = viewModel.sessions[indexPath.row].tracks
+            drawerController.name = viewModel.sessions[indexPath.row].title
+            drawerController.sessionPath = indexPath
+        
+            displayInDrawer(drawerController, drawerPositionDelegate: self)
+            isDrawerPresent = true
+        }
     }
     
     // MARK: - Table View data source controls
@@ -556,7 +570,7 @@ extension ViewController : DrawerPositionDelegate {
     }
     
     func willDismissDrawer() {
-        self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+        tableView.reloadData()
     }
     
     func didDismissDrawer() {

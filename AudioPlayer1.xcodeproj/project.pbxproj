@@ -15,6 +15,7 @@
 		5A241D3221810D5300BBA177 /* Superpowered.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5A241D2E21810D5300BBA177 /* Superpowered.mm */; };
 		5A241D3321810D5300BBA177 /* libSuperpoweredAudioIOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A241D2F21810D5300BBA177 /* libSuperpoweredAudioIOS.a */; };
 		5A241D6521811E0200BBA177 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A241D6421811E0200BBA177 /* CoreGraphics.framework */; };
+		5A241D6721818F0500BBA177 /* MusicDrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A241D6621818F0500BBA177 /* MusicDrawerController.swift */; };
 		5A3049491EAF18D10000A144 /* If I Lose Myself.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */; };
 		5A402BD12159D207005BD956 /* ManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A402BD02159D207005BD956 /* ManagerTests.swift */; };
 		5A402BD32159D62C005BD956 /* Managers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A402BD22159D62C005BD956 /* Managers.swift */; };
@@ -81,6 +82,7 @@
 		5A241D3121810D5300BBA177 /* SuperpoweredAnalyzer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredAnalyzer.h; sourceTree = "<group>"; };
 		5A241D3521810E9300BBA177 /* AudioPlayer1-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AudioPlayer1-Bridging-Header.h"; sourceTree = "<group>"; };
 		5A241D6421811E0200BBA177 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		5A241D6621818F0500BBA177 /* MusicDrawerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicDrawerController.swift; sourceTree = "<group>"; };
 		5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "If I Lose Myself.mp3"; sourceTree = "<group>"; };
 		5A402BCC2159B932005BD956 /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioKit.framework; path = AudioPlayer1/AudioKit.framework; sourceTree = "<group>"; };
 		5A402BD02159D207005BD956 /* ManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerTests.swift; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 				5A7AD70E217D7B0D00090A86 /* DrawerController.swift */,
 				5A7AD6F32170003600090A86 /* NavigationController.swift */,
 				5AB5162A20A25D1C00BE5028 /* LibraryController.swift */,
+				5A241D6621818F0500BBA177 /* MusicDrawerController.swift */,
 			);
 			name = "VIew Controllers";
 			sourceTree = "<group>";
@@ -417,6 +420,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A241D6721818F0500BBA177 /* MusicDrawerController.swift in Sources */,
 				5AB5162D20A2A05700BE5028 /* SongExporter.swift in Sources */,
 				5A7AD6F42170003600090A86 /* NavigationController.swift in Sources */,
 				5A7AD70A217D0D9D00090A86 /* dLog.swift in Sources */,

@@ -169,8 +169,8 @@ class PanAudioPlayer: AVAudioPlayer {
         if (opt == .Bilateral) { //phi
             self.pan = -1
             self.timer = Timer.scheduledTimer(withTimeInterval: period, repeats: true, block: { (timer : Timer) -> Void in
-                self.progressDelegate?.updateProgress(to: Float(self.currentTime / self.duration))
                 self.pan *= -1
+                self.progressDelegate?.updateProgress(to: Float(self.currentTime / self.duration))
             })
         }
         
@@ -179,9 +179,8 @@ class PanAudioPlayer: AVAudioPlayer {
   
             //self.pan = absoluteDistance
             self.timer = Timer.scheduledTimer(withTimeInterval: period, repeats: true, block: { (timer : Timer) -> Void in
-                self.progressDelegate?.updateProgress(to: Float(self.currentTime / self.duration))
                 self.pan *= -1
-                
+                self.progressDelegate?.updateProgress(to: Float(self.currentTime / self.duration))
             })
             
         } else if (opt == .Synthesis) { //sigma
