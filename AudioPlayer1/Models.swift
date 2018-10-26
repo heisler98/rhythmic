@@ -347,6 +347,18 @@ struct ViewModel {
         if trackQueue.isEmpty == true { return false }
         return true
     }
+    ///An enumeration of available sort options.
+    enum SortDescriptor {
+        ///Alphabetical sort.
+        case Lexicographic
+        ///Sort by date added, descending from oldest to newest.
+        case DescendingByDateAdded
+    }
+    ///A computed convenience accessor for alphabetically sorted tracks.
+    var alphabeticTracks : [(offset: Int, element: Track)] {
+        return tracksSorted(.Lexicographic)
+    }
+    var sortBy = SortDescriptor.DescendingByDateAdded
     // MARK: - Modeling the view
     
     /// Returns the detail string for track at the specified index.
@@ -387,7 +399,7 @@ struct ViewModel {
         }
         queue.append(all: randoms)
     }
-    // MARK: Building models
+    // MARK: - Building models
     /**
      Builds a Track and adds it to the TrackManager.
      - parameters:
@@ -423,6 +435,84 @@ struct ViewModel {
         sessions.add(session)
         
     }
+    /**
+     Returns a lexicographically sorted master collection of tracks.
+     - parameter descriptor: A `SortDescriptor` indicating the requested sort type.
+     - returns: A sorted array of tuples containing an `offset` identical to the element's indice, and the `element`.
+
+     The returned array is ordered by each element's title; the original index for accessing the element in the master collection is indicated by the individual `offset` property.
+ */
+    func tracksSorted(_ descriptor: SortDescriptor) -> [(offset: Int, element: Track)] {
+        switch descriptor {
+            case .Lexicographic:
+                return tracks.enumerated.sorted(by: { (first, second) -> Bool in
+                    return first.element.title.lowercased() < second.element.title.lowercased()
+                })
+            case .DescendingByDateAdded:
+                return tracks.enumerated.sorted(by: { (first, second) -> Bool in
+                    return first.offset < second.offset
+                })
+        }
+    }
+    // MARK: - Track changes
+    /**
+     Sets a new rhythm to the specified index, taking the current sort option into account.
+     - Parameters:
+     
+        - rhythm: The new rhythm.
+        - index: The index of the cell.
+ */
+    func setRhythm(_ rhythm: Rhythmic, for index: Index) {
+        if sortBy == .Lexicographic {
+            let masterIndex = alphabeticTracks[index].offset
+            tracks[masterIndex].rhythm = rhythm
+        } else if sortBy == .DescendingByDateAdded {
+            tracks[index].rhythm = rhythm
+        }
+    }
+    /**
+     Sets a new rate to the specified index, taking the current sort option into account.
+     - Parameters:
+     
+        - rate: The new rate.
+        - index: The index of the cell.
+ */
+    func setRate(_ rate: PanRate, for index: Index) {
+        if sortBy == .Lexicographic {
+            let masterIndex = alphabeticTracks[index].offset
+            tracks[masterIndex].rate = rate
+        } else if sortBy == .DescendingByDateAdded {
+            tracks[index].rate = rate
+        }
+    }
+    /**
+ */
+    func removeTrack(at index: Index) -> Track {
+        if sortBy == .Lexicographic {
+            let masterIndex = alphabeticTracks[index].offset
+            sessions.deleteEvery(tracks[masterIndex])
+            return tracks.remove(at: masterIndex)
+        } else if sortBy == .DescendingByDateAdded {
+            sessions.deleteEvery(tracks[index])
+            return tracks.remove(at: index)
+        }
+        return tracks.remove(at: index)
+    }
+    /**
+ */
+    func index(of track: Track) -> Index? {
+        if sortBy == .Lexicographic {
+            for tuple in alphabeticTracks where tuple.element == track {
+                return alphabeticTracks.firstIndex { (inner) -> Bool in
+                    return inner == tuple
+                }
+            }
+        } else if sortBy == .DescendingByDateAdded {
+            return tracks.tracks.index(of: track)
+        }
+        return tracks.tracks.index(of: track)
+    }
+    
     // MARK: - Setup cells
     /**
      Sets up the properties of a `UITableViewCell` to represent a selected state.
@@ -463,17 +553,52 @@ struct ViewModel {
         }
         
         if indexPath.section == 1 {
-            cell.textLabel!.text = tracks[indexPath.row].title
-            cell.detailTextLabel!.text = self.detailString(for: indexPath.row)
-            
-            if queue.contains(indexPath.row) {
+            if sortBy == .Lexicographic {
+                cell.textLabel?.text = alphabeticTracks[indexPath.row].element.title
+                cell.detailTextLabel?.text = self.detailString(for: alphabeticTracks[indexPath.row].offset)
+            } else {
+                cell.textLabel!.text = tracks[indexPath.row].title
+                cell.detailTextLabel!.text = self.detailString(for: indexPath.row)
+            }
+            if queueContains(indexPath.row) {
                 setupSelectedCell(cell)
             } else {
                 setupUnselectedCell(cell)
             }
         }
     }
-    
+    /**
+     A wrapper for Queue.safeSelectCell(at:) that takes the set `SortDescriptor` into account.
+     - parameter index: The index of the cell.
+ */
+    func safeSelectCell(at index: Index) {
+        if sortBy == .Lexicographic {
+            queue.safeSelectCell(at: alphabeticTracks[index].offset)
+        } else if sortBy == .DescendingByDateAdded {
+            queue.safeSelectCell(at: index)
+        }
+    }
+    /**
+     A wrapper for Queue.cellSelected(at:) that takes the set `SortDescriptor` into account.
+     - parameter index: The index of the cell.
+ */
+    func cellSelected(at index: Index) {
+        if sortBy == .Lexicographic {
+            queue.cellSelected(at: alphabeticTracks[index].offset)
+        } else if sortBy == .DescendingByDateAdded {
+            queue.cellSelected(at: index)
+        }
+    }
+    /**
+ */
+    func queueContains(_ index: Index) -> Bool {
+        if sortBy == .Lexicographic {
+            return queue.contains(alphabeticTracks[index].offset)
+        } else if sortBy == .DescendingByDateAdded {
+            return queue.contains(index)
+        }
+        return queue.contains(index)
+    }
     // MARK: - Playback
     /**
     Loads an instantiated `PlaybackHandler` from the current queue.
@@ -510,8 +635,6 @@ struct ViewModel {
             throw error
         }
     }
-
-    
 }
 
 // MARK: - Queue

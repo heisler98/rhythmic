@@ -34,7 +34,6 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
     var viewModel : ViewModel
     ///A reference to the queue contained in `ViewModel`.
     var queue : Queue
-    
     // MARK: - IBOutlets
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var toolbar: UIToolbar!
@@ -51,7 +50,6 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
         return false
     }
  */
-    
     // MARK: - View controls
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,8 +70,11 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
     func setupNavigationItem() {
         let clear = UIBarButtonItem(title: "Clear", style: .plain, target: self, action: #selector(clearSelections(_:)))
         let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showMusicLibrary(_:)))
+        let sort = UIBarButtonItem(title: "Sort", style: .plain, target: self, action: #selector(sort(_:)))
+        let fixedSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        fixedSpace.width = 15
         
-        self.navigationItem.setLeftBarButton(clear, animated: false)
+        self.navigationItem.setLeftBarButtonItems([clear, fixedSpace, sort], animated: false)
         self.navigationItem.setRightBarButton(add, animated: false)
     }
 
@@ -192,6 +193,21 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
     func updateTrackInfo() {
         infoLabel.text = "\(queue.count) songs selected"
     }
+    ///Handles a request for sorting tracks.
+    @objc func sort(_ sender: Any) {
+        let alertController = UIAlertController(title: "Sort tracks", message: nil, preferredStyle: .actionSheet)
+        let alphaAction = UIAlertAction(title: "Alphabetically", style: .default) { _ in
+            self.viewModel.sortBy = .Lexicographic
+            self.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
+        }
+        let normalAction = UIAlertAction(title: "Date added", style: .default) { _ in
+            self.viewModel.sortBy = .DescendingByDateAdded
+            self.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
+        }
+        alertController.addAction(alphaAction)
+        alertController.addAction(normalAction)
+        present(alertController, animated: true, completion: nil)
+    }
     /**
      Updates the info label with the name of the `Session`.
      - parameter sessionName: The name of the selected `Session`.
@@ -236,14 +252,13 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
     func didSelectTrack(_ selectedTrack: Track) {
         searchController.isActive = false
 
-        let allTracks = viewModel.tracks.tracks
-        let index = allTracks.index(of: selectedTrack)
-        
-        queue.safeSelectCell(at: index)
+        guard let index = viewModel.index(of: selectedTrack) else { return }
+        viewModel.safeSelectCell(at: index)
         
         let indexPath = IndexPath(row: index, section: 1)
         tableView.reloadRows(at: [indexPath], with: .none)
         tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
+        updateTrackInfo()
     }
     
     // MARK: - Init
@@ -255,10 +270,11 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
         
         viewModel = ViewModel()
         queue = viewModel.queue
-        
+        resultsController.allTracks = viewModel.tracks.tracks
         super.init(coder: aDecoder)
         
         resultsController.delegate = self as SearchResults
+        searchController.delegate = self
     }
     
 }
@@ -290,7 +306,7 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
         if indexPath.section == 1 {
             let cell = tableView.cellForRow(at: indexPath)
             
-            queue.cellSelected(at: indexPath.row)
+            viewModel.cellSelected(at: indexPath.row)
             guard cell != nil else { fatalError("Unexpectedly found nil in unwrapping tableviewcell") }
             viewModel.setupCell(cell!, forIndexPath: indexPath)
             tableView.deselectRow(at: indexPath, animated: true)
@@ -324,17 +340,18 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
  */
     fileprivate func rhythmChange(_ rhythm : Rhythmic, atIndexPath indexPath : IndexPath, _ completionHandler: (Bool) -> Void) {
         
-        viewModel.tracks[indexPath.row].rhythm = rhythm
+        viewModel.setRhythm(rhythm, for: indexPath.row)
         completionHandler(true)
         
         let cell = tableView.cellForRow(at: indexPath)
-        cell?.detailTextLabel?.text = viewModel.detailString(for: indexPath.row)
+        //cell?.detailTextLabel?.text = viewModel.detailString(for: indexPath.row)
         
         selected:
-            if !queue.contains(indexPath.row) {
-            queue.cellSelected(at: indexPath.row)
+            if !viewModel.queueContains(indexPath.row) {
+            viewModel.cellSelected(at: indexPath.row)
             guard cell != nil else { break selected }
             viewModel.setupCell(cell!, forIndexPath: indexPath)
+            updateTrackInfo()
         }
     }
     /**
@@ -405,7 +422,7 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
         let alert = UIAlertController(title: nil, message: "Are you sure you want to delete this track?", preferredStyle: UIAlertController.Style.actionSheet)
         let okAction = UIAlertAction(title: "Yes", style: UIAlertAction.Style.destructive, handler: { (action) in
             
-            _ = self.viewModel.tracks.remove(at: indexPath.row)
+            _ = self.viewModel.removeTrack(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
             completionHandler(true)
         })
@@ -427,16 +444,17 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
  */
     fileprivate func rateChange(_ rate : PanRate, atIndexPath indexPath : IndexPath, _ completionHandler: (Bool) -> Void) {
         
-        viewModel.tracks[indexPath.row].rate = rate
+        viewModel.setRate(rate, for: indexPath.row)
         completionHandler(true)
         let cell = tableView.cellForRow(at: indexPath)
         cell?.detailTextLabel?.text = viewModel.detailString(for: indexPath.row)
         
         selected:
-            if !queue.contains(indexPath.row) {
-            queue.cellSelected(at: indexPath.row)
+            if !viewModel.queueContains(indexPath.row) {
+            viewModel.cellSelected(at: indexPath.row)
             guard cell != nil else { break selected }
             viewModel.setupCell(cell!, forIndexPath: indexPath)
+            updateTrackInfo()
         }
     }
     
@@ -570,6 +588,13 @@ extension ViewController : DrawerPositionDelegate {
     }
     
     
+}
+
+extension ViewController : UISearchControllerDelegate {
+    func willPresentSearchController(_ searchController: UISearchController) {
+        guard let resultsController = searchController.searchResultsUpdater as? SearchTableController else { return }
+        resultsController.allTracks = viewModel.tracks.tracks
+    }
 }
 
 protocol SearchResults {

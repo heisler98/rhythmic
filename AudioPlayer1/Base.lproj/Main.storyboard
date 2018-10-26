@@ -243,7 +243,7 @@
                                     <outlet property="delegate" destination="mI2-80-GmW" id="dmT-ka-c8w"/>
                                 </connections>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Session" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y5L-9H-xuz">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="Session" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Y5L-9H-xuz">
                                 <rect key="frame" x="16" y="28" width="165" height="81"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="81" id="I6f-Vi-59z"/>
@@ -280,7 +280,7 @@
                             <constraint firstAttribute="trailing" secondItem="u4B-HZ-i0I" secondAttribute="trailing" id="87d-se-2yU"/>
                             <constraint firstItem="bHU-vq-HgB" firstAttribute="top" secondItem="u4B-HZ-i0I" secondAttribute="bottom" id="99F-xO-cPM"/>
                             <constraint firstItem="xAV-eb-arJ" firstAttribute="top" secondItem="7fK-4g-Jgc" secondAttribute="bottom" constant="33" id="UMJ-7g-yQT"/>
-                            <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="Y5L-9H-xuz" secondAttribute="trailing" constant="194" id="X0Y-Pa-LLz"/>
+                            <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="Y5L-9H-xuz" secondAttribute="trailing" priority="750" constant="194" id="X0Y-Pa-LLz"/>
                             <constraint firstItem="u4B-HZ-i0I" firstAttribute="top" secondItem="Y5L-9H-xuz" secondAttribute="bottom" constant="11" id="XhH-1M-ye1"/>
                             <constraint firstItem="u4B-HZ-i0I" firstAttribute="top" secondItem="xAV-eb-arJ" secondAttribute="bottom" constant="32" id="bEd-Dw-kUj"/>
                             <constraint firstItem="Y5L-9H-xuz" firstAttribute="leading" secondItem="uYY-a2-xQa" secondAttribute="leadingMargin" id="cVf-Ec-sme"/>
@@ -289,7 +289,7 @@
                             <constraint firstItem="Y5L-9H-xuz" firstAttribute="top" secondItem="7fK-4g-Jgc" secondAttribute="bottom" constant="8" id="olz-ee-Qlm"/>
                             <constraint firstItem="utc-rD-bAp" firstAttribute="trailing" secondItem="uYY-a2-xQa" secondAttribute="trailingMargin" id="rX8-L6-d7g"/>
                             <constraint firstItem="utc-rD-bAp" firstAttribute="centerY" secondItem="Y5L-9H-xuz" secondAttribute="centerY" id="rbS-Eb-T4B"/>
-                            <constraint firstItem="xAV-eb-arJ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Y5L-9H-xuz" secondAttribute="trailing" id="t8l-Jl-I6q"/>
+                            <constraint firstItem="xAV-eb-arJ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Y5L-9H-xuz" secondAttribute="trailing" constant="15" id="t8l-Jl-I6q"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="M08-dt-rjr" appends="YES" id="WQg-Jy-MFU"/>

@@ -25,6 +25,8 @@ class TrackManager {
     }
     ///The persistent storage mechanism.
     lazy var dataHandler = DataHandler()
+    ///An enumerated sequence of the master collection.
+    lazy var enumerated = self.tracks.enumerated()
     /**
      A subscript getter-setter.
      - returns: A `Track` at the specified index.
@@ -103,7 +105,7 @@ class SessionManager {
     ///The master collection of sessions.
     var sessions : [Session] {
         didSet {
-            try? dataHandler.encodeSessions(sessions)
+            persist()
         }
     }
     ///The amount of sessions accessible to the manager.
@@ -191,6 +193,25 @@ class SessionManager {
     func addTrack(_ track: Track, toSession index : Index) {
         guard sessions.count > index else { return }
         sessions[index].tracks.append(track)
+    }
+    /**
+     Removes every equivalent track from all sessions.
+     - parameter track: The `Track` to remove.
+     
+     This method will remove every equivalent `Track` object from any session which contains one. Call this method when a `Track` is deleted from the store, or is otherwise unaccessible.
+ */
+    func deleteEvery(_ track: Track) {
+        for session in sessions where session.tracks.contains(track) {
+            let index = sessions.index(of: session)
+            sessions[index].tracks.removeAll { (inside) -> Bool in
+                return inside == track
+            }
+        }
+    }
+    
+    ///Persists the current model to the store.
+    func persist() {
+        try? dataHandler.encodeSessions(sessions)
     }
     /**
      Initializes a `SessionManager` object.
