@@ -347,18 +347,8 @@ struct ViewModel {
         if trackQueue.isEmpty == true { return false }
         return true
     }
-    ///An enumeration of available sort options.
-    enum SortDescriptor {
-        ///Alphabetical sort.
-        case Lexicographic
-        ///Sort by date added, descending from oldest to newest.
-        case DescendingByDateAdded
-    }
-    ///A computed convenience accessor for alphabetically sorted tracks.
-    var alphabeticTracks : [(offset: Int, element: Track)] {
-        return tracksSorted(.Lexicographic)
-    }
-    var sortBy = SortDescriptor.DescendingByDateAdded
+    
+    var sorter = SortHandler(enumerated: TrackManager().enumerated)
     // MARK: - Modeling the view
     
     /// Returns the detail string for track at the specified index.
@@ -423,6 +413,7 @@ struct ViewModel {
         
         let track = Track(title: String(fileName), period: period, fileName: lastComponent)
         tracks.append(track: track)
+        sorter.updateEnumerated(tracks.enumerated)
         _ = DataHandler.setPreferredFileProtection(on: url)
     }
     /**
@@ -435,24 +426,8 @@ struct ViewModel {
         sessions.add(session)
         
     }
-    /**
-     Returns a lexicographically sorted master collection of tracks.
-     - parameter descriptor: A `SortDescriptor` indicating the requested sort type.
-     - returns: A sorted array of tuples containing an `offset` identical to the element's indice, and the `element`.
-
-     The returned array is ordered by each element's title; the original index for accessing the element in the master collection is indicated by the individual `offset` property.
- */
-    func tracksSorted(_ descriptor: SortDescriptor) -> [(offset: Int, element: Track)] {
-        switch descriptor {
-            case .Lexicographic:
-                return tracks.enumerated.sorted(by: { (first, second) -> Bool in
-                    return first.element.title.lowercased() < second.element.title.lowercased()
-                })
-            case .DescendingByDateAdded:
-                return tracks.enumerated.sorted(by: { (first, second) -> Bool in
-                    return first.offset < second.offset
-                })
-        }
+    func sort(by descriptor: SortHandler.Descriptor) {
+        sorter.by = descriptor
     }
     // MARK: - Track changes
     /**
@@ -463,12 +438,9 @@ struct ViewModel {
         - index: The index of the cell.
  */
     func setRhythm(_ rhythm: Rhythmic, for index: Index) {
-        if sortBy == .Lexicographic {
-            let masterIndex = alphabeticTracks[index].offset
-            tracks[masterIndex].rhythm = rhythm
-        } else if sortBy == .DescendingByDateAdded {
-            tracks[index].rhythm = rhythm
-        }
+        let masterIndex = sorter.masterIndex(for: index)
+        tracks[masterIndex].rhythm = rhythm
+        sorter.sorted[index].element.rhythm = rhythm
     }
     /**
      Sets a new rate to the specified index, taking the current sort option into account.
@@ -478,39 +450,24 @@ struct ViewModel {
         - index: The index of the cell.
  */
     func setRate(_ rate: PanRate, for index: Index) {
-        if sortBy == .Lexicographic {
-            let masterIndex = alphabeticTracks[index].offset
-            tracks[masterIndex].rate = rate
-        } else if sortBy == .DescendingByDateAdded {
-            tracks[index].rate = rate
-        }
+        let masterIndex = sorter.masterIndex(for: index)
+        tracks[masterIndex].rate = rate
+        sorter.sorted[index].element.rate = rate
     }
     /**
  */
     func removeTrack(at index: Index) -> Track {
-        if sortBy == .Lexicographic {
-            let masterIndex = alphabeticTracks[index].offset
-            sessions.deleteEvery(tracks[masterIndex])
-            return tracks.remove(at: masterIndex)
-        } else if sortBy == .DescendingByDateAdded {
-            sessions.deleteEvery(tracks[index])
-            return tracks.remove(at: index)
+        let masterIndex = sorter.masterIndex(for: index)
+        sessions.deleteEvery(tracks[masterIndex])
+        defer {
+            sorter.updateEnumerated(tracks.enumerated)
         }
-        return tracks.remove(at: index)
+        return tracks.remove(at: masterIndex)
     }
     /**
  */
     func index(of track: Track) -> Index? {
-        if sortBy == .Lexicographic {
-            for tuple in alphabeticTracks where tuple.element == track {
-                return alphabeticTracks.firstIndex { (inner) -> Bool in
-                    return inner == tuple
-                }
-            }
-        } else if sortBy == .DescendingByDateAdded {
-            return tracks.tracks.index(of: track)
-        }
-        return tracks.tracks.index(of: track)
+        return sorter.index(of: track)
     }
     
     // MARK: - Setup cells
@@ -550,16 +507,13 @@ struct ViewModel {
             cell.textLabel!.text = sessions[indexPath.row].title
             cell.detailTextLabel!.text = "\(sessions[indexPath.row].count) songs"
             cell.accessoryType = .detailButton
+            
         }
         
         if indexPath.section == 1 {
-            if sortBy == .Lexicographic {
-                cell.textLabel?.text = alphabeticTracks[indexPath.row].element.title
-                cell.detailTextLabel?.text = self.detailString(for: alphabeticTracks[indexPath.row].offset)
-            } else {
-                cell.textLabel!.text = tracks[indexPath.row].title
-                cell.detailTextLabel!.text = self.detailString(for: indexPath.row)
-            }
+            cell.textLabel?.text = sorter.sorted[indexPath.row].element.title
+            cell.detailTextLabel?.text = self.detailString(for: sorter.sorted[indexPath.row].offset)
+            
             if queueContains(indexPath.row) {
                 setupSelectedCell(cell)
             } else {
@@ -572,32 +526,22 @@ struct ViewModel {
      - parameter index: The index of the cell.
  */
     func safeSelectCell(at index: Index) {
-        if sortBy == .Lexicographic {
-            queue.safeSelectCell(at: alphabeticTracks[index].offset)
-        } else if sortBy == .DescendingByDateAdded {
-            queue.safeSelectCell(at: index)
-        }
+        let masterIndex = sorter.masterIndex(for: index)
+        queue.safeSelectCell(at: masterIndex)
     }
     /**
      A wrapper for Queue.cellSelected(at:) that takes the set `SortDescriptor` into account.
      - parameter index: The index of the cell.
  */
     func cellSelected(at index: Index) {
-        if sortBy == .Lexicographic {
-            queue.cellSelected(at: alphabeticTracks[index].offset)
-        } else if sortBy == .DescendingByDateAdded {
-            queue.cellSelected(at: index)
-        }
+        let masterIndex = sorter.masterIndex(for: index)
+        queue.cellSelected(at: masterIndex)
     }
     /**
  */
     func queueContains(_ index: Index) -> Bool {
-        if sortBy == .Lexicographic {
-            return queue.contains(alphabeticTracks[index].offset)
-        } else if sortBy == .DescendingByDateAdded {
-            return queue.contains(index)
-        }
-        return queue.contains(index)
+        let masterIndex = sorter.masterIndex(for: index)
+        return queue.contains(masterIndex)
     }
     // MARK: - Playback
     /**

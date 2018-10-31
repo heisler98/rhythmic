@@ -139,7 +139,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5A241D2A2180EC8A00BBA177 /* VIew Controllers */ = {
+		5A241D2A2180EC8A00BBA177 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				5ABA309A1DCBC97D006E5999 /* ViewController.swift */,
@@ -147,7 +147,7 @@
 				5A7AD6F32170003600090A86 /* NavigationController.swift */,
 				5A241D6621818F0500BBA177 /* MusicDrawerController.swift */,
 			);
-			name = "VIew Controllers";
+			name = "View Controllers";
 			sourceTree = "<group>";
 		};
 		5A241D2B21810D5300BBA177 /* Superpower */ = {
@@ -166,7 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				5A241D2B21810D5300BBA177 /* Superpower */,
-				5A241D2A2180EC8A00BBA177 /* VIew Controllers */,
+				5A241D2A2180EC8A00BBA177 /* View Controllers */,
 				5ABA30981DCBC97D006E5999 /* AppDelegate.swift */,
 				5AB5162C20A2A05700BE5028 /* SongExporter.swift */,
 				5A0B3FEC1F74CEF100A60D9F /* Preload.plist */,

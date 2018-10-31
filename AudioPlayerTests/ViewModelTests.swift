@@ -26,11 +26,11 @@ class ViewModelTests : XCTestCase {
     }
     
     func testDetailString() {
-        viewModel.tracks[5].rhythm = .Crosspan
-        viewModel.tracks[5].rate = .Normal
-        let period = viewModel.tracks[5].period
+        viewModel.tracks[4].rhythm = .Crosspan
+        viewModel.tracks[4].rate = .Normal
+        let period = viewModel.tracks[4].period
         let perStr = String(format: "%.3f", period)
-        let detString = viewModel.detailString(for: 5)
+        let detString = viewModel.detailString(for: 4)
         let testString = "Crosspan : 1x : \(perStr)"
         XCTAssertEqual(detString, testString)
     }
@@ -67,7 +67,7 @@ class ViewModelTests : XCTestCase {
         viewModel.sessions.add(session)
         
         guard let index = viewModel.sessions.sessions.firstIndex(of: session) else { XCTFail(); return }
-        let handler = try? viewModel.sessionSelected(at: index)
+        let handler = try? viewModel.sessionSelected(at: index, shuffled: false)
         XCTAssertTrue(handler?.queue.queued == [0, 1, 2])
     }
     

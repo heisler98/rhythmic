@@ -197,15 +197,22 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
     @objc func sort(_ sender: Any) {
         let alertController = UIAlertController(title: "Sort tracks", message: nil, preferredStyle: .actionSheet)
         let alphaAction = UIAlertAction(title: "Alphabetically", style: .default) { _ in
-            self.viewModel.sortBy = .Lexicographic
+            self.viewModel.sort(by: .Lexicographic)
             self.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
         }
         let normalAction = UIAlertAction(title: "Date added", style: .default) { _ in
-            self.viewModel.sortBy = .DescendingByDateAdded
+            self.viewModel.sort(by: .DateAddedDescending)
             self.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
         }
+        let tempoAction = UIAlertAction(title: "By tempo", style: .default) { _ in
+            self.viewModel.sort(by: .Tempo)
+            self.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(alphaAction)
         alertController.addAction(normalAction)
+        alertController.addAction(tempoAction)
+        alertController.addAction(cancelAction)
         present(alertController, animated: true, completion: nil)
     }
     /**
@@ -344,15 +351,12 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
         completionHandler(true)
         
         let cell = tableView.cellForRow(at: indexPath)
-        //cell?.detailTextLabel?.text = viewModel.detailString(for: indexPath.row)
         
-        selected:
-            if !viewModel.queueContains(indexPath.row) {
-            viewModel.cellSelected(at: indexPath.row)
-            guard cell != nil else { break selected }
-            viewModel.setupCell(cell!, forIndexPath: indexPath)
-            updateTrackInfo()
-        }
+        viewModel.safeSelectCell(at: indexPath.row)
+        guard cell != nil else { return }
+        viewModel.setupCell(cell!, forIndexPath: indexPath)
+        updateTrackInfo()
+        
     }
     /**
      Sets up and returns a `UISwipeActionsConfiguration` object to delete the `Track` at a specified index.
@@ -447,15 +451,12 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
         viewModel.setRate(rate, for: indexPath.row)
         completionHandler(true)
         let cell = tableView.cellForRow(at: indexPath)
-        cell?.detailTextLabel?.text = viewModel.detailString(for: indexPath.row)
         
-        selected:
-            if !viewModel.queueContains(indexPath.row) {
-            viewModel.cellSelected(at: indexPath.row)
-            guard cell != nil else { break selected }
-            viewModel.setupCell(cell!, forIndexPath: indexPath)
-            updateTrackInfo()
-        }
+        viewModel.safeSelectCell(at: indexPath.row)
+        guard cell != nil else { return }
+        viewModel.setupCell(cell!, forIndexPath: indexPath)
+        updateTrackInfo()
+        
     }
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

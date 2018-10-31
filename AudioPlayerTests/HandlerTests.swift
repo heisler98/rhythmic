@@ -86,7 +86,7 @@ class PlaybackHandlerTests : XCTestCase {
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        indices = randsInRange(range: 0..<30, quantity: 10)
+        indices = randsInRange(range: 0..<5, quantity: 10)
         let queue = ViewModel().queue
         queue.append(all: indices)
         try? DataHandler().encodeTracks(DataHandler().defaultTracks())

@@ -399,6 +399,93 @@ struct QueueHandler {
         position = 0
     }
 }
+// MARK: - SortHandler
+///A type to handle table sort functionality.
+class SortHandler {
+    private var tracks: EnumeratedSequence<[Track]>
+    enum Descriptor {
+        case Lexicographic
+        case DateAddedDescending
+        case Tempo
+    }
+    var sorted: [(offset: Int, element: Track)]
+    var by: Descriptor = .DateAddedDescending {
+        didSet {
+            resort(by: by)
+        }
+    }
+    
+    func resort(by option: Descriptor = .DateAddedDescending) {
+        switch option {
+        case .Lexicographic:
+            lexicographicSort()
+            break
+        case .DateAddedDescending:
+            descendingDateAddedSort()
+            break
+        case .Tempo:
+            tempoSort()
+            break
+        }
+    }
+    
+    func updateEnumerated(_ enumerated: EnumeratedSequence<[Track]>) {
+        self.tracks = enumerated
+        resort(by: self.by)
+    }
+    
+    private func lexicographicSort() {
+        sorted = tracks.sorted(by: { (first, second) -> Bool in
+            return first.element.title.lowercased() < second.element.title.lowercased()
+        })
+    }
+    
+    private func descendingDateAddedSort() {
+        sorted = tracks.sorted(by: { (first, second) -> Bool in
+            return first.offset < second.offset
+        })
+    }
+    
+    private func tempoSort() {
+        sorted = tracks.sorted(by: { (first, second) -> Bool in
+            return first.element.period < second.element.period
+        })
+    }
+    
+    func masterIndex(for index: Index) -> Index {
+        switch by {
+        case .Lexicographic, .Tempo:
+            return sorted[index].offset
+        case .DateAddedDescending:
+            return index
+        }
+    }
+    
+    func index(of element: Track) -> Index? {
+        switch by {
+        case .Lexicographic, .Tempo:
+            for tuple in sorted where tuple.element == element {
+                return sorted.firstIndex(where: { (inner) -> Bool in
+                    inner == tuple
+                })
+            }
+            break
+        case .DateAddedDescending:
+            for tuple in tracks where tuple.element == element {
+                return tuple.offset
+            }
+            break
+        }
+        return nil
+    }
+    
+    init(enumerated: EnumeratedSequence<[Track]>) {
+        self.tracks = enumerated
+        self.sorted = enumerated.sorted { (first, second) -> Bool in
+            return first.offset < second.offset
+        }
+    }
+}
 
 // MARK: - DataHandler
 ///A type to handle data encoding & decoding.

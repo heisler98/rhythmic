@@ -75,7 +75,7 @@ class SessionManagerTests : XCTestCase {
         manager = SessionManager()
         tracks = TrackManager()
         
-        let someTracks = Array(tracks.tracks[0..<6])
+        let someTracks = Array(tracks.tracks[0..<5])
         let session = Session(tracks: someTracks, title: "First 6")
         manager.add(session)
     }
@@ -115,7 +115,7 @@ class SessionManagerTests : XCTestCase {
     }
     
     func testRemoveTrackFromSession_ByIndex() {
-        let someTracks = Array(tracks.tracks[3..<6])
+        let someTracks = Array(tracks.tracks[3..<5])
         let session = Session(tracks: someTracks, title: "Mutable")
         manager.add(session)
         
@@ -130,7 +130,7 @@ class SessionManagerTests : XCTestCase {
     }
     
     func testTracksInSession() {
-        let someTracks = Array(tracks.tracks[3..<7])
+        let someTracks = Array(tracks.tracks[3..<5])
         let session = Session(tracks: someTracks, title: "3 thru 6")
         manager.add(session)
         

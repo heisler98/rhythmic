@@ -77,7 +77,7 @@ class QueueHandlerTests : XCTestCase {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
         
-        let indices = randsInRange(range: 0..<50, quantity: 10)
+        let indices = randsInRange(range: 0..<5, quantity: 10)
         queue = QueueHandler(queued: indices)
     }
     
