@@ -49,11 +49,16 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
     ///Toggle pausing and resuming playback.
     func pauseResume() {
         if isPaused == false {
-            tracks[queue.now].audioPlayer?.pause()
+            guard let player = tracks[queue.now].audioPlayer else { return }
+            player.pause()
             isPaused = true
+            remote.updatePlaybackInfo(to: player.currentTime, rate: 0.0)
             return
         } else {
-            isPaused = !(tracks[queue.now].audioPlayer!.play())
+            guard let player = tracks[queue.now].audioPlayer else { return }
+            isPaused = !(player.play())
+            remote.updatePlaybackInfo(to: player.currentTime, rate: 1.0)
+            
         }
     }
     ///Skips the currently-playing track.
@@ -92,10 +97,9 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
      - parameter to: The time interval in seconds.
  */
     func seek(to: TimeInterval) {
-        let player = tracks[queue.now].audioPlayer!
-        if to < player.duration {
-            player.currentTime = to
-        }
+        let player = tracks[queue.now].audioPlayer
+        player?.currentTime = to
+        remote.updatePlaybackInfo(to: to, rate: 1.0)
     }
     /**
      Seeks forward a specific `TimeInterval` in the currently-playing track.
@@ -205,22 +209,25 @@ class RemoteHandler {
             MPMediaItemPropertyTitle : track.title,
             MPMediaItemPropertyAlbumTitle : "Rhythmic",
             MPNowPlayingInfoPropertyElapsedPlaybackTime : audioPlayer.currentTime,
-            MPMediaItemPropertyPlaybackDuration : NSNumber(value: audioPlayer.duration)]
+            MPMediaItemPropertyPlaybackDuration : NSNumber(value: audioPlayer.duration),
+            MPNowPlayingInfoPropertyPlaybackRate : NSNumber(value: 1.0)]
     }
+    /**
+     Updates the info center's playback time and rate.
+     - Parameters:
+     
+        - playbackTime: The player's new playback time.
+        - rate: The player's playback rate. (`0.0` for paused, `1.0` for playing).
+ */
+    func updatePlaybackInfo(to playbackTime: TimeInterval, rate: Float) {
+        infoCenter.nowPlayingInfo![MPNowPlayingInfoPropertyElapsedPlaybackTime] = NSNumber(value: playbackTime)
+        infoCenter.nowPlayingInfo![MPNowPlayingInfoPropertyPlaybackRate] = NSNumber(value: rate)
+    }
+    
     ///Sets up the remote commands for `MPRemoteCommandCenter`.
     /// - Parameters:
     ///   - handler: The `PlaybackHandler` controlling audio commands.
     private func setupRemoteCommands() {
-        /**
-        commandCenter.pauseCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
-            handler.pauseResume()
-            return .success
-        }
-        commandCenter.playCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
-            handler.pauseResume()
-            return .success
-        }
- */
         commandCenter.togglePlayPauseCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
             self.handler?.pauseResume()
             return .success
@@ -233,29 +240,12 @@ class RemoteHandler {
             self.handler?.rewind()
             return .success
         }
-        /*
-        commandCenter.skipForwardCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
-            handler.seekForward(15)
-            return .success
-        }
-        commandCenter.skipBackwardCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
-            handler.seekBackward(15)
-            return .success
-        }
-        commandCenter.seekForwardCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
-            handler.seekForward(5)
-            return .success
-        }
-        commandCenter.seekBackwardCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
-            handler.seekBackward(5)
-            return .success
-        }
         commandCenter.changePlaybackPositionCommand.addTarget { (event) -> MPRemoteCommandHandlerStatus in
             guard let timeEvent = event as? MPChangePlaybackPositionCommandEvent else { return .commandFailed }
-            handler.seek(to: timeEvent.positionTime)
+            self.handler?.seek(to: timeEvent.positionTime)
             return .success
         }
- */
+
     }
     /**
      Handles a notification that the device's audio route changed.
