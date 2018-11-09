@@ -26,7 +26,9 @@ class TrackManager {
     ///The persistent storage mechanism.
     lazy var dataHandler = DataHandler()
     ///An enumerated sequence of the master collection.
-    lazy var enumerated = self.tracks.enumerated()
+    var enumerated : EnumeratedSequence<[Track]> {
+        return self.tracks.enumerated()
+    }
     /**
      A subscript getter-setter.
      - returns: A `Track` at the specified index.

@@ -216,6 +216,10 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults, InlinePla
             self.viewModel.sort(by: .DateAddedDescending)
             self.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
         }
+        let ascendingAction = UIAlertAction(title: "Newest first", style: .default) { _ in
+            self.viewModel.sort(by: .DateAddedAscending)
+            self.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
+        }
         let tempoAction = UIAlertAction(title: "By tempo", style: .default) { _ in
             self.viewModel.sort(by: .Tempo)
             self.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
@@ -223,6 +227,7 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults, InlinePla
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(alphaAction)
         alertController.addAction(normalAction)
+        alertController.addAction(ascendingAction)
         alertController.addAction(tempoAction)
         alertController.addAction(cancelAction)
         present(alertController, animated: true, completion: nil)
@@ -251,7 +256,6 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults, InlinePla
     }
     
     func dismissed(withURL: URL, period: Double) {
-        //self.dismiss(animated: true, completion: nil)
         viewModel.buildTrack(url: withURL, periodOrBPM: period)
         tableView.reloadData()
     }

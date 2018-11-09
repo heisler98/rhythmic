@@ -404,10 +404,12 @@ struct QueueHandler {
 ///A type to handle table sort functionality.
 class SortHandler {
     private var tracks: EnumeratedSequence<[Track]>
-    enum Descriptor {
-        case Lexicographic
+    private static let key = "kRhythmicDefaultDescriptor"
+    enum Descriptor : Int {
+        case Lexicographic = 0
         case DateAddedDescending
         case Tempo
+        case DateAddedAscending
     }
     var sorted: [(offset: Int, element: Track)]
     var by: Descriptor = .DateAddedDescending {
@@ -427,7 +429,11 @@ class SortHandler {
         case .Tempo:
             tempoSort()
             break
+        case .DateAddedAscending:
+            ascendingDateAddedSort()
+            break
         }
+        SortHandler.updateDefaults(to: option)
     }
     
     func updateEnumerated(_ enumerated: EnumeratedSequence<[Track]>) {
@@ -453,9 +459,13 @@ class SortHandler {
         })
     }
     
+    private func ascendingDateAddedSort() {
+        sorted = tracks.reversed()
+    }
+    
     func masterIndex(for index: Index) -> Index {
         switch by {
-        case .Lexicographic, .Tempo:
+        case .Lexicographic, .Tempo, .DateAddedAscending:
             return sorted[index].offset
         case .DateAddedDescending:
             return index
@@ -464,7 +474,7 @@ class SortHandler {
     
     func index(of element: Track) -> Index? {
         switch by {
-        case .Lexicographic, .Tempo:
+        case .Lexicographic, .Tempo, .DateAddedAscending:
             for tuple in sorted where tuple.element == element {
                 return sorted.firstIndex(where: { (inner) -> Bool in
                     inner == tuple
@@ -480,11 +490,21 @@ class SortHandler {
         return nil
     }
     
+    static func updateDefaults(to descriptor: Descriptor) {
+        UserDefaults.standard.set(descriptor.rawValue, forKey: key)
+    }
+    static func defaultDescriptor() -> Descriptor? {
+        let intValue = UserDefaults.standard.integer(forKey: key)
+        return Descriptor(rawValue: intValue)
+    }
+    
     init(enumerated: EnumeratedSequence<[Track]>) {
         self.tracks = enumerated
-        self.sorted = enumerated.sorted { (first, second) -> Bool in
-            return first.offset < second.offset
+        self.sorted = enumerated.sorted { _, _ -> Bool in
+            return true
         }
+        resort(by: SortHandler.defaultDescriptor() ?? .DateAddedDescending)
+        
     }
 }
 

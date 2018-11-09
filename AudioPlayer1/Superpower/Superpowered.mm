@@ -15,8 +15,18 @@
 
 - (float)offlineAnalyze:(NSURL *)url {
     // Open the input file.
+    if (![url checkResourceIsReachableAndReturnError:NULL]) {
+        NSLog(@"Resource is not reachable");
+        return 0;
+    }
     SuperpoweredDecoder *decoder = new SuperpoweredDecoder();
-    const char *openError = decoder->open([[url absoluteString] UTF8String], false, 0, 0);
+    const char *openError;
+    if ([[url scheme] isEqualToString:@"file"]) {
+        openError = decoder->open([[url path] UTF8String], false, 0, 0);
+    } else {
+        openError = decoder->open([[url absoluteString] UTF8String], false, 0, 0);
+    }
+    
     if (openError) {
         NSLog(@"open error: %s", openError);
         delete decoder;

@@ -459,10 +459,9 @@ struct ViewModel {
     func removeTrack(at index: Index) -> Track {
         let masterIndex = sorter.masterIndex(for: index)
         sessions.deleteEvery(tracks[masterIndex])
-        defer {
-            sorter.updateEnumerated(tracks.enumerated)
-        }
-        return tracks.remove(at: masterIndex)
+        let success = tracks.remove(at: masterIndex)
+        sorter.updateEnumerated(tracks.enumerated)
+        return success
     }
     /**
  */

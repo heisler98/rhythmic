@@ -121,11 +121,14 @@ extension MusicDrawerController : UITableViewDelegate, UITableViewDataSource {
             
             let tempo = TempoHandler.core.tempo(of: song.assetURL!, completion: nil)
             guard let bpm = tempo else {
-                self.delegate?.dismissed(withURL: exportURL)
+                main.sync {
+                    self.delegate?.dismissed(withURL: exportURL)
+                }
                 return
             }
-            self.delegate?.dismissed(withURL: exportURL, period: (1/(bpm/60)))
-            
+            main.sync {
+                self.delegate?.dismissed(withURL: exportURL, period: (60/bpm))
+            }
         }
         drawerDismissClosure?()
     }
