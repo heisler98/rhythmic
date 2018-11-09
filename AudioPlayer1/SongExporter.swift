@@ -50,7 +50,7 @@ class SongExporter {
                 do {
                     try FileManager.default.removeItem(atPath: exportPath)
                 } catch {
-                    print(error)
+                    dLog(error)
                     completion?(false)
                 }
             }
@@ -67,7 +67,7 @@ class SongExporter {
             }
 
             if let error = assetError {
-                print("Error: \(error)")
+                dLog(error)
                 completion?(false)
                 return
             }

@@ -2,8 +2,8 @@
 
 import Foundation
 
-func dLog(_ message:  @autoclosure () -> String, filename: NSString = #file, function: String = #function, line: Int = #line) {
+func dLog(_ message:  @autoclosure () -> Any, filename: NSString = #file, function: String = #function, line: Int = #line) {
     #if DEBUG
-        NSLog("[\(filename.lastPathComponent):\(line)] \(function) - %@", message())
+    NSLog("[\(filename.lastPathComponent):\(line)] \(function) - %@", String(describing: message()))
     #endif
 }

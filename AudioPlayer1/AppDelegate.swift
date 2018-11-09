@@ -22,12 +22,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Implement copying the music files
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let documentsDirectory = paths[0].appendingPathComponent(url.lastPathComponent)
+        let destinationURL = paths[0].appendingPathComponent(url.lastPathComponent)
         
         do {
-            try FileManager.default.copyItem(at: url, to: documentsDirectory)
+            try FileManager.default.copyItem(at: url, to: destinationURL)
         } catch {
-            print("\(error)")
+            dLog(error)
         }
         
         // need the audio file added to the list and its BPM analyzed
@@ -37,8 +37,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         guard let navController = window?.rootViewController else { print("Cannot load root view controller."); return false }
         guard let vc = navController.children.first as? ViewController else { print("Cannot load ViewController in childViewControllers"); return false}
-        return vc.newTrack(at: documentsDirectory.appendingPathComponent(url.pathComponents.last!))
-        
+        _ = DataHandler.setPreferredFileProtection(on: destinationURL)
+        return vc.newTrack(at: destinationURL)
     }
     
     func applicationWillResignActive(_ application: UIApplication) {

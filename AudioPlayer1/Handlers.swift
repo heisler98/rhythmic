@@ -36,6 +36,16 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
         isPlaying = player?.play() ?? false
         updateRemote()
     }
+    /**
+     Begin playback at a specific position in the playlist.
+     - parameter position: The position where playback should begin.
+     If the position is outside the bounds of the playlist, playback will not begin.
+ */
+    func play(at position: Position) {
+        guard position < queue.queued.endIndex else { return }
+        queue.position = position
+        startPlaying()
+    }
     
     ///Stop playing the queued tracks.
     ///This method does not reset the queue.
@@ -148,7 +158,7 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
     // MARK: - Initializers
     /**
      Initialize a `PlaybackHandler` object.
-     - throws: Throws a `HandlerError` object if the queue is empty.
+     - throws: Throws a `HandlerError` if the queue is empty.
      - Parameters:
      
         - queue: A queue of tracks.
@@ -266,7 +276,8 @@ class RemoteHandler {
             //pause
             if let previousRoute = userInfo[AVAudioSessionRouteChangePreviousRouteKey] as? AVAudioSessionRouteDescription {
                 for output in previousRoute.outputs where output.portType == AVAudioSession.Port.headphones {
-                    handler?.pauseResume()
+                    guard let handler = self.handler else { return }
+                    if !handler.isPaused { handler.pauseResume() }
                 }
             }
             break
@@ -496,7 +507,7 @@ public struct DataHandler {
             let data = try getTracksData()
             return try JSONDecoder().decode([Track].self, from: data)
         } catch {
-            print(error)
+            dLog(error)
             throw error
         }
         
@@ -510,7 +521,7 @@ public struct DataHandler {
             let data = try getSessionsData()
             return try JSONDecoder().decode([Session].self, from: data)
         } catch {
-            print(error)
+            dLog(error)
             return nil
         }
     }
@@ -563,7 +574,7 @@ public struct DataHandler {
         do {
             try FileManager.default.removeItem(at: url)
         } catch {
-            print(error)
+            dLog(error)
             return false
         }
         return true
@@ -602,7 +613,7 @@ public struct DataHandler {
                 try FileManager.default.copyItem(at: asset, to: backupURL)
                 return true
             } catch {
-                print(error)
+                dLog(error)
                 return false
             }
         } else {
@@ -610,7 +621,7 @@ public struct DataHandler {
                 try FileManager.default.copyItem(at: asset, to: backupURL)
                 return true
             } catch {
-                print(error)
+                dLog(error)
                 return false
             }
         }
@@ -627,7 +638,7 @@ public struct DataHandler {
         do {
             try FileManager.default.copyItem(at: bundleURL, to: trackURL)
         } catch {
-            print(error)
+            dLog(error)
         }
     }
     /**
@@ -636,14 +647,11 @@ public struct DataHandler {
      - returns: A Boolean value indicating success.
  */
     static func setPreferredFileProtection(on: URL) -> Bool {
-        let url = on as NSURL
-        let key = URLResourceKey.fileProtectionKey
-        let value = URLFileProtection.completeUntilFirstUserAuthentication
         do {
-            try url.setResourceValue(value, forKey: key)
+            try FileManager.default.setAttributes([.protectionKey: FileProtectionType.completeUntilFirstUserAuthentication], ofItemAtPath: on.path)
             return true
         } catch {
-            print(error)
+            dLog(error)
             return false
         }
     }
@@ -676,7 +684,7 @@ public struct DataHandler {
         do {
             tracks = try PropertyListSerialization.propertyList(from: data, options: .mutableContainers, format: nil) as? [Dictionary<String, String>]
         } catch {
-            print(error)
+            dLog(error)
         }
         guard tracks != nil else { fatalError() }
         return tracks!

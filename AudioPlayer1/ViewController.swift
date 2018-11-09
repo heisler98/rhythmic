@@ -25,7 +25,7 @@ func randsInRange(range: Range<Int>, quantity : Int) -> [Int] {
     return rands
 }
 
-class ViewController: UIViewController, iTunesDelegate, SearchResults {
+class ViewController: UIViewController, iTunesDelegate, SearchResults, InlinePlayback {
     
     // MARK: - Private property controls
     ///The playback handler for the set of selected tracks. Set at play-time.
@@ -89,6 +89,19 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
         let firstDot = lastComponent.index(of: ".") ?? lastComponent.endIndex
         let fileName = lastComponent[..<firstDot]
         
+        if let bpm = TempoHandler.core.tempo(of: url, completion: nil) {
+            viewModel.buildTrack(url: url, periodOrBPM: bpm)
+            tableView.reloadData()
+            return true
+        } else {
+            requestPeriod(of: String(fileName), at: url)
+            return true
+        }
+    }
+    
+    /**
+ */
+    func requestPeriod(of fileName: String, at url: URL) {
         let alert = UIAlertController(title: "Period", message: "Enter the desired period or BPM for the piece '\(fileName)'.", preferredStyle: .alert)
         alert.addTextField { (textField) in
             textField.keyboardType = .decimalPad
@@ -98,11 +111,10 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
             if let period = alert.textFields?.first?.text {
                 guard let periodOrBPM = Double(period) else { return }
                 self.viewModel.buildTrack(url: url, periodOrBPM: periodOrBPM)
-            self.tableView.reloadData()
-        }})
+                self.tableView.reloadData()
+            }})
         alert.addAction(action)
         self.present(alert, animated: true, completion: nil)
-        return true
     }
 
     // MARK: - UI funcs
@@ -233,7 +245,7 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
         case false:
             do {
             try FileManager.default.removeItem(at: assetURL)
-            } catch { print(error) }
+            } catch { dLog(error) }
             break
         }
     }
@@ -267,6 +279,20 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults {
         tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
         updateTrackInfo()
     }
+    // MARK: - Inline playback
+    func beginSession(indexPathOf indexPath: IndexPath, at position: Position) {
+        do {
+            stop(self)
+            self.handler = try viewModel.sessionSelected(at: indexPath.row, shuffled: false)
+            handler?.progressReceiver = self
+            handler?.play(at: position)
+            playButtonItem.action = #selector(stop(_:))
+            updateInfo(sessionName: viewModel.title(for: indexPath))
+        } catch {
+            dLog(error)
+        }
+       
+    }
     
     // MARK: - Init
     required init?(coder aDecoder: NSCoder) {
@@ -297,7 +323,7 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
             }
 
             do {
-
+                stop(tableView)
                 self.handler = try viewModel.sessionSelected(at: indexPath.row, shuffled: false)
                 handler?.progressReceiver = self as ProgressUpdater
                 handler?.startPlaying()
@@ -463,6 +489,7 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
         if indexPath.section == 0 && indexPath.row != viewModel.sessions.count {
             let shuffle = UIContextualAction(style: .normal, title: "Shuffle") { (_, _, completionHandler) in
                 do {
+                    self.stop(tableView)
                     self.handler = try self.viewModel.sessionSelected(at: indexPath.row, shuffled: true)
                     self.handler?.progressReceiver = self as ProgressUpdater
                     self.handler?.startPlaying()
@@ -470,7 +497,7 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
                     self.updateInfo(sessionName: self.viewModel.title(for: indexPath))
                     completionHandler(true)
                 } catch {
-                    print(error)
+                    dLog(error)
                     completionHandler(true)
                 }
             }
@@ -522,6 +549,7 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
         if isDrawerPresent == false {
             guard let drawerController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Drawer") as? DrawerController else { return }
             drawerController.delegate = viewModel.sessions as SessionResponder
+            drawerController.inlineDelegate = self
             drawerController.masterCollection = viewModel.tracks.tracks
             drawerController.tracks = viewModel.sessions[indexPath.row].tracks
             drawerController.name = viewModel.sessions[indexPath.row].title

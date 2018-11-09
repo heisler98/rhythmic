@@ -254,7 +254,7 @@ struct Track : Codable {
             let val = try PanAudioPlayer(contentsOf: self.url, period: self.period.toPanRate(self.rate))
             return val
         } catch {
-            print(error)
+            dLog(error)
             return nil
         }
         

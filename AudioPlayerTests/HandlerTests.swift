@@ -112,6 +112,11 @@ class PlaybackHandlerTests : XCTestCase {
         XCTAssertTrue(playback.isPlaying)
     }
     
+    func testPlayAtPosition() {
+        playback.play(at: 1)
+        XCTAssertTrue(playback.queue.position == 1)
+    }
+    
     func testStopPlaying() {
         playback.startPlaying()
         XCTAssertTrue(playback.isPlaying)
@@ -183,6 +188,21 @@ class PlaybackHandlerTests : XCTestCase {
         player.currentTime = player.duration-2
         playback.seekForward(5)
         XCTAssertEqual(positionA+1, playback.queue.position)
+    }
+}
+
+class RemoteHandlerTests: XCTestCase {
+    
+    var remote = RemoteHandler.shared
+    
+    override func setUp() {
+        super.setUp()
+        //
+    }
+    
+    override func tearDown() {
+        //
+        super.tearDown()
     }
     
     

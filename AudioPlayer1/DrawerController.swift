@@ -18,6 +18,7 @@ class DrawerController: UIViewController {
     var sessionPath: IndexPath?
     var masterCollection: [Track]?
     weak var delegate : SessionResponder?
+    weak var inlineDelegate: InlinePlayback?
     
     var drawerDismissClosure: (() -> Void)?
     var didChangeLayoutClosure: (() -> Void)?
@@ -267,6 +268,12 @@ extension DrawerController : UITableViewDelegate, UITableViewDataSource {
         config.performsFirstActionWithFullSwipe = false
         return config
     }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard !tableView.isEditing else { return }
+        guard sessionPath != nil else { return }
+        inlineDelegate?.beginSession(indexPathOf: sessionPath!, at: indexPath.row)
+        drawerDismissClosure?()
+    }
 }
 
 extension DrawerController : DrawerConfiguration {
@@ -314,7 +321,9 @@ protocol QueueUpdater: AnyObject {
     func notify()
 }
 
-
+protocol InlinePlayback: AnyObject {
+    func beginSession(indexPathOf indexPath: IndexPath, at position: Position)
+}
 
 class TrackDrawerController: UIViewController {
     @IBOutlet weak var textField: UITextField!

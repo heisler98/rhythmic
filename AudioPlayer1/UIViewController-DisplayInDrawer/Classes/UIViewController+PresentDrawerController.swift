@@ -195,7 +195,7 @@ extension UIViewController {
         })
     }
 
-    //TODO: rename Vito, upload to trunk and use a dependency
+    
     private func removeChildViewController(from containerView: UIView) {
         let child = childViewController(at: containerView)
         child?.willMove(toParent: nil)
