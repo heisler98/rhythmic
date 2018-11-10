@@ -64,7 +64,7 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults, InlinePla
         definesPresentationContext = true
         tableView.separatorColor = UIColor.swatch
         tableView.backgroundView = nil
-        tableView.backgroundColor = UIColor.swatch
+        //tableView.backgroundColor = UIColor.swatch
     }
     
     func setupNavigationItem() {

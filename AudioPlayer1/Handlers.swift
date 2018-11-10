@@ -465,25 +465,25 @@ class SortHandler {
     
     func masterIndex(for index: Index) -> Index {
         switch by {
-        case .Lexicographic, .Tempo, .DateAddedAscending:
-            return sorted[index].offset
         case .DateAddedDescending:
             return index
+        default:
+            return sorted[index].offset
         }
     }
     
     func index(of element: Track) -> Index? {
         switch by {
-        case .Lexicographic, .Tempo, .DateAddedAscending:
+        case .DateAddedDescending:
+            for tuple in tracks where tuple.element == element {
+                return tuple.offset
+            }
+            break
+        default:
             for tuple in sorted where tuple.element == element {
                 return sorted.firstIndex(where: { (inner) -> Bool in
                     inner == tuple
                 })
-            }
-            break
-        case .DateAddedDescending:
-            for tuple in tracks where tuple.element == element {
-                return tuple.offset
             }
             break
         }
@@ -500,9 +500,8 @@ class SortHandler {
     
     init(enumerated: EnumeratedSequence<[Track]>) {
         self.tracks = enumerated
-        self.sorted = enumerated.sorted { _, _ -> Bool in
-            return true
-        }
+        self.sorted = enumerated.sorted { _,_ in return true }
+        self.by = SortHandler.defaultDescriptor() ?? .DateAddedDescending
         resort(by: SortHandler.defaultDescriptor() ?? .DateAddedDescending)
         
     }
