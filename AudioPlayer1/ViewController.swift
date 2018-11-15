@@ -413,7 +413,26 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
             alert.addAction(cancelAction)
             self.present(alert, animated: true, completion: nil)
         }
-        let config = UISwipeActionsConfiguration(actions: [delete])
+        let switchAction = UIContextualAction(style: .normal, title: "Switch") { (_, _, completionHandler) in
+            let alertController = UIAlertController(title: "Change rhythm", message: "Choose a new rhythm for every track in this session.", preferredStyle: UIAlertController.Style.actionSheet)
+            let crosspanAction = UIAlertAction(title: "Crosspan", style: .default, handler: { (action) in
+                self.viewModel.sessions.changedAll(to: .Crosspan, in: indexPath.row)
+                completionHandler(true)
+            })
+            let synthesisAction = UIAlertAction(title: "Synthesis", style: .default, handler: { (action) in
+                self.viewModel.sessions.changedAll(to: .Synthesis, in: indexPath.row)
+                completionHandler(true)
+            })
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+                completionHandler(false)
+            })
+            alertController.addAction(synthesisAction)
+            alertController.addAction(crosspanAction)
+            alertController.addAction(cancelAction)
+            self.present(alertController, animated: true, completion: nil)
+        }
+        switchAction.backgroundColor = UIColor.blue
+        let config = UISwipeActionsConfiguration(actions: [delete, switchAction])
         config.performsFirstActionWithFullSwipe = false
         return config
     }
