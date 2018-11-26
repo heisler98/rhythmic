@@ -147,6 +147,9 @@ class PanAudioPlayer: AVAudioPlayer {
     
     override func play() -> Bool {
         timer.fire()
+        defer {
+            setupProgressTimer()
+        }
         return super.play()
     }
     
@@ -170,7 +173,7 @@ class PanAudioPlayer: AVAudioPlayer {
             self.pan = -1
             self.timer = Timer.scheduledTimer(withTimeInterval: period, repeats: true, block: { (timer : Timer) -> Void in
                 self.pan *= -1
-                self.progressDelegate?.updateProgress(to: Float(self.currentTime / self.duration))
+                //self.progressDelegate?.updateProgress(to: Float(self.currentTime / self.duration))
             })
         }
         
@@ -180,7 +183,7 @@ class PanAudioPlayer: AVAudioPlayer {
             //self.pan = absoluteDistance
             self.timer = Timer.scheduledTimer(withTimeInterval: period, repeats: true, block: { (timer : Timer) -> Void in
                 self.pan *= -1
-                self.progressDelegate?.updateProgress(to: Float(self.currentTime / self.duration))
+                //self.progressDelegate?.updateProgress(to: Float(self.currentTime / self.duration))
             })
             
         } else if (opt == .Synthesis) { //sigma
@@ -188,7 +191,7 @@ class PanAudioPlayer: AVAudioPlayer {
             //pan = 0
             self.pan = 0
             self.timer = Timer.scheduledTimer(withTimeInterval: self.period, repeats: true, block: {(timer : Timer) -> Void in
-                self.progressDelegate?.updateProgress(to: Float(self.currentTime / self.duration))
+                //self.progressDelegate?.updateProgress(to: Float(self.currentTime / self.duration))
                 // do nothing
             })
             
@@ -200,7 +203,7 @@ class PanAudioPlayer: AVAudioPlayer {
                 wavelength += (pi/16)
                 guard absVal(Double(newVal)) < 0.9 else { return }
                 self.pan = newVal
-                self.progressDelegate?.updateProgress(to: Float(self.currentTime / self.duration))
+                //self.progressDelegate?.updateProgress(to: Float(self.currentTime / self.duration))
             
             })
         }
@@ -213,6 +216,12 @@ class PanAudioPlayer: AVAudioPlayer {
  */
     func progress() -> Float {
         return Float(currentTime / duration)
+    }
+    
+    func setupProgressTimer() {
+        Timer.scheduledTimer(withTimeInterval: 1.25, repeats: true, block: { (_) in
+            self.progressDelegate?.updateProgress(to: self.progress())
+        }).fire()
     }
     // MARK: - Inits
     init(contentsOf url: URL, period: Double) throws {
