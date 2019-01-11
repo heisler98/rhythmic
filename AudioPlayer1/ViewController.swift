@@ -78,6 +78,11 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults, InlinePla
         self.navigationItem.setRightBarButton(add, animated: false)
     }
 
+    func alertController(title: String, message: String) -> UIAlertController {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        return alertController
+    }
     // MARK: - New track from OpenURL
     
     ///Builds a new `Track` and passes it to `TrackManager` within `ViewModel`.
@@ -100,6 +105,10 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults, InlinePla
     }
     
     /**
+     Sends a request for the user to enter the period or tempo of the track.
+     - parameters:
+        - fileName: The filename of the asset.
+        - url: The URL of the asset.
  */
     func requestPeriod(of fileName: String, at url: URL) {
         let alert = UIAlertController(title: "Period", message: "Enter the desired period or BPM for the piece '\(fileName)'.", preferredStyle: .alert)
@@ -165,7 +174,9 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults, InlinePla
      - parameter sender: The sender of the action.
  */
     @IBAction func createSession(_ sender : Any) {
-        guard viewModel.canBuildSession == true else { return }
+        guard viewModel.canBuildSession == true else {
+            self.present(alertController(title: "Select tracks", message: "Select some tracks and tap this cell again."), animated: true, completion: nil)
+            return }
         guard isDrawerPresent == false else { return } 
 /*        let alertController = UIAlertController(title: "New session", message: "Give the new session a name.", preferredStyle: .alert)
         alertController.addTextField { (textField) in
@@ -258,6 +269,14 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults, InlinePla
     func dismissed(withURL: URL, period: Double) {
         viewModel.buildTrack(url: withURL, periodOrBPM: period)
         tableView.reloadData()
+    }
+    
+    func found(_ url: URL, period: Double) {
+        // currently in background
+        viewModel.buildTrack(url: url, periodOrBPM: period)
+        DispatchQueue.main.async {
+            self.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
+        }
     }
     
     @objc func showMusicLibrary(_ sender: Any) {
@@ -361,6 +380,7 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if IndexPath(row: viewModel.sessions.count, section: 0) == indexPath { return false }
         return true
     }
     /**
@@ -451,16 +471,20 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
         let synthesis = UIContextualAction(style: .normal, title: "Synthesis", handler: { _, _, completionHandler in
             self.rhythmChange(.Synthesis, atIndexPath: indexPath, completionHandler) })
         synthesis.backgroundColor = UIColor.blue
-        
+       /*
         let stitch = UIContextualAction(style: .normal, title: "Swave", handler: { _, _, completionHandler in
             self.rhythmChange(.Stitch, atIndexPath: indexPath, completionHandler) })
         stitch.backgroundColor = UIColor.gray
-        
+         
+        let bilateral = UIContextualAction(style: .normal, title: "Bilateral", handler: { _, _, completionHandler in
+         self.rhythmChange(.Bilateral, atIndexPath: indexPath, completionHandler) })
+         bilateral.backgroundColor = UIColor.green
+        */
         let delete = UIContextualAction(style: .destructive, title: "Delete") { _, _, completionHandler in
             self.delete(atIndexPath: indexPath, completionHandler: completionHandler)
         }
     
-        let config = UISwipeActionsConfiguration(actions: [bilateral, synthesis, crosspan, stitch, delete])
+        let config = UISwipeActionsConfiguration(actions: [crosspan, synthesis, delete])
         config.performsFirstActionWithFullSwipe = false
         return config
     }
@@ -509,16 +533,16 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        if indexPath.section == 0 && indexPath.row != viewModel.sessions.count {
+        if indexPath.section == 0 {
             let shuffle = UIContextualAction(style: .normal, title: "Shuffle") { (_, _, completionHandler) in
                 do {
+                    completionHandler(true)
                     self.stop(tableView)
                     self.handler = try self.viewModel.sessionSelected(at: indexPath.row, shuffled: true)
                     self.handler?.progressReceiver = self as ProgressUpdater
                     self.handler?.startPlaying()
                     self.playButtonItem.action = #selector(self.stop(_:))
                     self.updateInfo(sessionName: self.viewModel.title(for: indexPath))
-                    completionHandler(true)
                 } catch {
                     dLog(error)
                     completionHandler(true)
@@ -609,6 +633,9 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
             cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.Session.rawValue, for: indexPath)
         } else {
             cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.Track.rawValue, for: indexPath)
+            let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
+            imageView.image = UIImage(named: "inactive")
+            cell.accessoryView = imageView
         }
         viewModel.setupCell(cell, forIndexPath: indexPath)
         return cell

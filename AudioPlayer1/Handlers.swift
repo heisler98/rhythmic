@@ -98,7 +98,7 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
         player?.currentTime = 0.0
         player?.invalidateRhythm()
         
-        _ = queue.previous()
+        queue.previous()
         startPlaying()
     }
     
@@ -143,16 +143,17 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
     
     // MARK: - AVAudioPlayerDelegate methods
     func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
+        dLog(error as Any)
         isPlaying = false
         let corruptPosition = queue.position
         queue.queued.remove(at: corruptPosition)
-        _ = queue.next()
+        queue.next()
         startPlaying()
     }
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         tracks[queue.now].audioPlayer?.invalidateRhythm()
-        _ = queue.next()
+        queue.next()
         startPlaying()
     }
     // MARK: - Initializers
@@ -275,7 +276,7 @@ class RemoteHandler {
         case .oldDeviceUnavailable:
             //pause
             if let previousRoute = userInfo[AVAudioSessionRouteChangePreviousRouteKey] as? AVAudioSessionRouteDescription {
-                for output in previousRoute.outputs where output.portType == AVAudioSession.Port.headphones {
+                for output in previousRoute.outputs where (output.portType == AVAudioSession.Port.headphones) {
                     guard let handler = self.handler else { return }
                     if !handler.isPaused { handler.pauseResume() }
                 }
@@ -329,6 +330,7 @@ struct QueueHandler {
      The next index in the queue.
      - returns: The next index.
  */
+    @discardableResult
     mutating func next() -> Index {
         if position < queued.endIndex-1 {
             position += 1
@@ -342,6 +344,7 @@ struct QueueHandler {
      The previous index in the queue.
      - returns: The previous index.
  */
+    @discardableResult
     mutating func previous() -> Index {
         if position == queued.startIndex {
             position = queued.endIndex-1
@@ -513,9 +516,9 @@ public struct DataHandler {
     ///The `URL` of the documents directory in the user's domain.
     static let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
     ///The `URL` of the archive for the JSON track file.
-    static let tracksArchiveURL = DataHandler.documentsDirectory.appendingPathComponent("tracks")
+    static let tracksArchiveURL = DataHandler.documentsDirectory.appendingPathComponent("files/tracks")
     ///The `URL` of the archive for the JSON session file.
-    static let sessionsArchiveURL = DataHandler.documentsDirectory.appendingPathComponent("sessions")
+    static let sessionsArchiveURL = DataHandler.documentsDirectory.appendingPathComponent("files/sessions")
     /**
      Decodes the JSON archive of tracks.
      - throws: Throws the `JSONDecoder` error if decoding fails.
@@ -588,6 +591,7 @@ public struct DataHandler {
      - parameter url: The URL of the asset to delete.
      - returns: A Boolean value indicating whether the deletion was successful.
  */
+    @discardableResult
     func removeAsset(at url: URL) -> Bool {
         guard FileManager.default.fileExists(atPath: url.path) == true else { return false }
         do {
@@ -652,7 +656,7 @@ public struct DataHandler {
         - bundleURL: The URL of the asset in the bundle.
         - trackURL: The new URL of the asset in the user's domain.
  */
-    private func copyAsset(fromBundle bundleURL : URL, toUserDomain trackURL : URL) {
+    func copyAsset(fromBundle bundleURL : URL, toUserDomain trackURL : URL) {
         
         do {
             try FileManager.default.copyItem(at: bundleURL, to: trackURL)

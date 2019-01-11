@@ -232,11 +232,7 @@ extension DrawerController : UITableViewDelegate, UITableViewDataSource {
         if indexPath.section == 1 { return nil }
         guard let sessionPath = self.sessionPath else { return nil }
         guard let delegate = self.delegate else { return nil }
-        let bilateral = UIContextualAction(style: .normal, title: "Bilateral", handler: { _, _, completionHandler in
-            self.change(forRow: indexPath, rhythm: .Bilateral, rate: nil)
-            completionHandler(true)
-        })
-        bilateral.backgroundColor = UIColor.green
+        
         
         let crosspan = UIContextualAction(style: .normal, title: "Crosspan", handler: { _, _, completionHandler in
             self.change(forRow: indexPath, rhythm: .Crosspan, rate: nil)
@@ -249,13 +245,19 @@ extension DrawerController : UITableViewDelegate, UITableViewDataSource {
             completionHandler(true)
         })
         synthesis.backgroundColor = UIColor.blue
+        /*
+        let bilateral = UIContextualAction(style: .normal, title: "Bilateral", handler: { _, _, completionHandler in
+            self.change(forRow: indexPath, rhythm: .Bilateral, rate: nil)
+            completionHandler(true)
+        })
+        bilateral.backgroundColor = UIColor.green
         
         let stitch = UIContextualAction(style: .normal, title: "Swave", handler: { _, _, completionHandler in
             self.change(forRow: indexPath, rhythm: .Stitch, rate: nil)
             completionHandler(true)
         })
         stitch.backgroundColor = UIColor.gray
-        
+        */
         let delete = UIContextualAction(style: .destructive, title: "Delete") { _, _, completionHandler in
             guard self.tracks != nil else { completionHandler(false); return }
             self.tracks!.remove(at: indexPath.row)
@@ -264,7 +266,7 @@ extension DrawerController : UITableViewDelegate, UITableViewDataSource {
             completionHandler(true)
         }
         
-        let config = UISwipeActionsConfiguration(actions: [bilateral, synthesis, crosspan, stitch, delete])
+        let config = UISwipeActionsConfiguration(actions: [crosspan, synthesis, delete])
         config.performsFirstActionWithFullSwipe = false
         return config
     }

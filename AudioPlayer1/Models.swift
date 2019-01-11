@@ -142,13 +142,16 @@ class PanAudioPlayer: AVAudioPlayer {
     private var period : Double
     ///The progress delegate.
     weak var progressDelegate : ProgressUpdater?
+    ///The progress timer.
+    private var progressTimer: Timer?
     
     // MARK: - Playback controls
     
     override func play() -> Bool {
         timer.fire()
         defer {
-            setupProgressTimer()
+            progressTimer = setupProgressTimer()
+            progressTimer?.fire()
         }
         return super.play()
     }
@@ -162,6 +165,7 @@ class PanAudioPlayer: AVAudioPlayer {
     ///Invalidates the `Timer` and removes it from the `RunLoop`.
     func invalidateRhythm() {
         timer.invalidate()
+        progressTimer?.invalidate()
     }
     /**
      Sets up the audio player with the proper rhythm.
@@ -218,10 +222,10 @@ class PanAudioPlayer: AVAudioPlayer {
         return Float(currentTime / duration)
     }
     
-    func setupProgressTimer() {
-        Timer.scheduledTimer(withTimeInterval: 1.25, repeats: true, block: { (_) in
+    func setupProgressTimer() -> Timer {
+        return Timer.scheduledTimer(withTimeInterval: 1.25, repeats: true, block: { (_) in
             self.progressDelegate?.updateProgress(to: self.progress())
-        }).fire()
+        })
     }
     // MARK: - Inits
     init(contentsOf url: URL, period: Double) throws {
@@ -252,7 +256,7 @@ struct Track : Codable {
     ///The URL of the represented asset.
     var url : URL {
         get {
-            return DataHandler.documentsDirectory.appendingPathComponent(fileName)
+            return DataHandler.documentsDirectory.appendingPathComponent("files/\(fileName)")
         }
     }
     
@@ -269,7 +273,7 @@ struct Track : Codable {
         
     }()
 
-    init(title : String, period : Double, category : String = "song", fileName : String, rhythm : Rhythmic = .Bilateral, rate : PanRate = .Normal) {
+    init(title : String, period : Double, category : String = "song", fileName : String, rhythm : Rhythmic = .Crosspan, rate : PanRate = .Normal) {
         
         self.title = title
         self.period = period
@@ -484,8 +488,9 @@ struct ViewModel {
      - parameter cell: The cell to modify.
  */
     private func setupSelectedCell(_ cell : UITableViewCell) {
-        cell.accessoryType = .checkmark
+        //cell.accessoryType = .checkmark
         cell.textLabel?.textColor = UIColor.swatch
+        cell.detailTextLabel?.textColor = UIColor.swatch
         cell.tintColor = UIColor.swatch
     }
     /**
@@ -493,9 +498,21 @@ struct ViewModel {
      - parameter cell: The cell to modify.
  */
     private func setupUnselectedCell(_ cell : UITableViewCell) {
-        cell.accessoryType = .none
+        //cell.accessoryType = .none
         cell.textLabel?.textColor = UIColor.black
-        
+        cell.detailTextLabel?.textColor = UIColor.black
+    }
+    
+    private func accessoryView(for indexPath: IndexPath) -> UIView {
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
+        switch sorter.sorted[indexPath.row].element.rhythm {
+        case .Synthesis:
+            imageView.image = UIImage(named: "inactive")
+            return imageView
+        default:
+            imageView.image = UIImage(named: "active")
+            return imageView
+        }
     }
     /**
      Modifies a cell with the proper configuration based on the current queue of selected tracks.
@@ -521,7 +538,7 @@ struct ViewModel {
         if indexPath.section == 1 {
             cell.textLabel?.text = sorter.sorted[indexPath.row].element.title
             cell.detailTextLabel?.text = self.detailString(for: sorter.sorted[indexPath.row].offset)
-            
+            cell.accessoryView = accessoryView(for: indexPath)
             if queueContains(indexPath.row) {
                 setupSelectedCell(cell)
             } else {

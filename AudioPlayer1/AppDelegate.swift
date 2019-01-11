@@ -15,30 +15,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        guard let docDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { dLog("Could not find user's document directory."); return true}
+        if !FileManager.default.fileExists(atPath: docDir.appendingPathComponent("files", isDirectory: true).path) {
+            try? FileManager.default.createDirectory(at: docDir.appendingPathComponent("files", isDirectory: true), withIntermediateDirectories: false, attributes: nil)
+        }
+        
         return true
     }
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         
-        // Implement copying the music files
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        let destinationURL = paths[0].appendingPathComponent(url.lastPathComponent)
-        
-        do {
-            try FileManager.default.copyItem(at: url, to: destinationURL)
-        } catch {
-            dLog(error)
+        DispatchQueue.global(qos: .userInitiated).async {
+            let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+            let destinationURL = paths[0].appendingPathComponent(url.lastPathComponent)
+            
+            do {
+                try FileManager.default.copyItem(at: url, to: destinationURL)
+            } catch {
+                dLog(error)
+            }
+            
+            guard let navController = self.window?.rootViewController else { print("Cannot load root view controller."); return }
+            guard let vc = navController.children.first as? ViewController else { print("Cannot load ViewController in childViewControllers"); return}
+            _ = DataHandler.setPreferredFileProtection(on: destinationURL)
+            _ = vc.newTrack(at: destinationURL)
         }
         
-        // need the audio file added to the list and its BPM analyzed
-        // manager gets alerted of added track
-        // manager should analyze BPM (if that's the route)
-        // VC's TableView is updated on reentry
-        
-        guard let navController = window?.rootViewController else { print("Cannot load root view controller."); return false }
-        guard let vc = navController.children.first as? ViewController else { print("Cannot load ViewController in childViewControllers"); return false}
-        _ = DataHandler.setPreferredFileProtection(on: destinationURL)
-        return vc.newTrack(at: destinationURL)
+        return true
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
@@ -49,6 +53,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        DataHandler().backup()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -61,6 +66,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-        DataHandler().backup()
     }
 }

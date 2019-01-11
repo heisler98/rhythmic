@@ -23,6 +23,14 @@ protocol iTunesDelegate : AnyObject {
         - period: The period of the asset. ``(60/BPM)``
  */
     func dismissed(withURL: URL, period: Double)
+    /**
+     Indicates the view controller found a new file and successfully analyzed the tempo.
+     - parameters:
+        - url: The URL of the found asset.
+        - period: The period of the asset. ``(60/BPM)``
+ */
+    func found(_ url: URL, period: Double)
+    
 }
 
 class MusicDrawerController: UIViewController {
@@ -33,6 +41,8 @@ class MusicDrawerController: UIViewController {
     
     weak var delegate : iTunesDelegate?
     var songs = [MPMediaItem]()
+    var newFilesPresent = false
+    var files = [String]()
     
     var drawerDismissClosure: (() -> Void)?
     var didChangeLayoutClosure: (() -> Void)?
@@ -47,6 +57,10 @@ class MusicDrawerController: UIViewController {
         guard let items = query.items else { return }
         for item in items where item.hasProtectedAsset == false {
             songs.append(item)
+        }
+        if let newFiles = FileFinder().newFiles() {
+            newFilesPresent = true
+            files = newFiles
         }
         tableView.reloadData()
     }
@@ -70,17 +84,31 @@ class MusicDrawerController: UIViewController {
 
 extension MusicDrawerController : UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return (newFilesPresent == true) ? 2 : 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if songs.isEmpty {
+        if section == 0 {
+            if songs.isEmpty {
+                return 1
+            }
+            return songs.count
+        } else {
             return 1
         }
-        return songs.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.section == 1 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.Library.rawValue, for: indexPath)
+            cell.backgroundView = nil
+            cell.backgroundColor = nil
+            cell.contentView.backgroundColor = UIColor(white: 1.0, alpha: 0.25)
+            cell.textLabel?.text = "Import new songs from File Sharing"
+            cell.detailTextLabel?.text = ""
+            return cell
+        }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.Library.rawValue, for: indexPath)
         cell.backgroundView = nil
         cell.backgroundColor = nil
@@ -99,6 +127,10 @@ extension MusicDrawerController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 1 {
+            importFiles()
+            return
+        }
         guard !songs.isEmpty else {
             tableView.deselectRow(at: indexPath, animated: true)
             return
@@ -128,6 +160,20 @@ extension MusicDrawerController : UITableViewDelegate, UITableViewDataSource {
             }
             main.sync {
                 self.delegate?.dismissed(withURL: exportURL, period: (60/bpm))
+            }
+        }
+        drawerDismissClosure?()
+    }
+    
+    func importFiles() {
+        DispatchQueue.global(qos: .userInitiated).async {
+            let docDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            let handler = DataHandler()
+            for file in self.files {
+                guard let tempo = TempoHandler.core.tempo(of: docDir.appendingPathComponent(file), completion: nil) else { continue }
+                handler.copyAsset(fromBundle: docDir.appendingPathComponent(file), toUserDomain: docDir.appendingPathComponent("files/\(file)"))
+                handler.removeAsset(at: docDir.appendingPathComponent(file))
+                self.delegate?.found(docDir.appendingPathComponent(file), period: tempo)
             }
         }
         drawerDismissClosure?()
@@ -165,5 +211,22 @@ extension MusicDrawerController : UIGestureRecognizerDelegate {
             return false
         }
         return true
+    }
+}
+
+class FileFinder {
+    let fileManager = FileManager.default
+    let documentsDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+   
+    func newFiles() -> [String]? {
+        return try? fileManager.contentsOfDirectory(atPath: documentsDir.path).filter { $0.contains(".") && !$0.hasPrefix(".")}
+    }
+}
+
+extension Array where Element: Hashable {
+    func difference(from other: [Element]) -> [Element] {
+        let thisSet = Set(self)
+        let otherSet = Set(other)
+        return Array(thisSet.symmetricDifference(otherSet))
     }
 }
