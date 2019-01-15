@@ -137,7 +137,7 @@ extension MusicDrawerController : UITableViewDelegate, UITableViewDataSource {
         }
 
         let song = songs[indexPath.row]
-        let pathURL = DataHandler.documentsDirectory.appendingPathComponent("\(song.title!).caf")
+        let pathURL = DataHandler.documentsDirectory.appendingPathComponent("files/\(song.title!).caf")
         export(song: song, to: pathURL)
     }
     

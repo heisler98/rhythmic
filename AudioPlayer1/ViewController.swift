@@ -96,7 +96,7 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults, InlinePla
         
         if let bpm = TempoHandler.core.tempo(of: url, completion: nil) {
             viewModel.buildTrack(url: url, periodOrBPM: bpm)
-            tableView.reloadData()
+            DispatchQueue.main.async { self.tableView.reloadData() }
             return true
         } else {
             requestPeriod(of: String(fileName), at: url)
@@ -209,7 +209,7 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults, InlinePla
     @objc func stop(_ sender: Any) {
         handler?.stopPlaying()
         handler = nil
-        clearSelections(sender)
+        //clearSelections(sender)
         playButtonItem.action = #selector(handlePlayButton(_:))
     }
     ///Updates the info label with the number of queued tracks.

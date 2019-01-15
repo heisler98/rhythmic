@@ -25,11 +25,13 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
     unowned let remote = RemoteHandler.shared
     ///The progress delegate receiver.
     weak var progressReceiver : ProgressUpdater?
+    ///The current pan audio player.
+    var player: PanAudioPlayer?
     
     // MARK: - Playback functions
     ///Begin playing the queued tracks.
     func startPlaying() {
-        let player = tracks[queue.now].audioPlayer
+        player = tracks[queue.now].panAudioPlayer()
         player?.setupRhythm(tracks[queue.now].rhythm)
         player?.delegate = self as AVAudioPlayerDelegate
         player?.progressDelegate = progressReceiver
@@ -52,48 +54,55 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
     func stopPlaying() {
         if isPlaying == true {
             isPlaying = false
-            tracks[queue.now].audioPlayer?.stop()
-            tracks[queue.now].audioPlayer?.currentTime = 0
+            player?.stop()
+            player?.currentTime = 0
         }
     }
     ///Toggle pausing and resuming playback.
     func pauseResume() {
         if isPaused == false {
-            guard let player = tracks[queue.now].audioPlayer else { return }
-            player.pause()
+            guard let _ = player else { return }
+            player!.pause()
             isPaused = true
-            remote.updatePlaybackInfo(to: player.currentTime, rate: 0.0)
+            remote.updatePlaybackInfo(to: player!.currentTime, rate: 0.0)
             return
         } else {
-            guard let player = tracks[queue.now].audioPlayer else { return }
-            isPaused = !(player.play())
-            remote.updatePlaybackInfo(to: player.currentTime, rate: 1.0)
+            guard let _ = player else { return }
+            isPaused = !(player!.play())
+            remote.updatePlaybackInfo(to: player!.currentTime, rate: 1.0)
             
         }
     }
     ///Skips the currently-playing track.
     func skip() {
-        let player = tracks[queue.now].audioPlayer
-        player?.stop()
-        player?.currentTime = 0.0
-        player?.invalidateRhythm()
+        guard let _ = player else {
+            queue.next()
+            startPlaying()
+            return
+        }
+        player!.stop()
+        player!.currentTime = 0.0
+        player!.invalidateRhythm()
         
         audioPlayerDidFinishPlaying(player!, successfully: false)
         
     }
     ///Rewinds playback to the beginning; or, if at the beginning, moves to the previous track.
     func rewind() {
-        guard let player = tracks[queue.now].audioPlayer else { return }
-        if player.currentTime < 5 {
+        guard let _ = player else {
+            queue.previous()
+            startPlaying()
+            return
+        }
+        if player!.currentTime < 5 {
             previous()
         } else {
-            player.currentTime = 0.0
-            remote.updateInfoCenter(with: tracks[queue.now], audioPlayer: player)
+            player!.currentTime = 0.0
+            remote.updateInfoCenter(with: tracks[queue.now], audioPlayer: player!)
         }
     }
     ///Moves playback to the previous track.
     private func previous() {
-        let player = tracks[queue.now].audioPlayer
         player?.stop()
         player?.currentTime = 0.0
         player?.invalidateRhythm()
@@ -107,7 +116,6 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
      - parameter to: The time interval in seconds.
  */
     func seek(to: TimeInterval) {
-        let player = tracks[queue.now].audioPlayer
         player?.currentTime = to
         remote.updatePlaybackInfo(to: to, rate: 1.0)
     }
@@ -116,9 +124,9 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
      - parameter interval: The amount of time to seek forward.
  */
     func seekForward(_ interval : TimeInterval) {
-        let player = tracks[queue.now].audioPlayer!
-        if player.currentTime + interval < player.duration {
-            player.currentTime += interval
+        guard let _ = player else { return }
+        if player!.currentTime + interval < player!.duration {
+            player!.currentTime += interval
         } else {
             skip()
         }
@@ -128,9 +136,9 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
      - parameter interval: The amount of time to seek backward.
      */
     func seekBackward(_ interval : TimeInterval) {
-        let player = tracks[queue.now].audioPlayer!
-        if player.currentTime - interval > 0 {
-            player.currentTime -= interval
+        guard let _ = player else { return }
+        if player!.currentTime - interval > 0 {
+            player!.currentTime -= interval
         } else {
             rewind()
         }
@@ -138,7 +146,8 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
     // MARK: - Remote
     ///Update the remote delegate object.
     func updateRemote() {
-        remote.updateInfoCenter(with: tracks[queue.now], audioPlayer: tracks[queue.now].audioPlayer!)
+        guard let _ = player else { return }
+        remote.updateInfoCenter(with: tracks[queue.now], audioPlayer: player!)
     }
     
     // MARK: - AVAudioPlayerDelegate methods
@@ -152,7 +161,7 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
     }
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        tracks[queue.now].audioPlayer?.invalidateRhythm()
+        self.player?.invalidateRhythm()
         queue.next()
         startPlaying()
     }
@@ -286,11 +295,48 @@ class RemoteHandler {
         }
         
     }
+    
+    @objc func handleInterruption(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+            let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
+            let type = AVAudioSession.InterruptionType(rawValue: typeValue) else {
+                return
+        }
+        if type == .began {
+            handler?.pauseResume()
+        } else if type == .ended {
+            if let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt {
+                let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
+                if options.contains(.shouldResume) {
+                    guard let _ = handler else { return }
+                    if handler!.isPaused == true {
+                        handler!.pauseResume()
+                    }
+                } else {
+                    
+                }
+            }
+        }
+        if userInfo.contains(where: { (arg0) -> Bool in
+            let (key, _) = arg0
+            if let keyString = key as? String {
+                return keyString == AVAudioSessionInterruptionWasSuspendedKey
+            }
+            return false
+        }) {
+            dLog("Interruption was a suspension by system.")
+        }
+    }
+    
     private init() {
         setupRemoteCommands()
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(audioRouteChanged(_:)),
                                                name: AVAudioSession.routeChangeNotification,
+                                               object: AVAudioSession.sharedInstance())
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(handleInterruption(_:)),
+                                               name: AVAudioSession.interruptionNotification,
                                                object: AVAudioSession.sharedInstance())
     }
 }

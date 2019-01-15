@@ -28,18 +28,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         DispatchQueue.global(qos: .userInitiated).async {
             let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-            let destinationURL = paths[0].appendingPathComponent(url.lastPathComponent)
+            let destinationURL = paths[0].appendingPathComponent("files/\(url.lastPathComponent)")
             
             do {
                 try FileManager.default.copyItem(at: url, to: destinationURL)
+                try FileManager.default.removeItem(at: url)
             } catch {
                 dLog(error)
             }
+            var navController: UIViewController?
+            var vc: ViewController?
             
-            guard let navController = self.window?.rootViewController else { print("Cannot load root view controller."); return }
-            guard let vc = navController.children.first as? ViewController else { print("Cannot load ViewController in childViewControllers"); return}
+            DispatchQueue.main.sync {
+                navController = self.window?.rootViewController
+                vc = navController?.children.first as? ViewController
+            }
             _ = DataHandler.setPreferredFileProtection(on: destinationURL)
-            _ = vc.newTrack(at: destinationURL)
+            _ = vc?.newTrack(at: destinationURL)
         }
         
         return true

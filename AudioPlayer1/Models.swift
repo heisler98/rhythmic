@@ -149,10 +149,10 @@ class PanAudioPlayer: AVAudioPlayer {
     
     override func play() -> Bool {
         timer.fire()
-        defer {
+       /* defer {
             progressTimer = setupProgressTimer()
             progressTimer?.fire()
-        }
+        } */
         return super.play()
     }
     
@@ -272,7 +272,17 @@ struct Track : Codable {
         }
         
     }()
-
+    ///Instantiates a `PanAudioPlayer` to play the track.
+    /// - returns: A `PanAudioPlayer` instance, or nil if the player could not be created.
+    func panAudioPlayer() -> PanAudioPlayer? {
+        do {
+            return try PanAudioPlayer(contentsOf: self.url, period: self.period.toPanRate(self.rate))
+        } catch {
+            dLog(error)
+            return nil
+        }
+    }
+    
     init(title : String, period : Double, category : String = "song", fileName : String, rhythm : Rhythmic = .Crosspan, rate : PanRate = .Normal) {
         
         self.title = title
