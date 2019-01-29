@@ -22,7 +22,7 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
     ///A Boolean indicating whether the handler is paused.
     var isPaused : Bool = false
     ///The remote control object.
-    unowned let remote = RemoteHandler.shared
+    let remote = RemoteHandler.shared
     ///The progress delegate receiver.
     weak var progressReceiver : ProgressUpdater?
     ///The current pan audio player.
@@ -61,17 +61,26 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
     ///Toggle pausing and resuming playback.
     func pauseResume() {
         if isPaused == false {
-            guard let _ = player else { return }
-            player!.pause()
-            isPaused = true
-            remote.updatePlaybackInfo(to: player!.currentTime, rate: 0.0)
+            pause()
             return
         } else {
-            guard let _ = player else { return }
-            isPaused = !(player!.play())
-            remote.updatePlaybackInfo(to: player!.currentTime, rate: 1.0)
-            
+            resume()
         }
+    }
+    ///Pauses playback.
+    func pause() {
+        guard isPaused == false else { return }
+        guard let player = player else { return }
+        player.pause()
+        isPaused = true
+        remote.updatePlaybackInfo(to: player.currentTime, rate: 0.0)
+    }
+    ///Resumes playback.
+    func resume() {
+        guard isPaused == true else { return }
+        guard let player = player else { return }
+        isPaused = !(player.play())
+        remote.updatePlaybackInfo(to: player.currentTime, rate: 1.0)
     }
     ///Skips the currently-playing track.
     func skip() {
@@ -277,17 +286,17 @@ class RemoteHandler {
         switch reason {
         case .newDeviceAvailable:
             let session = AVAudioSession.sharedInstance()
-            for output in session.currentRoute.outputs where output.portType == AVAudioSession.Port.headphones {
+            for output in session.currentRoute.outputs where (output.portType == AVAudioSession.Port.headphones || output.portType == AVAudioSession.Port.carAudio) {
                 guard let handler = self.handler else { return }
-                if handler.isPaused { handler.pauseResume() }
+                handler.resume()
             }
             break
         case .oldDeviceUnavailable:
             //pause
             if let previousRoute = userInfo[AVAudioSessionRouteChangePreviousRouteKey] as? AVAudioSessionRouteDescription {
-                for output in previousRoute.outputs where (output.portType == AVAudioSession.Port.headphones) {
+                for output in previousRoute.outputs where (output.portType == AVAudioSession.Port.headphones || output.portType == AVAudioSession.Port.carAudio) {
                     guard let handler = self.handler else { return }
-                    if !handler.isPaused { handler.pauseResume() }
+                    handler.pause()
                 }
             }
             break
@@ -303,15 +312,13 @@ class RemoteHandler {
                 return
         }
         if type == .began {
-            handler?.pauseResume()
+            handler?.pause()
         } else if type == .ended {
             if let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt {
                 let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
                 if options.contains(.shouldResume) {
-                    guard let _ = handler else { return }
-                    if handler!.isPaused == true {
-                        handler!.pauseResume()
-                    }
+                    guard let handler = handler else { return }
+                    handler.resume()
                 } else {
                     
                 }
