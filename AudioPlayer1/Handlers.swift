@@ -79,6 +79,7 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
     func resume() {
         guard isPaused == true else { return }
         guard let player = player else { return }
+        activateAudioSession()
         isPaused = !(player.play())
         remote.updatePlaybackInfo(to: player.currentTime, rate: 1.0)
     }
@@ -159,6 +160,11 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
         remote.updateInfoCenter(with: tracks[queue.now], audioPlayer: player!)
     }
     
+    func activateAudioSession() {
+        try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+        try? AVAudioSession.sharedInstance().setActive(true)
+    }
+    
     // MARK: - AVAudioPlayerDelegate methods
     func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
         dLog(error as Any)
@@ -192,8 +198,7 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
         super.init()
         remote.handler = self
         //remote.beginReceivingEvents()
-        try? AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, mode: AVAudioSession.Mode.default)
-        try? AVAudioSession.sharedInstance().setActive(true)
+        activateAudioSession()
     }
     /**
      Initialize a `PlaybackHandler` object and begin playback.
@@ -317,10 +322,14 @@ class RemoteHandler {
             if let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt {
                 let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
                 if options.contains(.shouldResume) {
-                    guard let handler = handler else { return }
-                    handler.resume()
-                } else {
+                
+                    // will not resume playback unless port type is headphones
+                    let session = AVAudioSession.sharedInstance()
+                    for output in session.currentRoute.outputs where output.portType == AVAudioSession.Port.headphones {
+                        guard let handler = handler else { return }
+                        handler.resume()
                     
+                    }
                 }
             }
         }
@@ -572,6 +581,8 @@ public struct DataHandler {
     static let tracksArchiveURL = DataHandler.documentsDirectory.appendingPathComponent("files/tracks")
     ///The `URL` of the archive for the JSON session file.
     static let sessionsArchiveURL = DataHandler.documentsDirectory.appendingPathComponent("files/sessions")
+    ///The `URL` of the archive for the JSON recents file.
+    static let recentsArchiveURL = DataHandler.documentsDirectory.appendingPathComponent("files/recents")
     /**
      Decodes the JSON archive of tracks.
      - throws: Throws the `JSONDecoder` error if decoding fails.
@@ -601,6 +612,19 @@ public struct DataHandler {
         }
     }
     /**
+     Decodes the JSON archive of recents, or returns nil if no recents are persisted.
+     - returns: An optional array of `Int`s.
+ */
+    func decodeJSONRecents() -> [Int]? {
+        do {
+            let data = try getRecentsData()
+            return try JSONDecoder().decode([Int].self, from: data)
+        } catch {
+            dLog(error)
+            return nil
+        }
+    }
+    /**
      Persists an array of `Track`s to JSON storage.
      - throws: Throws an error if the array cannot be JSON encoded.
      - parameter tracks: The array of `Tracks` to persist.
@@ -622,6 +646,19 @@ public struct DataHandler {
         do {
             let data = try JSONEncoder().encode(sessions)
             FileManager.default.createFile(atPath: DataHandler.sessionsArchiveURL.path, contents: data, attributes: nil)
+        } catch {
+            throw error
+        }
+    }
+    /**
+     Persists an array of `Int`s to JSON storage.
+     - throws: Throws an error if the array cannot be JSON encoded.
+     - parameter recents: The array of `Int`s to persist.
+ */
+    func encodeRecents(_ recents: [Int]) throws {
+        do {
+            let data = try JSONEncoder().encode(recents)
+            FileManager.default.createFile(atPath: DataHandler.recentsArchiveURL.path, contents: data, attributes: nil)
         } catch {
             throw error
         }
@@ -784,6 +821,17 @@ public struct DataHandler {
     private func getSessionsData() throws -> Data {
         guard let data = FileManager.default.contents(atPath: DataHandler.sessionsArchiveURL.path) else {
             throw HandlerError.NoDataFound(DataHandler.sessionsArchiveURL.path)
+        }
+        return data
+    }
+    /**
+     Retrieves the data at the recents archive URL.
+     - throws: Throws a `HandlerError` if no data can be found.
+     - returns: The data of the JSON archive.
+ */
+    private func getRecentsData() throws -> Data {
+        guard let data = FileManager.default.contents(atPath: DataHandler.recentsArchiveURL.path) else {
+            throw HandlerError.NoDataFound(DataHandler.recentsArchiveURL.path)
         }
         return data
     }
