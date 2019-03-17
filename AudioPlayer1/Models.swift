@@ -449,6 +449,14 @@ struct ViewModel {
         sessions.add(session)
         
     }
+    func buildSplitSessions(_ chunked: Int) {
+        let allTracks = tracks.tracks.shuffled()
+        let chunks: [[Track]] = allTracks.chunked(by: chunked)
+        for (index, chunk) in chunks.enumerated() {
+            let session = Session(tracks: chunk, title: "Chunk \(index)")
+            sessions.add(session)
+        }
+    }
     func sort(by descriptor: SortHandler.Descriptor) {
         sorter.by = descriptor
     }
@@ -609,6 +617,18 @@ struct ViewModel {
         do {
             queue.hasChangedSincePlayback = false
             return try PlaybackHandler(queue: sessionQueue, tracks: manager)
+        } catch {
+            queue.hasChangedSincePlayback = true
+            throw error
+        }
+    }
+    
+    func shuffled() throws -> PlaybackHandler {
+        queue.reset()
+        queue.append(all: Array(tracks.tracks.indices))
+        do {
+            queue.hasChangedSincePlayback = false
+            return try PlaybackHandler(queue: queue, tracks: tracks)
         } catch {
             queue.hasChangedSincePlayback = true
             throw error

@@ -71,10 +71,11 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults, InlinePla
         let clear = UIBarButtonItem(title: "Clear", style: .plain, target: self, action: #selector(clearSelections(_:)))
         let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showMusicLibrary(_:)))
         let sort = UIBarButtonItem(title: "Sort", style: .plain, target: self, action: #selector(sort(_:)))
+        let xp = UIBarButtonItem(title: "XP", style: .plain, target: self, action: #selector(showXP(_:)))
         let fixedSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         fixedSpace.width = 15
         
-        self.navigationItem.setLeftBarButtonItems([clear, fixedSpace, sort], animated: false)
+        self.navigationItem.setLeftBarButtonItems([clear, fixedSpace, sort, fixedSpace, xp], animated: false)
         self.navigationItem.setRightBarButton(add, animated: false)
     }
 
@@ -160,6 +161,31 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults, InlinePla
         
         self.present(alertController, animated: true, completion: nil)
     }
+    
+    func shuffleAll() {
+        handler = try? viewModel.shuffled()
+        handler?.progressReceiver = self as ProgressUpdater
+        handler?.startPlaying()
+        playButtonItem.action = #selector(stop(_:))
+    }
+    
+    @objc func showXP(_ sender: Any) {
+        let alertController = UIAlertController(title: "Experimental", message: nil, preferredStyle: .alert)
+        let shuffleAction = UIAlertAction(title: "Shuffle All", style: .default) { (action) in
+            self.shuffleAll()
+        }
+        let playlistAction = UIAlertAction(title: "20x Session Split", style: .default) { (action) in
+            self.viewModel.buildSplitSessions(20)
+            self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(shuffleAction)
+        alertController.addAction(playlistAction)
+        alertController.addAction(cancelAction)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
     ///Clears all selected tracks from the queue, and reloads the table view.
     /// - parameter sender: `Any` sender of the clear button being pushed.
     @IBAction func clearSelections(_ sender: Any) {
@@ -211,6 +237,10 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults, InlinePla
         handler = nil
         //clearSelections(sender)
         playButtonItem.action = #selector(handlePlayButton(_:))
+    }
+    ///Toggle pause/resume for the current `PlaybackHandler`.
+    @IBAction func pause(_ sender: Any) {
+        handler?.pauseResume()
     }
     ///Updates the info label with the number of queued tracks.
     func updateTrackInfo() {

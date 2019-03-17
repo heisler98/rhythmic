@@ -870,6 +870,14 @@ struct PrefsHandler {
     }
 }
 
+extension Array {
+    func chunked(by chunkSize: Int) -> [[Element]] {
+        return stride(from: 0, to: self.count, by: chunkSize).map {
+            Array(self[$0..<Swift.min($0 + chunkSize, self.count)])
+        }
+    }
+}
+
 final class TempoHandler {
     public static let core = TempoHandler()
     public func tempo(of url: URL, completion: ((Double?) ->())?) -> Double? {
