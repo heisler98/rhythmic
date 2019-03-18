@@ -178,12 +178,39 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults, InlinePla
             self.viewModel.buildSplitSessions(20)
             self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
         }
+        let randomAction = UIAlertAction(title: "Random Session", style: .default) { (action) in
+            let inputController = self.secondaryInputSheet("Enter a size", message: nil)
+            self.present(inputController, animated: true, completion: nil)
+        }
+        let sessionAction = UIAlertAction(title: "'All Tracks' Session", style: .default) { (action) in
+            self.viewModel.buildAllTracksToSession()
+            self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+        }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(shuffleAction)
         alertController.addAction(playlistAction)
+        alertController.addAction(randomAction)
+        alertController.addAction(sessionAction)
         alertController.addAction(cancelAction)
         
         self.present(alertController, animated: true, completion: nil)
+    }
+    func secondaryInputSheet(_ title: String, message: String?) -> UIAlertController {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addTextField { (textField) in
+            textField.keyboardType = UIKeyboardType.numberPad
+        }
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            guard let sizeStr = alertController.textFields?[0].text else { return }
+            guard let size = Int(sizeStr) else { return }
+            do {
+                try self.viewModel.buildRandomSession(size)
+                self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+            } catch {
+                dLog(error)
+            }
+        }))
+        return alertController
     }
     
     ///Clears all selected tracks from the queue, and reloads the table view.

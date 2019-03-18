@@ -88,6 +88,11 @@ enum HandlerError : Error {
     /// No data found at specified path
     case NoDataFound(String)
 }
+///An enumeration of the possible model errors.
+enum ModelError: Error {
+    ///Provided size too large or small.
+    case InvalidSize(Int)
+}
 ///An enumeration of table view cell identifiers. 
 enum CellIdentifiers : String {
     case Session = "sessionCell"
@@ -457,6 +462,19 @@ struct ViewModel {
             sessions.add(session)
         }
     }
+    func buildRandomSession(_ size: Int) throws {
+        guard size < tracks.tracks.count else {
+            throw ModelError.InvalidSize(size)
+        }
+        let allTracks = tracks.tracks.shuffled()
+        let sessionTracks = Array(allTracks[0..<size])
+        let session = Session(tracks: sessionTracks, title: "Random")
+        sessions.add(session)
+    }
+    func buildAllTracksToSession() {
+        let session = Session(tracks: tracks.tracks, title: "All Tracks")
+        sessions.add(session)
+    }
     func sort(by descriptor: SortHandler.Descriptor) {
         sorter.by = descriptor
     }
@@ -625,7 +643,7 @@ struct ViewModel {
     
     func shuffled() throws -> PlaybackHandler {
         queue.reset()
-        queue.append(all: Array(tracks.tracks.indices))
+        queue.append(all: Array(tracks.tracks.indices.shuffled()))
         do {
             queue.hasChangedSincePlayback = false
             return try PlaybackHandler(queue: queue, tracks: tracks)
