@@ -151,7 +151,7 @@ class PanAudioPlayer: AVAudioPlayer {
     private var progressTimer: Timer?
     
     // MARK: - Playback controls
-    
+    @discardableResult
     override func play() -> Bool {
         timer.fire()
        /* defer {
