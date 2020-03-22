@@ -535,8 +535,15 @@ struct ViewModel {
  */
     private func setupUnselectedCell(_ cell : UITableViewCell) {
         //cell.accessoryType = .none
-        cell.textLabel?.textColor = UIColor.black
-        cell.detailTextLabel?.textColor = UIColor.black
+        if #available(iOS 13.0, *) {
+            cell.textLabel?.textColor = UIColor.label
+            cell.detailTextLabel?.textColor = UIColor.label
+        } else {
+            // Fallback on earlier versions
+            cell.textLabel?.textColor = nil
+            cell.detailTextLabel?.textColor = nil
+        }
+        
     }
     
     private func accessoryView(for indexPath: IndexPath) -> UIView {

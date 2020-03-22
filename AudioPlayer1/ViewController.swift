@@ -56,7 +56,7 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults, InlinePla
         setupNavigationItem()
         self.navigationItem.searchController = searchController
         
-        searchController.searchBar.tintColor = UIColor.white
+        //searchController.searchBar.tintColor = UIColor.white
     
         playButtonItem.target = self
         playButtonItem.action = #selector(handlePlayButton(_:))
