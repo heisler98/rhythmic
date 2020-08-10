@@ -187,7 +187,7 @@ class PanAudioPlayer: AVAudioPlayer {
         }
         
         else if (opt == .Crosspan) { //delta
-            self.pan = PrefsHandler().prefs["slider_crosspan"] ?? 0.87
+            self.pan = PrefsHandler().prefs["slider_crosspan"] as? Float ?? 0.87
   
             //self.pan = absoluteDistance
             self.timer = Timer.scheduledTimer(withTimeInterval: period, repeats: true, block: { (timer : Timer) -> Void in

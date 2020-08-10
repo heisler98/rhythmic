@@ -66,8 +66,8 @@
             timestampString = "580252130.805257"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "300"
-            endingLineNumber = "300"
+            startingLineNumber = "313"
+            endingLineNumber = "313"
             landmarkName = "audioRouteChanged(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -83,8 +83,8 @@
             timestampString = "580252130.805643"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "308"
-            endingLineNumber = "308"
+            startingLineNumber = "321"
+            endingLineNumber = "321"
             landmarkName = "audioRouteChanged(_:)"
             landmarkType = "7">
          </BreakpointContent>

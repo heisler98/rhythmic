@@ -55,6 +55,7 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
         if isPlaying == true {
             player?.stop()
             player?.currentTime = 0
+            deactivateAudioSession()
         }
     }
     ///Toggle pausing and resuming playback.
@@ -72,6 +73,7 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
         guard let player = player else { return }
         player.pause()
         remote.updatePlaybackInfo(to: player.currentTime, rate: 0.0)
+        deactivateAudioSession()
     }
     ///Resumes playback.
     func resume() {
@@ -159,8 +161,19 @@ class PlaybackHandler : NSObject, AVAudioPlayerDelegate {
     }
     
     func activateAudioSession() {
-        try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+        switch (PrefsHandler().prefs["ambient_playback"] as? Bool ?? false) {
+        case true:
+            try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, policy: .default, options: [.mixWithOthers, .duckOthers])
+            break
+        case false:
+            try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+            break
+        }
         try? AVAudioSession.sharedInstance().setActive(true)
+    }
+    
+    func deactivateAudioSession() {
+        try? AVAudioSession.sharedInstance().setActive(false)
     }
     
     // MARK: - AVAudioPlayerDelegate methods
@@ -847,13 +860,13 @@ protocol Preferences {
      - returns: A `Float`, or nil if no value exists for the key.
      - parameter key: The preference key.
  */
-    subscript(key : String) -> Float? { get set }
+    subscript(key : String) -> Any? { get set }
 }
 
 extension UserDefaults : Preferences {
-    subscript(key: String) -> Float? {
+    subscript(key: String) -> Any? {
         get {
-            return self.object(forKey: key) as? Float
+            return self.object(forKey: key)
         }
         set {
             self.set(newValue, forKey: key)
