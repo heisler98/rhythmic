@@ -15,6 +15,14 @@
 		5A3CB7E224E25D0000A9212B /* RhythmicUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3CB7E124E25D0000A9212B /* RhythmicUITests.swift */; };
 		5A3CB7F024E25DA200A9212B /* ExperimentalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3CB7EF24E25DA200A9212B /* ExperimentalView.swift */; };
 		5A3CB7F324E25E7200A9212B /* FileKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5A3CB7F224E25E7200A9212B /* FileKit */; };
+		5ABF766724E31A1600EEC5C4 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ABF766624E31A1600EEC5C4 /* AVFoundation.framework */; };
+		5ABF766924E31A2100EEC5C4 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ABF766824E31A2100EEC5C4 /* MediaPlayer.framework */; };
+		5ABF766C24E31B9F00EEC5C4 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABF766B24E31B9F00EEC5C4 /* Track.swift */; };
+		5ABF766F24E31BAB00EEC5C4 /* TrackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABF766E24E31BAB00EEC5C4 /* TrackTests.swift */; };
+		5ABF767124E31EF500EEC5C4 /* PanAudioPlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABF767024E31EF500EEC5C4 /* PanAudioPlayerTests.swift */; };
+		5ABF767324E31F8000EEC5C4 /* Before You Go.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 5ABF767224E31F8000EEC5C4 /* Before You Go.m4a */; };
+		5ABF767524E3204F00EEC5C4 /* Panner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABF767424E3204F00EEC5C4 /* Panner.swift */; };
+		5ABF767824E321A000EEC5C4 /* Logger+Subsystems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABF767724E321A000EEC5C4 /* Logger+Subsystems.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +56,14 @@
 		5A3CB7E124E25D0000A9212B /* RhythmicUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RhythmicUITests.swift; sourceTree = "<group>"; };
 		5A3CB7E324E25D0000A9212B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5A3CB7EF24E25DA200A9212B /* ExperimentalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExperimentalView.swift; sourceTree = "<group>"; };
+		5ABF766624E31A1600EEC5C4 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		5ABF766824E31A2100EEC5C4 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		5ABF766B24E31B9F00EEC5C4 /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
+		5ABF766E24E31BAB00EEC5C4 /* TrackTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTests.swift; sourceTree = "<group>"; };
+		5ABF767024E31EF500EEC5C4 /* PanAudioPlayerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanAudioPlayerTests.swift; sourceTree = "<group>"; };
+		5ABF767224E31F8000EEC5C4 /* Before You Go.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Before You Go.m4a"; sourceTree = "<group>"; };
+		5ABF767424E3204F00EEC5C4 /* Panner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Panner.swift; sourceTree = "<group>"; };
+		5ABF767724E321A000EEC5C4 /* Logger+Subsystems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Logger+Subsystems.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +71,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5ABF766724E31A1600EEC5C4 /* AVFoundation.framework in Frameworks */,
+				5ABF766924E31A2100EEC5C4 /* MediaPlayer.framework in Frameworks */,
 				5A3CB7F324E25E7200A9212B /* FileKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -83,6 +101,7 @@
 				5A3CB7D524E25D0000A9212B /* RhythmicTests */,
 				5A3CB7E024E25D0000A9212B /* RhythmicUITests */,
 				5A3CB7C224E25CFF00A9212B /* Products */,
+				5ABF766524E31A1600EEC5C4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -99,7 +118,8 @@
 		5A3CB7C324E25CFF00A9212B /* Rhythmic */ = {
 			isa = PBXGroup;
 			children = (
-				5A3CB7F724E25EC800A9212B /* Model */,
+				5ABF767624E3219300EEC5C4 /* Utilities */,
+				5ABF766A24E31B9500EEC5C4 /* Models */,
 				5A3CB7C424E25CFF00A9212B /* RhythmicApp.swift */,
 				5A3CB7C624E25CFF00A9212B /* ContentView.swift */,
 				5A3CB7EF24E25DA200A9212B /* ExperimentalView.swift */,
@@ -121,8 +141,9 @@
 		5A3CB7D524E25D0000A9212B /* RhythmicTests */ = {
 			isa = PBXGroup;
 			children = (
+				5ABF767224E31F8000EEC5C4 /* Before You Go.m4a */,
 				5A3CB7D624E25D0000A9212B /* RhythmicTests.swift */,
-				5A3CB7F424E25E7C00A9212B /* Model Tests */,
+				5ABF766D24E31BA300EEC5C4 /* Model Tests */,
 				5A3CB7D824E25D0000A9212B /* Info.plist */,
 			);
 			path = RhythmicTests;
@@ -137,18 +158,39 @@
 			path = RhythmicUITests;
 			sourceTree = "<group>";
 		};
-		5A3CB7F424E25E7C00A9212B /* Model Tests */ = {
+		5ABF766524E31A1600EEC5C4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5ABF766824E31A2100EEC5C4 /* MediaPlayer.framework */,
+				5ABF766624E31A1600EEC5C4 /* AVFoundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5ABF766A24E31B9500EEC5C4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5ABF766B24E31B9F00EEC5C4 /* Track.swift */,
+				5ABF767424E3204F00EEC5C4 /* Panner.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		5ABF766D24E31BA300EEC5C4 /* Model Tests */ = {
+			isa = PBXGroup;
+			children = (
+				5ABF766E24E31BAB00EEC5C4 /* TrackTests.swift */,
+				5ABF767024E31EF500EEC5C4 /* PanAudioPlayerTests.swift */,
 			);
 			path = "Model Tests";
 			sourceTree = "<group>";
 		};
-		5A3CB7F724E25EC800A9212B /* Model */ = {
+		5ABF767624E3219300EEC5C4 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				5ABF767724E321A000EEC5C4 /* Logger+Subsystems.swift */,
 			);
-			path = Model;
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -269,6 +311,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5ABF767324E31F8000EEC5C4 /* Before You Go.m4a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,8 +330,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A3CB7C724E25CFF00A9212B /* ContentView.swift in Sources */,
+				5ABF767524E3204F00EEC5C4 /* Panner.swift in Sources */,
 				5A3CB7F024E25DA200A9212B /* ExperimentalView.swift in Sources */,
 				5A3CB7C524E25CFF00A9212B /* RhythmicApp.swift in Sources */,
+				5ABF766C24E31B9F00EEC5C4 /* Track.swift in Sources */,
+				5ABF767824E321A000EEC5C4 /* Logger+Subsystems.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,6 +343,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A3CB7D724E25D0000A9212B /* RhythmicTests.swift in Sources */,
+				5ABF766F24E31BAB00EEC5C4 /* TrackTests.swift in Sources */,
+				5ABF767124E31EF500EEC5C4 /* PanAudioPlayerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
