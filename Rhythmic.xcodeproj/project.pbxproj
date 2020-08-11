@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,8 @@
 		5A3CB7CC24E25D0000A9212B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A3CB7CB24E25D0000A9212B /* Preview Assets.xcassets */; };
 		5A3CB7D724E25D0000A9212B /* RhythmicTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3CB7D624E25D0000A9212B /* RhythmicTests.swift */; };
 		5A3CB7E224E25D0000A9212B /* RhythmicUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3CB7E124E25D0000A9212B /* RhythmicUITests.swift */; };
+		5A3CB7F024E25DA200A9212B /* ExperimentalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3CB7EF24E25DA200A9212B /* ExperimentalView.swift */; };
+		5A3CB7F324E25E7200A9212B /* FileKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5A3CB7F224E25E7200A9212B /* FileKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +47,7 @@
 		5A3CB7DD24E25D0000A9212B /* RhythmicUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RhythmicUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A3CB7E124E25D0000A9212B /* RhythmicUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RhythmicUITests.swift; sourceTree = "<group>"; };
 		5A3CB7E324E25D0000A9212B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5A3CB7EF24E25DA200A9212B /* ExperimentalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExperimentalView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A3CB7F324E25E7200A9212B /* FileKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,8 +99,10 @@
 		5A3CB7C324E25CFF00A9212B /* Rhythmic */ = {
 			isa = PBXGroup;
 			children = (
+				5A3CB7F724E25EC800A9212B /* Model */,
 				5A3CB7C424E25CFF00A9212B /* RhythmicApp.swift */,
 				5A3CB7C624E25CFF00A9212B /* ContentView.swift */,
+				5A3CB7EF24E25DA200A9212B /* ExperimentalView.swift */,
 				5A3CB7C824E25D0000A9212B /* Assets.xcassets */,
 				5A3CB7CD24E25D0000A9212B /* Info.plist */,
 				5A3CB7CA24E25D0000A9212B /* Preview Content */,
@@ -116,6 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				5A3CB7D624E25D0000A9212B /* RhythmicTests.swift */,
+				5A3CB7F424E25E7C00A9212B /* Model Tests */,
 				5A3CB7D824E25D0000A9212B /* Info.plist */,
 			);
 			path = RhythmicTests;
@@ -128,6 +135,20 @@
 				5A3CB7E324E25D0000A9212B /* Info.plist */,
 			);
 			path = RhythmicUITests;
+			sourceTree = "<group>";
+		};
+		5A3CB7F424E25E7C00A9212B /* Model Tests */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Model Tests";
+			sourceTree = "<group>";
+		};
+		5A3CB7F724E25EC800A9212B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -146,6 +167,9 @@
 			dependencies = (
 			);
 			name = Rhythmic;
+			packageProductDependencies = (
+				5A3CB7F224E25E7200A9212B /* FileKit */,
+			);
 			productName = Rhythmic;
 			productReference = 5A3CB7C124E25CFF00A9212B /* Rhythmic.app */;
 			productType = "com.apple.product-type.application";
@@ -217,6 +241,9 @@
 				Base,
 			);
 			mainGroup = 5A3CB7B824E25CFF00A9212B;
+			packageReferences = (
+				5A3CB7F124E25E7200A9212B /* XCRemoteSwiftPackageReference "FileKit" */,
+			);
 			productRefGroup = 5A3CB7C224E25CFF00A9212B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -260,6 +287,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A3CB7C724E25CFF00A9212B /* ContentView.swift in Sources */,
+				5A3CB7F024E25DA200A9212B /* ExperimentalView.swift in Sources */,
 				5A3CB7C524E25CFF00A9212B /* RhythmicApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -580,6 +608,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5A3CB7F124E25E7200A9212B /* XCRemoteSwiftPackageReference "FileKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nvzqz/FileKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5A3CB7F224E25E7200A9212B /* FileKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5A3CB7F124E25E7200A9212B /* XCRemoteSwiftPackageReference "FileKit" */;
+			productName = FileKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5A3CB7B924E25CFF00A9212B /* Project object */;
 }
