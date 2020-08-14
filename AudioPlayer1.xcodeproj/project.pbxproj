@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,14 +12,19 @@
 		5A01949E215D5B75003C76F5 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5A01949D215D5B75003C76F5 /* Settings.bundle */; };
 		5A0194A0215F0917003C76F5 /* Handlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A01949F215F0917003C76F5 /* Handlers.swift */; };
 		5A0B3FED1F74CEF100A60D9F /* Preload.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5A0B3FEC1F74CEF100A60D9F /* Preload.plist */; };
+		5A16FC8E24E3A68300DA6EAB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A16FC8D24E3A68300DA6EAB /* SceneDelegate.swift */; };
+		5A16FC9124E4874B00DA6EAB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A16FC9024E4872D00DA6EAB /* ContentView.swift */; };
+		5A16FC9324E506AE00DA6EAB /* StateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A16FC9224E506AE00DA6EAB /* StateTests.swift */; };
+		5A16FC9524E506F900DA6EAB /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A16FC9424E506F900DA6EAB /* AppState.swift */; };
+		5A16FC9724E5FE5500DA6EAB /* Interactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A16FC9624E5FE5500DA6EAB /* Interactor.swift */; };
 		5A241D3221810D5300BBA177 /* Superpowered.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5A241D2E21810D5300BBA177 /* Superpowered.mm */; };
-		5A241D3321810D5300BBA177 /* libSuperpoweredAudioIOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A241D2F21810D5300BBA177 /* libSuperpoweredAudioIOS.a */; };
+		5A241D3321810D5300BBA177 /* libSuperpoweredAudioIOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A241D2F21810D5300BBA177 /* libSuperpoweredAudioIOS.a */; platformFilter = ios; };
 		5A241D6521811E0200BBA177 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A241D6421811E0200BBA177 /* CoreGraphics.framework */; };
 		5A241D6721818F0500BBA177 /* MusicDrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A241D6621818F0500BBA177 /* MusicDrawerController.swift */; };
 		5A3049491EAF18D10000A144 /* If I Lose Myself.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */; };
 		5A402BD12159D207005BD956 /* ManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A402BD02159D207005BD956 /* ManagerTests.swift */; };
 		5A402BD32159D62C005BD956 /* Managers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A402BD22159D62C005BD956 /* Managers.swift */; };
-		5A402BD4215AC20B005BD956 /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A402BCC2159B932005BD956 /* AudioKit.framework */; };
+		5A402BD4215AC20B005BD956 /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A402BCC2159B932005BD956 /* AudioKit.framework */; platformFilter = ios; };
 		5A402BD6215B4E9E005BD956 /* Controls.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A402BD5215B4E9E005BD956 /* Controls.xib */; };
 		5A55982F1F7B5A9900AF9E9F /* Better.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A55981B1F7B5A9300AF9E9F /* Better.mp3 */; };
 		5A55983A1F7B5A9900AF9E9F /* Human.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A5598261F7B5A9700AF9E9F /* Human.mp3 */; };
@@ -74,6 +79,11 @@
 		5A01949D215D5B75003C76F5 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		5A01949F215F0917003C76F5 /* Handlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Handlers.swift; sourceTree = "<group>"; };
 		5A0B3FEC1F74CEF100A60D9F /* Preload.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Preload.plist; sourceTree = "<group>"; };
+		5A16FC8D24E3A68300DA6EAB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		5A16FC9024E4872D00DA6EAB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		5A16FC9224E506AE00DA6EAB /* StateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateTests.swift; sourceTree = "<group>"; };
+		5A16FC9424E506F900DA6EAB /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		5A16FC9624E5FE5500DA6EAB /* Interactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interactor.swift; sourceTree = "<group>"; };
 		5A241D2C21810D5300BBA177 /* SuperpoweredDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredDecoder.h; sourceTree = "<group>"; };
 		5A241D2D21810D5300BBA177 /* SuperpoweredSimple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperpoweredSimple.h; sourceTree = "<group>"; };
 		5A241D2E21810D5300BBA177 /* Superpowered.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Superpowered.mm; sourceTree = "<group>"; };
@@ -92,6 +102,7 @@
 		5A55981B1F7B5A9300AF9E9F /* Better.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Better.mp3; sourceTree = "<group>"; };
 		5A5598261F7B5A9700AF9E9F /* Human.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Human.mp3; sourceTree = "<group>"; };
 		5A5598281F7B5A9800AF9E9F /* Let's Hurt Tonight.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Let's Hurt Tonight.mp3"; sourceTree = "<group>"; };
+		5A765B9624E248BA00815BB3 /* AudioPlayer1.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AudioPlayer1.entitlements; sourceTree = "<group>"; };
 		5A7AD6F32170003600090A86 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		5A7AD6F72179859400090A86 /* ViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelTests.swift; sourceTree = "<group>"; };
 		5A7AD6F92179881B00090A86 /* HandlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandlerTests.swift; sourceTree = "<group>"; };
@@ -139,6 +150,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5A16FC8F24E4871100DA6EAB /* SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				5A16FC9024E4872D00DA6EAB /* ContentView.swift */,
+				5A16FC9424E506F900DA6EAB /* AppState.swift */,
+				5A16FC9624E5FE5500DA6EAB /* Interactor.swift */,
+			);
+			path = SwiftUI;
+			sourceTree = "<group>";
+		};
 		5A241D2A2180EC8A00BBA177 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -165,9 +186,11 @@
 		5A2C0BCC20CC4A0700742203 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				5A16FC8F24E4871100DA6EAB /* SwiftUI */,
 				5A241D2B21810D5300BBA177 /* Superpower */,
 				5A241D2A2180EC8A00BBA177 /* View Controllers */,
 				5ABA30981DCBC97D006E5999 /* AppDelegate.swift */,
+				5A16FC8D24E3A68300DA6EAB /* SceneDelegate.swift */,
 				5AB5162C20A2A05700BE5028 /* SongExporter.swift */,
 				5A0B3FEC1F74CEF100A60D9F /* Preload.plist */,
 				5ABA309C1DCBC97D006E5999 /* Main.storyboard */,
@@ -184,6 +207,7 @@
 			isa = PBXGroup;
 			children = (
 				5A01949A215C9225003C76F5 /* tracks_test */,
+				5A16FC9224E506AE00DA6EAB /* StateTests.swift */,
 				5A402BD02159D207005BD956 /* ManagerTests.swift */,
 				5A7AD6F72179859400090A86 /* ViewModelTests.swift */,
 				5A7AD6F92179881B00090A86 /* HandlerTests.swift */,
@@ -244,6 +268,7 @@
 		5ABA30971DCBC97D006E5999 /* AudioPlayer1 */ = {
 			isa = PBXGroup;
 			children = (
+				5A765B9624E248BA00815BB3 /* AudioPlayer1.entitlements */,
 				5A2C0BCC20CC4A0700742203 /* iOS */,
 				5ABEAF611F19851E008E5BB5 /* Models.swift */,
 				5A01949F215F0917003C76F5 /* Handlers.swift */,
@@ -324,20 +349,20 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1000;
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Hunter Eisler";
 				TargetAttributes = {
 					5A51AC1C214DCC090063E3FF = {
 						CreatedOnToolsVersion = 9.4.1;
 						DevelopmentTeam = TN69P7NFS6;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1200;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 5ABA30941DCBC97D006E5999;
 					};
 					5ABA30941DCBC97D006E5999 = {
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = TN69P7NFS6;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1200;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
@@ -355,10 +380,9 @@
 			};
 			buildConfigurationList = 5ABA30901DCBC97D006E5999 /* Build configuration list for PBXProject "AudioPlayer1" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				Base,
 			);
@@ -430,6 +454,7 @@
 			files = (
 				5A7AD6F82179859500090A86 /* ViewModelTests.swift in Sources */,
 				5A7AD6FA2179881B00090A86 /* HandlerTests.swift in Sources */,
+				5A16FC9324E506AE00DA6EAB /* StateTests.swift in Sources */,
 				5A402BD12159D207005BD956 /* ManagerTests.swift in Sources */,
 				5A7AD6FC2179886B00090A86 /* QueueTests.swift in Sources */,
 			);
@@ -442,15 +467,19 @@
 				5A241D6721818F0500BBA177 /* MusicDrawerController.swift in Sources */,
 				5AB5162D20A2A05700BE5028 /* SongExporter.swift in Sources */,
 				5A7AD6F42170003600090A86 /* NavigationController.swift in Sources */,
+				5A16FC9524E506F900DA6EAB /* AppState.swift in Sources */,
 				5A7AD70A217D0D9D00090A86 /* dLog.swift in Sources */,
 				5A7AD70B217D0D9D00090A86 /* PanGestureTarget.swift in Sources */,
 				5ABEAF621F19851E008E5BB5 /* Models.swift in Sources */,
 				5A7AD708217D0D9D00090A86 /* OutsideBoundsHittableView.swift in Sources */,
+				5A16FC9124E4874B00DA6EAB /* ContentView.swift in Sources */,
+				5A16FC8E24E3A68300DA6EAB /* SceneDelegate.swift in Sources */,
 				5A0194A0215F0917003C76F5 /* Handlers.swift in Sources */,
 				5ABA309B1DCBC97D006E5999 /* ViewController.swift in Sources */,
 				5A402BD32159D62C005BD956 /* Managers.swift in Sources */,
 				5A241D3221810D5300BBA177 /* Superpowered.mm in Sources */,
 				5A7AD707217D0D9D00090A86 /* UIViewController+PresentDrawerController.swift in Sources */,
+				5A16FC9724E5FE5500DA6EAB /* Interactor.swift in Sources */,
 				5A7AD70F217D7B0D00090A86 /* DrawerController.swift in Sources */,
 				5ABA30991DCBC97D006E5999 /* AppDelegate.swift in Sources */,
 				5A7AD70C217D0D9D00090A86 /* UIView+PinSubview.swift in Sources */,
@@ -499,11 +528,15 @@
 				DEVELOPMENT_TEAM = TN69P7NFS6;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = AudioPlayerTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.eisler.AudioPlayerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AudioPlayer1.app/AudioPlayer1";
 			};
@@ -521,11 +554,15 @@
 				DEVELOPMENT_TEAM = TN69P7NFS6;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = AudioPlayerTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.eisler.AudioPlayerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AudioPlayer1.app/AudioPlayer1";
 			};
@@ -556,6 +593,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -582,7 +620,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -617,6 +655,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -637,10 +676,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -649,10 +689,9 @@
 		5ABA30A81DCBC97D006E5999 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_ENTITLEMENTS = AudioPlayer1/AudioPlayer1.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = TN69P7NFS6;
 				ENABLE_BITCODE = NO;
@@ -662,31 +701,35 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = AudioPlayer1/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/AudioPlayer1/Superpower",
+					"$(PROJECT_DIR)/AudioPlayer1",
 				);
 				OTHER_LDFLAGS = "-lstdc++";
 				PRODUCT_BUNDLE_IDENTIFIER = com.eisler.AudioPlayer1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/$(PROJECT_NAME)/$(PROJECT_NAME)-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
 		5ABA30A91DCBC97D006E5999 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_ENTITLEMENTS = AudioPlayer1/AudioPlayer1.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = TN69P7NFS6;
 				ENABLE_BITCODE = NO;
@@ -696,20 +739,25 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = AudioPlayer1/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/AudioPlayer1/Superpower",
+					"$(PROJECT_DIR)/AudioPlayer1",
 				);
 				OTHER_LDFLAGS = "-lstdc++";
 				PRODUCT_BUNDLE_IDENTIFIER = com.eisler.AudioPlayer1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/$(PROJECT_NAME)/$(PROJECT_NAME)-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};

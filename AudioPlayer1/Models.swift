@@ -429,7 +429,7 @@ struct ViewModel {
  */
     func buildTrack(url : URL, periodOrBPM: Double) {
         let lastComponent = url.pathComponents.last!
-        let firstDot = lastComponent.index(of: ".") ?? lastComponent.endIndex
+        let firstDot = lastComponent.firstIndex(of: ".") ?? lastComponent.endIndex
         let fileName = lastComponent[..<firstDot]
         var period : Double
         

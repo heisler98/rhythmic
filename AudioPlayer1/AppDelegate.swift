@@ -13,6 +13,13 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    let appState = AppState()
+    var interactor: Interactor {
+        let interactor = Interactor(viewModel: appState.viewModel)
+        appState.anyCancellable.append(interactor.playbackPaused.sink(receiveValue: { self.appState.playbackPaused = $0 }))
+        appState.anyCancellable.append(interactor.playingTrack.sink { self.appState.playingTrack = $0 })
+        return interactor
+    }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
@@ -20,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if !FileManager.default.fileExists(atPath: docDir.appendingPathComponent("files", isDirectory: true).path) {
             try? FileManager.default.createDirectory(at: docDir.appendingPathComponent("files", isDirectory: true), withIntermediateDirectories: false, attributes: nil)
         }
-        
+        copyPreload()
         return true
     }
 
@@ -36,15 +43,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } catch {
                 dLog(error)
             }
-            var navController: UIViewController?
-            var vc: ViewController?
-            
-            DispatchQueue.main.sync {
-                navController = self.window?.rootViewController
-                vc = navController?.children.first as? ViewController
-            }
             _ = DataHandler.setPreferredFileProtection(on: destinationURL)
-            _ = vc?.newTrack(at: destinationURL)
+            self.appState.newTrack(at: destinationURL)
         }
         
         return true
@@ -70,5 +70,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
+        
+    }
+    
+    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+    }
+    
+    private func copyPreload() {
+        let handler = DataHandler()
+        let destinationURL = DataHandler.documentsDirectory.appendingPathComponent("files")
+        handler.copyAsset(fromBundle: Bundle.main.url(forResource: "Let's Hurt Tonight", withExtension: "mp3")!, toUserDomain: destinationURL)
+        handler.copyAsset(fromBundle: Bundle.main.url(forResource: "Better", withExtension: "mp3")!, toUserDomain: destinationURL)
+        handler.copyAsset(fromBundle: Bundle.main.url(forResource: "Born", withExtension: "mp3")!, toUserDomain: destinationURL)
+        handler.copyAsset(fromBundle: Bundle.main.url(forResource: "If I Lose Myself", withExtension: "mp3")!, toUserDomain: destinationURL)
+        handler.copyAsset(fromBundle: Bundle.main.url(forResource: "Human", withExtension: "mp3")!, toUserDomain: destinationURL)
     }
 }

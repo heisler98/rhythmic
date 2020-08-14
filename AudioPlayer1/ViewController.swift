@@ -92,7 +92,7 @@ class ViewController: UIViewController, iTunesDelegate, SearchResults, InlinePla
     ///    - url: The URL of the audio file asset.
     func newTrack(at url: URL) -> Bool {
         let lastComponent = url.pathComponents.last!
-        let firstDot = lastComponent.index(of: ".") ?? lastComponent.endIndex
+        let firstDot = lastComponent.firstIndex(of: ".") ?? lastComponent.endIndex
         let fileName = lastComponent[..<firstDot]
         
         if let bpm = TempoHandler.core.tempo(of: url, completion: nil) {
