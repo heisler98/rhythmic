@@ -41,40 +41,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "CC633FB5-E405-4022-B992-6C8C6A813464"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "AudioPlayer1/Handlers.swift"
-            timestampString = "580252130.805257"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "313"
-            endingLineNumber = "313"
-            landmarkName = "audioRouteChanged(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "2600542C-3D23-40E0-B67A-6CB90BC6A8B5"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "AudioPlayer1/Handlers.swift"
-            timestampString = "580252130.805643"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "321"
-            endingLineNumber = "321"
-            landmarkName = "audioRouteChanged(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "1B0379C5-A060-449D-839F-60444F4A8019"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -114,8 +80,8 @@
             filePath = "AudioPlayer1/AppDelegate.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
             landmarkName = "application(_:open:options:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -130,8 +96,8 @@
             filePath = "AudioPlayer1/AppDelegate.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
             landmarkName = "application(_:open:options:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -146,13 +112,13 @@
             filePath = "AudioPlayer1/AppDelegate.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "36"
-            endingLineNumber = "36"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
             landmarkName = "application(_:open:options:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "FF6251BF-7A8D-415F-8A7C-CA5D6BE41463 - 1ec0607065288127"
+                  uuid = "FF6251BF-7A8D-415F-8A7C-CA5D6BE41463 - 1ec0607065288165"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -162,12 +128,12 @@
                   urlString = "file:///Users/hunter/Documents/Xcode%20Projects/Project%20REM/AudioPlayer1/AudioPlayer1/AppDelegate.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "36"
-                  endingLineNumber = "36"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
                   offsetFromSymbolStart = "371">
                </Location>
                <Location
-                  uuid = "FF6251BF-7A8D-415F-8A7C-CA5D6BE41463 - a5058da81e9bd997"
+                  uuid = "FF6251BF-7A8D-415F-8A7C-CA5D6BE41463 - a5058da81e9bd9d5"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -177,8 +143,8 @@
                   urlString = "file:///Users/hunter/Documents/Xcode%20Projects/Project%20REM/AudioPlayer1/AudioPlayer1/AppDelegate.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "37"
-                  endingLineNumber = "37"
+                  startingLineNumber = "39"
+                  endingLineNumber = "39"
                   offsetFromSymbolStart = "185">
                </Location>
             </Locations>

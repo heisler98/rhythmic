@@ -48,10 +48,10 @@ struct ContentView: View {
     
     var controlView: some View {
         VStack(alignment: .center, spacing: 15) {
-            Text(appState.playingTrack?.title ?? "")
+            Text(appState.playingTrack?.title ?? "Not Playing")
                 .font((largeTitle) ? .title : .caption)
                 .fontWeight(.bold)
-                .animation(.linear)
+                .animation(.easeIn)
             HStack(spacing: 0) {
                 Text("3:00")
                     .font(.caption)

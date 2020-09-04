@@ -24,6 +24,7 @@ class Interactor: ObservableObject {
         handler?.startPlaying()
         viewModel.queue.reset()
         playingTrack.send(track)
+        
     }
     func play(_ index: Int) {
         handler?.stopPlaying()

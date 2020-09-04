@@ -16,8 +16,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let appState = AppState()
     var interactor: Interactor {
         let interactor = Interactor(viewModel: appState.viewModel)
-        appState.anyCancellable.append(interactor.playbackPaused.sink(receiveValue: { self.appState.playbackPaused = $0 }))
-        appState.anyCancellable.append(interactor.playingTrack.sink { self.appState.playingTrack = $0 })
+        appState.anyCancellable.append(contentsOf: [
+                                        interactor.playbackPaused.assign(to: \.playbackPaused, on: appState),
+                                        interactor.playingTrack.map { Optional<Track>($0) }.assign(to: \.playingTrack, on: appState)
+        ])
         return interactor
     }
     
