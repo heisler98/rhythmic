@@ -10,7 +10,7 @@
 import UIKit
 import AVFoundation
 import MediaPlayer
-
+import Combine
 // MARK: - Global definitions
 
 typealias TrackArray = Array<Track>
@@ -147,17 +147,10 @@ class PanAudioPlayer: AVAudioPlayer {
     private var period : Double
     ///The progress delegate.
     weak var progressDelegate : ProgressUpdater?
-    ///The progress timer.
-    private var progressTimer: Timer?
-    
     // MARK: - Playback controls
     @discardableResult
     override func play() -> Bool {
         timer.fire()
-       /* defer {
-            progressTimer = setupProgressTimer()
-            progressTimer?.fire()
-        } */
         return super.play()
     }
     
@@ -170,7 +163,6 @@ class PanAudioPlayer: AVAudioPlayer {
     ///Invalidates the `Timer` and removes it from the `RunLoop`.
     func invalidateRhythm() {
         timer.invalidate()
-        progressTimer?.invalidate()
     }
     /**
      Sets up the audio player with the proper rhythm.
@@ -189,11 +181,17 @@ class PanAudioPlayer: AVAudioPlayer {
         else if (opt == .Crosspan) { //delta
             self.pan = PrefsHandler().prefs["slider_crosspan"] as? Float ?? 0.87
   
-            //self.pan = absoluteDistance
-            self.timer = Timer.scheduledTimer(withTimeInterval: period, repeats: true, block: { (timer : Timer) -> Void in
+//            //self.pan = absoluteDistance
+//            self.timer = Timer.scheduledTimer(withTimeInterval: period, repeats: true, block: { (timer : Timer) -> Void in
+//                self.pan *= -1
+//                //self.progressDelegate?.updateProgress(to: Float(self.currentTime / self.duration))
+//            })
+            
+            let timer = Timer(timeInterval: period, repeats: true) { (_) in
                 self.pan *= -1
-                //self.progressDelegate?.updateProgress(to: Float(self.currentTime / self.duration))
-            })
+            }
+            RunLoop.main.add(timer, forMode: .common)
+            self.timer = timer
             
         } else if (opt == .Synthesis) { //sigma
             
@@ -226,12 +224,7 @@ class PanAudioPlayer: AVAudioPlayer {
     func progress() -> Float {
         return Float(currentTime / duration)
     }
-    
-    func setupProgressTimer() -> Timer {
-        return Timer.scheduledTimer(withTimeInterval: 1.25, repeats: true, block: { (_) in
-            self.progressDelegate?.updateProgress(to: self.progress())
-        })
-    }
+
     // MARK: - Inits
     init(contentsOf url: URL, period: Double) throws {
         self.period = period

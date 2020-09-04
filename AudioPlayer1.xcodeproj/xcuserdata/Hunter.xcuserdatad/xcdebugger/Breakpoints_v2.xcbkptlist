@@ -15,8 +15,8 @@
             timestampString = "580252130.805114"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "284"
-            endingLineNumber = "284"
+            startingLineNumber = "277"
+            endingLineNumber = "277"
             landmarkName = "panAudioPlayer()"
             landmarkType = "7">
          </BreakpointContent>

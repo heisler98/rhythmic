@@ -14,7 +14,7 @@ struct ContentView: View {
     var interactor: Interactor
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        VStack(alignment: .center, spacing: 0) {
             controlView
                 .padding(.vertical)
                 .padding(.bottom, 10)
@@ -55,20 +55,20 @@ struct ContentView: View {
     var controlView: some View {
         VStack(alignment: .center, spacing: 15) {
             Text(appState.playingTrack?.title ?? "Not Playing")
-                .font((largeTitle) ? .title : .caption)
-                .fontWeight(.bold)
-                .animation(.easeIn)
-            HStack(spacing: 0) {
-                Text("3:00")
-                    .font(.caption)
-                    .padding(.leading, 5)
-                Slider(value: .constant(0.5), in: 0...1)
-                    .accentColor(.gray)
-                    .padding(.horizontal)
-                Text("-1:30")
-                    .font(.caption)
-                    .padding(.trailing, 5)
-            }
+                .font((largeTitle) ? .title : .headline)
+//                .fontWeight(.bold)
+                .animation(.easeInOut)
+//            HStack(spacing: 0) {
+//                Text("3:00")
+//                    .font(.caption)
+//                    .padding(.leading, 5)
+//                Slider(value: $appState.timeElapsed, in: 0...1)
+//                    .accentColor(.gray)
+//                    .padding(.horizontal)
+//                Text("-1:30")
+//                    .font(.caption)
+//                    .padding(.trailing, 5)
+//            }
             
             HStack(alignment: .center, spacing: 50) {
                 Button(action: {

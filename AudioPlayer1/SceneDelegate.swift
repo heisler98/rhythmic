@@ -16,8 +16,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var interactor: Interactor {
         let interactor = Interactor(viewModel: appState.viewModel)
         appState.anyCancellable.append(contentsOf: [
-                                        interactor.playbackPaused.assign(to: \.playbackPaused, on: appState),
-                                        interactor.playingTrack.map { Optional<Track>($0) }.assign(to: \.playingTrack, on: appState)
+            interactor.playbackPaused.assign(to: \.playbackPaused, on: appState),
+            interactor.playingTrack.map { Optional<Track>($0) }.assign(to: \.playingTrack, on: appState),
+            interactor.timeElapsed.assign(to: \.timeElapsed, on: appState)
         ])
         return interactor
     }
