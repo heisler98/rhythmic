@@ -13,15 +13,6 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    let appState = AppState()
-    var interactor: Interactor {
-        let interactor = Interactor(viewModel: appState.viewModel)
-        appState.anyCancellable.append(contentsOf: [
-                                        interactor.playbackPaused.assign(to: \.playbackPaused, on: appState),
-                                        interactor.playingTrack.map { Optional<Track>($0) }.assign(to: \.playingTrack, on: appState)
-        ])
-        return interactor
-    }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
@@ -33,24 +24,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-        
-        DispatchQueue.global(qos: .userInitiated).async {
-            let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-            let destinationURL = paths[0].appendingPathComponent("files/\(url.lastPathComponent)")
-            
-            do {
-                try FileManager.default.copyItem(at: url, to: destinationURL)
-                try FileManager.default.removeItem(at: url)
-            } catch {
-                dLog(error)
-            }
-            _ = DataHandler.setPreferredFileProtection(on: destinationURL)
-            self.appState.newTrack(at: destinationURL)
-        }
-        
-        return true
-    }
+//    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+//
+//        DispatchQueue.global(qos: .userInitiated).async {
+//            let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+//            let destinationURL = paths[0].appendingPathComponent("files/\(url.lastPathComponent)")
+//
+//            do {
+//                try FileManager.default.copyItem(at: url, to: destinationURL)
+//                try FileManager.default.removeItem(at: url)
+//            } catch {
+//                dLog(error)
+//            }
+//            _ = DataHandler.setPreferredFileProtection(on: destinationURL)
+//            self.appState.newTrack(at: destinationURL)
+//        }
+//
+//        return true
+//    }
     
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

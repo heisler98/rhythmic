@@ -27,7 +27,13 @@ struct ContentView: View {
                     List {
                         Section {
                             shuffleRow
+                                .onTapGesture {
+                                    interactor.shuffle()
+                                }
                             playAllRow
+                                .onTapGesture {
+                                    interactor.playAll()
+                                }
                         }
                         Section(header: Text("Library")) {
                             ForEach(appState.tracks, id: \.title) { track in
@@ -65,7 +71,9 @@ struct ContentView: View {
             }
             
             HStack(alignment: .center, spacing: 50) {
-                Button(action: {}) {
+                Button(action: {
+                    interactor.rewind()
+                }) {
                     LinearGradient(gradient: Gradient(colors: [.red, .yellow, .orange, .green, .blue, .purple]), startPoint: .topLeading, endPoint: .topTrailing)
                         .mask(Image(systemName:"backward.fill")
                                 .resizable()
@@ -90,7 +98,9 @@ struct ContentView: View {
                             .transition(.opacity)
                     }
                 }.frame(maxWidth: 34)
-                Button(action: {}) {
+                Button(action: {
+                    interactor.skip()
+                }) {
                     LinearGradient(gradient: Gradient(colors: [.red, .yellow, .orange, .green, .blue, .purple]), startPoint: .topLeading, endPoint: .topTrailing)
                         .mask(Image(systemName:"forward.fill")
                                 .resizable()

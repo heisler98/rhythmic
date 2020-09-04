@@ -659,6 +659,18 @@ struct ViewModel {
             throw error
         }
     }
+    
+    func playAll() throws -> PlaybackHandler {
+        queue.reset()
+        queue.append(all: sorter.sorted.map { $0.offset })
+        do {
+            queue.hasChangedSincePlayback = false
+            return try PlaybackHandler(queue: queue, tracks: tracks)
+        } catch {
+            queue.hasChangedSincePlayback = true
+            throw error
+        }
+    }
 }
 
 // MARK: - Queue

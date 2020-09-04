@@ -13,7 +13,8 @@ class AppState: ObservableObject {
     var viewModel = ViewModel()
     /// A convenience getter for view model tracks.
     var tracks: [Track] {
-        viewModel.tracks.tracks
+        viewModel.sorter.resort(by: .DateAddedAscending)
+        return viewModel.sorter.sorted.map { $1 }
     }
     /// Indicates the state of playback.
     @Published var playbackPaused: Bool = false
