@@ -17,13 +17,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let interactor = Interactor(viewModel: appState.viewModel)
         appState.anyCancellable.append(contentsOf: [
             interactor.playbackPaused.assign(to: \.playbackPaused, on: appState),
-            interactor.playingTrack.map { Optional<Track>($0) }.assign(to: \.playingTrack, on: appState),
-            interactor.timeElapsed.assign(to: \.timeElapsed, on: appState)
+            interactor.playingTrack.map { Optional<Track>($0) }.assign(to: \.playingTrack, on: appState)
         ])
         return interactor
     }
+    let newMusicState: NewMusicState = NewMusicState()
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
+        appState.anyCancellable.append(
+            newMusicState.newTrack.sink { new in
+                self.appState.viewModel.tracks.append(track: new)
+                self.appState.viewModel.sorter.updateEnumerated(self.appState.viewModel.tracks.enumerated)
+                _ = DataHandler.setPreferredFileProtection(on: new.url)
+            }
+        )
+        appState.newMusicState = self.newMusicState
         // Create a SwiftUI view
         let contentView = ContentView(appState: appState, interactor: interactor)
         

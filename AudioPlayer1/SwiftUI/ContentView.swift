@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
     @State private var largeTitle: Bool = false
+    @State private var showAddMusicSheet: Bool = false
     @ObservedObject var appState: AppState
     var interactor: Interactor
     
@@ -34,21 +35,32 @@ struct ContentView: View {
                                 .onTapGesture {
                                     interactor.playAll()
                                 }
+                            
                         }
                         Section(header: Text("Library")) {
                             ForEach(appState.tracks, id: \.title) { track in
-                                Text(track.title)
-                                    .bold()
-                                    .onTapGesture {
-                                        dLog("Selected \(track.title)")
-                                        interactor.play(track: track)
-                                    }
+                                HStack {
+                                    Text(track.title)
+                                        .bold()
+                                    Spacer()
+                                }
+                                .contentShape(Rectangle())
+                                .onTapGesture {
+                                    dLog("Selected \(track.title)")
+                                    interactor.play(track: track)
+                                }
                             }
+                            addMusicRow
+                                .onTapGesture {
+                                    showAddMusicSheet = true
+                                }
                         }
                     }.modifier(ListModifier())
                 )
             
             
+        }.sheet(isPresented: $showAddMusicSheet) {
+            NewMusicView(newMusicState: appState.newMusicState, isPresented: $showAddMusicSheet)
         }
     }
     
@@ -56,19 +68,20 @@ struct ContentView: View {
         VStack(alignment: .center, spacing: 15) {
             Text(appState.playingTrack?.title ?? "Not Playing")
                 .font((largeTitle) ? .title : .headline)
-//                .fontWeight(.bold)
-                .animation(.easeInOut)
-//            HStack(spacing: 0) {
-//                Text("3:00")
-//                    .font(.caption)
-//                    .padding(.leading, 5)
-//                Slider(value: $appState.timeElapsed, in: 0...1)
-//                    .accentColor(.gray)
-//                    .padding(.horizontal)
-//                Text("-1:30")
-//                    .font(.caption)
-//                    .padding(.trailing, 5)
-//            }
+                //                .fontWeight(.bold)
+                .animation(.linear)
+                .transition(.opacity)
+            //            HStack(spacing: 0) {
+            //                Text("3:00")
+            //                    .font(.caption)
+            //                    .padding(.leading, 5)
+            //                Slider(value: $appState.timeElapsed, in: 0...1)
+            //                    .accentColor(.gray)
+            //                    .padding(.horizontal)
+            //                Text("-1:30")
+            //                    .font(.caption)
+            //                    .padding(.trailing, 5)
+            //            }
             
             HStack(alignment: .center, spacing: 50) {
                 Button(action: {
@@ -85,23 +98,25 @@ struct ContentView: View {
                     interactor.pauseResume()
                 }) {
                     if appState.playbackPaused {
-                        Image(systemName: "play.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .foregroundColor(colorScheme == .dark ? .white : .black)
+                        LinearGradient(gradient: Gradient(colors: [.green, .blue, .purple]), startPoint: .topLeading, endPoint: .topTrailing)
+                            .mask(Image(systemName:"play.fill")
+                                    .resizable()
+                                    .scaledToFit())
+                            .aspectRatio(contentMode: .fit)
                             .transition(.opacity)
                     } else {
-                        Image(systemName: "pause.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .foregroundColor(colorScheme == .dark ? .white : .black)
+                        LinearGradient(gradient: Gradient(colors: [.green, .blue, .purple]), startPoint: .topLeading, endPoint: .topTrailing)
+                            .mask(Image(systemName:"pause.fill")
+                                    .resizable()
+                                    .scaledToFit())
+                            .aspectRatio(contentMode: .fit)
                             .transition(.opacity)
                     }
                 }.frame(maxWidth: 34)
                 Button(action: {
                     interactor.skip()
                 }) {
-                    LinearGradient(gradient: Gradient(colors: [.red, .yellow, .orange, .green, .blue, .purple]), startPoint: .topLeading, endPoint: .topTrailing)
+                    LinearGradient(gradient: Gradient(colors: [.red, .yellow, .orange, .green, .blue, .purple].reversed()), startPoint: .topLeading, endPoint: .topTrailing)
                         .mask(Image(systemName:"forward.fill")
                                 .resizable()
                                 .scaledToFit())
@@ -116,17 +131,27 @@ struct ContentView: View {
     var shuffleRow: some View {
         HStack {
             Image(systemName: "shuffle")
-                
             Text("Shuffle")
-        }
+            Spacer()
+        }.contentShape(Rectangle())
     }
     
     var playAllRow: some View {
         HStack {
             Image(systemName: "play.fill")
                 .foregroundColor(.green)
+                .padding(.trailing, 5)
             Text("Play All")
-        }
+            Spacer()
+        }.contentShape(Rectangle())
+    }
+    
+    var addMusicRow: some View {
+        HStack {
+            Text("Find more music")
+                .foregroundColor(.blue)
+            Spacer()
+        }.contentShape(Rectangle())
     }
 }
 

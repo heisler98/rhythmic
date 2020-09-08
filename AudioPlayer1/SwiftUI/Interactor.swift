@@ -45,10 +45,12 @@ class Interactor: ObservableObject {
     
     func skip() {
         handler?.skip()
+        playbackPaused.send(false)
     }
     
     func rewind() {
         handler?.rewind()
+        playbackPaused.send(false)
     }
     
     func playAll() {

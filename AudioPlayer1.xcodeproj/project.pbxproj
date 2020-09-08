@@ -26,6 +26,8 @@
 		5A402BD32159D62C005BD956 /* Managers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A402BD22159D62C005BD956 /* Managers.swift */; };
 		5A402BD4215AC20B005BD956 /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A402BCC2159B932005BD956 /* AudioKit.framework */; platformFilter = ios; };
 		5A402BD6215B4E9E005BD956 /* Controls.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A402BD5215B4E9E005BD956 /* Controls.xib */; };
+		5A4060BE25077FED002A806D /* NewMusicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4060BD25077FED002A806D /* NewMusicView.swift */; };
+		5A4060C025078003002A806D /* NewMusicState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4060BF25078003002A806D /* NewMusicState.swift */; };
 		5A55982F1F7B5A9900AF9E9F /* Better.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A55981B1F7B5A9300AF9E9F /* Better.mp3 */; };
 		5A55983A1F7B5A9900AF9E9F /* Human.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A5598261F7B5A9700AF9E9F /* Human.mp3 */; };
 		5A55983C1F7B5A9900AF9E9F /* Let's Hurt Tonight.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A5598281F7B5A9800AF9E9F /* Let's Hurt Tonight.mp3 */; };
@@ -97,6 +99,8 @@
 		5A402BD02159D207005BD956 /* ManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerTests.swift; sourceTree = "<group>"; };
 		5A402BD22159D62C005BD956 /* Managers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Managers.swift; sourceTree = "<group>"; };
 		5A402BD5215B4E9E005BD956 /* Controls.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Controls.xib; sourceTree = "<group>"; };
+		5A4060BD25077FED002A806D /* NewMusicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMusicView.swift; sourceTree = "<group>"; };
+		5A4060BF25078003002A806D /* NewMusicState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMusicState.swift; sourceTree = "<group>"; };
 		5A51AC1D214DCC090063E3FF /* AudioPlayerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AudioPlayerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A51AC21214DCC0A0063E3FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5A55981B1F7B5A9300AF9E9F /* Better.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Better.mp3; sourceTree = "<group>"; };
@@ -153,9 +157,12 @@
 		5A16FC8F24E4871100DA6EAB /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				5A4060BA25077F4E002A806D /* UIKitRepresentable */,
 				5A16FC9024E4872D00DA6EAB /* ContentView.swift */,
+				5A4060BD25077FED002A806D /* NewMusicView.swift */,
 				5A16FC9424E506F900DA6EAB /* AppState.swift */,
 				5A16FC9624E5FE5500DA6EAB /* Interactor.swift */,
+				5A4060BF25078003002A806D /* NewMusicState.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -201,6 +208,13 @@
 				5A01949D215D5B75003C76F5 /* Settings.bundle */,
 			);
 			name = iOS;
+			sourceTree = "<group>";
+		};
+		5A4060BA25077F4E002A806D /* UIKitRepresentable */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UIKitRepresentable;
 			sourceTree = "<group>";
 		};
 		5A51AC1E214DCC090063E3FF /* AudioPlayerTests */ = {
@@ -471,12 +485,14 @@
 				5A7AD70A217D0D9D00090A86 /* dLog.swift in Sources */,
 				5A7AD70B217D0D9D00090A86 /* PanGestureTarget.swift in Sources */,
 				5ABEAF621F19851E008E5BB5 /* Models.swift in Sources */,
+				5A4060BE25077FED002A806D /* NewMusicView.swift in Sources */,
 				5A7AD708217D0D9D00090A86 /* OutsideBoundsHittableView.swift in Sources */,
 				5A16FC9124E4874B00DA6EAB /* ContentView.swift in Sources */,
 				5A16FC8E24E3A68300DA6EAB /* SceneDelegate.swift in Sources */,
 				5A0194A0215F0917003C76F5 /* Handlers.swift in Sources */,
 				5ABA309B1DCBC97D006E5999 /* ViewController.swift in Sources */,
 				5A402BD32159D62C005BD956 /* Managers.swift in Sources */,
+				5A4060C025078003002A806D /* NewMusicState.swift in Sources */,
 				5A241D3221810D5300BBA177 /* Superpowered.mm in Sources */,
 				5A7AD707217D0D9D00090A86 /* UIViewController+PresentDrawerController.swift in Sources */,
 				5A16FC9724E5FE5500DA6EAB /* Interactor.swift in Sources */,

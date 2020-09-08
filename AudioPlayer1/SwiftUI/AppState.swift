@@ -16,6 +16,7 @@ class AppState: ObservableObject {
         viewModel.sorter.resort(by: .DateAddedAscending)
         return viewModel.sorter.sorted.map { $1 }
     }
+    var newMusicState: NewMusicState!
     /// Indicates the state of playback.
     @Published var playbackPaused: Bool = false
     @Published var playingTrack: Track? = nil
