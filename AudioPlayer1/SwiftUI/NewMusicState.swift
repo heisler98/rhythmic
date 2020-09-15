@@ -32,7 +32,12 @@ class NewMusicState: ObservableObject {
         }
     }
     
-    func export(song: MPMediaItem, to url: URL) {
+    func `import`(_ song: MPMediaItem) {
+        let pathURL = DataHandler.documentsDirectory.appendingPathComponent("files/\(song.title!).caf")
+        export(song: song, to: pathURL)
+    }
+    
+    private func export(song: MPMediaItem, to url: URL) {
         let main = DispatchQueue.main
         SongExporter(exportPath: url.path).exportSong(song) { success in
             guard success == true else {

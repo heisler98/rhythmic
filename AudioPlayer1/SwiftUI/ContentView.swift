@@ -20,68 +20,20 @@ struct ContentView: View {
                 .padding(.vertical)
                 .padding(.bottom, 10)
                 .animation(.easeInOut)
-            RoundedRectangle(cornerRadius: 35)
-                .fill(Color.white)
-                .shadow(radius: 10)
-                .padding(.horizontal, 5)
-                .overlay(
-                    List {
-                        Section {
-                            shuffleRow
-                                .onTapGesture {
-                                    interactor.shuffle()
-                                }
-                            playAllRow
-                                .onTapGesture {
-                                    interactor.playAll()
-                                }
-                            
-                        }
-                        Section(header: Text("Library")) {
-                            ForEach(appState.tracks, id: \.title) { track in
-                                HStack {
-                                    Text(track.title)
-                                        .bold()
-                                    Spacer()
-                                }
-                                .contentShape(Rectangle())
-                                .onTapGesture {
-                                    dLog("Selected \(track.title)")
-                                    interactor.play(track: track)
-                                }
-                            }
-                            addMusicRow
-                                .onTapGesture {
-                                    showAddMusicSheet = true
-                                }
-                        }
-                    }.modifier(ListModifier())
-                )
-            
+            library
             
         }.sheet(isPresented: $showAddMusicSheet) {
             NewMusicView(newMusicState: appState.newMusicState, isPresented: $showAddMusicSheet)
         }
     }
     
+    // MARK: - Control view
     var controlView: some View {
         VStack(alignment: .center, spacing: 15) {
             Text(appState.playingTrack?.title ?? "Not Playing")
-                .font((largeTitle) ? .title : .headline)
-                //                .fontWeight(.bold)
+                .font(.headline)
                 .animation(.linear)
                 .transition(.opacity)
-            //            HStack(spacing: 0) {
-            //                Text("3:00")
-            //                    .font(.caption)
-            //                    .padding(.leading, 5)
-            //                Slider(value: $appState.timeElapsed, in: 0...1)
-            //                    .accentColor(.gray)
-            //                    .padding(.horizontal)
-            //                Text("-1:30")
-            //                    .font(.caption)
-            //                    .padding(.trailing, 5)
-            //            }
             
             HStack(alignment: .center, spacing: 50) {
                 Button(action: {
@@ -128,6 +80,48 @@ struct ContentView: View {
         }
     }
     
+    // MARK: - Library
+    var library: some View {
+        RoundedRectangle(cornerRadius: 35)
+            .fill(Color.white)
+            .shadow(radius: 10)
+            .padding(.horizontal, 5)
+            .overlay(
+                List {
+                    Section {
+                        shuffleRow
+                            .onTapGesture {
+                                interactor.shuffle()
+                            }
+                        playAllRow
+                            .onTapGesture {
+                                interactor.playAll()
+                            }
+                        
+                    }
+                    Section(header: Text("Library")) {
+                        ForEach(appState.tracks, id: \.title) { track in
+                            HStack {
+                                Text(track.title)
+                                    .bold()
+                                Spacer()
+                            }
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                dLog("Selected \(track.title)")
+                                interactor.play(track: track)
+                            }
+                        }
+                        addMusicRow
+                            .onTapGesture {
+                                showAddMusicSheet = true
+                            }
+                    }
+                }.modifier(ListModifier())
+            )
+    }
+    
+    // MARK: - Rows
     var shuffleRow: some View {
         HStack {
             Image(systemName: "shuffle")

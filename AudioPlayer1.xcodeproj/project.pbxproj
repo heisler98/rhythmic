@@ -21,16 +21,12 @@
 		5A241D3321810D5300BBA177 /* libSuperpoweredAudioIOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A241D2F21810D5300BBA177 /* libSuperpoweredAudioIOS.a */; platformFilter = ios; };
 		5A241D6521811E0200BBA177 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A241D6421811E0200BBA177 /* CoreGraphics.framework */; };
 		5A241D6721818F0500BBA177 /* MusicDrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A241D6621818F0500BBA177 /* MusicDrawerController.swift */; };
-		5A3049491EAF18D10000A144 /* If I Lose Myself.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */; };
 		5A402BD12159D207005BD956 /* ManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A402BD02159D207005BD956 /* ManagerTests.swift */; };
 		5A402BD32159D62C005BD956 /* Managers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A402BD22159D62C005BD956 /* Managers.swift */; };
 		5A402BD4215AC20B005BD956 /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A402BCC2159B932005BD956 /* AudioKit.framework */; platformFilter = ios; };
 		5A402BD6215B4E9E005BD956 /* Controls.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5A402BD5215B4E9E005BD956 /* Controls.xib */; };
 		5A4060BE25077FED002A806D /* NewMusicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4060BD25077FED002A806D /* NewMusicView.swift */; };
 		5A4060C025078003002A806D /* NewMusicState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4060BF25078003002A806D /* NewMusicState.swift */; };
-		5A55982F1F7B5A9900AF9E9F /* Better.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A55981B1F7B5A9300AF9E9F /* Better.mp3 */; };
-		5A55983A1F7B5A9900AF9E9F /* Human.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A5598261F7B5A9700AF9E9F /* Human.mp3 */; };
-		5A55983C1F7B5A9900AF9E9F /* Let's Hurt Tonight.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A5598281F7B5A9800AF9E9F /* Let's Hurt Tonight.mp3 */; };
 		5A7AD6F42170003600090A86 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7AD6F32170003600090A86 /* NavigationController.swift */; };
 		5A7AD6F82179859500090A86 /* ViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7AD6F72179859400090A86 /* ViewModelTests.swift */; };
 		5A7AD6FA2179881B00090A86 /* HandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7AD6F92179881B00090A86 /* HandlerTests.swift */; };
@@ -41,7 +37,6 @@
 		5A7AD70B217D0D9D00090A86 /* PanGestureTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7AD703217D0D9D00090A86 /* PanGestureTarget.swift */; };
 		5A7AD70C217D0D9D00090A86 /* UIView+PinSubview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7AD704217D0D9D00090A86 /* UIView+PinSubview.swift */; };
 		5A7AD70F217D7B0D00090A86 /* DrawerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7AD70E217D7B0D00090A86 /* DrawerController.swift */; };
-		5A9D6BDA1E9EF2A300918D8B /* Born.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5A9D6BD91E9EF2A300918D8B /* Born.mp3 */; };
 		5AB5162D20A2A05700BE5028 /* SongExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AB5162C20A2A05700BE5028 /* SongExporter.swift */; };
 		5ABA30991DCBC97D006E5999 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABA30981DCBC97D006E5999 /* AppDelegate.swift */; };
 		5ABA309B1DCBC97D006E5999 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABA309A1DCBC97D006E5999 /* ViewController.swift */; };
@@ -94,7 +89,6 @@
 		5A241D3521810E9300BBA177 /* AudioPlayer1-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AudioPlayer1-Bridging-Header.h"; sourceTree = "<group>"; };
 		5A241D6421811E0200BBA177 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		5A241D6621818F0500BBA177 /* MusicDrawerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicDrawerController.swift; sourceTree = "<group>"; };
-		5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "If I Lose Myself.mp3"; sourceTree = "<group>"; };
 		5A402BCC2159B932005BD956 /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioKit.framework; path = AudioPlayer1/AudioKit.framework; sourceTree = "<group>"; };
 		5A402BD02159D207005BD956 /* ManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerTests.swift; sourceTree = "<group>"; };
 		5A402BD22159D62C005BD956 /* Managers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Managers.swift; sourceTree = "<group>"; };
@@ -103,9 +97,6 @@
 		5A4060BF25078003002A806D /* NewMusicState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMusicState.swift; sourceTree = "<group>"; };
 		5A51AC1D214DCC090063E3FF /* AudioPlayerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AudioPlayerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A51AC21214DCC0A0063E3FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5A55981B1F7B5A9300AF9E9F /* Better.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Better.mp3; sourceTree = "<group>"; };
-		5A5598261F7B5A9700AF9E9F /* Human.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Human.mp3; sourceTree = "<group>"; };
-		5A5598281F7B5A9800AF9E9F /* Let's Hurt Tonight.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Let's Hurt Tonight.mp3"; sourceTree = "<group>"; };
 		5A765B9624E248BA00815BB3 /* AudioPlayer1.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AudioPlayer1.entitlements; sourceTree = "<group>"; };
 		5A7AD6F32170003600090A86 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		5A7AD6F72179859400090A86 /* ViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelTests.swift; sourceTree = "<group>"; };
@@ -117,7 +108,6 @@
 		5A7AD703217D0D9D00090A86 /* PanGestureTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PanGestureTarget.swift; sourceTree = "<group>"; };
 		5A7AD704217D0D9D00090A86 /* UIView+PinSubview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+PinSubview.swift"; sourceTree = "<group>"; };
 		5A7AD70E217D7B0D00090A86 /* DrawerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerController.swift; sourceTree = "<group>"; };
-		5A9D6BD91E9EF2A300918D8B /* Born.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Born.mp3; sourceTree = "<group>"; };
 		5AB5162C20A2A05700BE5028 /* SongExporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongExporter.swift; sourceTree = "<group>"; };
 		5ABA30951DCBC97D006E5999 /* AudioPlayer1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AudioPlayer1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5ABA30981DCBC97D006E5999 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -262,7 +252,6 @@
 		5ABA308C1DCBC97D006E5999 = {
 			isa = PBXGroup;
 			children = (
-				5ABEAF751F36E4AA008E5BB5 /* Audio Assets */,
 				5ABA30971DCBC97D006E5999 /* AudioPlayer1 */,
 				5A51AC1E214DCC090063E3FF /* AudioPlayerTests */,
 				5ABA30961DCBC97D006E5999 /* Products */,
@@ -291,18 +280,6 @@
 				5ABA309F1DCBC97D006E5999 /* Assets.xcassets */,
 			);
 			path = AudioPlayer1;
-			sourceTree = "<group>";
-		};
-		5ABEAF751F36E4AA008E5BB5 /* Audio Assets */ = {
-			isa = PBXGroup;
-			children = (
-				5A55981B1F7B5A9300AF9E9F /* Better.mp3 */,
-				5A5598261F7B5A9700AF9E9F /* Human.mp3 */,
-				5A5598281F7B5A9800AF9E9F /* Let's Hurt Tonight.mp3 */,
-				5A3049481EAF18D10000A144 /* If I Lose Myself.mp3 */,
-				5A9D6BD91E9EF2A300918D8B /* Born.mp3 */,
-			);
-			name = "Audio Assets";
 			sourceTree = "<group>";
 		};
 		5AF19F881E95A0B1004E38C9 /* Frameworks */ = {
@@ -424,16 +401,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5A55983A1F7B5A9900AF9E9F /* Human.mp3 in Resources */,
 				5A402BD6215B4E9E005BD956 /* Controls.xib in Resources */,
 				5ABA30A31DCBC97D006E5999 /* LaunchScreen.storyboard in Resources */,
 				5ABA30A01DCBC97D006E5999 /* Assets.xcassets in Resources */,
 				5A01949E215D5B75003C76F5 /* Settings.bundle in Resources */,
 				5ABA309E1DCBC97D006E5999 /* Main.storyboard in Resources */,
-				5A9D6BDA1E9EF2A300918D8B /* Born.mp3 in Resources */,
-				5A55983C1F7B5A9900AF9E9F /* Let's Hurt Tonight.mp3 in Resources */,
-				5A3049491EAF18D10000A144 /* If I Lose Myself.mp3 in Resources */,
-				5A55982F1F7B5A9900AF9E9F /* Better.mp3 in Resources */,
 				5A01949C215C947B003C76F5 /* tracks_test in Resources */,
 				5A0B3FED1F74CEF100A60D9F /* Preload.plist in Resources */,
 			);
@@ -705,7 +677,7 @@
 		5ABA30A81DCBC97D006E5999 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
+				ASSETCATALOG_COMPILER_APPICON_NAME = TwoDotsIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = AudioPlayer1/AudioPlayer1.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -743,7 +715,7 @@
 		5ABA30A91DCBC97D006E5999 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
+				ASSETCATALOG_COMPILER_APPICON_NAME = TwoDotsIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = AudioPlayer1/AudioPlayer1.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";

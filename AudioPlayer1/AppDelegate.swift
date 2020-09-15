@@ -20,28 +20,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if !FileManager.default.fileExists(atPath: docDir.appendingPathComponent("files", isDirectory: true).path) {
             try? FileManager.default.createDirectory(at: docDir.appendingPathComponent("files", isDirectory: true), withIntermediateDirectories: false, attributes: nil)
         }
-        copyPreload()
+        
         return true
     }
 
-//    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-//
-//        DispatchQueue.global(qos: .userInitiated).async {
-//            let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-//            let destinationURL = paths[0].appendingPathComponent("files/\(url.lastPathComponent)")
-//
-//            do {
-//                try FileManager.default.copyItem(at: url, to: destinationURL)
-//                try FileManager.default.removeItem(at: url)
-//            } catch {
-//                dLog(error)
-//            }
-//            _ = DataHandler.setPreferredFileProtection(on: destinationURL)
-//            self.appState.newTrack(at: destinationURL)
-//        }
-//
-//        return true
-//    }
+
     
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -71,15 +54,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
-    }
-    
-    private func copyPreload() {
-        let handler = DataHandler()
-        let destinationURL = DataHandler.documentsDirectory.appendingPathComponent("files")
-        handler.copyAsset(fromBundle: Bundle.main.url(forResource: "Let's Hurt Tonight", withExtension: "mp3")!, toUserDomain: destinationURL)
-        handler.copyAsset(fromBundle: Bundle.main.url(forResource: "Better", withExtension: "mp3")!, toUserDomain: destinationURL)
-        handler.copyAsset(fromBundle: Bundle.main.url(forResource: "Born", withExtension: "mp3")!, toUserDomain: destinationURL)
-        handler.copyAsset(fromBundle: Bundle.main.url(forResource: "If I Lose Myself", withExtension: "mp3")!, toUserDomain: destinationURL)
-        handler.copyAsset(fromBundle: Bundle.main.url(forResource: "Human", withExtension: "mp3")!, toUserDomain: destinationURL)
     }
 }
