@@ -1,0 +1,23 @@
+/* 
+  Localizable.strings
+  AudioPlayer1
+
+  Created by Hunter Eisler on 9/15/20.
+  Copyright © 2020 Hunter Eisler. All rights reserved.
+*/
+
+// ContentView.swift
+"Library" = "Библиотека";
+"Not Playing" = "Не играю";
+"Shuffle" = "Перемешать";
+"Play All" = "Играть все";
+"Find more music" = "Найти больше музыки";
+
+// NewMusicView.swift
+"Add music" = "Добавить музыку";
+"Done" = "Готово";
+"question" = "Где другая моя музыка?";
+"description" = "Для Rhythmic доступна только музыка, приобретенная в iTunes Store, синхронизированная с вашим устройством iOS или добавленная через AirDrop.";
+"Add File Sharing songs" = "Добавить песни, синхронизированные через iTunes";
+"Unnamed Track" = "Песня без названия";
+"Unnamed Artist" = "Безымянный художник";
