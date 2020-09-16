@@ -20,9 +20,45 @@ struct ContentView: View {
                 .padding(.vertical)
                 .padding(.bottom, 10)
                 .animation(.easeInOut)
-            library
-            
-        }.sheet(isPresented: $showAddMusicSheet) {
+            RoundedRectangle(cornerRadius: 35)
+                .fill(Color.white)
+                .shadow(radius: 10)
+                .padding(.horizontal, 5)
+                .overlay(
+                    List {
+                        Section {
+                            shuffleRow
+                                .onTapGesture {
+                                    interactor.shuffle()
+                                }
+                            playAllRow
+                                .onTapGesture {
+                                    interactor.playAll()
+                                }
+                            
+                        }
+                        Section(header: Text("Library")) {
+                            ForEach(appState.tracks, id: \.title) { track in
+                                HStack {
+                                    Text(track.title)
+//                                        .bold()
+                                    Spacer()
+                                }
+                                .contentShape(Rectangle())
+                                .onTapGesture {
+                                    dLog("Selected \(track.title)")
+                                    interactor.play(track: track)
+                                }
+                            }
+                            addMusicRow
+                                .onTapGesture {
+                                    showAddMusicSheet = true
+                                }
+                        }
+                    }.modifier(ListModifier())
+                )
+        }
+        .sheet(isPresented: $showAddMusicSheet) {
             NewMusicView(newMusicState: appState.newMusicState, isPresented: $showAddMusicSheet)
         }
     }
@@ -30,11 +66,17 @@ struct ContentView: View {
     // MARK: - Control view
     var controlView: some View {
         VStack(alignment: .center, spacing: 15) {
-            Text(appState.playingTrack?.title ?? "Not Playing")
-                .font(.headline)
-                .animation(.linear)
-                .transition(.opacity)
-            
+            if let title = appState.playingTrack?.title {
+                Text(title)
+                    .font(.headline)
+                    .animation(.linear)
+                    .transition(.opacity)
+            } else {
+                Text("Not Playing")
+                    .font(.headline)
+                    .animation(.linear)
+                    .transition(.opacity)
+            }
             HStack(alignment: .center, spacing: 50) {
                 Button(action: {
                     interactor.rewind()
@@ -126,6 +168,7 @@ struct ContentView: View {
         HStack {
             Image(systemName: "shuffle")
             Text("Shuffle")
+                .bold()
             Spacer()
         }.contentShape(Rectangle())
     }
@@ -136,6 +179,7 @@ struct ContentView: View {
                 .foregroundColor(.green)
                 .padding(.trailing, 5)
             Text("Play All")
+                .bold()
             Spacer()
         }.contentShape(Rectangle())
     }

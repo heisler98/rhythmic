@@ -1,0 +1,23 @@
+/* 
+  Localizable.strings
+  AudioPlayer1
+
+  Created by Hunter Eisler on 9/15/20.
+  Copyright © 2020 Hunter Eisler. All rights reserved.
+*/
+
+// ContentView.swift
+"Library" = "圖書館";
+"Not Playing" = "不玩";
+"Shuffle" = "洗牌";
+"Play All" = "全部播放";
+"Find more music" = "尋找更多音樂";
+
+// NewMusicView.swift
+"Add music" = "添加音樂";
+"Done" = "關";
+"question" = "我的其他音樂在哪裡？";
+"description" = "僅可訪問通過iTunes Store購買，同步到您的iOS設備或通過AirDrop添加的音樂。";
+"Add File Sharing songs" = "添加通過iTunes同步的歌曲";
+"Unnamed Track" = "未命名的歌曲";
+"Unnamed Artist" = "無名畫家";

@@ -37,10 +37,10 @@ struct NewMusicView: View {
     // MARK: - Info
     var infoView: some View {
         VStack(alignment: .center) {
-            Text("Where's my other music?")
+            Text("question")
                 .font(.callout)
                 .foregroundColor(.gray)
-            Text("Only music purchased through the iTunes Store, synced to your iOS device, or added through AirDrop, is accessible to Rhythmic.")
+            Text("description")
                 .font(.caption)
                 .frame(maxWidth: 300)
                 .multilineTextAlignment(TextAlignment.center)
@@ -60,11 +60,21 @@ struct NewMusicView: View {
         List {
             ForEach(newMusicState.songs, id: \.self) { song in
                 HStack {
-                    Text((song ).title ?? "Unnamed Track")
-                        .foregroundColor(.blue)
+                    if let title = song.title {
+                        Text(title)
+                            .foregroundColor(.blue)
+                    } else {
+                        Text("Unnamed Track")
+                            .foregroundColor(.blue)
+                    }
                     Spacer()
-                    Text((song ).artist ?? "Unknown Artist")
-                        .foregroundColor(.gray)
+                    if let artist = song.artist {
+                        Text(artist)
+                            .foregroundColor(.gray)
+                    } else {
+                        Text("Unnamed Artist")
+                            .foregroundColor(.gray)
+                    }
                 }.contentShape(Rectangle())
                 .gesture(TapGesture().updating($tapping, body: { (_, state, transaction) in
                     state = tapping

@@ -1,0 +1,23 @@
+/* 
+  Localizable.strings
+  AudioPlayer1
+
+  Created by Hunter Eisler on 9/15/20.
+  Copyright © 2020 Hunter Eisler. All rights reserved.
+*/
+
+// ContentView.swift
+"Library" = "図書館";
+"Not Playing" = "遊んでいない";
+"Shuffle" = "シャッフル";
+"Play All" = "全部やる";
+"Find more music" = "音楽をもっと探す";
+
+// NewMusicView.swift
+"Add music" = "音楽を追加";
+"Done" = "閉じる";
+"question" = "私の他の音楽はどこですか？";
+"description" = "iTunes Store経由で購入した、iOSデバイスに同期した、またはAirDrop経由で追加した音楽のみにアクセスできます";
+"Add File Sharing songs" = "iTunesで同期した曲を追加する";
+"Unnamed Track" = "名前のない歌";
+"Unnamed Artist" = "名前のないアーティスト";
