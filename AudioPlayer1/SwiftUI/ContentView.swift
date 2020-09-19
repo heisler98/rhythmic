@@ -15,51 +15,22 @@ struct ContentView: View {
     var interactor: Interactor
     
     var body: some View {
-        VStack(alignment: .center, spacing: 0) {
-            controlView
-                .padding(.vertical)
-                .padding(.bottom, 10)
-                .animation(.easeInOut)
-            RoundedRectangle(cornerRadius: 35)
-                .fill(Color.white)
-                .shadow(radius: 10)
-                .padding(.horizontal, 5)
-                .overlay(
-                    List {
-                        Section {
-                            shuffleRow
-                                .onTapGesture {
-                                    interactor.shuffle()
-                                }
-                            playAllRow
-                                .onTapGesture {
-                                    interactor.playAll()
-                                }
-                            
-                        }
-                        Section(header: Text("Library")) {
-                            ForEach(appState.tracks, id: \.title) { track in
-                                HStack {
-                                    Text(track.title)
-//                                        .bold()
-                                    Spacer()
-                                }
-                                .contentShape(Rectangle())
-                                .onTapGesture {
-                                    dLog("Selected \(track.title)")
-                                    interactor.play(track: track)
-                                }
-                            }
-                            addMusicRow
-                                .onTapGesture {
-                                    showAddMusicSheet = true
-                                }
-                        }
-                    }.modifier(ListModifier())
-                )
-        }
-        .sheet(isPresented: $showAddMusicSheet) {
-            NewMusicView(newMusicState: appState.newMusicState, isPresented: $showAddMusicSheet)
+        ZStack {
+            VStack(alignment: .center, spacing: 0) {
+                controlView
+                    .padding(.vertical)
+                    .padding(.bottom, 10)
+                    .animation(.easeInOut)
+                library
+            }
+            .sheet(isPresented: $showAddMusicSheet) {
+                NewMusicView(newMusicState: appState.newMusicState, isPresented: $showAddMusicSheet)
+            }
+            if appState.showActivityIndicator {
+                ProgressView("Adding song")
+                    .progressViewStyle(CircularProgressViewStyle())
+                    .transition(.opacity)
+            }
         }
     }
     
@@ -145,7 +116,7 @@ struct ContentView: View {
                         ForEach(appState.tracks, id: \.title) { track in
                             HStack {
                                 Text(track.title)
-                                    .bold()
+                                //                                        .bold()
                                 Spacer()
                             }
                             .contentShape(Rectangle())
@@ -159,7 +130,7 @@ struct ContentView: View {
                                 showAddMusicSheet = true
                             }
                     }
-                }.modifier(ListModifier())
+                }.listStyle(InsetGroupedListStyle())
             )
     }
     
@@ -190,21 +161,5 @@ struct ContentView: View {
                 .foregroundColor(.blue)
             Spacer()
         }.contentShape(Rectangle())
-    }
-}
-
-struct ExperimentalView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView(appState: AppState(), interactor: Interactor(viewModel: ViewModel()))
-    }
-}
-
-struct ListModifier: ViewModifier {
-    func body(content: Content) -> some View {
-        if #available(iOS 14.0, *) {
-            return AnyView(content.listStyle(InsetGroupedListStyle()))
-        } else {
-            return AnyView(content.listStyle(GroupedListStyle()))
-        }
     }
 }

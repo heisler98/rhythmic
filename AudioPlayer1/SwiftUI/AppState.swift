@@ -21,6 +21,8 @@ class AppState: ObservableObject {
     @Published var playbackPaused: Bool = false
     @Published var playingTrack: Track? = nil
     
+    @Published var showActivityIndicator: Bool = false
+    
     var anyCancellable: [AnyCancellable?] = []
     
     func newTrack(at url: URL) {
@@ -29,7 +31,10 @@ class AppState: ObservableObject {
             return
         }
         viewModel.buildTrack(url: url, periodOrBPM: bpm)
-        DispatchQueue.main.sync { self.objectWillChange.send() }
+        DispatchQueue.main.sync {
+            self.objectWillChange.send()
+            self.showActivityIndicator = false
+        }
     }
     
     deinit {

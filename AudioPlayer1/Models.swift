@@ -696,7 +696,7 @@ class Queue : Sequence, IteratorProtocol {
         }
     }
     ///The `QueueUpdater` delegate.
-    var delegate : QueueUpdater?
+//    var delegate : QueueUpdater?
     /**
      A subscript getter and setter.
      - parameter position: The position in the queue to access.
@@ -799,7 +799,7 @@ class Queue : Sequence, IteratorProtocol {
     }
     
     func notifyDelegate() {
-        delegate?.notify()
+//        delegate?.notify()
     }
     
     init() {

@@ -46,6 +46,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        
+        // begin animation
+        self.appState.showActivityIndicator = true
+        
         let global = DispatchQueue.global(qos: .userInitiated)
         global.async {
             

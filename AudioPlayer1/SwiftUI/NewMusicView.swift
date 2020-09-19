@@ -85,9 +85,3 @@ struct NewMusicView: View {
         }
     }
 }
-
-struct NewMusicView_Previews: PreviewProvider {
-    static var previews: some View {
-        NewMusicView(newMusicState: NewMusicState(), isPresented: .constant(true))
-    }
-}

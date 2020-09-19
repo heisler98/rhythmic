@@ -12,7 +12,7 @@
 "Shuffle" = "สุ่ม";
 "Play All" = "เล่นทั้งหมด";
 "Find more music" = "ค้นหาเพลงเพิ่มเติม";
-
+"Adding song" = "การเพิ่มเพลงของคุณ";
 // NewMusicView.swift
 "Add music" = "เพิ่มเพลง";
 "Done" = "ปิด";

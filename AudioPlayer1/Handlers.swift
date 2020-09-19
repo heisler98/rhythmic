@@ -898,8 +898,10 @@ extension Array {
 final class TempoHandler {
     public static let core = TempoHandler()
     public func tempo(of url: URL, completion: ((Double?) ->())?) -> Double? {
-        let tempo = Double(Superpowered().offlineAnalyze(url))
+        //let tempo = Double(Superpowered().offlineAnalyze(url))
+        let tempo = Double(EssentiaTempoHandler().analyzeRhythm(url))
         if tempo > 0 {
+            print(tempo)
             completion?(tempo)
             return tempo
         } else {

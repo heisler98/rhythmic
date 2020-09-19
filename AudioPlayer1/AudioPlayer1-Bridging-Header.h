@@ -10,9 +10,10 @@
 #define AudioPlayer1_Bridging_Header_h
 #import <Foundation/Foundation.h>
 
-@interface Superpowered : NSObject
+@interface EssentiaTempoHandler : NSObject
 
-- (float)offlineAnalyze:(NSURL *)url;
+- (float) analyzeRhythm: (NSURL *) url;
 
 @end
 #endif /* AudioPlayer1_Bridging_Header_h */
+
