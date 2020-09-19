@@ -11,6 +11,7 @@ import SwiftUI
 
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+    
     var window: UIWindow?
     let appState = AppState()
     var interactor: Interactor {
@@ -22,6 +23,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         return interactor
     }
     let newMusicState: NewMusicState = NewMusicState()
+    let purchaseManager = IAPManager()
+    
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
@@ -35,6 +38,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         appState.newMusicState = self.newMusicState
         // Create a SwiftUI view
         let contentView = ContentView(appState: appState, interactor: interactor)
+            .environmentObject(purchaseManager)
+            .environmentObject(purchaseManager.products)
         
         // Use a UIHostingController as root VC
         if let windowScene = scene as? UIWindowScene {
@@ -43,6 +48,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.window = window
             window.makeKeyAndVisible()
         }
+        
+        purchaseManager.startObserving()
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
@@ -69,7 +76,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
-        
+        purchaseManager.stopObserving()
     }
     
     func sceneWillResignActive(_ scene: UIScene) {

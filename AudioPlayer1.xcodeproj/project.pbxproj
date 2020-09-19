@@ -38,6 +38,8 @@
 		5A2FEA792515D25200A6C688 /* FileFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2FEA782515D25200A6C688 /* FileFinder.swift */; };
 		5A2FEA7B2515D4BD00A6C688 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2FEA7A2515D4BC00A6C688 /* InfoView.swift */; };
 		5A2FEA7D2515D55600A6C688 /* Essentia Licensing.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5A2FEA7C2515D55600A6C688 /* Essentia Licensing.txt */; };
+		5A2FEA812515E14900A6C688 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A2FEA802515E14900A6C688 /* StoreKit.framework */; };
+		5A2FEA832515E18300A6C688 /* IAPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2FEA822515E18300A6C688 /* IAPManager.swift */; };
 		5A402BD12159D207005BD956 /* ManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A402BD02159D207005BD956 /* ManagerTests.swift */; };
 		5A402BD32159D62C005BD956 /* Managers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A402BD22159D62C005BD956 /* Managers.swift */; };
 		5A402BD4215AC20B005BD956 /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A402BCC2159B932005BD956 /* AudioKit.framework */; platformFilter = ios; };
@@ -220,6 +222,8 @@
 		5A2FEA782515D25200A6C688 /* FileFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileFinder.swift; sourceTree = "<group>"; };
 		5A2FEA7A2515D4BC00A6C688 /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		5A2FEA7C2515D55600A6C688 /* Essentia Licensing.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Essentia Licensing.txt"; sourceTree = "<group>"; };
+		5A2FEA802515E14900A6C688 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		5A2FEA822515E18300A6C688 /* IAPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPManager.swift; sourceTree = "<group>"; };
 		5A402BCC2159B932005BD956 /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioKit.framework; path = AudioPlayer1/AudioKit.framework; sourceTree = "<group>"; };
 		5A402BD02159D207005BD956 /* ManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerTests.swift; sourceTree = "<group>"; };
 		5A402BD22159D62C005BD956 /* Managers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Managers.swift; sourceTree = "<group>"; };
@@ -278,6 +282,7 @@
 				5A241D6521811E0200BBA177 /* CoreGraphics.framework in Frameworks */,
 				5A2FEA5925155ABC00A6C688 /* libsamplerate.a in Frameworks */,
 				5A2FEA64251567FD00A6C688 /* libswscale.a in Frameworks */,
+				5A2FEA812515E14900A6C688 /* StoreKit.framework in Frameworks */,
 				5A2FEA67251567FD00A6C688 /* libavutil.a in Frameworks */,
 				5A2FE9B62514925A00A6C688 /* Accelerate.framework in Frameworks */,
 				5AF19F8C1E95A0BA004E38C9 /* MediaPlayer.framework in Frameworks */,
@@ -554,6 +559,7 @@
 				5ABEAF611F19851E008E5BB5 /* Models.swift */,
 				5A01949F215F0917003C76F5 /* Handlers.swift */,
 				5A402BD22159D62C005BD956 /* Managers.swift */,
+				5A2FEA822515E18300A6C688 /* IAPManager.swift */,
 				5A241D3521810E9300BBA177 /* AudioPlayer1-Bridging-Header.h */,
 				5A2FEA762515D21000A6C688 /* dLog.swift */,
 				5A2FEA782515D25200A6C688 /* FileFinder.swift */,
@@ -567,6 +573,7 @@
 		5AF19F881E95A0B1004E38C9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5A2FEA802515E14900A6C688 /* StoreKit.framework */,
 				5A2FEA7425156C0400A6C688 /* libiconv.tbd */,
 				5A2FEA7225156BD200A6C688 /* libc++.tbd */,
 				5A2FEA7025156BAE00A6C688 /* libc.tbd */,
@@ -756,6 +763,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A2FEA832515E18300A6C688 /* IAPManager.swift in Sources */,
 				5AB5162D20A2A05700BE5028 /* SongExporter.swift in Sources */,
 				5A16FC9524E506F900DA6EAB /* AppState.swift in Sources */,
 				5ABEAF621F19851E008E5BB5 /* Models.swift in Sources */,

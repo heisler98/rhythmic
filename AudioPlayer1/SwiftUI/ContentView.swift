@@ -9,8 +9,11 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject var purchaseManager: IAPManager
+    @EnvironmentObject var productManager: IAPManager.Products
     @State private var largeTitle: Bool = false
     @State private var showAddMusicSheet: Bool = false
+    @State private var showInfoSheet: Bool = false
     @ObservedObject var appState: AppState
     var interactor: Interactor
     
@@ -21,11 +24,16 @@ struct ContentView: View {
                     .padding(.vertical)
                     .padding(.bottom, 10)
                     .animation(.easeInOut)
+                    .sheet(isPresented: $showInfoSheet) {
+                        InfoView()
+                    }
                 library
+                    .sheet(isPresented: $showAddMusicSheet) {
+                        NewMusicView(newMusicState: appState.newMusicState, isPresented: $showAddMusicSheet)
+                    }
             }
-            .sheet(isPresented: $showAddMusicSheet) {
-                NewMusicView(newMusicState: appState.newMusicState, isPresented: $showAddMusicSheet)
-            }
+            
+            
             if appState.showActivityIndicator {
                 ProgressView("Adding song")
                     .progressViewStyle(CircularProgressViewStyle())
@@ -129,6 +137,10 @@ struct ContentView: View {
                             .onTapGesture {
                                 showAddMusicSheet = true
                             }
+                        infoViewRow
+                            .onTapGesture {
+                                showInfoSheet = true
+                            }
                     }
                 }.listStyle(InsetGroupedListStyle())
             )
@@ -158,6 +170,14 @@ struct ContentView: View {
     var addMusicRow: some View {
         HStack {
             Text("Find more music")
+                .foregroundColor(.blue)
+            Spacer()
+        }.contentShape(Rectangle())
+    }
+    
+    var infoViewRow: some View {
+        HStack {
+            Text("More info")
                 .foregroundColor(.blue)
             Spacer()
         }.contentShape(Rectangle())
