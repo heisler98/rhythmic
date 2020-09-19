@@ -84,7 +84,7 @@
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"
-      customArchiveName = "Rhythmic Music"
+      customArchiveName = "Rhythmic"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

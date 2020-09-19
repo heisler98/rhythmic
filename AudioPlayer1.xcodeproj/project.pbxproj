@@ -36,6 +36,8 @@
 		5A2FEA7525156C0400A6C688 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A2FEA7425156C0400A6C688 /* libiconv.tbd */; };
 		5A2FEA772515D21000A6C688 /* dLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2FEA762515D21000A6C688 /* dLog.swift */; };
 		5A2FEA792515D25200A6C688 /* FileFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2FEA782515D25200A6C688 /* FileFinder.swift */; };
+		5A2FEA7B2515D4BD00A6C688 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2FEA7A2515D4BC00A6C688 /* InfoView.swift */; };
+		5A2FEA7D2515D55600A6C688 /* Essentia Licensing.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5A2FEA7C2515D55600A6C688 /* Essentia Licensing.txt */; };
 		5A402BD12159D207005BD956 /* ManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A402BD02159D207005BD956 /* ManagerTests.swift */; };
 		5A402BD32159D62C005BD956 /* Managers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A402BD22159D62C005BD956 /* Managers.swift */; };
 		5A402BD4215AC20B005BD956 /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A402BCC2159B932005BD956 /* AudioKit.framework */; platformFilter = ios; };
@@ -216,6 +218,8 @@
 		5A2FEA7425156C0400A6C688 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
 		5A2FEA762515D21000A6C688 /* dLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = dLog.swift; sourceTree = "<group>"; };
 		5A2FEA782515D25200A6C688 /* FileFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileFinder.swift; sourceTree = "<group>"; };
+		5A2FEA7A2515D4BC00A6C688 /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
+		5A2FEA7C2515D55600A6C688 /* Essentia Licensing.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Essentia Licensing.txt"; sourceTree = "<group>"; };
 		5A402BCC2159B932005BD956 /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioKit.framework; path = AudioPlayer1/AudioKit.framework; sourceTree = "<group>"; };
 		5A402BD02159D207005BD956 /* ManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerTests.swift; sourceTree = "<group>"; };
 		5A402BD22159D62C005BD956 /* Managers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Managers.swift; sourceTree = "<group>"; };
@@ -297,6 +301,7 @@
 			children = (
 				5A4060BA25077F4E002A806D /* UIKitRepresentable */,
 				5A16FC9024E4872D00DA6EAB /* ContentView.swift */,
+				5A2FEA7A2515D4BC00A6C688 /* InfoView.swift */,
 				5A4060BD25077FED002A806D /* NewMusicView.swift */,
 				5A16FC9424E506F900DA6EAB /* AppState.swift */,
 				5A16FC9624E5FE5500DA6EAB /* Interactor.swift */,
@@ -552,6 +557,7 @@
 				5A241D3521810E9300BBA177 /* AudioPlayer1-Bridging-Header.h */,
 				5A2FEA762515D21000A6C688 /* dLog.swift */,
 				5A2FEA782515D25200A6C688 /* FileFinder.swift */,
+				5A2FEA7C2515D55600A6C688 /* Essentia Licensing.txt */,
 				5ABA309F1DCBC97D006E5999 /* Assets.xcassets */,
 				5A4FE9AC25118929006BE8AC /* Localizable.strings */,
 			);
@@ -707,6 +713,7 @@
 				5A4FE9AA25118929006BE8AC /* Localizable.strings in Resources */,
 				5A01949C215C947B003C76F5 /* tracks_test in Resources */,
 				5A0B3FED1F74CEF100A60D9F /* Preload.plist in Resources */,
+				5A2FEA7D2515D55600A6C688 /* Essentia Licensing.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -762,6 +769,7 @@
 				5A4060C025078003002A806D /* NewMusicState.swift in Sources */,
 				5A16FC9724E5FE5500DA6EAB /* Interactor.swift in Sources */,
 				5A2FE942251410D600A6C688 /* EssentiaTempoHandler.mm in Sources */,
+				5A2FEA7B2515D4BD00A6C688 /* InfoView.swift in Sources */,
 				5ABA30991DCBC97D006E5999 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
