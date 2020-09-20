@@ -132,7 +132,7 @@ struct ContentView: View {
                                 dLog("Selected \(track.title)")
                                 interactor.play(track: track)
                             }
-                        }
+                        }.onDelete(perform: appState.removeTracks(at:))
                         addMusicRow
                             .onTapGesture {
                                 showAddMusicSheet = true

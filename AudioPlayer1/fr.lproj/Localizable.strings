@@ -21,3 +21,7 @@
 "Add File Sharing songs" = "Ajouter des chansons synchronisées via iTunes";
 "Unnamed Track" = "Chanson sans nom";
 "Unnamed Artist" = "Artiste sans nom";
+// InfoView.swift
+"Tip Jar" = "Pourboire";
+"Tip Caption" = "Laisser un pourboire en option pour le développeur.";
+"Licenses" = "Licenses";

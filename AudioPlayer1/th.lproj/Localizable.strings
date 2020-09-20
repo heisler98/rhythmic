@@ -21,3 +21,7 @@
 "Add File Sharing songs" = "เพิ่มเพลงที่ซิงค์ผ่าน iTunes";
 "Unnamed Track" = "เพลงที่ไม่มีชื่อ";
 "Unnamed Artist" = "ศิลปินที่ไม่มีชื่อ";
+// InfoView.swift
+"Tip Jar" = "เงินบำเหน็จ";
+"Tip Caption" = "ปล่อยให้นักพัฒนาซอฟต์แวร์เป็นตัวเลือกเสริม";
+"Licenses" = "ใบอนุญาต";

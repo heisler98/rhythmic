@@ -21,3 +21,7 @@
 "Add File Sharing songs" = "Aggiungi brani sincronizzati tramite iTunes";
 "Unnamed Track" = "Canzone senza nome";
 "Unnamed Artist" = "Artista senza nome";
+// InfoView.swift
+"Tip Jar" = "Mancia";
+"Tip Caption" = "Lascia una mancia facoltativa allo sviluppatore.";
+"Licenses" = "Licenze";

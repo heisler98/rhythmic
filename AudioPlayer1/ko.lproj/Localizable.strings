@@ -21,3 +21,7 @@
 "Add File Sharing songs" = "iTunes를 통해 동기화 된 노래 추가";
 "Unnamed Track" = "이름이없는 노래";
 "Unnamed Artist" = "이름이없는 아티스트";
+// InfoView.swift
+"Tip Jar" = "팁 지불";
+"Tip Caption" = "개발자에게 팁을 남겨주세요.";
+"Licenses" = "라이선스";

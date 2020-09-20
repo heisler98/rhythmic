@@ -11,6 +11,7 @@ import StoreKit
 
 struct InfoView: View {
     @EnvironmentObject var purchaseManager: IAPManager
+    @State private var showingLicense: Bool = true
     var body: some View {
         NavigationView {
             VStack {
@@ -20,17 +21,11 @@ struct InfoView: View {
                 }
                 Divider()
                 List {
-                    NavigationLink(destination: ScrollView {
+                    DisclosureGroup("Licenses", isExpanded: $showingLicense) {
                         Text(Licensing.essentiaLicense)
-                            .multilineTextAlignment(.leading)
-                            .font(.callout)
-                            .padding(5)
-                            .navigationBarTitle("Licenses")
-                    }) {
-                        Text("Licenses")
                     }
                 }
-            }.navigationBarHidden(true)
+            }
         }
     }
 }
@@ -43,7 +38,7 @@ struct TipJarView: View {
             Text("Tip Jar")
                 .font(.headline)
                 .padding(.top)
-            Text("Leave a tip for the developer. Completely optional.")
+            Text("Tip Caption")
                 .font(.caption)
                 .padding(.top, 2)
                 .padding(.bottom, 5)
@@ -51,25 +46,25 @@ struct TipJarView: View {
                 Button {
                     startPurchasing(productManager.items[0])
                 } label: {
-                    Text("$0.99")
+                    Text("\(purchaseManager.localizedPrice(of: productManager.items[0]) ?? "")")
                         .modifier(TipModifier())
                 }
                 Button {
                     startPurchasing(productManager.items[1])
                 } label: {
-                    Text("$1.99")
+                    Text("\(purchaseManager.localizedPrice(of: productManager.items[1]) ?? "")")
                         .modifier(TipModifier())
                 }
                 Button {
                     startPurchasing(productManager.items[2])
                 } label: {
-                    Text("$4.99")
+                    Text("\(purchaseManager.localizedPrice(of: productManager.items[2]) ?? "")")
                         .modifier(TipModifier())
                 }
                 Button {
                     startPurchasing(productManager.items[3])
                 } label: {
-                    Text("$9.99")
+                    Text("\(purchaseManager.localizedPrice(of: productManager.items[3]) ?? "")")
                         .modifier(TipModifier())
                 }
             }
@@ -99,5 +94,16 @@ fileprivate struct Licensing {
             return ""
         }
         return license
+    }
+    static var model: [LicensingLayout] = [LicensingLayout("Licenses", child: LicensingLayout(LocalizedStringKey(essentiaLicense), child: nil))]
+    
+    struct LicensingLayout: Identifiable {
+        var id: UUID = UUID()
+        var title: [LocalizedStringKey]
+        var child: [LicensingLayout]?
+        init(_ title: LocalizedStringKey, child: LicensingLayout?) {
+            self.title = [title]
+            self.child = (child == nil) ? nil : [child!]
+        }
     }
 }

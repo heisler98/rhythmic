@@ -21,3 +21,7 @@
 "Add File Sharing songs" = "添加通过iTunes同步的歌曲";
 "Unnamed Track" = "未命名的歌曲";
 "Unnamed Artist" = "未命名的艺术家";
+//InfoView.swift
+"Tip Jar" = "赏钱";
+"Tip Caption" = "给开发人员小费。";
+"Licenses" = "执照";

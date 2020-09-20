@@ -21,3 +21,7 @@
 "Add File Sharing songs" = "İTunes aracılığıyla senkronize edilen şarkıları ekleyin";
 "Unnamed Track" = "Adsız şarkı";
 "Unnamed Artist" = "Adsız sanatçı";
+// InfoView.swift
+"Tip Jar" = "Armağan ödemesi";
+"Tip Caption" = "Geliştiriciye isteğe bağlı bir armağan bırakın.";
+"Licenses" = "Lisanslar";

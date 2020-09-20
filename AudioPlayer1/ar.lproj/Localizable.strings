@@ -21,3 +21,7 @@
 "Add File Sharing songs" = "أضف الأغاني المتزامنة من خلال iTunes";
 "Unnamed Track" = "أغنية بدون اسم";
 "Unnamed Artist" = "فنان بدون اسم";
+// InfoView.swift
+"Tip Jar" = "دفع الإكرامية";
+"Tip Caption" = "اترك مكافأة اختيارية للمطور.";
+"Licenses" = "التراخيص";

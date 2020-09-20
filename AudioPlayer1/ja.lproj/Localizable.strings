@@ -21,3 +21,7 @@
 "Add File Sharing songs" = "iTunesで同期した曲を追加する";
 "Unnamed Track" = "名前のない歌";
 "Unnamed Artist" = "名前のないアーティスト";
+// InfoView.swift
+"Tip Jar" = "チップ";
+"Tip Caption" = "チップは開発者に任せてください。";
+"Licenses" = "ライセンス";
