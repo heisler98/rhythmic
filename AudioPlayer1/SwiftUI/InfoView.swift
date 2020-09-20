@@ -13,21 +13,21 @@ struct InfoView: View {
     @EnvironmentObject var purchaseManager: IAPManager
     @State private var showingLicense: Bool = true
     var body: some View {
-        NavigationView {
-            VStack {
-                if purchaseManager.paymentsAllowed() {
-                    TipJarView()
-                        .padding(.bottom, 25)
-                }
-                Divider()
-                List {
-                    DisclosureGroup("Licenses", isExpanded: $showingLicense) {
-                        Text(Licensing.essentiaLicense)
-                    }
+        
+        VStack {
+            if purchaseManager.paymentsAllowed() {
+                TipJarView()
+                    .padding(.bottom, 25)
+            }
+            Divider()
+            List {
+                DisclosureGroup("Licenses", isExpanded: $showingLicense) {
+                    Text(Licensing.essentiaLicense)
                 }
             }
         }
     }
+    
 }
 
 struct TipJarView: View {
