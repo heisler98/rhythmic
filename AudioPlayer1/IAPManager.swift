@@ -51,7 +51,6 @@ extension IAPManager: SKProductsRequestDelegate, SKRequestDelegate {
     }
     
     func request(_ request: SKRequest, didFailWithError error: Error) {
-        //TODO: excise tip jar
         dLog(error)
     }
     
