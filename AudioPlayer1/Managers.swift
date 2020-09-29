@@ -93,7 +93,7 @@ class TrackManager {
      */
     convenience init() {
         guard let trackArr = try? DataHandler().decodeJSONTracks() else {
-            self.init(tracks: [])
+            self.init(tracks: DataHandler().defaultTracks())
             return
         }
         self.init(tracks: trackArr)

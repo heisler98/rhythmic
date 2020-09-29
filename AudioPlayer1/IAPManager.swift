@@ -13,6 +13,8 @@ class IAPManager: NSObject, ObservableObject {
     private static var purchaseIDs = ["com.eisler.rhythmic.099tip", "com.eisler.rhythmic.199tip", "com.eisler.rhythmic.499tip", "com.eisler.rhythmic.999tip"]
     var products = Products()
     
+    @Published var showNote: Bool = false
+    
     override init() {
         super.init()
         verifyIDs()
@@ -77,10 +79,14 @@ extension IAPManager: SKPaymentTransactionObserver {
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         for transaction in transactions {
             switch transaction.transactionState {
-            case .purchased, .restored, .failed:
+            case .purchased, .restored:
+                showNote = true
                 SKPaymentQueue.default().finishTransaction(transaction)
+                break
             case .deferred, .purchasing:
                 break
+            case .failed:
+                SKPaymentQueue.default().finishTransaction(transaction)
             default:
                 break
             }

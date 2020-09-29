@@ -55,6 +55,10 @@
 		5ABA30A01DCBC97D006E5999 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5ABA309F1DCBC97D006E5999 /* Assets.xcassets */; };
 		5ABA30A31DCBC97D006E5999 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5ABA30A11DCBC97D006E5999 /* LaunchScreen.storyboard */; };
 		5ABEAF621F19851E008E5BB5 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABEAF611F19851E008E5BB5 /* Models.swift */; };
+		5AE3F5AD2523A5E700ADA389 /* Steinway (Sample).mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AE3F5A92523A5E600ADA389 /* Steinway (Sample).mp3 */; };
+		5AE3F5AE2523A5E700ADA389 /* Rise Up (Sample).mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AE3F5AA2523A5E600ADA389 /* Rise Up (Sample).mp3 */; };
+		5AE3F5AF2523A5E700ADA389 /* Beat (Sample).mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AE3F5AB2523A5E600ADA389 /* Beat (Sample).mp3 */; };
+		5AE3F5B02523A5E700ADA389 /* Longing (Sample).mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5AE3F5AC2523A5E700ADA389 /* Longing (Sample).mp3 */; };
 		5AF19F8A1E95A0B1004E38C9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AF19F891E95A0B1004E38C9 /* AVFoundation.framework */; };
 		5AF19F8C1E95A0BA004E38C9 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AF19F8B1E95A0BA004E38C9 /* MediaPlayer.framework */; };
 /* End PBXBuildFile section */
@@ -223,7 +227,6 @@
 		5A2FEA7C2515D55600A6C688 /* Essentia Licensing.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Essentia Licensing.txt"; sourceTree = "<group>"; };
 		5A2FEA802515E14900A6C688 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		5A2FEA822515E18300A6C688 /* IAPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPManager.swift; sourceTree = "<group>"; };
-		5A402BCC2159B932005BD956 /* AudioKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioKit.framework; path = AudioPlayer1/AudioKit.framework; sourceTree = "<group>"; };
 		5A402BD02159D207005BD956 /* ManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerTests.swift; sourceTree = "<group>"; };
 		5A402BD22159D62C005BD956 /* Managers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Managers.swift; sourceTree = "<group>"; };
 		5A402BD5215B4E9E005BD956 /* Controls.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Controls.xib; sourceTree = "<group>"; };
@@ -258,6 +261,10 @@
 		5ABA30A21DCBC97D006E5999 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5ABA30A41DCBC97D006E5999 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5ABEAF611F19851E008E5BB5 /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		5AE3F5A92523A5E600ADA389 /* Steinway (Sample).mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Steinway (Sample).mp3"; sourceTree = "<group>"; };
+		5AE3F5AA2523A5E600ADA389 /* Rise Up (Sample).mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Rise Up (Sample).mp3"; sourceTree = "<group>"; };
+		5AE3F5AB2523A5E600ADA389 /* Beat (Sample).mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Beat (Sample).mp3"; sourceTree = "<group>"; };
+		5AE3F5AC2523A5E700ADA389 /* Longing (Sample).mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Longing (Sample).mp3"; sourceTree = "<group>"; };
 		5AF19F891E95A0B1004E38C9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		5AF19F8B1E95A0BA004E38C9 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -316,6 +323,7 @@
 		5A2C0BCC20CC4A0700742203 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				5AE3F5A82523A5CD00ADA389 /* Preloads */,
 				5A2FE9DE25155ABB00A6C688 /* essentia-lib */,
 				5A16FC8F24E4871100DA6EAB /* SwiftUI */,
 				5ABA30981DCBC97D006E5999 /* AppDelegate.swift */,
@@ -568,6 +576,17 @@
 			path = AudioPlayer1;
 			sourceTree = "<group>";
 		};
+		5AE3F5A82523A5CD00ADA389 /* Preloads */ = {
+			isa = PBXGroup;
+			children = (
+				5AE3F5AB2523A5E600ADA389 /* Beat (Sample).mp3 */,
+				5AE3F5AC2523A5E700ADA389 /* Longing (Sample).mp3 */,
+				5AE3F5AA2523A5E600ADA389 /* Rise Up (Sample).mp3 */,
+				5AE3F5A92523A5E600ADA389 /* Steinway (Sample).mp3 */,
+			);
+			name = Preloads;
+			sourceTree = "<group>";
+		};
 		5AF19F881E95A0B1004E38C9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -580,7 +599,6 @@
 				5A2FEA6A2515691700A6C688 /* VideoToolbox.framework */,
 				5A2FE9B52514925A00A6C688 /* Accelerate.framework */,
 				5A241D6421811E0200BBA177 /* CoreGraphics.framework */,
-				5A402BCC2159B932005BD956 /* AudioKit.framework */,
 				5AF19F8B1E95A0BA004E38C9 /* MediaPlayer.framework */,
 				5AF19F891E95A0B1004E38C9 /* AVFoundation.framework */,
 				5A2FE93F25140E4D00A6C688 /* libessentia.a */,
@@ -712,10 +730,14 @@
 			files = (
 				5A402BD6215B4E9E005BD956 /* Controls.xib in Resources */,
 				5ABA30A31DCBC97D006E5999 /* LaunchScreen.storyboard in Resources */,
+				5AE3F5AF2523A5E700ADA389 /* Beat (Sample).mp3 in Resources */,
+				5AE3F5AD2523A5E700ADA389 /* Steinway (Sample).mp3 in Resources */,
 				5ABA30A01DCBC97D006E5999 /* Assets.xcassets in Resources */,
 				5A01949E215D5B75003C76F5 /* Settings.bundle in Resources */,
 				5ABA309E1DCBC97D006E5999 /* Main.storyboard in Resources */,
+				5AE3F5B02523A5E700ADA389 /* Longing (Sample).mp3 in Resources */,
 				5A4FE9AA25118929006BE8AC /* Localizable.strings in Resources */,
+				5AE3F5AE2523A5E700ADA389 /* Rise Up (Sample).mp3 in Resources */,
 				5A01949C215C947B003C76F5 /* tracks_test in Resources */,
 				5A0B3FED1F74CEF100A60D9F /* Preload.plist in Resources */,
 				5A2FEA7D2515D55600A6C688 /* Essentia Licensing.txt in Resources */,
@@ -1000,7 +1022,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = AudioPlayer1/AudioPlayer1.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = TN69P7NFS6;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1016,7 +1038,7 @@
 					"$(PROJECT_DIR)/AudioPlayer1",
 					"$(PROJECT_DIR)/AudioPlayer1/essentia-lib",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.1.0;
 				OTHER_LDFLAGS = "-lstdc++";
 				PRODUCT_BUNDLE_IDENTIFIER = com.eisler.AudioPlayer1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1037,7 +1059,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = AudioPlayer1/AudioPlayer1.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = TN69P7NFS6;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1053,7 +1075,7 @@
 					"$(PROJECT_DIR)/AudioPlayer1",
 					"$(PROJECT_DIR)/AudioPlayer1/essentia-lib",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.1.0;
 				OTHER_LDFLAGS = "-lstdc++";
 				PRODUCT_BUNDLE_IDENTIFIER = com.eisler.AudioPlayer1;
 				PRODUCT_NAME = "$(TARGET_NAME)";

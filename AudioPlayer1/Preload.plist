@@ -4,9 +4,9 @@
 <array>
 	<dict>
 		<key>title</key>
-		<string>Let&apos;s Hurt Tonight</string>
+		<string>Rise Up (Sample)</string>
 		<key>period</key>
-		<string>0.92</string>
+		<string>0.6657714448</string>
 		<key>category</key>
 		<string>song</string>
 		<key>extension</key>
@@ -14,9 +14,9 @@
 	</dict>
 	<dict>
 		<key>title</key>
-		<string>Born</string>
+		<string>Longing (Sample)</string>
 		<key>period</key>
-		<string>0.63</string>
+		<string>0.5494550562</string>
 		<key>category</key>
 		<string>song</string>
 		<key>extension</key>
@@ -24,9 +24,9 @@
 	</dict>
 	<dict>
 		<key>title</key>
-		<string>Better</string>
+		<string>Beat (Sample)</string>
 		<key>period</key>
-		<string>0.88</string>
+		<string>0.4674196667</string>
 		<key>category</key>
 		<string>song</string>
 		<key>extension</key>
@@ -34,19 +34,9 @@
 	</dict>
 	<dict>
 		<key>title</key>
-		<string>Human</string>
+		<string>Steinway (Sample)</string>
 		<key>period</key>
-		<string>0.43</string>
-		<key>category</key>
-		<string>song</string>
-		<key>extension</key>
-		<string>mp3</string>
-	</dict>
-	<dict>
-		<key>title</key>
-		<string>If I Lose Myself</string>
-		<key>period</key>
-		<string>0.42</string>
+		<string>0.7317501413</string>
 		<key>category</key>
 		<string>song</string>
 		<key>extension</key>

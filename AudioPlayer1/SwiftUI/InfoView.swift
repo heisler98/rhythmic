@@ -25,12 +25,15 @@ struct InfoView: View {
                     Text(Licensing.essentiaLicense)
                 }
             }
+        }.alert(isPresented: $purchaseManager.showNote) {
+            Alert(title: Text("❤️").font(.largeTitle))
         }
     }
     
 }
 
 struct TipJarView: View {
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var purchaseManager: IAPManager
     @EnvironmentObject var productManager: IAPManager.Products
     var body: some View {
@@ -78,11 +81,13 @@ struct TipJarView: View {
     }
     
     struct TipModifier: ViewModifier {
+        @Environment(\.colorScheme) var colorScheme
         func body(content: Content) -> some View {
             content
                 .padding()
                 .layoutPriority(1)
                 .background(RoundedRectangle(cornerRadius: 15).fill(Color.green).opacity(0.6).shadow(radius: 10))
+                .foregroundColor(colorScheme == .dark ? .black : nil)
         }
     }
 }
